@@ -892,7 +892,7 @@ nav::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
         <button class="btn btn-sec" onclick="refreshFromSheet()">⟳ Refresh from Sheet</button>
       </div>
       <div style="font-size:10px;color:#666;font-style:italic;line-height:1.5;margin-top:8px">
-        For now, the deeper fields (3-year vision, why, values, comm preferences) are baked into the app's CLIENT_CONTEXT object. To change them, edit <code style="background:#0a0a0a;padding:1px 4px;border-radius:3px">index.html</code> in your GitHub repo, push the change, Vercel auto-deploys. Editable through the UI in v1.3.
+        For now, the deeper fields (3-year vision, why, values, comm preferences) are baked into the app's CLIENT_CONTEXT object. To change them, edit <code style="background:#0a0a0a;padding:1px 4px;border-radius:3px">index.html</code> in your GitHub repo, push the change, netlify auto-deploys. Editable through the UI in v1.3.
       </div>
     </div>
 
@@ -2571,7 +2571,7 @@ async function readSheetViaAPI(sheetId, range){
     throw new Error('Permission denied. Make sure you are signed in with the Google account that owns this Sheet, and that the Sheets API is enabled in your Google Cloud project.');
   }
   if(r.status === 404){
-    throw new Error('Sheet not found. Double-check the Sheet ID. (Also: the App_Data tab must exist — it ships with the v3 spreadsheet.)');
+    throw new Error('Sheet not found. Double-check the Sheet ID. (Also: the App_Data tab must exist — it ships with the v4 spreadsheet.)');
   }
   if(!r.ok){
     var errBody = await r.text();
