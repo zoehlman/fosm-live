@@ -69,6 +69,23 @@
   .save-status.saving{color:var(--gold-dim)}
   .save-status.saved{color:var(--green)}
 
+  /* STORAGE METER */
+  .storage-meter{padding:10px 0 4px;border-top:1px solid var(--line);margin-top:10px}
+  .storage-meter-row{display:flex;justify-content:space-between;align-items:baseline;
+    font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:var(--text-3);
+    margin-bottom:6px;font-weight:600}
+  .storage-meter-row b{color:var(--text-1);font-weight:600;letter-spacing:.3px;text-transform:none;font-size:10px}
+  .storage-meter-bar{height:3px;background:var(--bg-2);border-radius:2px;overflow:hidden;position:relative}
+  .storage-meter-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .3s ease,background .3s ease}
+  .storage-meter-fill.warn{background:var(--warm)}
+  .storage-meter-fill.danger{background:var(--red)}
+  .storage-meter-detail{font-size:9px;color:var(--text-3);margin-top:5px;
+    display:flex;justify-content:space-between;align-items:center;letter-spacing:.3px}
+  .storage-meter-detail span{color:var(--text-2)}
+  .storage-meter-warn{font-size:10px;color:var(--warm);margin-top:6px;line-height:1.5;font-style:italic;display:none}
+  .storage-meter-warn.show{display:block}
+  .storage-meter-warn.danger{color:var(--red)}
+
   /* MAIN */
   #main{flex:1;height:100vh;overflow-y:auto;background:var(--bg-0);position:relative}
   .topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);
@@ -665,6 +682,20 @@
     <div class="conn-label">Connections</div>
     <div class="conn-pill"><div class="conn-dot"></div><span>Sumary's VCC</span><span style="color:var(--text-3);font-size:9px;margin-left:auto">soon</span></div>
     <div class="conn-pill"><div class="conn-dot linked"></div><span>FOSM Live</span><span style="color:var(--text-3);font-size:9px;margin-left:auto">→</span></div>
+    <div class="storage-meter" id="storageMeter">
+      <div class="storage-meter-row">
+        <span>Storage</span>
+        <b id="storageMeterText">—</b>
+      </div>
+      <div class="storage-meter-bar">
+        <div class="storage-meter-fill" id="storageMeterFill" style="width:0%"></div>
+      </div>
+      <div class="storage-meter-detail">
+        <span id="storageMeterPhotos">0 photos</span>
+        <span id="storageMeterPct">0%</span>
+      </div>
+      <div class="storage-meter-warn" id="storageMeterWarn"></div>
+    </div>
     <div class="save-status" id="saveStatus">All changes saved</div>
   </div>
 </aside>
@@ -1226,6 +1257,72 @@ function flashSaved() {
   const el = document.getElementById('saveStatus');
   el.className = 'save-status saved'; el.textContent = '✓ Saved';
   setTimeout(() => { el.className = 'save-status'; el.textContent = 'All changes saved'; }, 1800);
+  updateStorageMeter();
+}
+
+// =================== STORAGE METER ===================
+// Browser localStorage caps vary (5MB Safari, ~10MB Chrome). We assume 5MB
+// as the conservative cap and warn early. Counts only VCC data, not FOSM
+// Live or other CCs sharing the same origin.
+const STORAGE_BUDGET_BYTES = 5 * 1024 * 1024; // 5 MB conservative
+
+function calcVccStorage() {
+  let bytes = 0, photoCount = 0, uploadedBytes = 0;
+  // VCC keys all start with our STORAGE_PREFIX
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k || !k.startsWith(STORAGE_PREFIX)) continue;
+    const v = localStorage.getItem(k) || '';
+    // UTF-16 in JS strings — each char ~2 bytes in storage
+    bytes += (k.length + v.length) * 2;
+    // Count photos via lightweight pattern match (no JSON parse for speed)
+    if (k.includes(':domain:') || k.includes(':project:')) {
+      // Count photo entries by id prefix
+      const photoMatches = v.match(/"id":"p_/g);
+      if (photoMatches) photoCount += photoMatches.length;
+      // Count uploaded photo bytes (data URLs are large; URL refs are tiny)
+      const dataUrlMatches = v.match(/"dataUrl":"data:image\/[a-z]+;base64,[^"]+"/g);
+      if (dataUrlMatches) {
+        for (const m of dataUrlMatches) uploadedBytes += m.length * 2;
+      }
+    }
+  }
+  return { bytes, photoCount, uploadedBytes };
+}
+
+function fmtBytes(b) {
+  if (b < 1024) return b + ' B';
+  if (b < 1024 * 1024) return (b / 1024).toFixed(1) + ' KB';
+  return (b / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+function updateStorageMeter() {
+  const { bytes, photoCount, uploadedBytes } = calcVccStorage();
+  const pct = Math.min(100, (bytes / STORAGE_BUDGET_BYTES) * 100);
+  const fillEl = document.getElementById('storageMeterFill');
+  const textEl = document.getElementById('storageMeterText');
+  const photosEl = document.getElementById('storageMeterPhotos');
+  const pctEl = document.getElementById('storageMeterPct');
+  const warnEl = document.getElementById('storageMeterWarn');
+  if (!fillEl) return;
+
+  fillEl.style.width = pct + '%';
+  fillEl.classList.remove('warn', 'danger');
+  if (pct >= 85) fillEl.classList.add('danger');
+  else if (pct >= 65) fillEl.classList.add('warn');
+
+  textEl.textContent = fmtBytes(bytes) + ' / 5 MB';
+  photosEl.textContent = photoCount + ' photo' + (photoCount === 1 ? '' : 's');
+  pctEl.textContent = Math.round(pct) + '%';
+
+  warnEl.classList.remove('show', 'danger');
+  if (pct >= 85) {
+    warnEl.classList.add('show', 'danger');
+    warnEl.innerHTML = 'Nearly full. Export your data as a backup, then consider removing some uploaded photos. Unsplash &amp; URL photos take almost no space.';
+  } else if (pct >= 65) {
+    warnEl.classList.add('show');
+    warnEl.innerHTML = 'Getting full. Uploaded photos use ' + fmtBytes(uploadedBytes) + ' of this. Curated photos take almost zero space.';
+  }
 }
 
 // =================== CONTEXT HELPER ===================
@@ -2590,7 +2687,7 @@ function checkUrl() {
 }
 
 function addUrlPhoto() {
-  if (!pendingUrlPhoto || !currentDomainId) return;
+  if (!pendingUrlPhoto || !T()) return;
   const url = pendingUrlPhoto.url;
   const existing = T().obj.photos.find(p => p.url === url);
   if (existing) { toast('Already in your mood board'); return; }
@@ -2629,6 +2726,7 @@ renderNavDomains();
 renderProjectsNav();
 renderDomainsGrid();
 renderProjectsGrid();
+updateStorageMeter();
 document.getElementById('whoName').textContent = state.user.name;
 document.getElementById('whoAv').textContent = state.user.initial;
 
