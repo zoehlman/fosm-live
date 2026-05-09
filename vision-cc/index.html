@@ -248,6 +248,12 @@
   .mood-tile.wide{grid-column:span 2}
   .mood-tile img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
   .mood-tile:hover img{transform:scale(1.04)}
+  .mood-tile.fresh{animation:freshFlash 1.6s ease-out;outline:2px solid var(--gold);outline-offset:-2px}
+  @keyframes freshFlash{
+    0%{outline-color:var(--gold);box-shadow:0 0 0 0 rgba(212,165,116,.6),0 0 22px rgba(212,165,116,.4)}
+    60%{outline-color:var(--gold-dim);box-shadow:0 0 0 8px rgba(212,165,116,0),0 0 14px rgba(212,165,116,.15)}
+    100%{outline-color:transparent;box-shadow:none}
+  }
   .mood-tile-veil{position:absolute;inset:0;
     background:linear-gradient(180deg,transparent 60%,rgba(10,9,8,.85) 100%);
     opacity:0;transition:opacity .25s}
@@ -421,11 +427,21 @@
   .drop-msg{font-family:'Fraunces',serif;font-size:32px;color:var(--gold);font-style:italic;text-align:center}
 
   /* TOAST */
-  .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
+  .toast{position:fixed;top:24px;left:50%;transform:translateX(-50%) translateY(-30px);
     background:var(--bg-1);border:1px solid var(--gold-dim);color:var(--gold);
-    padding:12px 24px;border-radius:30px;font-size:12px;z-index:3000;opacity:0;
-    transition:all .3s;font-weight:500;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+    padding:14px 26px;border-radius:14px;font-size:13.5px;z-index:6000;opacity:0;
+    transition:all .35s cubic-bezier(.2,.8,.3,1);font-weight:500;
+    box-shadow:0 14px 50px rgba(0,0,0,.5),0 0 0 1px rgba(212,165,116,.1);
+    display:flex;align-items:center;gap:10px;max-width:90vw;letter-spacing:.2px}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast.success{border-color:var(--green);color:var(--green);
+    box-shadow:0 14px 50px rgba(0,0,0,.5),0 0 0 1px rgba(125,186,74,.2)}
+  .toast.success::before{content:'✓';display:inline-flex;align-items:center;justify-content:center;
+    width:22px;height:22px;border-radius:50%;background:var(--green);color:var(--bg-0);
+    font-weight:700;font-size:13px;line-height:1;flex-shrink:0}
+  .toast.warn{border-color:var(--warm);color:var(--warm)}
+  .toast.error{border-color:var(--red);color:var(--red)}
+  .toast.info::before{content:'✦';color:var(--gold);font-size:14px}
 
   /* SCROLLBAR */
   #main::-webkit-scrollbar,nav::-webkit-scrollbar{width:8px}
@@ -1666,12 +1682,14 @@ function clearAllContext() {
 
 // =================== TOAST ===================
 let toastTimer;
-function toast(msg) {
+function toast(msg, kind) {
   const t = document.getElementById('toast');
   t.textContent = msg;
-  t.classList.add('show');
+  t.className = 'toast show' + (kind ? ' ' + kind : '');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+  // Success messages stay a beat longer so they're harder to miss
+  const dur = kind === 'success' ? 4200 : kind === 'error' ? 5000 : 2600;
+  toastTimer = setTimeout(() => t.classList.remove('show'), dur);
 }
 
 // =================== NAV ===================
@@ -1974,7 +1992,8 @@ function renderMoodboard() {
     if (p.type === 'ai') { tag = 'AI'; tagCls = 'ai-gen'; }
     else if (p.type === 'unsplash') { tag = 'Unsplash'; }
     else if (p.type === 'url') { tag = 'Web'; }
-    html += `<div class="mood-tile ${cls} ${tagCls}" onclick="openLightbox('${p.id}')">
+    const freshCls = freshlyAddedIds.includes(p.id) ? 'fresh' : '';
+    html += `<div class="mood-tile ${cls} ${tagCls} ${freshCls}" onclick="openLightbox('${p.id}')">
       <img src="${src}" alt="" loading="lazy">
       <div class="mood-tile-veil"></div>
       <div class="mood-tile-meta">
@@ -1996,6 +2015,10 @@ function renderMoodboard() {
     <div class="ai-gen-sub">Type a moment from your dream day. We'll paint it.</div>
   </div>`;
   grid.innerHTML = html;
+  // Clear fresh flags after the animation has had time to play
+  if (freshlyAddedIds.length > 0) {
+    setTimeout(() => { freshlyAddedIds = []; }, 1700);
+  }
 }
 
 function escape(s) { return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -2032,30 +2055,68 @@ async function handlePhotoUpload(event) {
 
 async function addPhotosFromFiles(files) {
   if (!T()) {
-    toast('Open a domain, project, or subsection first');
+    toast('Open a domain, project, or subsection first', 'warn');
     return;
   }
   if (!files || !files.length) return;
   setSaving();
-  let added = 0;
+  let added = 0, skipped = 0;
+  const newIds = [];
+  // Build a set of existing image fingerprints for dedup
+  const existingFingerprints = new Set();
+  for (const p of (T().obj.photos || [])) {
+    if (p.dataUrl) {
+      // Fingerprint a data URL by length + first 80 + last 80 chars
+      // (full comparison is slow; this catches duplicates reliably)
+      existingFingerprints.add(fingerprintDataUrl(p.dataUrl));
+    }
+  }
   for (const file of files) {
     if (!file.type.startsWith('image/')) continue;
     try {
       const dataUrl = await resizeImage(file);
+      const fp = fingerprintDataUrl(dataUrl);
+      if (existingFingerprints.has(fp)) {
+        skipped++;
+        continue;
+      }
+      existingFingerprints.add(fp);
+      const photoId = 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
       const photo = {
-        id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+        id: photoId,
         dataUrl, caption: '', type: 'upload', addedAt: Date.now()
       };
       T().obj.photos.push(photo);
+      newIds.push(photoId);
       added++;
     } catch (e) { console.error('Photo upload failed', e); }
   }
   T().save();
+  freshlyAddedIds = newIds;
   renderMoodboard();
   const d = T().obj;
   renderDomainHeroMeta(d);
-  if (added > 0) toast(`Added ${added} photo${added===1?'':'s'}`);
+
+  // Build a clear, in-your-face message
+  if (added > 0 && skipped > 0) {
+    toast(`Added ${added} photo${added===1?'':'s'} · ${skipped} duplicate${skipped===1?'':'s'} skipped`, 'success');
+  } else if (added > 0) {
+    toast(`Added ${added} photo${added===1?'':'s'} to ${T().label}`, 'success');
+  } else if (skipped > 0) {
+    toast(`Already in your mood board · ${skipped} duplicate${skipped===1?'':'s'} skipped`, 'warn');
+  }
 }
+
+// Cheap-but-reliable fingerprint of a data URL (or remote URL).
+// Catches identical pastes/uploads of the same image.
+function fingerprintDataUrl(s) {
+  if (!s) return '';
+  if (s.length < 200) return s;
+  return s.length + ':' + s.slice(0, 80) + ':' + s.slice(-80);
+}
+
+// Track which photos were just added so renderMoodboard can highlight them
+let freshlyAddedIds = [];
 
 // Drag-drop (files + dragged image URLs from other tabs)
 const dropOverlay = document.getElementById('dropOverlay');
@@ -2167,13 +2228,18 @@ function closeLightbox() {
 }
 function deletePhoto() {
   if (!currentLightboxPhotoId) return;
-  T().obj.photos = T().obj.photos.filter(p => p.id !== currentLightboxPhotoId);
-  T().save();
-  renderMoodboard();
-  renderDomainHeroMeta(T().obj);
+  const t = T();
+  if (!t) return;
+  const photoIdToDelete = currentLightboxPhotoId;
+  // Close lightbox FIRST so the user gets immediate visual feedback
   document.getElementById('lightbox').classList.remove('show');
   currentLightboxPhotoId = null;
-  toast('Photo removed');
+  // Then remove from state
+  t.obj.photos = t.obj.photos.filter(p => p.id !== photoIdToDelete);
+  t.save();
+  renderMoodboard();
+  renderDomainHeroMeta(t.obj);
+  toast('Photo removed', 'success');
 }
 
 // Use first photo as hero
@@ -2841,21 +2907,24 @@ function addCuratedPhoto(unsplashId, alt) {
   // Don't double-add
   const existing = T().obj.photos.find(p => p.url === url);
   if (existing) {
-    toast('Already in your mood board');
+    toast('Already in your mood board', 'warn');
     return;
   }
+  const newId = 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   T().obj.photos.push({
-    id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    id: newId,
     url, caption: alt || '', type: 'unsplash',
     source: { unsplashId, alt: alt || '' },
     addedAt: Date.now()
   });
   T().save();
+  freshlyAddedIds = [newId];
   renderMoodboard();
   renderDomainHeroMeta(T().obj);
   renderInspiration();
   psSessionAdded++;
   updatePsStatus();
+  toast(`Added · ${psSessionAdded} this session`, 'success');
 }
 
 // ----- Unsplash Search -----
@@ -2943,9 +3012,10 @@ function renderSearchResults() {
 function addUnsplashSearchResult(p) {
   if (!T()) return;
   const existing = T().obj.photos.find(x => x.url === p.url);
-  if (existing) { toast('Already in your mood board'); return; }
+  if (existing) { toast('Already in your mood board', 'warn'); return; }
+  const newId = 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   T().obj.photos.push({
-    id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    id: newId,
     url: p.url, caption: p.alt || '', type: 'unsplash',
     source: {
       unsplashId: p.id, photographer: p.photog, photographerUrl: p.photogUrl,
@@ -2954,11 +3024,13 @@ function addUnsplashSearchResult(p) {
     addedAt: Date.now()
   });
   T().save();
+  freshlyAddedIds = [newId];
   renderMoodboard();
   renderDomainHeroMeta(T().obj);
   renderSearchResults();
   psSessionAdded++;
   updatePsStatus();
+  toast(`Added · ${psSessionAdded} this session`, 'success');
   // Trigger Unsplash download tracking (per their API guidelines)
   const key = localStorage.getItem(SK.unsplashKey);
   if (key && p.downloadLocation) {
@@ -3006,14 +3078,16 @@ function addUrlPhoto() {
   if (!pendingUrlPhoto || !T()) return;
   const url = pendingUrlPhoto.url;
   const existing = T().obj.photos.find(p => p.url === url);
-  if (existing) { toast('Already in your mood board'); return; }
+  if (existing) { toast('Already in your mood board', 'warn'); return; }
+  const newId = 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
   T().obj.photos.push({
-    id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    id: newId,
     url, caption: '', type: 'url',
     source: { originalUrl: url },
     addedAt: Date.now()
   });
   T().save();
+  freshlyAddedIds = [newId];
   renderMoodboard();
   renderDomainHeroMeta(T().obj);
   document.getElementById('psUrlInput').value = '';
@@ -3021,7 +3095,7 @@ function addUrlPhoto() {
   pendingUrlPhoto = null;
   psSessionAdded++;
   updatePsStatus();
-  toast('Added · keep going');
+  toast(`Added · ${psSessionAdded} this session`, 'success');
 }
 
 // ----- Upload (within modal) -----
