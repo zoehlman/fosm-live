@@ -740,6 +740,59 @@
   .mv-empty-icon{font-size:44px;color:var(--gold);margin-bottom:18px;font-style:italic;font-family:'Fraunces',serif}
   .mv-empty-title{font-family:'Fraunces',serif;font-size:24px;color:var(--text-0);font-style:italic;margin-bottom:10px}
   .mv-empty-sub{font-size:12.5px;color:var(--text-2);max-width:520px;margin:0 auto;line-height:1.7}
+
+  /* ============= PERSISTENCE / BACKUP UI ============= */
+  /* Restore alert banner — shows when we detect the data-wipe scenario */
+  .restore-alert{position:fixed;top:14px;left:50%;transform:translateX(-50%);
+    z-index:4000;background:linear-gradient(135deg,rgba(212,165,116,.18) 0%,rgba(212,165,116,.08) 100%);
+    border:1px solid var(--gold);backdrop-filter:blur(20px);
+    border-radius:14px;padding:14px 22px;display:none;align-items:center;gap:14px;
+    box-shadow:0 12px 36px rgba(0,0,0,.5);max-width:600px}
+  .restore-alert.show{display:flex;animation:fadeIn .35s ease}
+  .restore-alert-icon{font-size:22px;color:var(--gold);font-family:'Fraunces',serif;font-style:italic}
+  .restore-alert-text{flex:1;font-size:11.5px;color:var(--text-1);line-height:1.5}
+  .restore-alert-text b{color:var(--gold);font-weight:600}
+
+  /* Backup status pill in topbar */
+  .backup-pill{font-size:9.5px;color:var(--text-3);letter-spacing:.5px;display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:30px;background:var(--bg-2);border:1px solid var(--line);transition:all .2s}
+  .backup-pill:hover{color:var(--text-1);border-color:var(--line-strong);cursor:pointer}
+  .backup-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+  .backup-pill.stale .dot{background:var(--warm)}
+  .backup-pill.never .dot{background:var(--red)}
+
+  /* Restore modal — wider, with sections */
+  .restore-section{background:var(--bg-0);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:12px}
+  .restore-section-head{font-family:'Fraunces',serif;font-size:14px;color:var(--text-0);font-style:italic;margin-bottom:10px}
+  .restore-section-head em{color:var(--gold)}
+  .restore-section-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;margin:10px 0}
+  .restore-stat{font-size:10.5px;color:var(--text-2)}
+  .restore-stat b{color:var(--text-0);display:block;font-family:'Fraunces',serif;font-size:18px;font-style:italic;font-weight:400}
+  .restore-stat .gold{color:var(--gold)}
+
+  .restore-action-row{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .restore-warn{font-size:10.5px;color:var(--warm);font-style:italic;margin-top:8px;line-height:1.6}
+  .restore-success{font-size:11px;color:var(--green);margin-top:8px;font-weight:600}
+
+  .backup-history{margin-top:6px}
+  .backup-entry{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;
+    background:var(--bg-2);border:1px solid var(--line);border-radius:8px;margin-bottom:6px;font-size:11px}
+  .backup-entry-when{color:var(--text-1);font-weight:500}
+  .backup-entry-meta{color:var(--text-3);font-size:10px}
+  .backup-entry-actions{display:flex;gap:6px}
+  .backup-entry-act{background:transparent;border:1px solid var(--line);color:var(--text-2);
+    padding:4px 10px;border-radius:30px;font-size:10px;font-family:inherit;cursor:pointer;transition:all .15s}
+  .backup-entry-act:hover{border-color:var(--gold-dim);color:var(--gold)}
+  .backup-entry-act.primary{background:var(--gold);border-color:var(--gold);color:var(--bg-0);font-weight:600}
+  .backup-entry-act.primary:hover{background:var(--gold-bright)}
+
+  /* Drop zone for JSON file inside the modal */
+  .restore-drop{padding:24px;text-align:center;border:1.5px dashed var(--line-strong);
+    border-radius:10px;cursor:pointer;transition:all .2s}
+  .restore-drop:hover{border-color:var(--gold-dim);background:rgba(212,165,116,.04)}
+  .restore-drop.over{border-color:var(--gold);background:rgba(212,165,116,.08)}
+  .restore-drop-icon{font-size:24px;color:var(--gold);margin-bottom:8px}
+  .restore-drop-title{font-family:'Fraunces',serif;font-size:14px;color:var(--text-0);font-style:italic;margin-bottom:4px}
+  .restore-drop-sub{font-size:10.5px;color:var(--text-2)}
 </style>
 </head>
 <body>
@@ -817,6 +870,10 @@
   <div class="topbar">
     <div class="topbar-trail" id="topTrail"><b>Command Center</b></div>
     <div class="top-actions">
+      <button class="backup-pill" id="backupPill" onclick="openBackupCenter()" title="Click to manage backups">
+        <span class="dot"></span>
+        <span id="backupPillText">Backup</span>
+      </button>
       <button class="top-btn" onclick="exportJSON()" title="Download your vision as JSON">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
         Export
@@ -832,6 +889,16 @@
         Capture
       </button>
     </div>
+  </div>
+
+  <!-- RESTORE ALERT — shows when we detect a data wipe -->
+  <div class="restore-alert" id="restoreAlert">
+    <div class="restore-alert-icon">⟲</div>
+    <div class="restore-alert-text" id="restoreAlertText">
+      <b>Heads up.</b> Your data looks empty, but we have a recent in-browser backup. Want to restore it?
+    </div>
+    <button class="top-btn primary" onclick="quickRestoreFromAlert()">Restore</button>
+    <button class="top-btn" onclick="dismissRestoreAlert()">Not now</button>
   </div>
 
   <!-- HOME -->
@@ -1092,6 +1159,73 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: BACKUP CENTER -->
+<div class="modal-overlay" id="backupModal">
+  <div class="modal modal-large">
+    <div class="modal-head">Backup &amp; <em>restore</em></div>
+    <div class="modal-sub">Your data lives in this browser. We keep automatic in-browser backups and let you save real JSON files anywhere. Belt, suspenders, parachute.</div>
+
+    <!-- Current data section -->
+    <div class="restore-section">
+      <div class="restore-section-head">What's <em>in here right now</em></div>
+      <div class="restore-section-stats" id="backupCurrentStats"></div>
+    </div>
+
+    <!-- Auto-backups section -->
+    <div class="restore-section">
+      <div class="restore-section-head">Recent <em>auto-backups</em></div>
+      <p style="font-size:11px;color:var(--text-2);margin-bottom:10px;line-height:1.6">Saved silently in this browser every time you make significant changes. Survives refreshes, but not "Clear browsing data" or another browser. Download to a real file for permanent safety.</p>
+      <div class="backup-history" id="backupHistory"></div>
+    </div>
+
+    <!-- File restore section -->
+    <div class="restore-section">
+      <div class="restore-section-head">Restore from a <em>JSON file</em></div>
+      <p style="font-size:11px;color:var(--text-2);margin-bottom:12px;line-height:1.6">Drop a backup JSON or click to browse. The file is what gets created when you hit "Download" below.</p>
+      <div class="restore-drop" id="restoreDropZone" onclick="document.getElementById('restoreFileInput').click()">
+        <div class="restore-drop-icon">⬆</div>
+        <div class="restore-drop-title">Drop or pick a backup file</div>
+        <div class="restore-drop-sub">vision-command-center-YYYY-MM-DD.json</div>
+      </div>
+      <input type="file" id="restoreFileInput" style="display:none" accept=".json" onchange="handleRestoreFile(event)">
+    </div>
+
+    <!-- Manual download -->
+    <div class="restore-section">
+      <div class="restore-section-head">Save a <em>backup file</em></div>
+      <p style="font-size:11px;color:var(--text-2);margin-bottom:12px;line-height:1.6">Download a JSON file to your computer right now. Email it to yourself or drop it in Google Drive — that's a real backup that survives anything.</p>
+      <button class="top-btn primary" onclick="exportJSON()">
+        <svg viewBox="0 0 24 24" width="13" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Download backup file
+      </button>
+    </div>
+
+    <div class="modal-actions">
+      <button class="top-btn" onclick="closeModal('backupModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: RESTORE PREVIEW (shown before destructive restore) -->
+<div class="modal-overlay" id="restorePreviewModal">
+  <div class="modal">
+    <div class="modal-head">Restore <em>preview</em></div>
+    <div class="modal-sub">Here's what will change if you restore this backup. This replaces your current data — make sure that's what you want.</div>
+
+    <div class="restore-section">
+      <div class="restore-section-head" style="margin-bottom:6px">Coming <em>back</em></div>
+      <div class="restore-section-stats" id="restorePreviewStats"></div>
+    </div>
+
+    <div class="restore-warn" id="restorePreviewWarn"></div>
+
+    <div class="modal-actions">
+      <button class="top-btn" onclick="closeModal('restorePreviewModal')">Cancel</button>
+      <button class="top-btn primary" onclick="confirmRestore()">Restore now</button>
     </div>
   </div>
 </div>
@@ -2525,13 +2659,16 @@ function deleteSubsection(subId) {
 
 // =================== EXPORT / IMPORT ===================
 function exportJSON() {
-  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  // Use the same snapshot format as auto-backups for consistency
+  const snap = bkBuildSnapshot();
+  const blob = new Blob([JSON.stringify(snap, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
   a.download = `vision-command-center-${new Date().toISOString().slice(0,10)}.json`;
   a.click();
   URL.revokeObjectURL(url);
+  localStorage.setItem(BK_LAST_DOWNLOAD_KEY, Date.now().toString());
   toast('Exported · save this file as your backup');
 }
 function importJSON(event) {
@@ -4060,6 +4197,393 @@ function openMovieGeneratorForProjectOrDomain(kind, id) {
 // =====================================================================
 
 
+// =====================================================================
+// =================== PERSISTENCE / BACKUP SYSTEM ======================
+// =====================================================================
+// Three layers of data safety:
+//   1. localStorage (the working data — fast, but fragile)
+//   2. In-browser auto-backups (snapshots, kept in same localStorage but
+//      under a separate prefix so they survive most failure modes)
+//   3. Downloadable JSON file (the only real safety — survives anything)
+//
+// We snapshot the working data into auto-backup whenever significant
+// changes happen, keeping the most recent N snapshots. We detect the
+// "data wipe" scenario on load and offer instant restore.
+// =====================================================================
+
+const BK_PREFIX = STORAGE_PREFIX + 'backup:';
+const BK_INDEX_KEY = STORAGE_PREFIX + 'backup-index';
+const BK_LAST_DOWNLOAD_KEY = STORAGE_PREFIX + 'backup-last-download';
+const BK_MAX_SNAPSHOTS = 5;          // Keep last 5 in-browser snapshots
+const BK_MIN_INTERVAL_MS = 60 * 1000; // Don't auto-snapshot more often than once a minute
+
+let bkLastSnapshotTs = 0;
+let bkPendingRestoreData = null;    // Data waiting in restore preview modal
+let bkRestoreSourceLabel = '';       // 'auto-backup' or 'file'
+
+// Build a snapshot object from current in-memory state. Excludes the
+// movie metadata (those have their own session lifecycle).
+function bkBuildSnapshot() {
+  return {
+    schemaVersion: 1,
+    capturedAt: Date.now(),
+    user: state.user,
+    dreamer: state.dreamer,
+    domains: state.domains,
+    projects: state.projects
+  };
+}
+
+// Compute summary stats for a snapshot — used for previews.
+function bkSummarize(snapshot) {
+  if (!snapshot) return null;
+  let photoCount = 0, storyCount = 0, visionWords = 0, dreamerAnswers = 0, subsectionCount = 0;
+  Object.values(snapshot.domains || {}).forEach(d => {
+    photoCount += (d.photos || []).length;
+    storyCount += (d.stories || []).length;
+    if (d.vision) visionWords += d.vision.trim().split(/\s+/).filter(Boolean).length;
+  });
+  Object.values(snapshot.projects || {}).forEach(p => {
+    photoCount += (p.photos || []).length;
+    storyCount += (p.stories || []).length;
+    if (p.vision) visionWords += p.vision.trim().split(/\s+/).filter(Boolean).length;
+    (p.subsections || []).forEach(s => {
+      subsectionCount++;
+      photoCount += (s.photos || []).length;
+      storyCount += (s.stories || []).length;
+      if (s.vision) visionWords += s.vision.trim().split(/\s+/).filter(Boolean).length;
+    });
+  });
+  Object.values(snapshot.dreamer?.responses || {}).forEach(r => { if ((r || '').trim()) dreamerAnswers++; });
+  return { photoCount, storyCount, visionWords, dreamerAnswers, subsectionCount };
+}
+
+// Index of all backups stored in localStorage. Format: array of {id, capturedAt, summary}
+function bkLoadIndex() {
+  try { return JSON.parse(localStorage.getItem(BK_INDEX_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+function bkSaveIndex(idx) {
+  try { localStorage.setItem(BK_INDEX_KEY, JSON.stringify(idx)); }
+  catch(e) {}
+}
+
+// Take a snapshot now. Skips if it's been less than BK_MIN_INTERVAL_MS
+// or if the data is essentially empty (no point backing up an empty state).
+function bkAutoSnapshot(force) {
+  const now = Date.now();
+  if (!force && (now - bkLastSnapshotTs) < BK_MIN_INTERVAL_MS) return;
+  const snap = bkBuildSnapshot();
+  const summary = bkSummarize(snap);
+  // Don't snapshot truly empty state
+  if (!force && summary.photoCount === 0 && summary.storyCount === 0 && summary.visionWords === 0 && summary.dreamerAnswers === 0) return;
+
+  const id = 'bk_' + now + '_' + Math.random().toString(36).slice(2, 6);
+  const key = BK_PREFIX + id;
+  // Try to save — gracefully handle quota errors by clearing oldest backups
+  let saved = false;
+  let attempt = 0;
+  while (!saved && attempt < 4) {
+    try {
+      localStorage.setItem(key, JSON.stringify(snap));
+      saved = true;
+    } catch(e) {
+      // Out of space — drop the oldest backup and retry
+      const idx = bkLoadIndex();
+      if (!idx.length) break;
+      const oldest = idx.shift();
+      try { localStorage.removeItem(BK_PREFIX + oldest.id); } catch(e2){}
+      bkSaveIndex(idx);
+      attempt++;
+    }
+  }
+  if (!saved) return;
+
+  // Update index
+  const idx = bkLoadIndex();
+  idx.push({ id, capturedAt: now, summary });
+  // Trim to max
+  while (idx.length > BK_MAX_SNAPSHOTS) {
+    const removed = idx.shift();
+    try { localStorage.removeItem(BK_PREFIX + removed.id); } catch(e){}
+  }
+  bkSaveIndex(idx);
+  bkLastSnapshotTs = now;
+  updateBackupPill();
+}
+
+// Hook auto-snapshot into every save call
+const _origFlashSaved = flashSaved;
+flashSaved = function() {
+  _origFlashSaved();
+  // Snapshot in the background, throttled
+  setTimeout(() => bkAutoSnapshot(false), 100);
+};
+
+// Fetch a specific snapshot
+function bkGetSnapshot(id) {
+  try { return JSON.parse(localStorage.getItem(BK_PREFIX + id)); }
+  catch(e) { return null; }
+}
+
+// Find the most recent meaningful snapshot
+function bkMostRecent() {
+  const idx = bkLoadIndex();
+  if (!idx.length) return null;
+  // Sort newest first
+  idx.sort((a, b) => b.capturedAt - a.capturedAt);
+  // Return first one with non-trivial data
+  for (const entry of idx) {
+    if (entry.summary && (entry.summary.photoCount > 0 || entry.summary.storyCount > 0 || entry.summary.visionWords > 5 || entry.summary.dreamerAnswers > 0)) {
+      return entry;
+    }
+  }
+  return null;
+}
+
+// Check if current state is essentially empty (the wipe scenario)
+function bkCurrentIsEmpty() {
+  const summary = bkSummarize(bkBuildSnapshot());
+  return summary.photoCount === 0 && summary.storyCount === 0 && summary.visionWords < 5 && summary.dreamerAnswers === 0;
+}
+
+// =================== UI ===================
+
+function updateBackupPill() {
+  const pill = document.getElementById('backupPill');
+  const text = document.getElementById('backupPillText');
+  if (!pill || !text) return;
+  const idx = bkLoadIndex();
+  if (!idx.length) {
+    pill.className = 'backup-pill never';
+    text.textContent = 'No backup yet';
+    return;
+  }
+  // Most recent
+  const latest = idx.reduce((a, b) => a.capturedAt > b.capturedAt ? a : b);
+  const ageMin = (Date.now() - latest.capturedAt) / 60000;
+  pill.className = 'backup-pill' + (ageMin > 60 ? ' stale' : '');
+  text.textContent = ageMin < 1 ? 'Just backed up' : ageMin < 60 ? `Backed up ${Math.floor(ageMin)}m ago` : `Backed up ${Math.floor(ageMin/60)}h ago`;
+}
+
+function openBackupCenter() {
+  // Render current stats
+  const summary = bkSummarize(bkBuildSnapshot());
+  document.getElementById('backupCurrentStats').innerHTML = renderStats(summary);
+
+  // Render history
+  const idx = bkLoadIndex();
+  idx.sort((a, b) => b.capturedAt - a.capturedAt);
+  const histEl = document.getElementById('backupHistory');
+  if (!idx.length) {
+    histEl.innerHTML = `<p style="font-size:11px;color:var(--text-3);font-style:italic;padding:14px;text-align:center">No auto-backups yet. They'll start appearing as you add photos and write vision text.</p>`;
+  } else {
+    histEl.innerHTML = idx.map(b => {
+      const ageMs = Date.now() - b.capturedAt;
+      const ageStr = formatAge(ageMs);
+      const meta = `${b.summary.photoCount} photo${b.summary.photoCount===1?'':'s'} · ${b.summary.storyCount} stor${b.summary.storyCount===1?'y':'ies'} · ${b.summary.visionWords} word${b.summary.visionWords===1?'':'s'}`;
+      return `<div class="backup-entry">
+        <div>
+          <div class="backup-entry-when">${ageStr}</div>
+          <div class="backup-entry-meta">${meta}</div>
+        </div>
+        <div class="backup-entry-actions">
+          <button class="backup-entry-act" onclick="bkDownloadSnapshot('${b.id}')">Download</button>
+          <button class="backup-entry-act primary" onclick="bkPreviewRestoreFromSnapshot('${b.id}')">Restore</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  document.getElementById('backupModal').classList.add('show');
+}
+
+function renderStats(s) {
+  if (!s) return '';
+  return `
+    <div class="restore-stat"><b class="gold">${s.photoCount}</b>photo${s.photoCount===1?'':'s'}</div>
+    <div class="restore-stat"><b class="gold">${s.storyCount}</b>stor${s.storyCount===1?'y':'ies'}</div>
+    <div class="restore-stat"><b class="gold">${s.visionWords}</b>vision word${s.visionWords===1?'':'s'}</div>
+    <div class="restore-stat"><b class="gold">${s.subsectionCount}</b>subsection${s.subsectionCount===1?'':'s'}</div>
+    <div class="restore-stat"><b class="gold">${s.dreamerAnswers}</b>dreamer answer${s.dreamerAnswers===1?'':'s'}</div>
+  `;
+}
+
+function formatAge(ms) {
+  const sec = Math.floor(ms / 1000);
+  if (sec < 60) return `${sec} sec ago`;
+  const min = Math.floor(sec / 60);
+  if (min < 60) return `${min} minute${min===1?'':'s'} ago`;
+  const hr = Math.floor(min / 60);
+  if (hr < 24) return `${hr} hour${hr===1?'':'s'} ago`;
+  const day = Math.floor(hr / 24);
+  return `${day} day${day===1?'':'s'} ago`;
+}
+
+// =================== RESTORE FLOW ===================
+
+// Preview a restore from an in-browser snapshot
+function bkPreviewRestoreFromSnapshot(id) {
+  const snap = bkGetSnapshot(id);
+  if (!snap) { toast('Backup not found'); return; }
+  bkPendingRestoreData = snap;
+  bkRestoreSourceLabel = 'in-browser auto-backup';
+  showRestorePreview();
+}
+
+// Restore from the most recent auto-backup (called from the alert banner)
+function quickRestoreFromAlert() {
+  const recent = bkMostRecent();
+  if (!recent) { toast('No backup available'); dismissRestoreAlert(); return; }
+  const snap = bkGetSnapshot(recent.id);
+  if (!snap) { toast('Backup unreadable'); dismissRestoreAlert(); return; }
+  bkPendingRestoreData = snap;
+  bkRestoreSourceLabel = 'auto-backup';
+  document.getElementById('restoreAlert').classList.remove('show');
+  showRestorePreview();
+}
+function dismissRestoreAlert() {
+  document.getElementById('restoreAlert').classList.remove('show');
+}
+
+// Handle a JSON file from the file input or drop
+function handleRestoreFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  bkLoadFromFile(file);
+  event.target.value = '';
+}
+function bkLoadFromFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      // Accept either a snapshot OR an old-style export (which had user/domains/dreamer at top level without schemaVersion)
+      let snap;
+      if (data.schemaVersion) {
+        snap = data;
+      } else if (data.user || data.domains || data.dreamer || data.projects) {
+        snap = { schemaVersion: 1, capturedAt: Date.now(), user: data.user, dreamer: data.dreamer, domains: data.domains, projects: data.projects };
+      } else {
+        toast('That file does not look like a Vision CC backup');
+        return;
+      }
+      bkPendingRestoreData = snap;
+      bkRestoreSourceLabel = 'file: ' + file.name;
+      closeModal('backupModal');
+      showRestorePreview();
+    } catch (err) {
+      toast('Could not read that file');
+    }
+  };
+  reader.onerror = () => toast('Failed to read file');
+  reader.readAsText(file);
+}
+
+// Drag-and-drop on the restore drop zone
+const _rdZone = document.getElementById('restoreDropZone');
+if (_rdZone) {
+  _rdZone.addEventListener('dragover', e => { e.preventDefault(); _rdZone.classList.add('over'); });
+  _rdZone.addEventListener('dragleave', () => _rdZone.classList.remove('over'));
+  _rdZone.addEventListener('drop', e => {
+    e.preventDefault(); _rdZone.classList.remove('over');
+    const f = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) bkLoadFromFile(f);
+  });
+}
+
+function showRestorePreview() {
+  if (!bkPendingRestoreData) return;
+  const summary = bkSummarize(bkPendingRestoreData);
+  const currentSummary = bkSummarize(bkBuildSnapshot());
+  document.getElementById('restorePreviewStats').innerHTML = renderStats(summary);
+
+  const warnings = [];
+  if (currentSummary.photoCount > 0 || currentSummary.storyCount > 0 || currentSummary.visionWords > 5) {
+    warnings.push(`Replaces your current data (${currentSummary.photoCount} photo${currentSummary.photoCount===1?'':'s'}, ${currentSummary.visionWords} vision word${currentSummary.visionWords===1?'':'s'}) with the backup.`);
+  }
+  warnings.push(`Source: ${bkRestoreSourceLabel}, captured ${formatAge(Date.now() - (bkPendingRestoreData.capturedAt || 0))}.`);
+  document.getElementById('restorePreviewWarn').textContent = warnings.join(' ');
+
+  document.getElementById('restorePreviewModal').classList.add('show');
+}
+
+function confirmRestore() {
+  const data = bkPendingRestoreData;
+  if (!data) return;
+
+  // Snapshot the CURRENT state before overwriting — so a user can undo a bad restore
+  bkAutoSnapshot(true);
+
+  // Apply
+  if (data.user) { state.user = data.user; saveUser(); }
+  if (data.dreamer) { state.dreamer = data.dreamer; saveDreamer(); }
+  if (data.domains) {
+    Object.keys(data.domains).forEach(id => { state.domains[id] = data.domains[id]; saveDomain(id); });
+  }
+  if (data.projects) {
+    Object.keys(data.projects).forEach(id => { state.projects[id] = data.projects[id]; saveProject(id); });
+  }
+
+  // Re-render the visible UI
+  document.getElementById('whoName').textContent = state.user.name;
+  document.getElementById('whoAv').textContent = state.user.initial;
+  renderDomainsGrid();
+  renderProjectsGrid();
+  renderProjectsNav();
+  updateBackupPill();
+  updateStorageMeter();
+
+  bkPendingRestoreData = null;
+  closeModal('restorePreviewModal');
+  toast('✓ Restored · welcome back');
+}
+
+// Download a specific snapshot as a file
+function bkDownloadSnapshot(id) {
+  const snap = bkGetSnapshot(id);
+  if (!snap) { toast('Backup not found'); return; }
+  const blob = new Blob([JSON.stringify(snap, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const dateStr = new Date(snap.capturedAt).toISOString().slice(0, 16).replace(':', '-');
+  a.download = `vision-cc-backup-${dateStr}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Downloaded · keep this file safe');
+}
+
+// =================== STARTUP CHECKS ===================
+
+// Run once on load — detect the data-wipe scenario and prompt
+function bkRunStartupCheck() {
+  if (!bkCurrentIsEmpty()) return;
+  const recent = bkMostRecent();
+  if (!recent) return; // no backup to offer
+  const ageMin = (Date.now() - recent.capturedAt) / 60000;
+  let when = ageMin < 60 ? `${Math.floor(ageMin)} minute${ageMin<2?'':'s'} ago` : ageMin < 1440 ? `${Math.floor(ageMin/60)} hour${ageMin<120?'':'s'} ago` : `${Math.floor(ageMin/1440)} day${ageMin<2880?'':'s'} ago`;
+  document.getElementById('restoreAlertText').innerHTML = `<b>Heads up.</b> Your data looks empty, but we have a backup from ${when} with <b>${recent.summary.photoCount} photo${recent.summary.photoCount===1?'':'s'}</b>, <b>${recent.summary.storyCount} stor${recent.summary.storyCount===1?'y':'ies'}</b>, and <b>${recent.summary.visionWords} vision words</b>. Want to restore it?`;
+  document.getElementById('restoreAlert').classList.add('show');
+}
+
+// Daily reminder to download a backup file (the only real safety net)
+function bkCheckDailyDownloadReminder() {
+  const last = parseInt(localStorage.getItem(BK_LAST_DOWNLOAD_KEY) || '0');
+  const summary = bkSummarize(bkBuildSnapshot());
+  if (summary.photoCount + summary.storyCount + summary.dreamerAnswers === 0) return; // nothing to back up
+  const dayMs = 24 * 60 * 60 * 1000;
+  if (Date.now() - last < dayMs * 7) return; // remind weekly
+  setTimeout(() => {
+    toast('Tip: hit the Backup pill in the topbar and download a JSON file as your safety net');
+  }, 3500);
+}
+
+// =====================================================================
+// =================== END PERSISTENCE ==================================
+// =====================================================================
+
+
 // =================== INIT ===================
 loadState();
 renderNavDomains();
@@ -4067,8 +4591,18 @@ renderProjectsNav();
 renderDomainsGrid();
 renderProjectsGrid();
 updateStorageMeter();
+updateBackupPill();
 document.getElementById('whoName').textContent = state.user.name;
 document.getElementById('whoAv').textContent = state.user.initial;
+
+// Persistence checks (runs after a brief delay so initial render finishes first)
+setTimeout(() => {
+  bkRunStartupCheck();
+  bkCheckDailyDownloadReminder();
+}, 600);
+
+// Update the backup pill periodically so the "X minutes ago" text stays fresh
+setInterval(updateBackupPill, 30000);
 
 // Show welcome toast on first load
 if (!localStorage.getItem(STORAGE_PREFIX + 'welcomed')) {
