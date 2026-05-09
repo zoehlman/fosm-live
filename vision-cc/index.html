@@ -628,6 +628,118 @@
 
   /* Subsection rename modal styling (uses generic modal but a bit narrower) */
   .modal-narrow{max-width:440px}
+
+  /* ============= MOVIE ENGINE ============= */
+  /* Generator modal */
+  .mv-pre-summary{background:var(--bg-0);border:1px solid var(--line);border-radius:10px;
+    padding:16px 18px;margin-bottom:18px;font-size:11.5px;color:var(--text-2);line-height:1.7}
+  .mv-pre-summary b{color:var(--text-0)}
+  .mv-pre-summary span.gold{color:var(--gold)}
+  .mv-pre-warn{font-size:11px;color:var(--warm);margin-top:10px;font-style:italic}
+
+  .mv-music-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:8px}
+  @media (max-width:520px){.mv-music-grid{grid-template-columns:1fr}}
+  .mv-music-card{background:var(--bg-0);border:1px solid var(--line);border-radius:10px;
+    padding:14px 16px;cursor:pointer;transition:all .18s;text-align:left;font-family:inherit}
+  .mv-music-card:hover{border-color:var(--gold-dim)}
+  .mv-music-card.active{border-color:var(--gold);background:rgba(212,165,116,.08)}
+  .mv-music-card-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .mv-music-card-name{font-family:'Fraunces',serif;font-size:14px;font-style:italic;color:var(--text-0)}
+  .mv-music-card.active .mv-music-card-name{color:var(--gold)}
+  .mv-music-card-mood{font-size:9.5px;color:var(--text-3);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;margin-top:3px}
+  .mv-music-preview-btn{width:28px;height:28px;border-radius:50%;background:var(--bg-2);
+    border:1px solid var(--line);color:var(--gold);display:flex;align-items:center;justify-content:center;
+    cursor:pointer;flex-shrink:0;font-family:inherit;padding:0;font-size:11px}
+  .mv-music-preview-btn:hover{background:var(--gold);color:var(--bg-0);border-color:var(--gold)}
+  .mv-music-preview-btn.playing{background:var(--gold);color:var(--bg-0);border-color:var(--gold)}
+
+  .mv-music-auto{background:linear-gradient(135deg,var(--bg-0) 0%,rgba(212,165,116,.05) 100%);
+    border:1px dashed var(--gold-dim);grid-column:span 2}
+  @media (max-width:520px){.mv-music-auto{grid-column:span 1}}
+  .mv-music-auto.active{border-style:solid;border-color:var(--gold);background:rgba(212,165,116,.1)}
+
+  /* Render overlay (full screen during render) */
+  .mv-render-overlay{position:fixed;inset:0;background:rgba(10,9,8,.96);backdrop-filter:blur(20px);
+    z-index:5000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center}
+  .mv-render-overlay.show{display:flex}
+  .mv-render-stage{font-size:11px;color:var(--gold);letter-spacing:3px;
+    text-transform:uppercase;margin-bottom:20px;font-weight:600}
+  .mv-render-title{font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,42px);
+    font-weight:300;color:var(--text-0);font-style:italic;margin-bottom:18px;max-width:680px;letter-spacing:-0.01em;line-height:1.2}
+  .mv-render-title em{color:var(--gold)}
+  .mv-render-bar-wrap{width:min(440px,80vw);height:3px;background:var(--bg-2);
+    border-radius:2px;overflow:hidden;margin:30px 0 12px}
+  .mv-render-bar{height:100%;background:var(--gold);border-radius:2px;width:0%;
+    transition:width .3s ease;box-shadow:0 0 14px rgba(212,165,116,.6)}
+  .mv-render-pct{font-size:11px;color:var(--text-2);letter-spacing:.5px;font-weight:500;margin-bottom:30px}
+  .mv-render-detail{font-size:12px;color:var(--text-3);font-style:italic;max-width:520px;line-height:1.7}
+  .mv-render-cancel{margin-top:30px}
+
+  /* Live preview canvas during render */
+  .mv-render-preview{width:min(560px,82vw);aspect-ratio:16/9;background:var(--bg-2);
+    border-radius:10px;border:1px solid var(--line-strong);margin:8px 0 0;overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .mv-render-preview canvas{width:100%;height:100%;display:block}
+
+  /* Player */
+  .mv-player-overlay{position:fixed;inset:0;background:rgba(10,9,8,.97);backdrop-filter:blur(28px);
+    z-index:5000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+  .mv-player-overlay.show{display:flex;animation:fadeIn .35s ease}
+  .mv-player-frame{width:min(1100px,92vw);max-height:85vh;background:#000;border-radius:14px;
+    overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px var(--line-strong)}
+  .mv-player-frame video{width:100%;height:auto;display:block;background:#000}
+  .mv-player-bar{display:flex;align-items:center;gap:14px;margin-top:18px;
+    width:min(1100px,92vw);flex-wrap:wrap}
+  .mv-player-info{flex:1;min-width:200px}
+  .mv-player-title{font-family:'Fraunces',serif;font-size:18px;color:var(--text-0);font-style:italic}
+  .mv-player-title em{color:var(--gold)}
+  .mv-player-meta{font-size:10.5px;color:var(--text-3);letter-spacing:.5px;margin-top:3px}
+  .mv-player-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+  /* Generate buttons added to domain/project pages */
+  .mv-gen-pill{background:linear-gradient(135deg,rgba(212,165,116,.18) 0%,rgba(212,165,116,.08) 100%);
+    border:1px solid var(--gold-dim);color:var(--gold);padding:8px 16px;border-radius:30px;
+    font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:8px;
+    cursor:pointer;font-family:inherit;transition:all .2s}
+  .mv-gen-pill:hover{background:var(--gold);color:var(--bg-0);border-color:var(--gold)}
+  .mv-gen-pill svg{width:13px}
+
+  /* Movies library page */
+  .mv-library-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:32px}
+  @media (max-width:1100px){.mv-library-grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:700px){.mv-library-grid{grid-template-columns:1fr}}
+  .mv-card{background:var(--bg-1);border:1px solid var(--line);border-radius:14px;
+    overflow:hidden;cursor:pointer;transition:all .3s;position:relative}
+  .mv-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px rgba(0,0,0,.5);border-color:var(--gold-dim)}
+  .mv-card-thumb{aspect-ratio:16/9;background:var(--bg-2);position:relative;overflow:hidden}
+  .mv-card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+  .mv-card:hover .mv-card-thumb img{transform:scale(1.04)}
+  .mv-card-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(180deg,transparent 50%,rgba(10,9,8,.7) 100%)}
+  .mv-card-play-btn{width:50px;height:50px;border-radius:50%;background:var(--gold);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(212,165,116,.4)}
+  .mv-card-play-btn svg{width:18px;margin-left:3px;fill:var(--bg-0)}
+  .mv-card-len{position:absolute;top:10px;right:10px;background:rgba(10,9,8,.75);
+    backdrop-filter:blur(6px);color:var(--gold);font-size:10px;font-weight:600;
+    padding:3px 8px;border-radius:30px;letter-spacing:.5px}
+  .mv-card-meta{padding:16px 18px}
+  .mv-card-name{font-family:'Fraunces',serif;font-size:17px;color:var(--text-0);font-style:italic;margin-bottom:4px}
+  .mv-card-name em{color:var(--gold)}
+  .mv-card-foot{display:flex;justify-content:space-between;align-items:center;
+    font-size:10px;color:var(--text-3);letter-spacing:.5px;margin-top:4px}
+  .mv-card-actions{position:absolute;top:10px;left:10px;display:flex;gap:5px;opacity:0;transition:opacity .15s}
+  .mv-card:hover .mv-card-actions{opacity:1}
+  .mv-card-act{background:rgba(10,9,8,.75);backdrop-filter:blur(6px);border:1px solid var(--line);
+    color:var(--text-1);width:28px;height:28px;border-radius:50%;display:flex;
+    align-items:center;justify-content:center;cursor:pointer;font-size:13px;line-height:1;font-family:inherit;padding:0}
+  .mv-card-act:hover{color:var(--gold);border-color:var(--gold-dim)}
+  .mv-card-act.del:hover{color:var(--red);border-color:var(--red)}
+
+  .mv-empty{padding:60px 38px;text-align:center;background:var(--bg-1);
+    border:1px dashed var(--line-strong);border-radius:14px}
+  .mv-empty-icon{font-size:44px;color:var(--gold);margin-bottom:18px;font-style:italic;font-family:'Fraunces',serif}
+  .mv-empty-title{font-family:'Fraunces',serif;font-size:24px;color:var(--text-0);font-style:italic;margin-bottom:10px}
+  .mv-empty-sub{font-size:12.5px;color:var(--text-2);max-width:520px;margin:0 auto;line-height:1.7}
 </style>
 </head>
 <body>
@@ -724,7 +836,7 @@
 
   <!-- HOME -->
   <div class="page active" id="page-home">
-    <div class="hero" onclick="toast('Vision Movie player coming in Build 2')">
+    <div class="hero" onclick="openMovieGenerator('lifetime')">
       <img class="hero-img" id="heroImg" src="https://images.unsplash.com/photo-1502209524164-acea936639a2?w=2400&q=85" alt="">
       <div class="hero-veil"></div>
       <div class="movie-chips">
@@ -736,12 +848,12 @@
       <div class="hero-content">
         <div class="hero-pre">Your Vision Movie · Lifetime</div>
         <h1 class="hero-title" id="heroTitle">A life lived <em>by design</em>,<br>lit by purpose, shared with the world.</h1>
-        <p class="hero-sub" id="heroSub">Five minutes of your dream — your places, your people, your work, your peace. Refreshed monthly from your domains.</p>
+        <p class="hero-sub" id="heroSub">A cinematic trailer cut from your photos and vision text, across all 12 domains and 4 projects. Click to make one.</p>
         <div class="play-row">
           <button class="play-btn" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
           <div class="play-meta">
-            <b id="movieMetaB">Coming in Build 2</b>
-            <span id="movieMetaS">Add photos to your domains. We'll cut the trailer.</span>
+            <b id="movieMetaB">Generate your Lifetime trailer</b>
+            <span id="movieMetaS">Pulls from every domain and project. 3-5 minutes when full.</span>
           </div>
         </div>
       </div>
@@ -799,6 +911,10 @@
       <div class="moodboard-head">
         <div><h3 class="moodboard-title">Mood <em>board</em></h3></div>
         <div class="moodboard-actions">
+          <button class="mv-gen-pill" onclick="openMovieGeneratorForCurrent()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3l14 9-14 9V3z"/></svg>
+            Generate trailer
+          </button>
           <button class="top-btn primary" onclick="openPhotoSources()">+ Add photos</button>
           <input type="file" id="photoInput" style="display:none" accept="image/*" multiple onchange="handlePhotoUpload(event)">
         </div>
@@ -854,14 +970,14 @@
         <div class="section-titles">
           <div class="section-eyebrow">The Library</div>
           <h2 class="section-title">Your <em>vision movies</em>.</h2>
-          <p class="section-sub">Coming in Build 2. Once you've put photos and vision text into your domains, the system will auto-cut cinematic trailers — 60-90 second domain clips, 5-minute lifetime arcs, and short future-self imagination clips.</p>
+          <p class="section-sub">Every movie you've cut, in one place. Watch, download, regenerate. Each domain or project has its own trailer; the Lifetime trailer pulls from everywhere.</p>
         </div>
+        <button class="top-btn primary" onclick="openMovieGenerator('lifetime')">
+          <svg viewBox="0 0 24 24" width="13" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3l14 9-14 9V3z"/></svg>
+          New Lifetime trailer
+        </button>
       </div>
-      <div style="background:var(--bg-1);border:1px dashed var(--line-strong);border-radius:14px;padding:60px 38px;text-align:center">
-        <div style="font-family:'Fraunces',serif;font-size:32px;font-style:italic;color:var(--gold);margin-bottom:14px">Build 2 · The Movie engine</div>
-        <p style="color:var(--text-1);max-width:540px;margin:0 auto 22px;font-weight:300;line-height:1.7">For now, fill your domains with photos and vision text. The Movie engine will read everything and assemble it.</p>
-        <button class="top-btn primary" onclick="goPage('home')">Back to domains</button>
-      </div>
+      <div id="mvLibraryContent"></div>
     </section>
   </div>
 
@@ -996,6 +1112,65 @@
     <div class="modal-actions">
       <button class="top-btn" onclick="closeModal('subModal')">Cancel</button>
       <button class="top-btn primary" onclick="saveSubsection()">Create subsection</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: MOVIE GENERATOR -->
+<div class="modal-overlay" id="movieModal">
+  <div class="modal modal-large">
+    <div class="modal-head">Generate a <em>vision movie</em></div>
+    <div class="modal-sub" id="mvModalSub">A cinematic montage of your photos, vision text, and music. Renders in your browser — no upload, no signup, no cost.</div>
+
+    <div class="mv-pre-summary" id="mvSummary"></div>
+
+    <div class="modal-field">
+      <label class="modal-label">Music</label>
+      <div class="mv-music-grid" id="mvMusicGrid"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="top-btn" onclick="closeMovieModal()">Cancel</button>
+      <button class="top-btn primary" id="mvGenBtn" onclick="startMovieRender()">
+        <svg viewBox="0 0 24 24" width="13" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3l14 9-14 9V3z"/></svg>
+        Generate movie
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- RENDER OVERLAY -->
+<div class="mv-render-overlay" id="mvRenderOverlay">
+  <div class="mv-render-stage" id="mvRenderStage">Preparing</div>
+  <div class="mv-render-title" id="mvRenderTitle">Cutting your <em>vision movie</em>…</div>
+  <div class="mv-render-preview" id="mvRenderPreview" style="display:none">
+    <canvas id="mvRenderCanvas" width="1280" height="720"></canvas>
+  </div>
+  <div class="mv-render-bar-wrap">
+    <div class="mv-render-bar" id="mvRenderBar"></div>
+  </div>
+  <div class="mv-render-pct" id="mvRenderPct">0%</div>
+  <div class="mv-render-detail" id="mvRenderDetail">First render takes longer — we're loading the engine. Subsequent movies render much faster.</div>
+  <button class="top-btn mv-render-cancel" onclick="cancelRender()">Cancel</button>
+</div>
+
+<!-- PLAYER OVERLAY -->
+<div class="mv-player-overlay" id="mvPlayerOverlay">
+  <div class="mv-player-frame">
+    <video id="mvPlayerVideo" controls></video>
+  </div>
+  <div class="mv-player-bar">
+    <div class="mv-player-info">
+      <div class="mv-player-title" id="mvPlayerTitle"></div>
+      <div class="mv-player-meta" id="mvPlayerMeta"></div>
+    </div>
+    <div class="mv-player-actions">
+      <button class="top-btn" onclick="downloadCurrentMovie()">
+        <svg viewBox="0 0 24 24" width="13" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Download
+      </button>
+      <button class="top-btn" onclick="regenerateCurrentMovie()">↻ Regenerate</button>
+      <button class="top-btn primary" onclick="closePlayer()">Done</button>
     </div>
   </div>
 </div>
@@ -1384,6 +1559,7 @@ function goPage(page) {
   document.getElementById('topTrail').innerHTML = trails[page] || '<b>Command Center</b>';
   document.getElementById('main').scrollTo({ top: 0, behavior: 'instant' });
   if (page === 'dreamer') paintDreamer();
+  if (page === 'movies') { try { renderMovieLibrary(); } catch(e){} }
   if (page === 'home') {
     clearAllContext();
     renderDomainsGrid();
@@ -2718,6 +2894,1081 @@ async function psHandleUpload(event) {
 }
 
 // =================== END PHOTO SOURCES ===================
+
+
+// =====================================================================
+// =================== MOVIE ENGINE · BUILD 2 ===========================
+// =====================================================================
+// Cinematic photo movies generated entirely in the browser.
+// - Canvas API for Ken Burns + crossfades + title cards
+// - Web Audio API for procedurally-synthesized music tracks
+// - MediaRecorder API to capture canvas+audio to a video file
+// No server, no upload, no cost.
+// =====================================================================
+
+// Storage for saved movies (separate prefix from photos so it's clear)
+const MV_STORAGE_PREFIX = STORAGE_PREFIX + 'movie:';
+
+// Music tracks — 6 procedurally synthesized moods.
+// Each track is a recipe that the synth turns into audio at render time.
+// Recipes are cheap to store and produce consistent music every render.
+const MV_MUSIC = [
+  {
+    id: 'reverent',
+    name: 'Reverent',
+    mood: 'Spirit · Legacy · Quiet',
+    bpm: 64,
+    // Slow piano arpeggios in C major, ambient pad underneath
+    synth: {
+      pad: { freqs: [130.81, 196.00, 261.63, 329.63], type: 'sine', volume: 0.07, attack: 4, release: 6 },
+      arp: { notes: [261.63, 329.63, 392.00, 523.25, 392.00, 329.63], type: 'triangle', volume: 0.10, beat: 0.75, decay: 1.6 },
+      bass: { freq: 65.41, type: 'sine', volume: 0.06, beat: 4 }
+    }
+  },
+  {
+    id: 'open',
+    name: 'Open',
+    mood: 'Lifestyle · Adventure · Wide',
+    bpm: 76,
+    // Acoustic feel — warm fifths, gentle motion
+    synth: {
+      pad: { freqs: [146.83, 220.00, 293.66, 440.00], type: 'sine', volume: 0.08, attack: 2, release: 3 },
+      arp: { notes: [293.66, 440.00, 587.33, 440.00, 369.99, 293.66], type: 'sine', volume: 0.09, beat: 0.5, decay: 1.2 },
+      bass: { freq: 73.42, type: 'sine', volume: 0.07, beat: 2 }
+    }
+  },
+  {
+    id: 'tender',
+    name: 'Tender',
+    mood: 'Marriage · Family · Warm',
+    bpm: 72,
+    // Warm intervals, gentle resolution
+    synth: {
+      pad: { freqs: [174.61, 220.00, 261.63, 349.23], type: 'sine', volume: 0.09, attack: 3, release: 4 },
+      arp: { notes: [349.23, 440.00, 523.25, 440.00, 349.23, 293.66], type: 'sine', volume: 0.08, beat: 0.625, decay: 1.4 },
+      bass: { freq: 87.31, type: 'sine', volume: 0.06, beat: 2 }
+    }
+  },
+  {
+    id: 'determined',
+    name: 'Determined',
+    mood: 'Mission · Body · Building',
+    bpm: 92,
+    // Driving rhythm, building intensity
+    synth: {
+      pad: { freqs: [110.00, 164.81, 220.00, 329.63], type: 'sawtooth', volume: 0.05, attack: 1.5, release: 2 },
+      arp: { notes: [220.00, 329.63, 440.00, 329.63, 261.63, 329.63, 440.00, 523.25], type: 'square', volume: 0.07, beat: 0.375, decay: 0.8 },
+      bass: { freq: 55.00, type: 'triangle', volume: 0.10, beat: 1 }
+    }
+  },
+  {
+    id: 'cinematic',
+    name: 'Cinematic',
+    mood: 'Lifetime · Full arc',
+    bpm: 80,
+    // Big orchestral feel — lush pad, sweeping arp
+    synth: {
+      pad: { freqs: [98.00, 146.83, 196.00, 293.66, 392.00], type: 'sine', volume: 0.10, attack: 5, release: 8 },
+      arp: { notes: [392.00, 493.88, 587.33, 783.99, 587.33, 493.88, 392.00, 293.66], type: 'triangle', volume: 0.08, beat: 0.5, decay: 2.0 },
+      bass: { freq: 49.00, type: 'sine', volume: 0.09, beat: 4 }
+    }
+  },
+  {
+    id: 'still',
+    name: 'Still',
+    mood: 'Heart · Stillness · Calm',
+    bpm: 56,
+    // Minimal — single sustained tones, very slow
+    synth: {
+      pad: { freqs: [164.81, 207.65, 246.94, 329.63], type: 'sine', volume: 0.10, attack: 6, release: 10 },
+      arp: { notes: [329.63, 392.00, 493.88, 392.00], type: 'sine', volume: 0.06, beat: 1.5, decay: 3 },
+      bass: { freq: 82.41, type: 'sine', volume: 0.05, beat: 8 }
+    }
+  }
+];
+
+// Auto-pick music based on the source's character
+function autoPickMusic(source) {
+  // source is { kind: 'domain'|'project'|'lifetime', id?, obj? }
+  if (source.kind === 'lifetime') return MV_MUSIC.find(m => m.id === 'cinematic');
+  if (source.kind === 'domain') {
+    const map = {
+      spirit: 'reverent', legacy: 'reverent',
+      lifestyle: 'open', tribe: 'open',
+      marriage: 'tender', family: 'tender',
+      mission: 'determined', body: 'determined', character: 'determined', mind: 'determined',
+      heart: 'still', money: 'still'
+    };
+    return MV_MUSIC.find(m => m.id === (map[source.id] || 'cinematic'));
+  }
+  if (source.kind === 'project') {
+    const map = {
+      retreat: 'still', foundation: 'reverent',
+      farm: 'open', business: 'determined'
+    };
+    return MV_MUSIC.find(m => m.id === (map[source.id] || 'cinematic'));
+  }
+  return MV_MUSIC[0];
+}
+
+// =================== MOVIE STATE ===================
+let mvCurrentSource = null;        // { kind, id, obj }
+let mvSelectedMusicId = null;      // 'auto' or a music id
+let mvIsRendering = false;
+let mvRenderCancelled = false;
+let mvCurrentMovie = null;         // currently playing movie metadata
+let mvMusicPreviewCtx = null;
+let mvMusicPreviewSource = null;
+let mvCurrentPreviewId = null;
+
+// =================== OPEN GENERATOR ===================
+function openMovieGenerator(kind, id) {
+  // Build the source descriptor
+  let source;
+  if (kind === 'lifetime') {
+    source = { kind: 'lifetime', label: 'Lifetime trailer', targetSeconds: 180 };
+  } else if (kind === 'domain') {
+    const d = state.domains[id];
+    if (!d) return;
+    source = { kind: 'domain', id, obj: d, label: d.name + ' trailer', targetSeconds: 75 };
+  } else if (kind === 'project') {
+    const p = state.projects[id];
+    if (!p) return;
+    source = { kind: 'project', id, obj: p, label: p.name + ' trailer', targetSeconds: 105 };
+  } else if (kind === 'subsection') {
+    const proj = state.projects[id.projectId];
+    const sub = proj && proj.subsections.find(s => s.id === id.subId);
+    if (!sub) return;
+    source = { kind: 'subsection', id, obj: sub, label: proj.name + ' · ' + sub.name + ' trailer', targetSeconds: 60 };
+  } else {
+    return;
+  }
+
+  mvCurrentSource = source;
+
+  // Gather what we have
+  const photos = collectPhotosForSource(source);
+  const visionLines = collectVisionLinesForSource(source);
+
+  // Update modal
+  const sub = document.getElementById('mvModalSub');
+  const summary = document.getElementById('mvSummary');
+
+  let summaryHtml = '';
+  if (kind === 'lifetime') {
+    summaryHtml = `<b>Lifetime trailer</b> · pulls from <span class="gold">all 12 domains</span> and <span class="gold">all 4 projects</span><br>`;
+  } else {
+    summaryHtml = `<b>${source.label}</b><br>`;
+  }
+  summaryHtml += `<span class="gold">${photos.length}</span> photos · <span class="gold">${visionLines.length}</span> vision text passage${visionLines.length===1?'':'s'} · estimated <span class="gold">~${Math.round(source.targetSeconds)}s</span> when generated`;
+
+  if (photos.length < 3) {
+    summaryHtml += `<div class="mv-pre-warn">Need at least 3 photos to make a movie. Add a few more first.</div>`;
+  } else if (photos.length < 8 && kind === 'lifetime') {
+    summaryHtml += `<div class="mv-pre-warn">A Lifetime trailer is more powerful with 30+ photos across your domains. You can still generate now — just shorter.</div>`;
+  }
+
+  summary.innerHTML = summaryHtml;
+
+  // Render music grid
+  mvSelectedMusicId = 'auto';
+  renderMusicGrid();
+
+  // Disable generate if too few photos
+  const genBtn = document.getElementById('mvGenBtn');
+  genBtn.disabled = (photos.length < 3);
+  genBtn.style.opacity = (photos.length < 3) ? '0.4' : '1';
+
+  document.getElementById('movieModal').classList.add('show');
+}
+
+function openMovieGeneratorForCurrent() {
+  // Called from the moodboard "Generate trailer" pill
+  if (currentSubsectionId) {
+    openMovieGenerator('subsection', { projectId: currentProjectId, subId: currentSubsectionId });
+  } else if (currentProjectId) {
+    openMovieGenerator('project', currentProjectId);
+  } else if (currentDomainId) {
+    openMovieGenerator('domain', currentDomainId);
+  }
+}
+
+function closeMovieModal() {
+  document.getElementById('movieModal').classList.remove('show');
+  stopMusicPreview();
+}
+
+function renderMusicGrid() {
+  const grid = document.getElementById('mvMusicGrid');
+  let html = `<button class="mv-music-card mv-music-auto ${mvSelectedMusicId === 'auto' ? 'active' : ''}" onclick="selectMusic('auto')">
+    <div class="mv-music-card-row">
+      <div>
+        <div class="mv-music-card-name">Auto-pick</div>
+        <div class="mv-music-card-mood">We'll match it to your source</div>
+      </div>
+      <div style="font-size:18px;color:var(--gold)">✦</div>
+    </div>
+  </button>`;
+  html += MV_MUSIC.map(m => `
+    <button class="mv-music-card ${mvSelectedMusicId === m.id ? 'active' : ''}" onclick="selectMusic('${m.id}')">
+      <div class="mv-music-card-row">
+        <div>
+          <div class="mv-music-card-name">${m.name}</div>
+          <div class="mv-music-card-mood">${m.mood}</div>
+        </div>
+        <span class="mv-music-preview-btn ${mvCurrentPreviewId === m.id ? 'playing' : ''}" onclick="event.stopPropagation();toggleMusicPreview('${m.id}')">
+          ${mvCurrentPreviewId === m.id ? '◼' : '▶'}
+        </span>
+      </div>
+    </button>
+  `).join('');
+  grid.innerHTML = html;
+}
+
+function selectMusic(id) {
+  mvSelectedMusicId = id;
+  stopMusicPreview();
+  renderMusicGrid();
+}
+
+// =================== MUSIC PREVIEW ===================
+function toggleMusicPreview(id) {
+  if (mvCurrentPreviewId === id) {
+    stopMusicPreview();
+  } else {
+    stopMusicPreview();
+    startMusicPreview(id);
+  }
+  renderMusicGrid();
+}
+
+function startMusicPreview(id) {
+  const track = MV_MUSIC.find(m => m.id === id);
+  if (!track) return;
+  mvMusicPreviewCtx = new (window.AudioContext || window.webkitAudioContext)();
+  mvMusicPreviewSource = synthMusic(mvMusicPreviewCtx, track, 0, 12); // 12 sec preview loop
+  mvMusicPreviewSource.start();
+  mvCurrentPreviewId = id;
+  // Auto-stop after 12 sec
+  setTimeout(() => {
+    if (mvCurrentPreviewId === id) stopMusicPreview();
+    renderMusicGrid();
+  }, 12000);
+}
+
+function stopMusicPreview() {
+  if (mvMusicPreviewCtx) {
+    try { mvMusicPreviewCtx.close(); } catch(e){}
+    mvMusicPreviewCtx = null;
+    mvMusicPreviewSource = null;
+  }
+  mvCurrentPreviewId = null;
+}
+
+// =================== MUSIC SYNTH ===================
+// Creates a node graph that plays a music track for a given duration.
+// Returns a "transport" with start() and stop() methods + an output node.
+function synthMusic(audioCtx, track, startTime, duration) {
+  const dest = audioCtx.createGain();
+  dest.gain.value = 1.0;
+  dest.connect(audioCtx.destination);
+
+  const synthDef = track.synth;
+  const beatSec = 60 / track.bpm;
+  const oscillators = [];
+
+  // PAD — sustained chord under everything
+  if (synthDef.pad) {
+    synthDef.pad.freqs.forEach(freq => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.value = 1400;
+      filter.Q.value = 0.7;
+      osc.type = synthDef.pad.type;
+      osc.frequency.value = freq;
+      gain.gain.value = 0;
+      gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + startTime);
+      gain.gain.linearRampToValueAtTime(synthDef.pad.volume, audioCtx.currentTime + startTime + synthDef.pad.attack);
+      gain.gain.setValueAtTime(synthDef.pad.volume, audioCtx.currentTime + startTime + duration - synthDef.pad.release);
+      gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + startTime + duration);
+      osc.connect(filter); filter.connect(gain); gain.connect(dest);
+      oscillators.push(osc);
+    });
+  }
+
+  // ARP — repeating melodic pattern
+  if (synthDef.arp) {
+    const arp = synthDef.arp;
+    let t = startTime;
+    let noteIdx = 0;
+    while (t < startTime + duration) {
+      const freq = arp.notes[noteIdx % arp.notes.length];
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = arp.type;
+      osc.frequency.value = freq;
+      const noteDur = arp.beat * beatSec;
+      gain.gain.setValueAtTime(0, audioCtx.currentTime + t);
+      gain.gain.linearRampToValueAtTime(arp.volume, audioCtx.currentTime + t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + t + arp.decay);
+      osc.connect(gain); gain.connect(dest);
+      osc.start(audioCtx.currentTime + t);
+      osc.stop(audioCtx.currentTime + t + arp.decay + 0.05);
+      t += noteDur;
+      noteIdx++;
+    }
+  }
+
+  // BASS — slow root tone pulse
+  if (synthDef.bass) {
+    const bass = synthDef.bass;
+    let t = startTime;
+    while (t < startTime + duration) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = bass.type;
+      osc.frequency.value = bass.freq;
+      const noteDur = bass.beat * beatSec;
+      gain.gain.setValueAtTime(0, audioCtx.currentTime + t);
+      gain.gain.linearRampToValueAtTime(bass.volume, audioCtx.currentTime + t + 0.1);
+      gain.gain.linearRampToValueAtTime(bass.volume * 0.7, audioCtx.currentTime + t + noteDur * 0.7);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + t + noteDur);
+      osc.connect(gain); gain.connect(dest);
+      osc.start(audioCtx.currentTime + t);
+      osc.stop(audioCtx.currentTime + t + noteDur + 0.05);
+      t += noteDur;
+    }
+  }
+
+  // Fade in/out master
+  dest.gain.setValueAtTime(0, audioCtx.currentTime + startTime);
+  dest.gain.linearRampToValueAtTime(1, audioCtx.currentTime + startTime + 1.5);
+  dest.gain.setValueAtTime(1, audioCtx.currentTime + startTime + duration - 2);
+  dest.gain.linearRampToValueAtTime(0, audioCtx.currentTime + startTime + duration);
+
+  return {
+    start() { oscillators.forEach(o => o.start(audioCtx.currentTime + startTime)); oscillators.forEach(o => o.stop(audioCtx.currentTime + startTime + duration + 0.1)); },
+    stop() { try { oscillators.forEach(o => o.stop()); } catch(e){} },
+    output: dest
+  };
+}
+
+// =================== COLLECT MATERIAL ===================
+function collectPhotosForSource(source) {
+  const out = [];
+  if (source.kind === 'domain' || source.kind === 'project' || source.kind === 'subsection') {
+    const obj = source.obj;
+    out.push(...(obj.photos || []));
+    if (source.kind === 'project') {
+      // Also pull from subsections
+      (obj.subsections || []).forEach(sub => out.push(...(sub.photos || [])));
+    }
+  } else if (source.kind === 'lifetime') {
+    Object.values(state.domains).forEach(d => out.push(...(d.photos || [])));
+    Object.values(state.projects).forEach(p => {
+      out.push(...(p.photos || []));
+      (p.subsections || []).forEach(s => out.push(...(s.photos || [])));
+    });
+  }
+  // Strip duplicates by URL
+  const seen = new Set();
+  return out.filter(p => {
+    const key = p.url || p.dataUrl;
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function collectVisionLinesForSource(source) {
+  const out = [];
+  function pushVision(obj, label) {
+    if (obj.vision && obj.vision.trim().length > 10) {
+      // Take first sentence-ish, max ~120 chars
+      let line = obj.vision.trim().split(/[.!?]/)[0].trim();
+      if (line.length > 120) line = line.slice(0, 117) + '…';
+      out.push({ label, text: line });
+    }
+  }
+  if (source.kind === 'domain') {
+    pushVision(source.obj, source.obj.name);
+  } else if (source.kind === 'project') {
+    pushVision(source.obj, source.obj.name);
+    (source.obj.subsections || []).forEach(s => pushVision(s, source.obj.name + ' · ' + s.name));
+  } else if (source.kind === 'subsection') {
+    pushVision(source.obj, source.obj.name);
+  } else if (source.kind === 'lifetime') {
+    Object.values(state.domains).forEach(d => pushVision(d, d.name));
+    Object.values(state.projects).forEach(p => {
+      pushVision(p, p.name);
+      (p.subsections || []).forEach(s => pushVision(s, p.name + ' · ' + s.name));
+    });
+  }
+  return out;
+}
+
+// =================== RENDER PIPELINE ===================
+async function startMovieRender() {
+  if (mvIsRendering || !mvCurrentSource) return;
+  closeMovieModal();
+  mvIsRendering = true;
+  mvRenderCancelled = false;
+
+  const overlay = document.getElementById('mvRenderOverlay');
+  const previewWrap = document.getElementById('mvRenderPreview');
+  const titleEl = document.getElementById('mvRenderTitle');
+  titleEl.innerHTML = `Cutting your <em>${escape(mvCurrentSource.label)}</em>…`;
+  overlay.classList.add('show');
+  previewWrap.style.display = 'block';
+  setRenderStage('Gathering photos', 2, 'First, we collect every photo and vision line that fits this trailer.');
+
+  try {
+    const photos = collectPhotosForSource(mvCurrentSource);
+    const visions = collectVisionLinesForSource(mvCurrentSource);
+    if (photos.length < 3) throw new Error('Need at least 3 photos to make a movie. Add more first.');
+
+    // Pick music
+    const music = (mvSelectedMusicId === 'auto' || !mvSelectedMusicId)
+      ? autoPickMusic(mvCurrentSource)
+      : MV_MUSIC.find(m => m.id === mvSelectedMusicId);
+
+    setRenderStage('Loading photos', 8, 'Fetching each image and decoding it. CORS images are skipped automatically.');
+    const loadedImages = await loadImagesForRender(photos);
+    if (mvRenderCancelled) return;
+    if (loadedImages.length < 3) throw new Error('Could not load enough photos. Some may have failed to load due to CORS. Try with photos from your Mood Board (Inspiration tab).');
+
+    setRenderStage('Composing the cut', 18, 'Picking the order, pacing the photos, placing your vision text.');
+    const sequence = composeSequence(loadedImages, visions, mvCurrentSource);
+
+    setRenderStage('Rendering frames', 22, 'Each frame is painted onto a canvas with smooth panning and crossfades. This takes a moment.');
+    const result = await renderToVideo(sequence, music, (frameProgress) => {
+      // 22% to 92% during frame rendering
+      const pct = 22 + frameProgress * 70;
+      updateRenderProgress(pct);
+    });
+    if (mvRenderCancelled) return;
+
+    setRenderStage('Saving to your library', 95, 'Adding it to your Vision Movies library — accessible anytime.');
+    const movie = await saveMovie(result, mvCurrentSource, music, sequence);
+
+    setRenderStage('Done', 100, '');
+    await sleep(400);
+    overlay.classList.remove('show');
+    mvIsRendering = false;
+    playMovie(movie);
+  } catch (err) {
+    console.error(err);
+    mvIsRendering = false;
+    overlay.classList.remove('show');
+    toast(err.message || 'Render failed');
+  }
+}
+
+function setRenderStage(stage, pct, detail) {
+  document.getElementById('mvRenderStage').textContent = stage;
+  document.getElementById('mvRenderDetail').textContent = detail || '';
+  updateRenderProgress(pct);
+}
+function updateRenderProgress(pct) {
+  const p = Math.max(0, Math.min(100, pct));
+  document.getElementById('mvRenderBar').style.width = p + '%';
+  document.getElementById('mvRenderPct').textContent = Math.round(p) + '%';
+}
+function cancelRender() {
+  mvRenderCancelled = true;
+  document.getElementById('mvRenderOverlay').classList.remove('show');
+  mvIsRendering = false;
+  toast('Render cancelled');
+}
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// Load all images (with CORS handling for Unsplash)
+async function loadImagesForRender(photos) {
+  const loaded = [];
+  for (const p of photos) {
+    try {
+      const img = await loadImage(p.url || p.dataUrl);
+      loaded.push({ photo: p, img });
+    } catch (e) {
+      // Skip CORS-blocked or failed images
+    }
+  }
+  return loaded;
+}
+
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous'; // Required for canvas reads. Unsplash supports this.
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('Image failed'));
+    img.src = src;
+  });
+}
+
+// Compose the shot list — what photo when, what title cards, what timing
+function composeSequence(loadedImages, visions, source) {
+  const targetSec = source.targetSeconds;
+  // Reserve ~3s per title card (open + close + occasional middle)
+  // Photos hold 4s with 0.6s crossfade overlap
+  const PHOTO_HOLD = 4.0;
+  const CROSSFADE = 0.6;
+  const TITLE_HOLD = 3.0;
+
+  const shots = [];
+
+  // Open with a title card if we have any vision
+  let firstVision = visions.length ? visions[0] : null;
+  if (firstVision) {
+    shots.push({ type: 'title', text: firstVision.text, label: firstVision.label, duration: TITLE_HOLD });
+  }
+
+  // Calculate how many photo slots we can fit
+  const remainingTime = targetSec - (firstVision ? TITLE_HOLD : 0) - (visions.length > 1 ? TITLE_HOLD : 0);
+  const photoSlots = Math.max(3, Math.floor(remainingTime / (PHOTO_HOLD - CROSSFADE)));
+
+  // Pick photos — shuffle but keep first photos as anchors
+  const photos = [...loadedImages];
+  // Shuffle but bias to spread out so we don't see same source clusters
+  const picked = pickPhotos(photos, photoSlots);
+
+  // Insert a mid-arc title card if we have 2+ visions and 6+ photos
+  const midPoint = Math.floor(picked.length / 2);
+  picked.forEach((p, i) => {
+    shots.push({ type: 'photo', img: p.img, photo: p.photo, duration: PHOTO_HOLD, kenBurns: pickKenBurns(i) });
+    if (i === midPoint - 1 && visions.length > 1) {
+      shots.push({ type: 'title', text: visions[1].text, label: visions[1].label, duration: TITLE_HOLD });
+    }
+  });
+
+  // Closing title — last vision if we haven't used it, or first vision
+  if (visions.length > 0) {
+    const closing = visions.length > 2 ? visions[visions.length - 1] : (visions.length > 1 ? visions[1] : visions[0]);
+    shots.push({ type: 'title', text: closing.text, label: closing.label, duration: TITLE_HOLD });
+  }
+
+  return { shots, totalDuration: shots.reduce((s, sh) => s + sh.duration, 0) - (shots.length - 1) * CROSSFADE * 0.5, crossfade: CROSSFADE };
+}
+
+function pickPhotos(photos, n) {
+  // Shuffle with Fisher-Yates
+  const arr = [...photos];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr.slice(0, n);
+}
+
+function pickKenBurns(idx) {
+  // Cycle through Ken Burns presets so it doesn't feel mechanical
+  const presets = [
+    { startScale: 1.0,  endScale: 1.12, startX: 0,    endX: 0,    startY: 0,    endY: 0 },     // zoom in centered
+    { startScale: 1.12, endScale: 1.0,  startX: 0,    endX: 0,    startY: 0,    endY: 0 },     // zoom out centered
+    { startScale: 1.05, endScale: 1.15, startX: -0.05, endX: 0.05, startY: 0,   endY: 0 },     // pan right while zooming
+    { startScale: 1.15, endScale: 1.05, startX: 0.05, endX: -0.05, startY: 0,   endY: 0 },     // pan left while zooming out
+    { startScale: 1.0,  endScale: 1.10, startX: 0,    endX: 0,    startY: -0.04, endY: 0.04 }, // pan down
+    { startScale: 1.10, endScale: 1.0,  startX: 0,    endX: 0,    startY: 0.04, endY: -0.04 } // pan up
+  ];
+  return presets[idx % presets.length];
+}
+
+// =================== RENDER FRAMES ===================
+async function renderToVideo(sequence, music, onProgress) {
+  const W = 1280, H = 720, FPS = 30;
+  const canvas = document.getElementById('mvRenderCanvas');
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext('2d');
+
+  // Set up audio
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const audioDest = audioCtx.createMediaStreamDestination();
+  const transport = synthMusicToDestination(audioCtx, music, sequence.totalDuration, audioDest);
+
+  // Set up canvas stream
+  const canvasStream = canvas.captureStream(FPS);
+  const audioTracks = audioDest.stream.getAudioTracks();
+  if (audioTracks[0]) canvasStream.addTrack(audioTracks[0]);
+
+  // Set up MediaRecorder
+  const mimeOptions = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm'];
+  let mimeType = mimeOptions.find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
+  const recorder = new MediaRecorder(canvasStream, { mimeType, videoBitsPerSecond: 4_000_000 });
+  const chunks = [];
+  recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+
+  return new Promise(async (resolve, reject) => {
+    recorder.onstop = () => {
+      const blob = new Blob(chunks, { type: mimeType });
+      try { audioCtx.close(); } catch(e){}
+      resolve({ blob, duration: sequence.totalDuration, mimeType });
+    };
+    recorder.onerror = e => reject(e);
+
+    recorder.start();
+    transport.start();
+
+    // Render every frame in real time
+    const totalFrames = Math.ceil(sequence.totalDuration * FPS);
+    const startTime = performance.now();
+    let prevShotIdx = -1;
+    let shotStartTime = 0;
+    const CROSSFADE = sequence.crossfade;
+
+    // Build shot timing array
+    const shotStarts = [];
+    let t = 0;
+    sequence.shots.forEach((s, i) => {
+      shotStarts.push(t);
+      t += s.duration - (i < sequence.shots.length - 1 ? CROSSFADE * 0.5 : 0);
+    });
+    const totalDur = sequence.totalDuration;
+
+    function findCurrentShot(time) {
+      for (let i = sequence.shots.length - 1; i >= 0; i--) {
+        if (time >= shotStarts[i]) return i;
+      }
+      return 0;
+    }
+
+    function frameLoop() {
+      if (mvRenderCancelled) {
+        try { recorder.stop(); } catch(e){}
+        return;
+      }
+      const elapsed = (performance.now() - startTime) / 1000;
+      if (elapsed >= totalDur) {
+        // Render final frame and stop
+        renderFrameAt(ctx, sequence, totalDur - 0.01, W, H, CROSSFADE);
+        setTimeout(() => { try { recorder.stop(); } catch(e){} }, 100);
+        return;
+      }
+      renderFrameAt(ctx, sequence, elapsed, W, H, CROSSFADE);
+      onProgress(elapsed / totalDur);
+      requestAnimationFrame(frameLoop);
+    }
+    frameLoop();
+  });
+}
+
+function synthMusicToDestination(audioCtx, track, duration, destination) {
+  // Like synthMusic but routes to the provided destination instead of audioCtx.destination
+  const dest = audioCtx.createGain();
+  dest.gain.value = 1.0;
+  dest.connect(destination);
+
+  const synthDef = track.synth;
+  const beatSec = 60 / track.bpm;
+  const oscillators = [];
+
+  if (synthDef.pad) {
+    synthDef.pad.freqs.forEach(freq => {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass'; filter.frequency.value = 1400; filter.Q.value = 0.7;
+      osc.type = synthDef.pad.type;
+      osc.frequency.value = freq;
+      gain.gain.value = 0;
+      const now = audioCtx.currentTime;
+      gain.gain.linearRampToValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(synthDef.pad.volume, now + synthDef.pad.attack);
+      gain.gain.setValueAtTime(synthDef.pad.volume, now + duration - synthDef.pad.release);
+      gain.gain.linearRampToValueAtTime(0, now + duration);
+      osc.connect(filter); filter.connect(gain); gain.connect(dest);
+      oscillators.push(osc);
+    });
+  }
+
+  if (synthDef.arp) {
+    const arp = synthDef.arp;
+    let t = 0; let noteIdx = 0;
+    while (t < duration) {
+      const freq = arp.notes[noteIdx % arp.notes.length];
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = arp.type;
+      osc.frequency.value = freq;
+      const noteDur = arp.beat * beatSec;
+      const startAt = audioCtx.currentTime + t;
+      gain.gain.setValueAtTime(0, startAt);
+      gain.gain.linearRampToValueAtTime(arp.volume, startAt + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, startAt + arp.decay);
+      osc.connect(gain); gain.connect(dest);
+      osc.start(startAt); osc.stop(startAt + arp.decay + 0.05);
+      t += noteDur; noteIdx++;
+    }
+  }
+
+  if (synthDef.bass) {
+    const bass = synthDef.bass;
+    let t = 0;
+    while (t < duration) {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = bass.type;
+      osc.frequency.value = bass.freq;
+      const noteDur = bass.beat * beatSec;
+      const startAt = audioCtx.currentTime + t;
+      gain.gain.setValueAtTime(0, startAt);
+      gain.gain.linearRampToValueAtTime(bass.volume, startAt + 0.1);
+      gain.gain.linearRampToValueAtTime(bass.volume * 0.7, startAt + noteDur * 0.7);
+      gain.gain.exponentialRampToValueAtTime(0.001, startAt + noteDur);
+      osc.connect(gain); gain.connect(dest);
+      osc.start(startAt); osc.stop(startAt + noteDur + 0.05);
+      t += noteDur;
+    }
+  }
+
+  // Master fade
+  const now = audioCtx.currentTime;
+  dest.gain.setValueAtTime(0, now);
+  dest.gain.linearRampToValueAtTime(1, now + 1.5);
+  dest.gain.setValueAtTime(1, now + duration - 2);
+  dest.gain.linearRampToValueAtTime(0, now + duration);
+
+  return { start() { /* music already scheduled at currentTime */ } };
+}
+
+// Render one frame at a given time
+function renderFrameAt(ctx, sequence, time, W, H, CROSSFADE) {
+  // Find which shot we're in (could be in a crossfade between two)
+  let currentIdx = -1, prevIdx = -1, currentT = 0, fadeInPct = 1;
+  let cumTime = 0;
+  for (let i = 0; i < sequence.shots.length; i++) {
+    const sh = sequence.shots[i];
+    const shotEnd = cumTime + sh.duration;
+    if (time >= cumTime && time < shotEnd) {
+      currentIdx = i;
+      currentT = (time - cumTime) / sh.duration; // 0..1 within shot
+      // Crossfade in from previous?
+      const intoTime = time - cumTime;
+      if (intoTime < CROSSFADE && i > 0) {
+        prevIdx = i - 1;
+        fadeInPct = intoTime / CROSSFADE;
+      }
+      break;
+    }
+    cumTime = shotEnd - CROSSFADE * 0.5;
+  }
+  if (currentIdx < 0) currentIdx = sequence.shots.length - 1;
+
+  // Black background
+  ctx.fillStyle = '#0a0908';
+  ctx.fillRect(0, 0, W, H);
+
+  // Draw previous shot fading out
+  if (prevIdx >= 0) {
+    ctx.globalAlpha = 1 - fadeInPct;
+    drawShot(ctx, sequence.shots[prevIdx], 1, W, H);
+    ctx.globalAlpha = 1;
+  }
+  // Draw current shot fading in (or fully)
+  ctx.globalAlpha = (prevIdx >= 0) ? fadeInPct : 1;
+  drawShot(ctx, sequence.shots[currentIdx], currentT, W, H);
+  ctx.globalAlpha = 1;
+}
+
+function drawShot(ctx, shot, t, W, H) {
+  if (shot.type === 'photo') {
+    drawPhoto(ctx, shot, t, W, H);
+  } else if (shot.type === 'title') {
+    drawTitle(ctx, shot, t, W, H);
+  }
+}
+
+function drawPhoto(ctx, shot, t, W, H) {
+  const img = shot.img;
+  const kb = shot.kenBurns;
+  // Interpolate scale and pan
+  const scale = kb.startScale + (kb.endScale - kb.startScale) * t;
+  const offX = (kb.startX + (kb.endX - kb.startX) * t) * W;
+  const offY = (kb.startY + (kb.endY - kb.startY) * t) * H;
+
+  // Cover-fit the image to canvas, then apply pan/zoom
+  const imgRatio = img.width / img.height;
+  const canvasRatio = W / H;
+  let baseW, baseH;
+  if (imgRatio > canvasRatio) {
+    baseH = H; baseW = H * imgRatio;
+  } else {
+    baseW = W; baseH = W / imgRatio;
+  }
+  const finalW = baseW * scale;
+  const finalH = baseH * scale;
+  const x = (W - finalW) / 2 + offX;
+  const y = (H - finalH) / 2 + offY;
+
+  ctx.drawImage(img, x, y, finalW, finalH);
+
+  // Subtle vignette
+  const grad = ctx.createRadialGradient(W/2, H/2, Math.min(W,H) * 0.4, W/2, H/2, Math.max(W,H) * 0.7);
+  grad.addColorStop(0, 'rgba(0,0,0,0)');
+  grad.addColorStop(1, 'rgba(0,0,0,0.5)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+}
+
+function drawTitle(ctx, shot, t, W, H) {
+  // Black backdrop with subtle gradient
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, '#14110f');
+  grad.addColorStop(1, '#0a0908');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Title text fades in/out
+  let alpha = 1;
+  if (t < 0.15) alpha = t / 0.15;
+  else if (t > 0.85) alpha = (1 - t) / 0.15;
+  ctx.globalAlpha = alpha;
+
+  // Eyebrow label (gold, small)
+  if (shot.label) {
+    ctx.fillStyle = '#d4a574';
+    ctx.font = '600 18px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const label = shot.label.toUpperCase().split('').join('\u00A0').replace(/·/g, '·');
+    ctx.fillText(label, W/2, H/2 - 80);
+  }
+
+  // Main title (Fraunces serif italic, large)
+  ctx.fillStyle = '#f5efe6';
+  ctx.font = 'italic 300 56px Fraunces, Georgia, serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  // Wrap text at ~50 chars per line
+  const text = shot.text;
+  const words = text.split(' ');
+  const lines = [];
+  let currentLine = '';
+  for (const w of words) {
+    if ((currentLine + ' ' + w).trim().length > 36) {
+      lines.push(currentLine.trim());
+      currentLine = w;
+    } else {
+      currentLine = (currentLine + ' ' + w).trim();
+    }
+  }
+  if (currentLine) lines.push(currentLine.trim());
+
+  const lineHeight = 70;
+  const totalHeight = lines.length * lineHeight;
+  const startY = H/2 - totalHeight/2 + lineHeight/2;
+  lines.forEach((line, i) => {
+    ctx.fillText(line, W/2, startY + i * lineHeight);
+  });
+
+  ctx.globalAlpha = 1;
+}
+
+// =================== SAVE & LIBRARY ===================
+async function saveMovie(result, source, music, sequence) {
+  // Create a thumbnail from the canvas
+  const canvas = document.getElementById('mvRenderCanvas');
+  const thumbDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+  // Convert blob to data URL for storage (small movies only — large ones get a warning)
+  const blobSizeMB = result.blob.size / (1024 * 1024);
+
+  const movie = {
+    id: 'mv_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    title: source.label,
+    sourceKind: source.kind,
+    sourceId: typeof source.id === 'object' ? JSON.stringify(source.id) : source.id,
+    music: music.id,
+    musicName: music.name,
+    duration: Math.round(result.duration),
+    photoCount: sequence.shots.filter(s => s.type === 'photo').length,
+    createdAt: Date.now(),
+    thumbDataUrl,
+    sizeMB: blobSizeMB.toFixed(2),
+    mimeType: result.mimeType
+  };
+
+  // Store the video blob via blob URL - kept in-memory only this session
+  // For persistence, we'd need IndexedDB (real videos are too big for localStorage)
+  // For now, we store the metadata + a session-scoped blob URL
+  movie.blobUrl = URL.createObjectURL(result.blob);
+  movie._blob = result.blob; // keep reference to prevent GC
+
+  // Save metadata to localStorage (no blob — that lives in memory this session)
+  // The blob is rebuilt from the same source if user regenerates
+  const meta = { ...movie };
+  delete meta.blobUrl;
+  delete meta._blob;
+  localStorage.setItem(MV_STORAGE_PREFIX + movie.id, JSON.stringify(meta));
+
+  // Also store the live blob in a runtime-only map so we can play it without re-rendering
+  mvRuntimeBlobs.set(movie.id, { blob: result.blob, blobUrl: movie.blobUrl });
+
+  flashSaved();
+  return movie;
+}
+
+const mvRuntimeBlobs = new Map();
+
+function loadAllMovies() {
+  const movies = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k || !k.startsWith(MV_STORAGE_PREFIX)) continue;
+    try {
+      const m = JSON.parse(localStorage.getItem(k));
+      // Attach runtime blob if available
+      const runtime = mvRuntimeBlobs.get(m.id);
+      if (runtime) m.blobUrl = runtime.blobUrl;
+      movies.push(m);
+    } catch(e){}
+  }
+  movies.sort((a, b) => b.createdAt - a.createdAt);
+  return movies;
+}
+
+function renderMovieLibrary() {
+  const container = document.getElementById('mvLibraryContent');
+  if (!container) return;
+  const movies = loadAllMovies();
+  if (!movies.length) {
+    container.innerHTML = `<div class="mv-empty">
+      <div class="mv-empty-icon">▶</div>
+      <div class="mv-empty-title">No movies yet</div>
+      <div class="mv-empty-sub">Click into any domain or project, hit "Generate trailer" — or click the Lifetime hero on the home page. Your first cut takes 60-90 seconds. After that they're faster.</div>
+    </div>`;
+    return;
+  }
+  // Group by kind
+  const byKind = { lifetime: [], project: [], domain: [], subsection: [] };
+  movies.forEach(m => {
+    if (byKind[m.sourceKind]) byKind[m.sourceKind].push(m);
+  });
+
+  const sections = [
+    { key: 'lifetime', label: 'Lifetime trailers' },
+    { key: 'project',  label: 'Project trailers' },
+    { key: 'domain',   label: 'Domain trailers' },
+    { key: 'subsection', label: 'Subsection clips' }
+  ];
+
+  let html = '';
+  for (const s of sections) {
+    if (!byKind[s.key].length) continue;
+    html += `<h3 style="font-family:'Fraunces',serif;font-size:22px;color:var(--text-0);font-weight:400;margin:28px 0 4px;font-style:italic">${s.label}</h3>`;
+    html += `<div class="mv-library-grid">${byKind[s.key].map(m => renderMovieCard(m)).join('')}</div>`;
+  }
+  container.innerHTML = html;
+}
+
+function renderMovieCard(m) {
+  const dateStr = new Date(m.createdAt).toLocaleDateString();
+  const playable = !!m.blobUrl;
+  return `<div class="mv-card" onclick="${playable ? `playMovieById('${m.id}')` : `regenerateMovie('${m.id}')`}">
+    <div class="mv-card-thumb">
+      <img src="${m.thumbDataUrl}" alt="">
+      ${playable ? `<div class="mv-card-play"><div class="mv-card-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>` : ''}
+      <div class="mv-card-len">${m.duration}s</div>
+      <div class="mv-card-actions">
+        ${!playable ? `<button class="mv-card-act" title="Regenerate" onclick="event.stopPropagation();regenerateMovie('${m.id}')">↻</button>` : ''}
+        <button class="mv-card-act del" title="Delete" onclick="event.stopPropagation();deleteMovie('${m.id}')">×</button>
+      </div>
+    </div>
+    <div class="mv-card-meta">
+      <div class="mv-card-name"><em>${escape(m.title)}</em></div>
+      <div class="mv-card-foot">
+        <span>${m.musicName} · ${m.photoCount} photos</span>
+        <span>${dateStr}</span>
+      </div>
+      ${!playable ? `<div style="font-size:10px;color:var(--gold-dim);margin-top:6px;font-style:italic">Click to regenerate · video data is session-only</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function playMovieById(id) {
+  const movies = loadAllMovies();
+  const m = movies.find(x => x.id === id);
+  if (!m) return;
+  if (!m.blobUrl) {
+    regenerateMovie(id);
+    return;
+  }
+  playMovie(m);
+}
+
+function playMovie(movie) {
+  mvCurrentMovie = movie;
+  const video = document.getElementById('mvPlayerVideo');
+  video.src = movie.blobUrl;
+  video.play().catch(() => {});
+  document.getElementById('mvPlayerTitle').innerHTML = `<em>${escape(movie.title)}</em>`;
+  document.getElementById('mvPlayerMeta').textContent = `${movie.duration}s · ${movie.musicName} · ${movie.photoCount} photos · ${movie.sizeMB} MB`;
+  document.getElementById('mvPlayerOverlay').classList.add('show');
+}
+function closePlayer() {
+  const video = document.getElementById('mvPlayerVideo');
+  video.pause();
+  document.getElementById('mvPlayerOverlay').classList.remove('show');
+  mvCurrentMovie = null;
+}
+function downloadCurrentMovie() {
+  if (!mvCurrentMovie || !mvCurrentMovie.blobUrl) return;
+  const a = document.createElement('a');
+  a.href = mvCurrentMovie.blobUrl;
+  // .webm extension since that's our recorder format
+  a.download = `${mvCurrentMovie.title.replace(/[^\w\s-]/g, '').replace(/\s+/g,'-').toLowerCase()}-${new Date().toISOString().slice(0,10)}.webm`;
+  a.click();
+  toast('Downloaded · share the file with Sumary');
+}
+function regenerateCurrentMovie() {
+  if (!mvCurrentMovie) return;
+  closePlayer();
+  // Re-open the generator for the same source
+  const m = mvCurrentMovie;
+  if (m.sourceKind === 'lifetime') openMovieGenerator('lifetime');
+  else if (m.sourceKind === 'subsection') {
+    try { openMovieGenerator('subsection', JSON.parse(m.sourceId)); } catch(e){}
+  } else openMovieGenerator(m.sourceKind, m.sourceId);
+}
+function regenerateMovie(id) {
+  const movies = loadAllMovies();
+  const m = movies.find(x => x.id === id);
+  if (!m) return;
+  if (m.sourceKind === 'lifetime') openMovieGenerator('lifetime');
+  else if (m.sourceKind === 'subsection') {
+    try { openMovieGenerator('subsection', JSON.parse(m.sourceId)); } catch(e){}
+  } else openMovieGenerator(m.sourceKind, m.sourceId);
+}
+function deleteMovie(id) {
+  if (!confirm('Delete this movie?')) return;
+  localStorage.removeItem(MV_STORAGE_PREFIX + id);
+  const runtime = mvRuntimeBlobs.get(id);
+  if (runtime) {
+    URL.revokeObjectURL(runtime.blobUrl);
+    mvRuntimeBlobs.delete(id);
+  }
+  renderMovieLibrary();
+  flashSaved();
+  toast('Deleted');
+}
+
+// Close player when clicking outside the frame
+document.getElementById('mvPlayerOverlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closePlayer();
+});
+
+// Add Generate trailer button to project pages too
+function openMovieGeneratorForProjectOrDomain(kind, id) {
+  openMovieGenerator(kind, id);
+}
+
+// Close player when clicking outside the frame (already wired above)
+
+// =====================================================================
+// =================== END MOVIE ENGINE =================================
+// =====================================================================
 
 
 // =================== INIT ===================
