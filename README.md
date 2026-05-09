@@ -13,7 +13,7 @@ God's Economy as an operating system. Three software layers (For-Profit, Non-Pro
 | `system-map/` | Master architectural reference — V1–V8 ecosystem wireframe | wireframe v0.1 | https://fosmlivesitemap.netlify.app |
 | `marketing-cc/` | Marketing Command Center — campaign factory + attribution engine | building | _tbd_ |
 | `sales-cc/` | Sales Command Center — pipeline + audit intake + funnel | building | _tbd_ |
-| `fosm-template/` | F.O.S.M. Command Center template (v8) | live | _tbd_ |
+| `fosm-live-cc/` | F.O.S.M. Command Center | live | _tbd_ |
 | `docs/` | Architecture references, voice guides, planning docs | ongoing | — |
 
 ---
