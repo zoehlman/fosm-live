@@ -1,0 +1,3181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>Software by Learn And Grow Rich</title>
+<!-- Google Identity Services for OAuth Sheets connection -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#111;color:#f0f0f0;display:flex;min-height:100vh;font-size:13px}
+#sidebar{width:240px;min-width:240px;background:#1a1a1a;border-right:1px solid #2a2a2a;display:flex;flex-direction:column;overflow:hidden}
+.logo-area{padding:14px 14px;border-bottom:1px solid #2a2a2a;flex-shrink:0}
+.logo-badge{background:#FF6B00;color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:3px;display:inline-block;margin-bottom:4px}
+.logo-title{font-size:13px;font-weight:700;color:#fff}
+.logo-sub{font-size:9px;color:#888;margin-top:1px}
+.spk-sw{padding:10px 12px;border-bottom:1px solid #2a2a2a;background:#141414;flex-shrink:0}
+.spk-lbl{font-size:8px;font-weight:700;letter-spacing:1.5px;color:#555;text-transform:uppercase;margin-bottom:5px}
+.spk-row{display:flex;gap:4px}
+.spk-btn{flex:1;background:#1e1e1e;border:1px solid #2a2a2a;border-radius:5px;padding:5px 4px;color:#999;font-size:10px;font-weight:600;cursor:pointer;transition:all .15s;text-align:center}
+.spk-btn:hover{background:#252525;color:#fff}
+.spk-btn.active{background:#2a1a05;border-color:#FF6B00;color:#FF6B00}
+.spk-help{font-size:8px;color:#555;margin-top:5px;line-height:1.35;font-style:italic}
+.bm-toggle{margin-top:8px;display:flex;align-items:center;gap:6px;padding:5px 7px;background:#0f1a0c;border:1px solid #2a4a2a;border-radius:5px;cursor:pointer;transition:all .15s}
+.bm-toggle:hover{background:#152a10}
+.bm-toggle.off{background:#1a1a1a;border-color:#2a2a2a}
+.bm-dot{width:8px;height:8px;border-radius:50%;background:#7dba4a;flex-shrink:0}
+.bm-toggle.off .bm-dot{background:#444}
+.bm-text{font-size:9px;color:#7dba4a;font-weight:600;flex:1}
+.bm-toggle.off .bm-text{color:#777}
+nav{flex:1;padding:4px 0;overflow-y:auto}
+nav::-webkit-scrollbar{width:6px}
+nav::-webkit-scrollbar-track{background:#1a1a1a}
+nav::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+.nav-section{font-size:9px;font-weight:700;letter-spacing:1.5px;color:#888;padding:10px 12px 8px;margin-top:6px;text-transform:uppercase;background:#0a0a0a;border-top:1px solid #1f1f1f;border-bottom:1px solid #1f1f1f}
+.nav-section:first-of-type{border-top:none;margin-top:0}
+.nav-item{display:flex;align-items:center;gap:7px;padding:7px 12px 7px 22px;cursor:pointer;border-left:3px solid transparent;transition:all .15s;color:#aaa;font-size:11px;white-space:nowrap}
+.nav-item:hover{background:#222;color:#fff}
+.nav-item.active{border-left-color:#FF6B00;background:#222;color:#FF6B00}
+.sidebar-bottom{padding:10px 12px;border-top:1px solid #2a2a2a;flex-shrink:0;font-size:9px;color:#666;text-align:center;line-height:1.4}
+#main{flex:1;overflow:auto;background:#111;position:relative}
+.topbar{background:#1a1a1a;border-bottom:1px solid #2a2a2a;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20;flex-shrink:0}
+.topbar-title{font-size:15px;font-weight:700;color:#fff}
+.topbar-right{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.qbadge{background:#1f2a1a;border:1px solid #3a5a2a;color:#7dba4a;font-size:10px;padding:3px 8px;border-radius:12px;font-weight:600}
+.qbadge.warn{background:#2a200a;border-color:#5a4a1a;color:#dba84a}
+.model-badge{background:#0d1a14;border:1px solid #2a4a3a;color:#7dba4a;font-size:10px;padding:3px 9px;border-radius:12px;font-weight:600;cursor:pointer;transition:all .15s;user-select:none}
+.model-badge:hover{background:#1a2a1a;transform:translateY(-1px)}
+.content{padding:18px 22px;padding-bottom:80px;max-width:1200px}
+.page{display:none}
+.page.active{display:block}
+
+/* Card and grid primitives */
+.card{background:#1e1e1e;border:1px solid #2a2a2a;border-radius:10px;padding:16px;margin-bottom:14px}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.card-title{font-size:13px;font-weight:700;color:#fff}
+.card-sub{font-size:10px;color:#888;margin-top:2px;line-height:1.5}
+.rsec{font-size:10px;font-weight:700;letter-spacing:1px;color:#aaa;text-transform:uppercase;margin-bottom:8px}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.dtile{background:#161616;border:1px solid #232323;border-radius:8px;padding:12px}
+.dtile .mlabel{font-size:9px;font-weight:600;letter-spacing:1px;color:#888;text-transform:uppercase}
+.dtile .mval{font-size:24px;font-weight:700;color:#fff;line-height:1.1;margin:5px 0}
+.dtile .mchg{font-size:10px;font-weight:600}
+.dtile .mchg.up{color:#7dba4a}
+.dtile .mchg.dn{color:#e26b6b}
+.dtile-help{font-size:9px;color:#666;margin-top:8px;padding-top:6px;border-top:1px solid #232323;line-height:1.4;font-style:italic}
+
+/* Page intro hero */
+.page-hero{background:linear-gradient(135deg,#1a0a00 0%,#1a1a1a 100%);border:1px solid #FF6B0033;border-radius:12px;padding:18px 22px;margin-bottom:16px}
+.page-hero-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.page-hero-sub{font-size:12px;color:#bbb;line-height:1.6;max-width:780px}
+
+/* Beginner mode "teach first" callout */
+.teach-card{background:#0d1a14;border:1px solid #2a4a3a;border-radius:10px;padding:14px 16px;margin-bottom:14px;display:flex;gap:12px;align-items:flex-start}
+.teach-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.teach-content{flex:1}
+.teach-title{font-size:11px;font-weight:700;color:#7dba4a;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px}
+.teach-text{font-size:12px;color:#cfd9c8;line-height:1.6}
+
+/* Generic buttons */
+.btn{background:#FF6B00;border:none;color:#fff;padding:8px 14px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn:hover{background:#e25a00}
+.btn-sec{background:#2a2a2a;color:#ccc}
+.btn-sec:hover{background:#333;color:#fff}
+.btn-ghost{background:none;border:1px solid #333;color:#aaa;padding:6px 12px;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-ghost:hover{border-color:#FF6B00;color:#FF6B00}
+
+/* Vision tabs */
+.vtabs{display:flex;gap:4px;background:#161616;border:1px solid #232323;border-radius:8px;padding:4px;margin-bottom:14px}
+.vtab{flex:1;background:none;border:none;color:#888;padding:9px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;transition:all .15s}
+.vtab:hover{color:#ccc}
+.vtab.active{background:#2a1a05;color:#FF6B00}
+.vpane{display:none}
+.vpane.active{display:block}
+.dl-num{font-size:36px;font-weight:800;color:#FF6B00;line-height:1.1}
+.dl-lbl{font-size:10px;color:#888;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:600}
+
+/* Vision items */
+.vlist{margin-top:10px}
+.vrow{display:grid;grid-template-columns:1fr 110px 80px 110px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px dashed #232323;font-size:11px}
+.vrow.hdr{font-weight:700;color:#888;font-size:9px;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid #2a2a2a}
+.vrow input{background:#161616;border:1px solid #232323;border-radius:5px;padding:5px 7px;color:#f0f0f0;font-size:11px;width:100%}
+.vrow input:focus{outline:none;border-color:#FF6B00}
+.vrow .num{text-align:right;font-weight:600}
+
+/* The Gap visualization */
+.gap-bar-wrap{background:#161616;border:1px solid #232323;border-radius:10px;padding:18px;margin-bottom:14px}
+.gap-bar{position:relative;height:14px;background:#0a0a0a;border-radius:7px;overflow:hidden;margin:14px 0}
+.gap-bar-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#FF6B00 0%,#e25a00 100%);border-radius:7px;transition:width .5s}
+.gap-stats{display:flex;justify-content:space-between;font-size:11px;color:#aaa}
+.gap-stats b{color:#fff}
+
+/* Lenses */
+.lens-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.lens-card{background:#161616;border:1px solid #232323;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s}
+.lens-card:hover{border-color:#FF6B00;background:#1a0f05}
+.lens-num{font-size:22px;font-weight:800;color:#FF6B00;line-height:1}
+.lens-title{font-size:13px;font-weight:700;color:#fff;margin-top:5px}
+.lens-text{font-size:11px;color:#aaa;line-height:1.55;margin-top:6px}
+
+/* Education modules */
+.edu-row{display:flex;align-items:center;gap:14px;padding:14px;background:#161616;border:1px solid #232323;border-radius:10px;margin-bottom:9px;cursor:pointer;transition:all .15s}
+.edu-row:hover{border-color:#FF6B00;background:#1a0f05}
+.edu-num{width:36px;height:36px;border-radius:50%;background:#2a1a05;color:#FF6B00;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;border:2px solid #FF6B0044}
+.edu-row.done .edu-num{background:#1f2a1a;color:#7dba4a;border-color:#3a5a2a}
+.edu-info{flex:1;min-width:0}
+.edu-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+.edu-meta{font-size:10px;color:#888}
+.edu-status{font-size:10px;color:#888}
+
+/* Ask Zach chat */
+.az-win{background:#0a0a0a;border:1px solid #232323;border-radius:10px;padding:14px;height:380px;overflow-y:auto;margin-bottom:10px;display:flex;flex-direction:column;gap:10px}
+.az-msg{display:flex;gap:10px;align-items:flex-start}
+.az-msg.user{flex-direction:row-reverse}
+.az-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0}
+.az-av.zach{background:#FF6B00;color:#fff}
+.az-av.user{background:#2a4a3a;color:#7dba4a}
+.az-bub{max-width:78%;background:#1e1e1e;border:1px solid #2a2a2a;border-radius:10px;padding:9px 12px;font-size:12px;line-height:1.6;color:#e0e0e0;white-space:pre-wrap}
+.az-msg.user .az-bub{background:#1a2a1a;border-color:#3a5a2a}
+.az-thinking{font-size:10px;color:#888;font-style:italic;display:flex;align-items:center;gap:6px}
+.az-dots{display:inline-block;width:6px;height:6px;border-radius:50%;background:#FF6B00;animation:pulse 1.4s infinite}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+.qchip{background:#1e1e1e;border:1px solid #333;color:#aaa;padding:5px 10px;border-radius:14px;cursor:pointer;font-size:10px;font-weight:600;transition:all .15s}
+.qchip:hover{border-color:#FF6B00;color:#FF6B00}
+
+.spk-indicator{display:inline-flex;align-items:center;gap:6px;background:#1a0a00;border:1px solid #FF6B0044;color:#FF6B00;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700;letter-spacing:.5px}
+
+/* ---- Money Mechanics: statement tables ---- */
+.stmt-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:6px}
+.stmt-table thead th{background:#161616;color:#888;font-weight:700;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;padding:9px 10px;text-align:right;border-bottom:1px solid #2a2a2a}
+.stmt-table thead th:first-child{text-align:left;padding-left:14px}
+.stmt-table tbody td{padding:7px 10px;text-align:right;color:#cfcfcf;border-bottom:1px solid #1f1f1f}
+.stmt-table tbody td:first-child{text-align:left;color:#aaa;padding-left:14px}
+.stmt-table tbody tr.section td{padding-top:14px;padding-bottom:5px;color:#FF6B00;font-weight:700;font-size:10px;letter-spacing:1.2px;text-transform:uppercase;border-bottom:1px solid #2a2a2a}
+.stmt-table tbody tr.subtotal{background:#0f0f0f}
+.stmt-table tbody tr.subtotal td{color:#fff;font-weight:700;border-top:1px solid #2a2a2a}
+.stmt-table tbody tr.grand-total{background:#1a0a00}
+.stmt-table tbody tr.grand-total td{color:#FF6B00;font-weight:800;font-size:13px;padding-top:11px;padding-bottom:11px;border-bottom:none;border-top:2px solid #FF6B00}
+.stmt-table tbody tr.spacer td{padding:6px 0;border:none;height:6px}
+.stmt-num{font-variant-numeric:tabular-nums}
+.stmt-num.zero{color:#444}
+.stmt-num.pos{color:#7dba4a}
+.stmt-num.neg{color:#e26b6b}
+
+/* ---- Owner pivot pills ---- */
+.pivot-pills{display:inline-flex;gap:4px;background:#161616;border:1px solid #232323;border-radius:6px;padding:3px;margin-left:8px}
+.pivot-pill{background:none;border:none;color:#888;padding:4px 10px;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;transition:all .15s}
+.pivot-pill:hover{color:#ccc}
+.pivot-pill.active{background:#2a1a05;color:#FF6B00}
+
+/* ---- Source of Truth ---- */
+.sot-grid{display:grid;grid-template-columns:170px 1fr;gap:10px 16px;font-size:12px;align-items:start}
+.sot-key{color:#888;font-weight:600;font-size:10px;letter-spacing:.5px;text-transform:uppercase;padding-top:2px}
+.sot-val{color:#cfcfcf;line-height:1.6;word-break:break-word}
+.sot-val .pill{display:inline-block;background:#1a1a1a;border:1px solid #2a2a2a;color:#aaa;font-size:10px;padding:2px 8px;border-radius:10px;margin-right:4px}
+.sot-section{font-size:11px;font-weight:700;color:#FF6B00;letter-spacing:1.5px;text-transform:uppercase;margin:18px 0 8px;padding-bottom:6px;border-bottom:1px solid #2a2a2a}
+.sot-section:first-child{margin-top:0}
+
+/* ---- Sparkbar visualization ---- */
+.bar-row{display:grid;grid-template-columns:140px 1fr 90px;gap:10px;align-items:center;padding:5px 0;font-size:11px}
+.bar-row .lab{color:#aaa;font-weight:600}
+.bar-row .bar-track{height:14px;background:#0a0a0a;border-radius:7px;overflow:hidden;position:relative}
+.bar-row .bar-fill{height:100%;background:linear-gradient(90deg,#FF6B00,#e25a00);border-radius:7px}
+.bar-row .bar-fill.green{background:linear-gradient(90deg,#7dba4a,#5fa030)}
+.bar-row .bar-fill.red{background:linear-gradient(90deg,#e26b6b,#c04040)}
+.bar-row .val{text-align:right;color:#fff;font-weight:600;font-variant-numeric:tabular-nums}
+.stub-card{background:#161616;border:1px dashed #2a2a2a;border-radius:10px;padding:32px 24px;text-align:center}
+.stub-emoji{font-size:32px;margin-bottom:10px}
+.stub-title{font-size:14px;font-weight:700;color:#ccc;margin-bottom:6px}
+.stub-text{font-size:11px;color:#888;line-height:1.6;max-width:540px;margin:0 auto 14px}
+.stub-tag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1.5px;color:#666;background:#0a0a0a;border:1px solid #232323;padding:4px 10px;border-radius:4px;text-transform:uppercase}
+
+/* Responsive — mobile */
+@media (max-width: 760px){
+  body{flex-direction:column}
+  #sidebar{width:100%;min-width:0;max-height:50vh}
+  .g2,.g3,.g4,.lens-grid{grid-template-columns:1fr}
+  .vrow{grid-template-columns:1fr 80px 60px 90px;gap:5px;font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============== SIDEBAR ============== -->
+<div id="sidebar">
+
+  <div class="logo-area">
+    <div class="logo-badge">SOFTWARE</div>
+    <div class="logo-title">Learn And Grow Rich</div>
+    <div class="logo-sub">Personal Edition · v1.0</div>
+  </div>
+
+  <!-- Speaking-to toggle: routes context to His / Hers / Joint -->
+  <div class="spk-sw">
+    <div class="spk-lbl">Speaking to</div>
+    <div class="spk-row">
+      <button class="spk-btn" id="spk-his" onclick="setSpeaker('his')">Zach</button>
+      <button class="spk-btn active" id="spk-hers" onclick="setSpeaker('hers')">Sumary</button>
+      <button class="spk-btn" id="spk-joint" onclick="setSpeaker('joint')">Joint</button>
+    </div>
+    <div class="spk-help" id="spk-help">Sumary's view — beginner-friendly guidance and her Dream Life Number.</div>
+
+    <!-- Beginner mode toggle: teach-first responses -->
+    <div class="bm-toggle" id="bm-toggle" onclick="toggleBeginnerMode()">
+      <div class="bm-dot"></div>
+      <div class="bm-text" id="bm-text">Beginner mode — on</div>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-section">🏠 Start Here</div>
+    <div class="nav-item active" onclick="goPage('dashboard',this)">⊞ Dashboard</div>
+    <div class="nav-item" onclick="goPage('askzach',this)" style="color:#FF6B00">🤖 Ask Zach</div>
+    <div class="nav-item" onclick="goPage('todo',this)">✅ To-Do List</div>
+    <div class="nav-item" onclick="goPage('sourceoftruth',this)" style="border-left:2px solid #7dba4a">📓 Source of Truth</div>
+    <div class="nav-item" onclick="goPage('dataconnections',this)" style="border-left:2px solid #7dba4a">🔌 Data Connections</div>
+
+    <div class="nav-section">💰 Money Mechanics</div>
+    <div class="nav-item" onclick="goPage('incomestmt',this)">📈 Income Statement</div>
+    <div class="nav-item" onclick="goPage('cashflow',this)">💸 Cash Flow</div>
+    <div class="nav-item" onclick="goPage('balancesheet',this)">⚖️ Balance Sheet</div>
+    <div class="nav-item" onclick="goPage('moneymachine',this)">⚙️ Money Making Machine</div>
+
+    <div class="nav-section">📊 Daily Tracking</div>
+    <div class="nav-item" onclick="goPage('incomelog',this)">⬆ Income Log</div>
+    <div class="nav-item" onclick="goPage('expenselog',this)">⬇ Expense Log</div>
+    <div class="nav-item" onclick="goPage('categories',this)">🏷 Categories</div>
+    <div class="nav-item" onclick="goPage('assets',this)">🏛 Assets Register</div>
+    <div class="nav-item" onclick="goPage('liabilities',this)">⚠ Liabilities Register</div>
+
+    <div class="nav-section">🎯 Vision To Reality</div>
+    <div class="nav-item" onclick="goPage('vision',this)">◎ Dream Life Number</div>
+    <div class="nav-item" onclick="goPage('gap',this)" style="border-left:2px solid #FF6B00">🔍 The Gap</div>
+
+    <div class="nav-section">📅 Plan & Strategy</div>
+    <div class="nav-item" onclick="goPage('bestyear',this)">✦ Best Year Ever</div>
+    <div class="nav-item" onclick="goPage('rocks',this)">🪨 Quarterly Rocks</div>
+    <div class="nav-item" onclick="goPage('monthly',this)">📆 Monthly Check-in</div>
+    <div class="nav-item" onclick="goPage('weekly',this)">🗓 Weekly Review</div>
+
+    <div class="nav-section">🏛️ Wealth & Legacy</div>
+    <div class="nav-item" onclick="goPage('familyoffice',this)">🏛️ Family Office</div>
+    <div class="nav-item" onclick="goPage('taxstrategy',this)">🧾 Tax Strategy</div>
+    <div class="nav-item" onclick="goPage('investmentstrategy',this)">📈 Investment Strategy</div>
+    <div class="nav-item" onclick="goPage('insurance',this)">🛡️ Insurance & Estate</div>
+
+    <div class="nav-section">🌍 Purpose</div>
+    <div class="nav-item" style="color:#7dba4a" onclick="goPage('foundation',this)">🌍 The Foundation</div>
+    <div class="nav-item" style="color:#7dba4a" onclick="goPage('giving',this)">🤲 Giving Cadence</div>
+    <div class="nav-item" style="color:#7dba4a" onclick="goPage('retreat',this)">🏖️ The Retreat</div>
+
+    <div class="nav-section">🎓 Education</div>
+    <div class="nav-item" onclick="goPage('education',this)">🎓 Education Center</div>
+    <div class="nav-item" onclick="goPage('links',this)">🔗 Important Links</div>
+    <div class="nav-item" onclick="goPage('settings',this)">⚙ Settings</div>
+  </nav>
+
+  <div class="sidebar-bottom">
+    Software by Learn And Grow Rich<br>
+    The path to peace and prosperity.
+  </div>
+
+</div>
+
+<!-- ============== MAIN ============== -->
+<div id="main">
+
+  <div class="topbar">
+    <div class="topbar-title" id="topbar-title">Dashboard</div>
+    <div class="topbar-right">
+      <span class="spk-indicator" id="topbar-spk">👤 Sumary</span>
+      <span class="qbadge" id="bm-badge">Beginner mode</span>
+      <span class="qbadge" id="sheet-pill" onclick="goPageById('dataconnections')" style="cursor:pointer;background:#2a200a;border-color:#5a4a1a;color:#dba84a">📋 Sheet not connected</span>
+      <button id="sheet-refresh-btn" onclick="refreshFromSheet()" style="display:none;background:#1f2a1a;border:1px solid #3a5a2a;color:#7dba4a;padding:3px 9px;border-radius:12px;font-size:10px;font-weight:600;cursor:pointer">⟳ Refresh</button>
+      <span class="model-badge" onclick="showModelMenu()">
+        <span id="model-badge-text">Haiku 4.5 · fast</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- ============== PAGES ============== -->
+
+  <!-- ============== DASHBOARD ============== -->
+  <div class="page active" id="page-dashboard"><div class="content">
+
+    <div class="page-hero">
+      <div class="page-hero-title">⊞ Welcome back, <span id="hero-name">Sumary</span></div>
+      <div class="page-hero-sub" id="hero-sub">
+        This is your home base. Three numbers tell the story of your money:
+        what's coming in, what's leaving, and what's staying. Everything else here
+        helps you change those three numbers on purpose.
+      </div>
+    </div>
+
+    <div class="teach-card" id="dash-teach">
+      <div class="teach-icon">🎓</div>
+      <div class="teach-content">
+        <div class="teach-title">Today's lesson · 2 minutes</div>
+        <div class="teach-text" id="dash-teach-text">
+          Money keeps score whether you watch the scoreboard or not. The point of
+          this app is to put the scoreboard where you can see it. Three views:
+          the Income Statement (what you earned and spent), the Cash Flow (where it actually went),
+          and the Balance Sheet (what you own minus what owns you). Every decision you make
+          moves one of those numbers. The goal is to move them on purpose.
+        </div>
+      </div>
+    </div>
+
+    <div class="g3" style="margin-bottom:14px">
+      <div class="dtile">
+        <div class="mlabel">Net worth today</div>
+        <div class="mval" id="kpi-nw">$892,900</div>
+        <div class="mchg up">▲ Updated from your Google Sheet</div>
+        <div class="dtile-help">What you own minus what owns you. The single most important number to grow.</div>
+      </div>
+      <div class="dtile">
+        <div class="mlabel">This month's net</div>
+        <div class="mval" id="kpi-net">$11,230</div>
+        <div class="mchg up">▲ Money in greater than money out</div>
+        <div class="dtile-help">Income minus expenses, this month. When this is positive, you're building. When it's negative, you're shrinking.</div>
+      </div>
+      <div class="dtile">
+        <div class="mlabel">Gap to dream life</div>
+        <div class="mval" id="kpi-gap">$586,150 / yr</div>
+        <div class="mchg dn">Annual income gap to fund the dream</div>
+        <div class="dtile-help">Today's annual income vs. your Dream Life Number. The four lenses on The Gap page show how to close it.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">Quick actions</div>
+          <div class="card-sub">The four things you'll do most. Tap one and go.</div>
+        </div>
+      </div>
+      <div class="g4">
+        <button class="dtile" style="cursor:pointer;text-align:left;border:1px solid #232323" onclick="quickLogIncome()">
+          <div class="mlabel" style="color:#7dba4a">⬆ Log income</div>
+          <div style="font-size:11px;color:#ccc;margin-top:6px">Tell Zach what came in. He'll write it to your Sheet.</div>
+        </button>
+        <button class="dtile" style="cursor:pointer;text-align:left;border:1px solid #232323" onclick="quickLogExpense()">
+          <div class="mlabel" style="color:#e26b6b">⬇ Log expense</div>
+          <div style="font-size:11px;color:#ccc;margin-top:6px">Same thing for money out. Categorized as it lands.</div>
+        </button>
+        <button class="dtile" style="cursor:pointer;text-align:left;border:1px solid #232323" onclick="goPageById('vision')">
+          <div class="mlabel" style="color:#FF6B00">◎ Dream Life Number</div>
+          <div style="font-size:11px;color:#ccc;margin-top:6px">See where you're going. Update the dream as it grows.</div>
+        </button>
+        <button class="dtile" style="cursor:pointer;text-align:left;border:1px solid #232323" onclick="goPageById('askzach')">
+          <div class="mlabel" style="color:#FF6B00">🤖 Ask Zach anything</div>
+          <div style="font-size:11px;color:#ccc;margin-top:6px">Confused by something? Ask. He has all your numbers.</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">Where you are in the program</div>
+          <div class="card-sub">Eight short lessons. You're on lesson 1.</div>
+        </div>
+        <button class="btn-ghost" onclick="goPageById('education')">Go to lessons →</button>
+      </div>
+      <div style="display:flex;gap:5px;margin:8px 0">
+        <div style="flex:1;height:8px;background:#FF6B00;border-radius:4px"></div>
+        <div style="flex:1;height:8px;background:#1a1a1a;border:1px solid #232323;border-radius:4px"></div>
+        <div style="flex:1;height:8px;background:#1a1a1a;border:1px solid #232323;border-radius:4px"></div>
+        <div style="flex:1;height:8px;background:#1a1a1a;border:1px solid #232323;border-radius:4px"></div>
+        <div style="flex:1;height:8px;background:#1a1a1a;border:1px solid #232323;border-radius:4px"></div>
+        <div style="flex:1;height:8px;background:#1a1a1a;border:1px solid #232323;border-radius:4px"></div>
+        <div style="flex:1;height:8px;background:#1a1a1a;border:1px solid #232323;border-radius:4px"></div>
+        <div style="flex:1;height:8px;background:#1a1a1a;border:1px solid #232323;border-radius:4px"></div>
+      </div>
+      <div style="font-size:10px;color:#888;text-align:center">1 of 8 modules complete</div>
+    </div>
+
+  </div></div>
+
+  <!-- ============== VISION TO REALITY ============== -->
+  <div class="page" id="page-vision"><div class="content">
+
+    <div class="page-hero">
+      <div class="page-hero-title">◎ Vision To Reality</div>
+      <div class="page-hero-sub">
+        Your Dream Life Number isn't a wish — it's a math problem. Three pieces add up to it:
+        the cost of a perfect Dream Day (multiplied by 30), the Adventure List (the experiences
+        you want, divided into a monthly amount), and the Monthly Budget (the regular life baseline).
+        Sum the three. That's what your dream life costs every month.
+      </div>
+    </div>
+
+    <div class="teach-card" id="vision-teach">
+      <div class="teach-icon">🎓</div>
+      <div class="teach-content">
+        <div class="teach-title">Why three pieces, not one</div>
+        <div class="teach-text">
+          Most people set a money goal as one number — "I want to make $X." That number is usually
+          either too small (and stops them growing) or too big (and feels impossible).
+          The three-piece method is honest: the daily life you want, the experiences you want,
+          and the regular life you already have. Each piece is concrete. Add them up and you get
+          the real number — not a wish, a calculation.
+        </div>
+      </div>
+    </div>
+
+    <div class="vtabs">
+      <button class="vtab" id="vtab-his" onclick="setVisionTab('his')">Zach's vision</button>
+      <button class="vtab active" id="vtab-hers" onclick="setVisionTab('hers')">Sumary's vision</button>
+      <button class="vtab" id="vtab-joint" onclick="setVisionTab('joint')">Joint vision</button>
+    </div>
+
+    <div class="vpane" id="vpane-his">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div>
+            <div class="dl-lbl">Zach's Dream Life Number</div>
+            <div class="dl-num" id="dl-his">$243,800 / yr</div>
+            <div style="font-size:11px;color:#888;margin-top:4px" id="dl-his-sub">$20,317 / month · funded by $20,317 in monthly after-tax income</div>
+          </div>
+          <button class="btn-ghost" onclick="askZachAbout('Walk me through how my Dream Life Number is calculated and what changing one piece would do.')">Ask Zach about this →</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title">Dream Day · what one perfect day costs</div>
+          <div style="font-size:10px;color:#888">Multiply this by 30 → the monthly cost of living the dream day every day.</div>
+        </div>
+        <div class="vlist">
+          <div class="vrow hdr"><div>Item</div><div class="num">$ / day</div><div></div><div class="num">Notes</div></div>
+          <div class="vrow"><div>Morning routine + breakfast</div><div class="num">$25</div><div></div><div style="font-size:10px;color:#888">Coffee, journal, healthy meal</div></div>
+          <div class="vrow"><div>Workout / movement</div><div class="num">$15</div><div></div><div style="font-size:10px;color:#888">Gym, yoga, run</div></div>
+          <div class="vrow"><div>Lunch out or made fresh</div><div class="num">$30</div><div></div><div style="font-size:10px;color:#888">Real food, real time</div></div>
+          <div class="vrow"><div>Family time / connection</div><div class="num">$20</div><div></div><div style="font-size:10px;color:#888">Activities together</div></div>
+          <div class="vrow"><div>Evening — date, reading, rest</div><div class="num">$50</div><div></div><div style="font-size:10px;color:#888">Dinner, downtime</div></div>
+          <div class="vrow" style="border-bottom:none;font-weight:700;color:#FF6B00;margin-top:5px"><div>Dream Day total</div><div class="num">$140</div><div style="font-size:10px;color:#888">× 30 days =</div><div class="num">$4,200</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title">Adventure List · the experiences you want</div>
+          <div style="font-size:10px;color:#888">Annual total ÷ 12 → the monthly piece of the Dream Life Number.</div>
+        </div>
+        <div class="vlist">
+          <div class="vrow hdr"><div>Adventure</div><div class="num">$ / trip</div><div class="num">/ year</div><div class="num">Annual</div></div>
+          <div class="vrow"><div>International trip</div><div class="num">$12,000</div><div class="num">1</div><div class="num">$12,000</div></div>
+          <div class="vrow"><div>Domestic weekend getaway</div><div class="num">$2,500</div><div class="num">4</div><div class="num">$10,000</div></div>
+          <div class="vrow"><div>Motorcycle adventure</div><div class="num">$3,500</div><div class="num">2</div><div class="num">$7,000</div></div>
+          <div class="vrow"><div>Family vacation</div><div class="num">$8,000</div><div class="num">1</div><div class="num">$8,000</div></div>
+          <div class="vrow"><div>Conference / mastermind</div><div class="num">$5,000</div><div class="num">2</div><div class="num">$10,000</div></div>
+          <div class="vrow" style="border-bottom:none;font-weight:700;color:#FF6B00;margin-top:5px"><div>Adventure total annual</div><div class="num">—</div><div style="font-size:10px;color:#888">÷ 12 mo =</div><div class="num">$3,917</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title">Monthly Budget · the regular life</div>
+          <div style="font-size:10px;color:#888">The recurring cost of living the way you want to live.</div>
+        </div>
+        <div class="vlist">
+          <div class="vrow hdr"><div>Category</div><div class="num">$ / month</div><div></div><div class="num">Notes</div></div>
+          <div class="vrow"><div>Housing (mortgage + utilities + maintenance)</div><div class="num">$3,500</div><div></div><div style="font-size:10px;color:#888"></div></div>
+          <div class="vrow"><div>Food</div><div class="num">$1,500</div><div></div><div style="font-size:10px;color:#888"></div></div>
+          <div class="vrow"><div>Transport</div><div class="num">$800</div><div></div><div style="font-size:10px;color:#888"></div></div>
+          <div class="vrow"><div>Health & wellness</div><div class="num">$600</div><div></div><div style="font-size:10px;color:#888"></div></div>
+          <div class="vrow"><div>Education / coaching</div><div class="num">$500</div><div></div><div style="font-size:10px;color:#888"></div></div>
+          <div class="vrow"><div>Giving (10%+)</div><div class="num">$1,500</div><div></div><div style="font-size:10px;color:#888"></div></div>
+          <div class="vrow"><div>Personal / lifestyle</div><div class="num">$800</div><div></div><div style="font-size:10px;color:#888"></div></div>
+          <div class="vrow"><div>Savings / investments</div><div class="num">$3,000</div><div></div><div style="font-size:10px;color:#888"></div></div>
+          <div class="vrow" style="border-bottom:none;font-weight:700;color:#FF6B00;margin-top:5px"><div>Monthly Budget total</div><div class="num">$12,200</div><div></div><div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vpane active" id="vpane-hers">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div>
+            <div class="dl-lbl">Sumary's Dream Life Number</div>
+            <div class="dl-num" id="dl-hers">$163,500 / yr</div>
+            <div style="font-size:11px;color:#888;margin-top:4px" id="dl-hers-sub">$13,625 / month — what your perfect month costs.</div>
+          </div>
+          <button class="btn-ghost" onclick="askZachAbout('Teach me how my Dream Life Number was calculated. Walk me through it like I am brand new to this.')">Teach me about this →</button>
+        </div>
+      </div>
+
+      <div class="teach-card">
+        <div class="teach-icon">💡</div>
+        <div class="teach-content">
+          <div class="teach-title">First time here? Read this.</div>
+          <div class="teach-text">
+            Your Dream Life Number is the answer to one honest question: how much money would I need
+            every month to live the life I actually want — not anyone else's life, mine?
+            We build it in three pieces because that's how money actually flows in real life:
+            a daily piece (Dream Day), an experiences piece (Adventures), and a baseline piece
+            (Monthly Budget). Add them. That number is the destination.
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title">Sumary's Dream Day · what one perfect day costs</div>
+          <div style="font-size:10px;color:#888">Multiply by 30 to get the monthly piece.</div>
+        </div>
+        <div class="vlist">
+          <div class="vrow hdr"><div>Item</div><div class="num">$ / day</div><div></div><div class="num">Notes</div></div>
+          <div class="vrow"><div>Morning ritual + breakfast</div><div class="num">$30</div><div></div><div style="font-size:10px;color:#888">Quiet time, journaling, breakfast</div></div>
+          <div class="vrow"><div>Movement / yoga / walk</div><div class="num">$20</div><div></div><div style="font-size:10px;color:#888">Gentle daily practice</div></div>
+          <div class="vrow"><div>Lunch — healthy meal</div><div class="num">$25</div><div></div><div style="font-size:10px;color:#888"></div></div>
+          <div class="vrow"><div>Friends, family, connection</div><div class="num">$30</div><div></div><div style="font-size:10px;color:#888">Coffee, lunch, calls</div></div>
+          <div class="vrow"><div>Evening — beauty, presence, rest</div><div class="num">$60</div><div></div><div style="font-size:10px;color:#888">Dinner out, self-care</div></div>
+          <div class="vrow" style="border-bottom:none;font-weight:700;color:#FF6B00;margin-top:5px"><div>Dream Day total</div><div class="num">$165</div><div style="font-size:10px;color:#888">× 30 days =</div><div class="num">$4,950</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title">Sumary's Adventure List</div>
+          <div style="font-size:10px;color:#888">Big experiences, small experiences, all yours. Annual ÷ 12 = monthly piece.</div>
+        </div>
+        <div class="vlist">
+          <div class="vrow hdr"><div>Adventure</div><div class="num">$ / trip</div><div class="num">/ year</div><div class="num">Annual</div></div>
+          <div class="vrow"><div>International retreat / trip</div><div class="num">$8,000</div><div class="num">2</div><div class="num">$16,000</div></div>
+          <div class="vrow"><div>Spa / wellness retreat</div><div class="num">$3,000</div><div class="num">3</div><div class="num">$9,000</div></div>
+          <div class="vrow"><div>Workshop / personal growth</div><div class="num">$2,500</div><div class="num">3</div><div class="num">$7,500</div></div>
+          <div class="vrow"><div>Family vacation</div><div class="num">$8,000</div><div class="num">1</div><div class="num">$8,000</div></div>
+          <div class="vrow"><div>Creative project / class</div><div class="num">$1,500</div><div class="num">4</div><div class="num">$6,000</div></div>
+          <div class="vrow" style="border-bottom:none;font-weight:700;color:#FF6B00;margin-top:5px"><div>Adventure total annual</div><div class="num">—</div><div style="font-size:10px;color:#888">÷ 12 mo =</div><div class="num">$3,875</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div class="card-title">Sumary's Monthly Budget</div>
+          <div style="font-size:10px;color:#888">What your regular life costs, the way you want it to feel.</div>
+        </div>
+        <div class="vlist">
+          <div class="vrow hdr"><div>Category</div><div class="num">$ / month</div><div></div><div class="num">Notes</div></div>
+          <div class="vrow"><div>Housing share</div><div class="num">$0</div><div></div><div style="font-size:10px;color:#888">Joint covers most</div></div>
+          <div class="vrow"><div>Personal food / dining</div><div class="num">$600</div><div></div><div style="font-size:10px;color:#888">Beyond joint groceries</div></div>
+          <div class="vrow"><div>Wellness (yoga, therapy, supplements)</div><div class="num">$800</div><div></div><div style="font-size:10px;color:#888">Self-care non-negotiable</div></div>
+          <div class="vrow"><div>Beauty / personal care</div><div class="num">$400</div><div></div><div style="font-size:10px;color:#888"></div></div>
+          <div class="vrow"><div>Education / personal growth</div><div class="num">$400</div><div></div><div style="font-size:10px;color:#888">Books, courses, coaching</div></div>
+          <div class="vrow"><div>Giving</div><div class="num">$500</div><div></div><div style="font-size:10px;color:#888">Personal causes</div></div>
+          <div class="vrow"><div>Lifestyle / hobbies</div><div class="num">$600</div><div></div><div style="font-size:10px;color:#888">Photography, creative</div></div>
+          <div class="vrow"><div>Personal savings</div><div class="num">$1,500</div><div></div><div style="font-size:10px;color:#888">Her own runway</div></div>
+          <div class="vrow" style="border-bottom:none;font-weight:700;color:#FF6B00;margin-top:5px"><div>Monthly Budget total</div><div class="num">$4,800</div><div></div><div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vpane" id="vpane-joint">
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <div>
+            <div class="dl-lbl">Joint Dream Life Number</div>
+            <div class="dl-num" id="dl-joint">$195,900 / yr</div>
+            <div style="font-size:11px;color:#888;margin-top:4px" id="dl-joint-sub">$16,325 / month — what your shared dream life costs.</div>
+          </div>
+          <button class="btn-ghost" onclick="askZachAbout('How does our joint Dream Life Number relate to our individual numbers?')">Ask Zach about this →</button>
+        </div>
+      </div>
+      <div class="stub-card">
+        <div class="stub-emoji">◎</div>
+        <div class="stub-title">Joint Dream Day, Adventures & Monthly Budget</div>
+        <div class="stub-text">Your shared dream — the home, the family rhythms, the things you do as a couple — pulls from the joint section of your Google Sheet. We'll wire that up in v1.1. For now the totals shown above come from the sample data in the master Sheet template.</div>
+        <div class="stub-tag">Sheet pull · v1.1</div>
+      </div>
+    </div>
+
+  </div></div>
+
+  <!-- ============== THE GAP ============== -->
+  <div class="page" id="page-gap"><div class="content">
+
+    <div class="page-hero">
+      <div class="page-hero-title">🔍 The Gap</div>
+      <div class="page-hero-sub">
+        Where you are today vs. where you're going. The math doesn't lie.
+        And once you can see the gap, there are exactly four ways to close it —
+        the four lenses below. Tap any one and Zach will teach you how to pull that lever in your life.
+      </div>
+    </div>
+
+    <div class="gap-bar-wrap">
+      <div class="gap-stats">
+        <span>Today: <b id="gap-today">$17,050</b> annual</span>
+        <span>Dream Life: <b id="gap-dream">$603,200</b> annual</span>
+      </div>
+      <div class="gap-bar"><div class="gap-bar-fill" id="gap-fill" style="width:2.8%"></div></div>
+      <div style="text-align:center;font-size:11px;color:#aaa">
+        <b style="color:#FF6B00">Gap to close: <span id="gap-amount">$586,150</span> / year</b><br>
+        <span style="font-size:10px;color:#888">≈ $48,846 / month of new income, or any combination of the four lenses.</span>
+      </div>
+    </div>
+
+    <div class="teach-card">
+      <div class="teach-icon">🎓</div>
+      <div class="teach-content">
+        <div class="teach-title">Why "the gap" matters more than the number itself</div>
+        <div class="teach-text">
+          Most people stare at their income and feel either grateful or guilty. Neither moves anything.
+          The gap is different — it's a problem with a solution. Once you see the exact number standing
+          between you and your dream life, every dollar you earn, every dollar you spend, every dollar
+          you invest is doing one of four things to that gap. Making it smaller, making it bigger, or
+          standing still. The four lenses below are the only four ways the gap actually closes.
+        </div>
+      </div>
+    </div>
+
+    <div class="rsec" style="margin-top:6px">The four lenses · how to close the gap</div>
+    <div class="lens-grid">
+
+      <div class="lens-card" onclick="askZachAbout('Lens 1 — Sell more. How do we increase our income? Walk me through specific moves we could make based on our current situation.')">
+        <div class="lens-num">1</div>
+        <div class="lens-title">Sell more</div>
+        <div class="lens-text">
+          Increase income. Negotiate the raise. Add the side income. Build the business. Charge what you're worth.
+          Highest leverage of the four — income has no ceiling.
+        </div>
+      </div>
+
+      <div class="lens-card" onclick="askZachAbout('Lens 2 — Spend less. Where is our money leaking? What are the most painless cuts we could make this month?')">
+        <div class="lens-num">2</div>
+        <div class="lens-title">Spend less</div>
+        <div class="lens-text">
+          Reduce expenses. Cut what doesn't matter. Keep what does. Fastest of the four —
+          every $1 saved is $1 you don't need to earn.
+        </div>
+      </div>
+
+      <div class="lens-card" onclick="askZachAbout('Lens 3 — Pay less in tax. What tax strategies should we be looking at given our situation? Be specific.')">
+        <div class="lens-num">3</div>
+        <div class="lens-title">Pay less in tax</div>
+        <div class="lens-text">
+          Legally optimize tax structure. Entity choice, retirement contributions, depreciation, charitable strategy.
+          Often overlooked. Talk to a CPA who teaches this.
+        </div>
+      </div>
+
+      <div class="lens-card" onclick="askZachAbout('Lens 4 — Buy income-producing assets. What kinds of assets should we look at first based on our current net worth and cash flow?')">
+        <div class="lens-num">4</div>
+        <div class="lens-title">Buy income-producing assets</div>
+        <div class="lens-text">
+          Real estate. Dividend stocks. Businesses. Royalties. Money that arrives without your time.
+          The endgame — the path to never working again.
+        </div>
+      </div>
+
+    </div>
+
+  </div></div>
+
+  <!-- ============== EDUCATION CENTER ============== -->
+  <div class="page" id="page-education"><div class="content">
+
+    <div class="page-hero">
+      <div class="page-hero-title">🎓 Education Center</div>
+      <div class="page-hero-sub">
+        Eight short modules. Each one teaches a Learn And Grow Rich framework using your actual numbers.
+        Read in order — each one builds on the last. Tap any module to start.
+      </div>
+    </div>
+
+    <div class="edu-row done" onclick="askZachAbout('Teach me Module 1 — Why we are doing this. Walk me through it like I am brand new.')">
+      <div class="edu-num">1</div>
+      <div class="edu-info">
+        <div class="edu-title">Why we're doing this</div>
+        <div class="edu-meta">3 min · The path to peace and prosperity. Why finance is the foundation. What we're really building.</div>
+      </div>
+      <div class="edu-status" style="color:#7dba4a">✓ Done</div>
+    </div>
+
+    <div class="edu-row" onclick="askZachAbout('Teach me Module 2 — Where I am now. Walk me through how to take an honest snapshot of my current finances.')">
+      <div class="edu-num">2</div>
+      <div class="edu-info">
+        <div class="edu-title">Where am I now?</div>
+        <div class="edu-meta">5 min · The first honest snapshot. Income, expenses, assets, liabilities — entered, not estimated.</div>
+      </div>
+      <div class="edu-status">Start →</div>
+    </div>
+
+    <div class="edu-row" onclick="askZachAbout('Teach me Module 3 — Where I want to go. Walk me through Vision To Reality.')">
+      <div class="edu-num">3</div>
+      <div class="edu-info">
+        <div class="edu-title">Where do I want to go?</div>
+        <div class="edu-meta">7 min · Vision To Reality. Dream Day, Adventure List, Monthly Budget, Dream Life Number.</div>
+      </div>
+      <div class="edu-status">Start →</div>
+    </div>
+
+    <div class="edu-row" onclick="askZachAbout('Teach me Module 4 — What is the gap? Walk me through it using my actual numbers.')">
+      <div class="edu-num">4</div>
+      <div class="edu-info">
+        <div class="edu-title">What's the gap?</div>
+        <div class="edu-meta">5 min · Today's number vs. the dream. The math doesn't lie.</div>
+      </div>
+      <div class="edu-status">Start →</div>
+    </div>
+
+    <div class="edu-row" onclick="askZachAbout('Teach me Module 5 — How do I close the gap? Walk me through Best Year Ever.')">
+      <div class="edu-num">5</div>
+      <div class="edu-info">
+        <div class="edu-title">How do I close the gap?</div>
+        <div class="edu-meta">8 min · Best Year Ever. Annual plan, quarterly rocks, action plan.</div>
+      </div>
+      <div class="edu-status">Start →</div>
+    </div>
+
+    <div class="edu-row" onclick="askZachAbout('Teach me Module 6 — The three statements. Walk me through Income Statement, Cash Flow, and Balance Sheet.')">
+      <div class="edu-num">6</div>
+      <div class="edu-info">
+        <div class="edu-title">The three statements</div>
+        <div class="edu-meta">10 min · Income Statement, Cash Flow, Balance Sheet — taught using your actual numbers.</div>
+      </div>
+      <div class="edu-status">Start →</div>
+    </div>
+
+    <div class="edu-row" onclick="askZachAbout('Teach me Module 7 — Assets vs. liabilities. Why is this the most important distinction in personal finance?')">
+      <div class="edu-num">7</div>
+      <div class="edu-info">
+        <div class="edu-title">Assets vs. liabilities</div>
+        <div class="edu-meta">6 min · What you own vs. what owns you. The single most important distinction in personal finance.</div>
+      </div>
+      <div class="edu-status">Start →</div>
+    </div>
+
+    <div class="edu-row" onclick="askZachAbout('Teach me Module 8 — Living the rhythm. How do I maintain a monthly, quarterly, and annual review cadence?')">
+      <div class="edu-num">8</div>
+      <div class="edu-info">
+        <div class="edu-title">Living the rhythm</div>
+        <div class="edu-meta">5 min · Monthly review, quarterly reset, annual replan. The cadence that compounds over a lifetime.</div>
+      </div>
+      <div class="edu-status">Start →</div>
+    </div>
+
+  </div></div>
+
+  <!-- ============== STUB PAGES (every nav item has a destination) ============== -->
+
+  <div class="page" id="page-todo"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">✅ To-Do List</div><div class="page-hero-sub">The next-action list pulled from your Best Year Ever rocks, plus anything Zach surfaces in chat.</div></div>
+    <div class="stub-card"><div class="stub-emoji">✅</div><div class="stub-title">To-Do List</div><div class="stub-text">Your live action list. Connect to your Google Sheet to see open items.</div><div class="stub-tag">Sheet pull · v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-sourceoftruth"><div class="content">
+    <div class="page-hero">
+      <div class="page-hero-title">📓 Source of Truth</div>
+      <div class="page-hero-sub">
+        Everything Zach knows about your household — every fact in your <code style="background:#0a0a0a;padding:2px 5px;border-radius:3px">CLIENT_CONTEXT</code> profile, laid out in plain English. This is the data that drives every AI response, every dashboard number, and every Vision calculation. Audit it. If it's wrong here, it's wrong everywhere.
+      </div>
+    </div>
+
+    <div class="teach-card">
+      <div class="teach-icon">🎓</div>
+      <div class="teach-content">
+        <div class="teach-title">Why Source of Truth matters</div>
+        <div class="teach-text">
+          Most personal finance apps treat your numbers as data and the rest of you as noise. Software by LGR is different — Zach knows your three-year vision, your why, your communication preferences, what's working in your life, what's stuck. That context is what makes his advice fit you instead of fitting "average user." This page is the audit trail. Edit your Google Sheet's Setup &amp; Profiles tab to change anything; this page will reflect the change after a refresh.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">Household identity</div>
+          <div class="card-sub">Who lives in this household, and the basic facts of where you live.</div>
+        </div>
+        <button class="btn-ghost" onclick="askZachAbout('Walk me through what you actually know about my household and the plan we are following.')">Ask Zach what he knows →</button>
+      </div>
+      <div class="sot-grid" id="sot-household">
+        <div class="sot-key">Household</div>            <div class="sot-val" id="sot-household-name">The Oehlmans</div>
+        <div class="sot-key">Country</div>              <div class="sot-val" id="sot-country">USA</div>
+        <div class="sot-key">Currency</div>             <div class="sot-val" id="sot-currency">USD</div>
+        <div class="sot-key">Filing status</div>        <div class="sot-val" id="sot-filing">Married Filing Jointly</div>
+        <div class="sot-key">Children</div>             <div class="sot-val" id="sot-children">None currently</div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-hdr">
+          <div><div class="card-title">👤 Zach</div></div>
+        </div>
+        <div class="sot-grid">
+          <div class="sot-key">Name</div>        <div class="sot-val" id="sot-his-name">Zach</div>
+          <div class="sot-key">Age</div>         <div class="sot-val" id="sot-his-age">40</div>
+          <div class="sot-key">Role</div>        <div class="sot-val" id="sot-his-role">Founder, Learn And Grow Rich</div>
+          <div class="sot-key">DLN annual</div>  <div class="sot-val" id="sot-his-dln">$243,800</div>
+          <div class="sot-key">Income (yr)</div> <div class="sot-val" id="sot-his-income">$13,000</div>
+          <div class="sot-key">Comm style</div>  <div class="sot-val" style="font-size:11px;font-style:italic;color:#999">Direct, founder-to-founder. Skip the basics, go deep on strategy and frameworks.</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hdr">
+          <div><div class="card-title">👤 Sumary</div></div>
+        </div>
+        <div class="sot-grid">
+          <div class="sot-key">Name</div>        <div class="sot-val" id="sot-hers-name">Sumary</div>
+          <div class="sot-key">Age</div>         <div class="sot-val" id="sot-hers-age">38</div>
+          <div class="sot-key">Role</div>        <div class="sot-val" id="sot-hers-role">Co-creator, Learn And Grow Rich</div>
+          <div class="sot-key">DLN annual</div>  <div class="sot-val" id="sot-hers-dln">$163,500</div>
+          <div class="sot-key">Income (yr)</div> <div class="sot-val" id="sot-hers-income">$2,400</div>
+          <div class="sot-key">Comm style</div>  <div class="sot-val" style="font-size:11px;font-style:italic;color:#999">Warm, patient, education-first. Brand new to finance — always teach before you advise.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">🎯 The plan</div>
+          <div class="card-sub">Where you're going, where you're coming from, what the plan says.</div>
+        </div>
+      </div>
+      <div class="sot-section">3-year vision</div>
+      <div class="sot-val" style="font-size:12px;line-height:1.7" id="sot-3yr">By 2029, software and training program shipped to thousands. Sumary running the personal finance arm of Learn And Grow Rich. Joint Dream Life Number fully funded. Net worth $2M+. Annual income $400K+.</div>
+
+      <div class="sot-section">10-year vision</div>
+      <div class="sot-val" style="font-size:12px;line-height:1.7" id="sot-10yr">By 2036, the family is living the path. Net worth past $5M. Foundation funding $X/year. Software by Learn And Grow Rich is the default personal finance tool for tens of thousands of households. We are who we said we'd be.</div>
+
+      <div class="sot-section">Baseline (where coming from)</div>
+      <div class="sot-val" style="font-size:12px;line-height:1.7" id="sot-baseline">January 2026 starting point. Combined annual gross income ~$200K. Net worth ~$890K. Joint Dream Life Number $603K/yr — gap to close $586K/yr. Beginner-mode learning curve for Sumary on financial fluency.</div>
+
+      <div class="sot-section">The plan</div>
+      <div class="sot-val" style="font-size:12px;line-height:1.7" id="sot-plan">Year 1 (2026) — Q1: Build and ship Software by LGR Personal v1; Sumary completes 8-module education program; both spouses log income and expenses for 90 days. Q2: Pay down credit card balances to zero; first joint Vision To Reality session reviewed quarterly. Q3: First investment property research; Sumary launches her first piece of the personal-finance teaching arm. Q4: Annual replan, document the year, set Best Year Ever for 2027.</div>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-hdr"><div><div class="card-title">✅ What's working</div></div></div>
+        <div class="sot-val" style="font-size:12px;line-height:1.7;color:#7dba4a">Marriage is strong, vision is shared. Zach has the financial fluency to teach. Sumary brings the beginner's mind that makes the teaching better. Income is stable. Real estate position has appreciated. Foundation by LGR giving cadence is established.</div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div><div class="card-title">⚠️ What's stuck</div></div></div>
+        <div class="sot-val" style="font-size:12px;line-height:1.7;color:#dba84a">Sumary's financial fluency — by design, she's brand new to all of this. Categorization habits not yet automatic. Joint Vision To Reality session not yet held. Investment outside retirement and primary residence is minimal. Tax strategy is not yet optimized.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">🌱 The why underneath</div>
+          <div class="card-sub">The L&amp;GR layer — the human-development context that shapes every recommendation.</div>
+        </div>
+      </div>
+      <div class="sot-grid">
+        <div class="sot-key">Why</div>           <div class="sot-val" style="line-height:1.6">We're building Learn And Grow Rich to be a path to peace and prosperity that anyone can walk. The personal-finance software is how that path lands in people's daily lives. Sumary is the prototype user — if it works for her, it works for the world.</div>
+        <div class="sot-key">Values</div>        <div class="sot-val">Education first, then everything else. Generosity at scale. Living simply enough to be truly free. Marriage and partnership as the foundation. The path is for everyone, not just the few.</div>
+        <div class="sot-key">Giving back</div>   <div class="sot-val">The Foundation by Learn And Grow Rich. 10%+ giving cadence. Long-term: fund education and infrastructure that helps people walk the path themselves.</div>
+        <div class="sot-key">Time horizon</div>  <div class="sot-val">Lifelong. This is not a sprint to an exit — it's the arc of a life. The business funds the life; the life funds the impact.</div>
+        <div class="sot-key">Prosperity</div>   <div class="sot-val">Total Dream Life Number ~$15M of investable assets outside the business and primary residence (4% rule applied to combined annual DLN of ~$603K). Single-digit % of that today. The gap is the work.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">⚙️ Edit any of this</div>
+          <div class="card-sub">Most fields above come from your Google Sheet's <b>Setup &amp; Profiles</b> tab. Open the Sheet, edit there, click ⟳ Refresh in the topbar to see changes here.</div>
+        </div>
+        <button class="btn btn-sec" onclick="refreshFromSheet()">⟳ Refresh from Sheet</button>
+      </div>
+      <div style="font-size:10px;color:#666;font-style:italic;line-height:1.5;margin-top:8px">
+        For now, the deeper fields (3-year vision, why, values, comm preferences) are baked into the app's CLIENT_CONTEXT object. To change them, edit <code style="background:#0a0a0a;padding:1px 4px;border-radius:3px">index.html</code> in your GitHub repo, push the change, Vercel auto-deploys. Editable through the UI in v1.3.
+      </div>
+    </div>
+
+  </div></div>
+
+  <div class="page" id="page-dataconnections"><div class="content">
+    <div class="page-hero">
+      <div class="page-hero-title">🔌 Data Connections</div>
+      <div class="page-hero-sub">
+        Connect this app to your Google Sheet. Two methods: <b>Google sign-in</b> (recommended — read AND write,
+        fully private), or <b>Published CSV</b> (read-only fallback, no Google Cloud setup required).
+      </div>
+    </div>
+
+    <!-- Method picker -->
+    <div class="vtabs">
+      <button class="vtab active" id="conn-tab-oauth" onclick="setConnTab('oauth')">🔒 Google Sign-in (recommended)</button>
+      <button class="vtab" id="conn-tab-csv" onclick="setConnTab('csv')">📋 Published CSV (fallback)</button>
+    </div>
+
+    <!-- =========== OAUTH PANE =========== -->
+    <div class="vpane active" id="conn-pane-oauth">
+
+      <!-- Status card -->
+      <div class="card" id="oauth-status-card">
+        <div class="card-hdr">
+          <div>
+            <div class="card-title" id="oauth-title">Not signed in</div>
+            <div class="card-sub" id="oauth-sub">Sign in with Google to read and write to your private Sheet directly.</div>
+          </div>
+          <div id="oauth-dot" style="width:14px;height:14px;border-radius:50%;background:#5a4a1a;flex-shrink:0;margin-top:4px"></div>
+        </div>
+
+        <!-- Step 1: Client ID setup -->
+        <div id="oauth-step-clientid" style="margin-top:14px;padding:12px;background:#0d0d0d;border:1px solid #232323;border-radius:8px">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:#dba84a;text-transform:uppercase;margin-bottom:6px">Step 1 · Google Cloud Client ID required</div>
+          <div style="font-size:11px;color:#aaa;line-height:1.6;margin-bottom:8px">
+            Before sign-in works, paste your Google OAuth Client ID below and reload. (One-time setup —
+            see the README for the 15-minute Google Cloud walkthrough.)
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input type="text" id="oauth-clientid-input" placeholder="123456789-abc...apps.googleusercontent.com"
+              style="flex:1;min-width:280px;background:#0a0a0a;border:1px solid #333;border-radius:6px;padding:9px 12px;color:#f0f0f0;font-size:11px;font-family:'SF Mono',Consolas,monospace">
+            <button class="btn btn-sec" onclick="saveClientId()">Save & Reload</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Sign in (hidden until client ID is set) -->
+        <div id="oauth-step-signin" style="margin-top:14px;display:none">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:#7dba4a;text-transform:uppercase;margin-bottom:6px">Step 2 · Sign in with Google</div>
+          <button class="btn" onclick="signInWithGoogle()" style="display:flex;align-items:center;gap:10px"
+            ><span style="background:#fff;color:#000;padding:2px 6px;border-radius:3px;font-weight:900">G</span> Sign in with Google</button>
+        </div>
+
+        <!-- Step 3: Sheet ID input (hidden until signed in) -->
+        <div id="oauth-step-sheet" style="margin-top:14px;display:none">
+          <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:#7dba4a;text-transform:uppercase;margin-bottom:6px">Step 3 · Connect your Sheet</div>
+          <div style="font-size:11px;color:#aaa;line-height:1.6;margin-bottom:8px">
+            Paste the URL from your Sheet's address bar, or just the Sheet ID. The app reads <code style="background:#0a0a0a;padding:2px 5px;border-radius:3px">App_Data!A:C</code> for live values.
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input type="text" id="oauth-sheet-input" placeholder="https://docs.google.com/spreadsheets/d/.../edit"
+              style="flex:1;min-width:280px;background:#0a0a0a;border:1px solid #333;border-radius:6px;padding:9px 12px;color:#f0f0f0;font-size:11px;font-family:'SF Mono',Consolas,monospace">
+            <button class="btn" onclick="connectViaOAuth()">Connect</button>
+            <button class="btn btn-sec" onclick="refreshFromSheet()">⟳ Refresh</button>
+            <button class="btn btn-sec" onclick="signOutGoogle()" style="background:#2a1010;color:#e26b6b">Sign out</button>
+          </div>
+          <div id="oauth-msg" style="margin-top:10px;font-size:11px;color:#888;line-height:1.6"></div>
+        </div>
+
+      </div>
+
+      <!-- Write test -->
+      <div class="card" id="oauth-write-card" style="display:none">
+        <div class="card-hdr">
+          <div>
+            <div class="card-title">✏️ Test write</div>
+            <div class="card-sub">Confirms the OAuth write path works. Adds a timestamped row to the App_Log tab.</div>
+          </div>
+          <button class="btn" onclick="testWriteToSheet()" id="oauth-write-btn">Append test row →</button>
+        </div>
+        <div id="oauth-write-msg" style="margin-top:8px;font-size:11px;color:#888;line-height:1.6"></div>
+      </div>
+
+      <!-- What got loaded -->
+      <div class="card" id="oauth-data-card" style="display:none">
+        <div class="card-hdr">
+          <div>
+            <div class="card-title">Data last loaded from your Sheet</div>
+            <div class="card-sub" id="oauth-loaded-time">—</div>
+          </div>
+        </div>
+        <div id="oauth-data-table" style="font-size:11px;color:#aaa"></div>
+      </div>
+
+    </div>
+
+    <!-- =========== CSV PANE (fallback) =========== -->
+    <div class="vpane" id="conn-pane-csv">
+
+      <div class="card" id="conn-status-card">
+        <div class="card-hdr">
+          <div>
+            <div class="card-title" id="conn-title">Not connected</div>
+            <div class="card-sub" id="conn-sub">Paste your published CSV URL below to connect (read-only).</div>
+          </div>
+          <div id="conn-dot" style="width:14px;height:14px;border-radius:50%;background:#5a4a1a;flex-shrink:0;margin-top:4px"></div>
+        </div>
+
+        <div style="margin-top:10px">
+          <label style="font-size:10px;font-weight:700;letter-spacing:1px;color:#888;text-transform:uppercase;display:block;margin-bottom:6px">Published CSV URL</label>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input type="text" id="sheet-url-input" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?gid=...&single=true&output=csv"
+              style="flex:1;min-width:280px;background:#0d0d0d;border:1px solid #333;border-radius:6px;padding:9px 12px;color:#f0f0f0;font-size:11px;font-family:'SF Mono',Consolas,monospace">
+            <button class="btn" onclick="connectViaCSV()">Connect</button>
+            <button class="btn btn-sec" onclick="refreshFromSheet()">⟳ Refresh</button>
+            <button class="btn btn-sec" onclick="disconnectSheet()" style="background:#2a1010;color:#e26b6b">Disconnect</button>
+          </div>
+          <div id="conn-msg" style="margin-top:10px;font-size:11px;color:#888;line-height:1.6"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div>
+            <div class="card-title">How to publish your Sheet (3 minutes)</div>
+            <div class="card-sub">One-time setup. After this, just edit and refresh.</div>
+          </div>
+        </div>
+        <ol style="margin:8px 0 0 22px;font-size:12px;line-height:1.9;color:#cfcfcf">
+          <li>Open your <b>Software by Learn And Grow Rich</b> spreadsheet in Google Sheets.</li>
+          <li>Click the <b>App_Data</b> tab at the bottom.</li>
+          <li>Top menu: <b>File → Share → Publish to web</b>.</li>
+          <li>Switch first dropdown from "Entire Document" to <b>App_Data</b> only.</li>
+          <li>Switch second dropdown to <b>Comma-separated values (.csv)</b>.</li>
+          <li>Click <b>Publish</b>, copy the URL, paste above, click Connect.</li>
+        </ol>
+      </div>
+
+      <div class="card" id="conn-data-card" style="display:none">
+        <div class="card-hdr">
+          <div>
+            <div class="card-title">Data last loaded from your Sheet</div>
+            <div class="card-sub" id="conn-loaded-time">—</div>
+          </div>
+        </div>
+        <div id="conn-data-table" style="font-size:11px;color:#aaa"></div>
+      </div>
+
+    </div>
+
+  </div></div>
+
+  <div class="page" id="page-incomestmt"><div class="content">
+    <div class="page-hero">
+      <div class="page-hero-title">📈 Income Statement</div>
+      <div class="page-hero-sub">
+        What you earned and what you spent. The first of the three financial statements. Pulled live from your Google Sheet — every income source, every expense category, totaled by owner. Use the pills below to slice by His, Hers, Joint, or Combined.
+      </div>
+    </div>
+
+    <div class="teach-card">
+      <div class="teach-icon">🎓</div>
+      <div class="teach-content">
+        <div class="teach-title">What an Income Statement actually shows</div>
+        <div class="teach-text">
+          The Income Statement is a <b>flow</b> — money moving through your life over a period of time (this year, year-to-date). Two halves: <b>income</b> at the top (everything that came in), and <b>expenses</b> below (everything that went out). The bottom line is the difference. When the bottom is positive, you grew. When it's negative, you shrunk. It's the first statement to read because it tells you whether the period was a building period or a using-up period. Pair it with the Cash Flow Statement (where the money actually went) and the Balance Sheet (what's left at the end) to get the full picture.
+        </div>
+      </div>
+    </div>
+
+    <!-- Owner pivot -->
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">View by:
+            <span class="pivot-pills" id="is-pivot">
+              <button class="pivot-pill" data-owner="his" onclick="setStmtPivot('is','his')">His</button>
+              <button class="pivot-pill" data-owner="hers" onclick="setStmtPivot('is','hers')">Hers</button>
+              <button class="pivot-pill" data-owner="joint" onclick="setStmtPivot('is','joint')">Joint</button>
+              <button class="pivot-pill active" data-owner="total" onclick="setStmtPivot('is','total')">Combined</button>
+            </span>
+          </div>
+        </div>
+        <button class="btn-ghost" onclick="askZachAbout('Walk me through my Income Statement. What is the most important thing to notice?')">Ask Zach about this →</button>
+      </div>
+
+      <!-- KPI summary -->
+      <div class="g3" style="margin-top:6px">
+        <div class="dtile">
+          <div class="mlabel">Total income</div>
+          <div class="mval stmt-num pos" id="is-kpi-income">$17,050</div>
+          <div class="dtile-help">Everything that came in — all sources combined.</div>
+        </div>
+        <div class="dtile">
+          <div class="mlabel">Total expenses</div>
+          <div class="mval stmt-num neg" id="is-kpi-expenses">$5,820</div>
+          <div class="dtile-help">Everything that went out — all categories combined.</div>
+        </div>
+        <div class="dtile">
+          <div class="mlabel">Net income</div>
+          <div class="mval stmt-num" id="is-kpi-net">$11,230</div>
+          <div class="dtile-help">Income minus expenses. Positive = growing. Negative = shrinking.</div>
+        </div>
+      </div>
+
+      <!-- The actual statement -->
+      <table class="stmt-table" id="is-table">
+        <thead><tr><th>Line item</th><th>Year-to-date</th><th>% of income</th></tr></thead>
+        <tbody id="is-tbody">
+          <!-- Rendered by renderIncomeStatement() -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Composition bars -->
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">Where every dollar comes from</div>
+          <div class="card-sub">Income composition — biggest sources first.</div>
+        </div>
+      </div>
+      <div id="is-income-bars">
+        <!-- Rendered by renderIncomeStatement() -->
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">Where every dollar goes</div>
+          <div class="card-sub">Expense composition — biggest categories first.</div>
+        </div>
+      </div>
+      <div id="is-expense-bars">
+        <!-- Rendered by renderIncomeStatement() -->
+      </div>
+    </div>
+
+  </div></div>
+
+  <div class="page" id="page-cashflow"><div class="content">
+    <div class="page-hero">
+      <div class="page-hero-title">💸 Cash Flow Statement</div>
+      <div class="page-hero-sub">
+        Where the money actually went. Three buckets — Operations (your daily life), Investing (assets bought and sold), Financing (debt taken on or paid down). Add them up and you get the net change in cash for the period.
+      </div>
+    </div>
+
+    <div class="teach-card">
+      <div class="teach-icon">🎓</div>
+      <div class="teach-content">
+        <div class="teach-title">Why Cash Flow is different from Income Statement</div>
+        <div class="teach-text">
+          The Income Statement says "you earned $X and spent $Y, net was $Z." The Cash Flow Statement asks a sharper question: <b>where did the money actually move?</b> Three lenses: <b>Operations</b> (your day-to-day life — same as the Income Statement bottom line), <b>Investing</b> (did you buy assets, sell assets?), and <b>Financing</b> (did you take on debt, pay debt off?). A household with great Income Statement performance can still be cash-poor if Operations is going to debt service. A household with mediocre Income Statement can still be wealth-building if it's funneling money into investments. The Cash Flow Statement reveals the strategy.
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div><div class="card-title">Year-to-date cash movement</div></div>
+        <button class="btn-ghost" onclick="askZachAbout('Walk me through my Cash Flow Statement. What does it reveal about my strategy?')">Ask Zach about this →</button>
+      </div>
+
+      <div class="g3" style="margin-top:6px">
+        <div class="dtile">
+          <div class="mlabel">From operations</div>
+          <div class="mval stmt-num" id="cf-kpi-ops">$11,230</div>
+          <div class="dtile-help">Day-to-day life. Equals Net Income on the Income Statement.</div>
+        </div>
+        <div class="dtile">
+          <div class="mlabel">From investing</div>
+          <div class="mval stmt-num" id="cf-kpi-inv">$0</div>
+          <div class="dtile-help">Asset purchases and sales. Negative = buying, positive = selling.</div>
+        </div>
+        <div class="dtile">
+          <div class="mlabel">From financing</div>
+          <div class="mval stmt-num" id="cf-kpi-fin">$0</div>
+          <div class="dtile-help">Debt taken on (positive) or paid down (negative).</div>
+        </div>
+      </div>
+
+      <table class="stmt-table" style="margin-top:14px">
+        <thead><tr><th>Line</th><th>Amount</th><th></th></tr></thead>
+        <tbody id="cf-tbody">
+          <!-- Rendered by renderCashFlow() -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">📊 The three buckets, visualized</div>
+          <div class="card-sub">A picture of your strategy: where cash is flowing this year.</div>
+        </div>
+      </div>
+      <div id="cf-bars">
+        <!-- Rendered by renderCashFlow() -->
+      </div>
+      <div style="font-size:10px;color:#888;margin-top:8px;line-height:1.5;font-style:italic">
+        For wealth-building households, you want Operations cash flowing INTO Investing. For households reducing debt, into Financing (paying down). The story your bars tell is the story of your strategy.
+      </div>
+    </div>
+
+  </div></div>
+
+  <div class="page" id="page-balancesheet"><div class="content">
+    <div class="page-hero">
+      <div class="page-hero-title">⚖️ Balance Sheet</div>
+      <div class="page-hero-sub">
+        What you own minus what owns you. The third statement — and the only one that compounds across time. Your net worth is the single most important number in personal finance, because it's the only one that tracks whether you're actually building something.
+      </div>
+    </div>
+
+    <div class="teach-card">
+      <div class="teach-icon">🎓</div>
+      <div class="teach-content">
+        <div class="teach-title">Why the Balance Sheet matters more than the other two</div>
+        <div class="teach-text">
+          The Income Statement and Cash Flow Statement are <b>flow</b> statements — they tell you what happened during a period. The Balance Sheet is a <b>snapshot</b> — it tells you where you stand right now. The difference matters: a great month on the Income Statement that doesn't move your Balance Sheet means you spent everything you earned. Years of mediocre Income Statements that build the Balance Sheet by 5% per year still compound into wealth. Net worth growth across time is the truest measure of whether your financial life is working. <b>Watch this number, not your income.</b>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">View by:
+            <span class="pivot-pills" id="bs-pivot">
+              <button class="pivot-pill" data-owner="his" onclick="setStmtPivot('bs','his')">His</button>
+              <button class="pivot-pill" data-owner="hers" onclick="setStmtPivot('bs','hers')">Hers</button>
+              <button class="pivot-pill" data-owner="joint" onclick="setStmtPivot('bs','joint')">Joint</button>
+              <button class="pivot-pill active" data-owner="total" onclick="setStmtPivot('bs','total')">Combined</button>
+            </span>
+          </div>
+        </div>
+        <button class="btn-ghost" onclick="askZachAbout('Walk me through my Balance Sheet. What is the most important thing to see?')">Ask Zach about this →</button>
+      </div>
+
+      <div class="g3" style="margin-top:6px">
+        <div class="dtile">
+          <div class="mlabel">Total assets</div>
+          <div class="mval stmt-num pos" id="bs-kpi-assets">$1,235,300</div>
+          <div class="dtile-help">Everything you own that has value.</div>
+        </div>
+        <div class="dtile">
+          <div class="mlabel">Total liabilities</div>
+          <div class="mval stmt-num neg" id="bs-kpi-liab">$342,400</div>
+          <div class="dtile-help">Everything that owns part of you.</div>
+        </div>
+        <div class="dtile" style="border:2px solid #FF6B0044;background:#1a0a00">
+          <div class="mlabel" style="color:#FF6B00">Net worth</div>
+          <div class="mval stmt-num" style="color:#FF6B00" id="bs-kpi-nw">$892,900</div>
+          <div class="dtile-help">The number that compounds across your life.</div>
+        </div>
+      </div>
+
+      <table class="stmt-table" style="margin-top:14px" id="bs-table">
+        <thead><tr><th>Line item</th><th>Amount</th><th>% of total</th></tr></thead>
+        <tbody id="bs-tbody">
+          <!-- Rendered by renderBalanceSheet() -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">🏛 Asset composition</div>
+          <div class="card-sub">What kinds of assets make up your wealth — and which ones produce income.</div>
+        </div>
+      </div>
+      <div id="bs-asset-bars">
+        <!-- Rendered by renderBalanceSheet() -->
+      </div>
+      <div style="font-size:10px;color:#888;margin-top:8px;line-height:1.5;font-style:italic">
+        Real estate (rental), taxable investments, and businesses produce income. Cash and primary residence don't. The tilt of this composition reveals how close you are to financial independence.
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-title">⚠️ Liability composition</div>
+          <div class="card-sub">What you owe, by category.</div>
+        </div>
+      </div>
+      <div id="bs-liab-bars">
+        <!-- Rendered by renderBalanceSheet() -->
+      </div>
+      <div style="font-size:10px;color:#888;margin-top:8px;line-height:1.5;font-style:italic">
+        Debt against income-producing assets (rental mortgage, business debt) is leverage — it can grow your wealth. Debt against consumption (credit cards, lifestyle loans) is anti-leverage — it shrinks it. The composition matters more than the total.
+      </div>
+    </div>
+
+  </div></div>
+
+  <div class="page" id="page-moneymachine"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">⚙️ Money Making Machine</div><div class="page-hero-sub">All three statements wired together — change one number, watch every other number cascade. The mechanics-of-money playground.</div></div>
+    <div class="stub-card"><div class="stub-emoji">⚙️</div><div class="stub-title">Money Making Machine</div><div class="stub-text">Interactive scenario engine. Adjust a knob, see how income, cash flow, and net worth all respond.</div><div class="stub-tag">v1.2 — interactive</div></div>
+  </div></div>
+
+  <div class="page" id="page-incomelog"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">⬆ Income Log</div><div class="page-hero-sub">Every dollar in. Tag it His, Hers, or Joint. 30 seconds per entry, conversational with Zach in v1.1.</div></div>
+    <div class="stub-card"><div class="stub-emoji">⬆</div><div class="stub-title">Income Log</div><div class="stub-text">In v1.1 you'll log income by talking to Zach. He writes to your Google Sheet behind the scenes.</div><div class="stub-tag">Sheets write · v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-expenselog"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">⬇ Expense Log</div><div class="page-hero-sub">Every dollar out. Same shape as income, plus a payment-method tag.</div></div>
+    <div class="stub-card"><div class="stub-emoji">⬇</div><div class="stub-title">Expense Log</div><div class="stub-text">Conversational expense entry — "log $47 lunch, I paid" — in v1.1.</div><div class="stub-tag">Sheets write · v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-categories"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">🏷 Categories</div><div class="page-hero-sub">Your master library of income, expense, asset, and liability categories. Pre-loaded sensible defaults; edit any time.</div></div>
+    <div class="stub-card"><div class="stub-emoji">🏷</div><div class="stub-title">Categories</div><div class="stub-text">Pulled from the Categories tab of your Google Sheet.</div><div class="stub-tag">Sheet pull · v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-assets"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">🏛 Assets Register</div><div class="page-hero-sub">What you own. The Balance Sheet pulls from this list.</div></div>
+    <div class="stub-card"><div class="stub-emoji">🏛</div><div class="stub-title">Assets Register</div><div class="stub-text">Track every asset by owner, category, current value.</div><div class="stub-tag">Sheet pull · v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-liabilities"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">⚠ Liabilities Register</div><div class="page-hero-sub">What owns you. Track every loan and revolving balance.</div></div>
+    <div class="stub-card"><div class="stub-emoji">⚠</div><div class="stub-title">Liabilities Register</div><div class="stub-text">Original balance, current balance, interest rate, minimum payment — all in one place.</div><div class="stub-tag">Sheet pull · v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-bestyear"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">✦ Best Year Ever</div><div class="page-hero-sub">10-year vision, 3-year picture, 1-year goals across five buckets, quarterly rocks, monthly check-in, weekly review prompts. The full annual planning rhythm.</div></div>
+    <div class="stub-card"><div class="stub-emoji">✦</div><div class="stub-title">Best Year Ever</div><div class="stub-text">The plan for closing the gap, year by year. Pulled from the Best Year Ever tab of your Sheet.</div><div class="stub-tag">Sheet pull · v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-rocks"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">🪨 Quarterly Rocks</div><div class="page-hero-sub">3 to 5 quarterly priorities. The rocks before the pebbles.</div></div>
+    <div class="stub-card"><div class="stub-emoji">🪨</div><div class="stub-title">Quarterly Rocks</div><div class="stub-text">Set them, track them, review them.</div><div class="stub-tag">Sheet pull · v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-monthly"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">📆 Monthly Check-in</div><div class="page-hero-sub">First of every month. Three questions: what worked, what didn't, what's the one decision next month.</div></div>
+    <div class="stub-card"><div class="stub-emoji">📆</div><div class="stub-title">Monthly Check-in</div><div class="stub-text">Guided monthly review with Zach.</div><div class="stub-tag">Conversational · v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-weekly"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">🗓 Weekly Review</div><div class="page-hero-sub">Friday afternoon, 5 minutes. Three prompts that anchor the next week.</div></div>
+    <div class="stub-card"><div class="stub-emoji">🗓</div><div class="stub-title">Weekly Review</div><div class="stub-text">A weekly conversation with Zach to keep the rhythm.</div><div class="stub-tag">Conversational · v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-familyoffice"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">🏛️ Family Office</div><div class="page-hero-sub">The view normally reserved for the ultra-wealthy — entity structure, cash flow across all entities, generational wealth, legacy planning. Yours by virtue of paying attention.</div></div>
+    <div class="stub-card"><div class="stub-emoji">🏛️</div><div class="stub-title">Family Office</div><div class="stub-text">Multi-entity view. Tax strategy. Investment strategy. Legacy.</div><div class="stub-tag">v1.2 — Family Office Advisor voice</div></div>
+  </div></div>
+
+  <div class="page" id="page-taxstrategy"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">🧾 Tax Strategy</div><div class="page-hero-sub">Tax efficiency is wealth creation, not wealth optimization. Lens 3 of The Gap, expanded.</div></div>
+    <div class="stub-card"><div class="stub-emoji">🧾</div><div class="stub-title">Tax Strategy</div><div class="stub-text">Routes to the Tax Strategist specialist voice.</div><div class="stub-tag">Specialist voice · v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-investmentstrategy"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">📈 Investment Strategy</div><div class="page-hero-sub">Lens 4 of The Gap. Buy income-producing assets. The path off the W-2 treadmill.</div></div>
+    <div class="stub-card"><div class="stub-emoji">📈</div><div class="stub-title">Investment Strategy</div><div class="stub-text">Routes to the Investment Advisor specialist voice.</div><div class="stub-tag">Specialist voice · v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-insurance"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">🛡️ Insurance & Estate</div><div class="page-hero-sub">Protective layer. Life, disability, umbrella. Wills, trusts, beneficiaries. The "what if something happens" plan.</div></div>
+    <div class="stub-card"><div class="stub-emoji">🛡️</div><div class="stub-title">Insurance & Estate</div><div class="stub-text">Audit your protective coverage and estate basics.</div><div class="stub-tag">v1.2</div></div>
+  </div></div>
+
+  <div class="page" id="page-foundation"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">🌍 The Foundation</div><div class="page-hero-sub">Where giving lives. The Plan To Heal The World, your contribution cadence, and the future of the LGR Foundation.</div></div>
+    <div class="stub-card"><div class="stub-emoji">🌍</div><div class="stub-title">The Foundation</div><div class="stub-text">Pulls from your Plan To Heal The World project knowledge.</div><div class="stub-tag">v1.2</div></div>
+  </div></div>
+
+  <div class="page" id="page-giving"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">🤲 Giving Cadence</div><div class="page-hero-sub">10%+ as a baseline. Tracked monthly so it stays sacred even as income grows.</div></div>
+    <div class="stub-card"><div class="stub-emoji">🤲</div><div class="stub-title">Giving Cadence</div><div class="stub-text">Track giving against the Foundation by LGR commitment and personal causes.</div><div class="stub-tag">v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-retreat"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">🏖️ The Retreat</div><div class="page-hero-sub">Where rest and integration live. The annual retreat — by Learn And Grow Rich.</div></div>
+    <div class="stub-card"><div class="stub-emoji">🏖️</div><div class="stub-title">The Retreat</div><div class="stub-text">Schedule, integration, and the cadence of restoration.</div><div class="stub-tag">v1.2</div></div>
+  </div></div>
+
+  <div class="page" id="page-links"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">🔗 Important Links</div><div class="page-hero-sub">Your Google Sheet, your bank logins, your investment accounts — all the places this app integrates with or points to.</div></div>
+    <div class="stub-card"><div class="stub-emoji">🔗</div><div class="stub-title">Important Links</div><div class="stub-text">Editable list of your most-used financial logins and resources.</div><div class="stub-tag">v1.1</div></div>
+  </div></div>
+
+  <div class="page" id="page-settings"><div class="content">
+    <div class="page-hero"><div class="page-hero-title">⚙ Settings</div><div class="page-hero-sub">Model selection, theme, beginner mode default, who is signed in, sign out.</div></div>
+    <div class="stub-card"><div class="stub-emoji">⚙</div><div class="stub-title">Settings</div><div class="stub-text">All your preferences in one place.</div><div class="stub-tag">v1.1</div></div>
+  </div></div>
+
+  <!-- ============== ASK ZACH ============== -->
+  <div class="page" id="page-askzach"><div class="content">
+
+    <div style="background:#1a0a00;border:1px solid #FF6B0033;border-radius:12px;padding:18px;margin-bottom:14px;text-align:center">
+      <div style="width:54px;height:54px;border-radius:50%;background:#FF6B00;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff;margin:0 auto 8px;border:3px solid #FF6B0055">Z</div>
+      <div style="font-size:16px;font-weight:700;color:#FF6B00;margin-bottom:2px">Ask Zach</div>
+      <div style="font-size:11px;color:#888">AI advisor with your full Dream Life context. Speaks as Zach, with your specialist team behind him.</div>
+    </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+      <button class="qchip" onclick="azQ('What is my Dream Life Number, and how was it calculated?')">🎯 My DLN</button>
+      <button class="qchip" onclick="azQ('How am I doing this month?')">📊 This month</button>
+      <button class="qchip" onclick="azQ('What are the biggest moves I can make to close the gap?')">💡 Close the gap</button>
+      <button class="qchip" onclick="azQ('Teach me what an Income Statement actually shows me.')">📈 Teach: Income Stmt</button>
+      <button class="qchip" onclick="azQ('Teach me what a Balance Sheet actually shows me.')">⚖️ Teach: Balance Sheet</button>
+      <button class="qchip" onclick="azQ('Walk me through assets vs. liabilities. Why does it matter so much?')">🏛 Assets vs. liabilities</button>
+      <button class="qchip" onclick="azQ('What is one decision I should make this week?')">🎲 One decision</button>
+    </div>
+
+    <div class="az-win" id="az-chat"></div>
+
+    <div style="display:flex;gap:8px">
+      <textarea id="az-input" rows="2" style="flex:1;background:#0d0d0d;border:1px solid #333;border-radius:8px;padding:10px 12px;color:#f0f0f0;font-size:12px;resize:none;font-family:inherit" placeholder="Ask anything about your money, your goals, your plan..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();azSend()}"></textarea>
+      <button id="az-btn" onclick="azSend()" style="background:#FF6B00;border:none;color:#fff;padding:10px 16px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;align-self:flex-end">Send ↑</button>
+    </div>
+
+  </div></div>
+
+</div>
+
+<script>
+// ============================================================
+// SOFTWARE BY LEARN AND GROW RICH — APP BRAIN
+// Mirrors the F.O.S.M. Command Center pattern, adapted for personal finance.
+// CLIENT_CONTEXT → ROLES → PAGE_TO_ROLE → callAI → render.
+// ============================================================
+
+// ============================================================
+// ============ CLIENT_CONTEXT ================================
+// ============================================================
+// Everything Zach (and the specialists) know about this household.
+// Edit this block to personalize. The whole app's voice depends on it.
+var CLIENT_CONTEXT = {
+  // ---------- WHO ----------
+  household:        "The Oehlmans",
+  his_name:         "Zach",
+  his_age:          40,
+  his_role:         "Founder, Learn And Grow Rich",
+  hers_name:        "Sumary",
+  hers_age:         38,
+  hers_role:        "Co-creator, Learn And Grow Rich Personal Finance arm",
+  country:          "USA",
+  currency:         "USD",
+  filing_status:    "Married Filing Jointly",
+  children:         "None currently",
+
+  // ---------- THE PLAN ----------
+  three_year_vision: "By 2029, software and training program shipped to thousands. Sumary running the personal finance arm of Learn And Grow Rich. Joint Dream Life Number fully funded. Net worth $2M+. Annual income $400K+.",
+  ten_year_vision:   "By 2036, the family is living the path. Net worth past $5M. Foundation funding $X/year. Software by Learn And Grow Rich is the default personal finance tool for tens of thousands of households. We are who we said we'd be.",
+  baseline:          "January 2026 starting point. Combined annual gross income approx $200K (Zach W-2 + Sumary contract + small rental). Net worth approx $890K. Joint Dream Life Number $603K/yr — gap to close $586K/yr. Beginner-mode learning curve for Sumary on financial fluency.",
+  the_plan:          "Year 1 (2026) — Q1: Build and ship Software by LGR Personal v1; Sumary completes 8-module education program; both spouses log income and expenses for 90 days. Q2: Pay down credit card balances to zero; first joint Vision To Reality session reviewed quarterly; clarify tax strategy for next year. Q3: First investment property research; Sumary launches her first piece of the personal-finance teaching arm. Q4: Annual replan, document the year, set Best Year Ever for 2027.",
+
+  // ---------- DREAM LIFE ----------
+  his_dln_monthly:    20317,
+  his_dln_annual:     243800,
+  hers_dln_monthly:   13625,
+  hers_dln_annual:    163500,
+  joint_dln_monthly:  16325,
+  joint_dln_annual:   195900,
+  total_dln_annual:   603200,
+
+  // ---------- CURRENT STATE ----------
+  current_priorities:  "Q1 2026 — Sumary completes the education program. Both spouses establish 30-second daily logging habit. Clear all credit card revolving balances by end of Q1. First quarterly Vision To Reality joint session.",
+  whats_working:       "Marriage is strong, vision is shared. Zach has the financial fluency to teach. Sumary brings the beginner's mind that makes the teaching better. Income is stable. Real estate position (primary residence) has appreciated. Foundation by LGR giving cadence is established.",
+  whats_stuck:         "Sumary's financial fluency — by design, she's brand new to all of this. Categorization habits not yet automatic. Joint Vision To Reality session not yet held. Investment outside retirement and primary residence is minimal. Tax strategy is not yet optimized.",
+
+  // ---------- L&GR LAYER (the human underneath) ----------
+  why:                "We're building Learn And Grow Rich to be a path to peace and prosperity that anyone can walk. The personal-finance software is how that path lands in people's daily lives. Sumary is the prototype user — if it works for her, it works for the world.",
+  values:             "Education first, then everything else. Generosity at scale. Living simply enough to be truly free. Marriage and partnership as the foundation. The path is for everyone, not just the few.",
+  giving_back:        "The Foundation by Learn And Grow Rich. 10%+ giving cadence. Long-term: fund education and infrastructure that helps people walk the path themselves.",
+  family:             "Zach + Sumary. Children planned but not yet. Tight inner circle.",
+  time_horizon:       "Lifelong. This is not a sprint to an exit — it's the arc of a life. The business funds the life; the life funds the impact.",
+  prosperity_def:     "The Joint Dream Life Number is $195,900/yr. Combined with Zach and Sumary's individual numbers, the total annual cost of the dream life is approximately $603,200. Using the 4% rule (×25 multiplier), the Total Dream Life Number for full financial independence is approximately $15M of investable assets outside the business and primary residence. We are at single-digit % of that today. The gap is the work.",
+
+  // ---------- COMMUNICATION ----------
+  his_comm_pref:      "Direct, founder-to-founder. Zach is energetic, growth-minded, and articulate. Skip the basics — go deep on strategy, math, and frameworks. Don't soften hard truths.",
+  hers_comm_pref:     "Warm, patient, education-first. Sumary is brand new to finance. Always teach the concept before giving the answer. Use plain language, never jargon. Never make her feel stupid. Walk through every step. Use her actual numbers in examples whenever possible. Celebrate small wins.",
+
+  // ---------- BEGINNER MODE / SPEAKER STATE ----------
+  // These are mutated by setSpeaker() and toggleBeginnerMode().
+  current_speaker:    "hers",       // 'his' | 'hers' | 'joint'
+  beginner_mode:      true          // when true, every response teaches first
+};
+
+// ============================================================
+// ============ THE PLAN-CENTERED FRAMEWORK ===================
+// ============================================================
+// Every AI response anchors here. The framework comes BEFORE the numbers.
+var FRAMEWORK = `
+THE PLAN-CENTERED FRAMEWORK — anchor every response to these five questions in order:
+
+1. WHERE ARE YOU GOING? — Reference the Dream Life Number and the 3-year vision.
+2. WHERE ARE YOU COMING FROM? — Reference the baseline / starting point.
+3. WHAT DOES THE PLAN SAY? — Reference the documented plan and milestones.
+4. ARE WE ON PLAN OR OFF PLAN? — Diagnose. Name it specifically.
+5. IF OFF PLAN: adjust the plan, execute harder, or change something material?
+
+Numbers and recommendations come AFTER framework anchoring, never as the headline.
+Do not just answer the literal question. Contextualize against the plan first.
+
+If the plan is unclear in CLIENT_CONTEXT, say so and ask what the plan is
+before giving advice. A specialist without a plan to anchor to is just a calculator.
+`.trim();
+
+// ============================================================
+// ============ THE 7 SPECIALIST VOICES =======================
+// ============================================================
+var ROLES = {
+  zach: {
+    name: 'Zach',
+    title: 'Zach (founder of Learn And Grow Rich)',
+    prompt: `You are Zach. Founder of Learn And Grow Rich. The household trusts you because you've earned it — twenty years studying finance, accounting, economics, psychology, leadership, and human nature, distilled into frameworks anyone can use.
+
+YOUR LENS:
+- Education first. Always teach before you advise.
+- Money is replicable math. Anyone can learn it. The difference between haves and have-nots is education.
+- The path to peace and prosperity runs through three financial statements and one Dream Life Number.
+- F.O.S.M. (Finance, Operations, Sales, Marketing) is the framework for businesses. The personal version is: earn, manage, grow, give.
+- Wilson's Law: every decision impacts the income statement, cash flow statement, and balance sheet — whether you know it or not. Make it visible.
+- Generosity multiplies what flows through you. The Foundation is part of the why, not an afterthought.
+
+YOU SPEAK LIKE:
+- Warm friend on a walk, not a banker behind a desk.
+- Concrete, never abstract. Use the household's actual numbers.
+- Stories and metaphors before formulas.
+- One thought at a time. Never more than three things to act on.
+- "We" when speaking to either spouse — you're on their team.
+
+QUESTIONS YOU DEFAULT TO:
+- "What do the three statements say?"
+- "What does the Dream Life Number say?"
+- "What's the gap, and which lens are we using to close it?"
+- "Are we on plan or off plan?"
+- "What's the next concrete action you can take this week?"`
+  },
+
+  pcfo: {
+    name: 'Personal CFO',
+    title: 'Personal CFO',
+    prompt: `You are the Personal CFO advising this household. You are not a generic CFO — you are THIS family's CFO.
+
+YOUR LENS:
+- Cash before everything. Cash is oxygen.
+- Measurement before action. If it's not in the Sheet, it's not real.
+- The income statement tells the past. The cash flow tells the present. The balance sheet tells the future.
+- Tax efficiency is wealth creation. Wealth optimization is what you do after you have wealth.
+- Diagnose where money is leaking before recommending where to invest.
+
+YOUR PRIORITIES IN ORDER:
+1. Are we solvent? (cash runway, working capital, no surprises)
+2. Are we profitable? (monthly net positive, savings rate)
+3. Are we creating wealth? (net worth growing, assets > liabilities, ratio improving)
+4. Are we optimized? (tax structure, account choice, cost of capital)
+
+QUESTIONS YOU DEFAULT TO:
+- "What's the runway in our checking account?"
+- "Where is cash actually going each month?"
+- "What does this look like on the balance sheet, not just the P&L?"
+- "If we did nothing for 90 days, what would the numbers say?"
+- "What's the most expensive thing we don't measure?"`
+  },
+
+  vision: {
+    name: 'Vision Coach',
+    title: 'Vision Coach',
+    prompt: `You are the Vision Coach. You hold the household's Dream Life Number, their 3-year and 10-year vision, and their Best Year Ever plan. Your job is to keep the destination clear and visible.
+
+YOUR LENS:
+- The Dream Life Number is a calculation, not a wish. Three pieces — Dream Day × 30 + Adventure List ÷ 12 + Monthly Budget.
+- Vision drives behavior. Without a clear destination, every decision is reactive.
+- The dream evolves. Revisit quarterly. Update without guilt.
+- Wilson's Law — every decision moves you toward the dream or away from it. Make it visible.
+- Limiting beliefs about money are downstream of limiting beliefs about self. Reframe both together.
+
+YOUR PRIORITIES IN ORDER:
+1. Is the Dream Life Number current and honest? (Not too small, not aspirational nonsense.)
+2. Is the gap between today and the dream visible and quantified?
+3. Is there a Best Year Ever plan that closes some of the gap this year?
+4. Are quarterly rocks moving toward the plan? Monthly check-ins happening?
+
+QUESTIONS YOU DEFAULT TO:
+- "What does your perfect Tuesday look like — including what it costs?"
+- "What experience would you regret most if you never had it?"
+- "What does the gap actually feel like to live with?"
+- "Which lens — sell more, spend less, pay less in tax, buy income-producing assets — do you want to pull this quarter?"`
+  },
+
+  tax: {
+    name: 'Tax Strategist',
+    title: 'Tax Strategist',
+    prompt: `You are the Tax Strategist for this household. Personal tax efficiency, not aggressive tax avoidance.
+
+YOUR LENS:
+- Tax is the largest single line item in most households' lives. Optimize it deliberately.
+- Entity structure, retirement contributions, charitable giving, real estate depreciation — these are levers most people don't pull.
+- The path is legal optimization through education, never gray-area gambling.
+- Tax planning is a year-round activity, not an April activity.
+
+YOUR PRIORITIES IN ORDER:
+1. Are tax-advantaged accounts maxed where they should be? (401k, IRA, Roth, HSA, 529.)
+2. Is entity structure optimal? (S-corp election, sole prop, LLC.)
+3. Is charitable giving structured strategically? (Donor-advised funds, appreciated stock, etc.)
+4. Are depreciation and other accelerators being used where eligible?
+
+ALWAYS NOTE: You are a strategist, not a CPA. Recommend they confirm specifics with a qualified tax professional in their state.`
+  },
+
+  invest: {
+    name: 'Investment Advisor',
+    title: 'Investment Advisor',
+    prompt: `You are the Investment Advisor for this household. The path off the W-2 treadmill runs through assets that produce income.
+
+YOUR LENS:
+- The Cashflow Quadrant — Employee, Self-employed, Business owner, Investor. Most people stop at S; the dream lives in B and I.
+- Income-producing assets are the destination. Real estate, dividend stocks, businesses, royalties.
+- Diversification reduces risk only when correlations are low. Otherwise it's just complication.
+- Time in market beats timing the market. Compounding is the secret most people don't believe in.
+- Dollar-cost averaging is the boring strategy that wins.
+
+YOUR PRIORITIES IN ORDER:
+1. Are we maxing tax-advantaged retirement accounts first?
+2. Is there an emergency fund (6 months of expenses) before non-retirement investing?
+3. What's the asset allocation by stage of life? (Aggressive when young, conservative as goals near.)
+4. Is there a specific income-producing asset strategy beyond index funds?
+
+ALWAYS NOTE: You are an advisor, not a fiduciary. Recommend they confirm with a qualified financial planner before large moves.`
+  },
+
+  fo: {
+    name: 'Family Office Advisor',
+    title: 'Family Office Advisor',
+    prompt: `You are the Family Office Advisor. Generational wealth, legacy, multi-entity coordination, the long view.
+
+YOUR LENS:
+- A family office is how the ultra-wealthy run their personal finances like a business. The democratized version is what we're building.
+- Wealth that doesn't transfer cleanly across generations isn't really wealth.
+- Estate, trust, beneficiary designations, asset titling — all the boring legal infrastructure that protects what's been built.
+- Foundation by Learn And Grow Rich is part of the legacy plan, not an afterthought.
+- The why, written down, survives the people who wrote it.
+
+YOUR PRIORITIES IN ORDER:
+1. Is wealth being created in the right legal vehicles? (Personal, entity, trust, etc.)
+2. Is there a current estate plan? Wills, trusts, beneficiaries, healthcare directives?
+3. Is there a documented family philosophy on money — what it's for, how it's shared?
+4. Is the next generation being educated about what's being built?
+
+ALWAYS NOTE: Estate and trust law varies by state and changes regularly. Recommend they work with a qualified estate attorney for execution.`
+  },
+
+  edu: {
+    name: 'Education Coach',
+    title: 'Education Coach',
+    prompt: `You are the Education Coach for this household — and especially for Sumary, who is brand new to financial fluency.
+
+YOUR LENS:
+- Teaching is the highest form of advising. If she doesn't understand it, the advice doesn't work.
+- Plain language, always. No jargon without immediate definition.
+- Teach the concept before applying the concept.
+- Use her actual numbers in examples whenever possible.
+- Celebrate small wins. Confidence compounds the same way money does.
+- There are no stupid questions. The only stupid thing is to advise without teaching first.
+
+YOUR APPROACH:
+1. State the concept simply. (One sentence.)
+2. Give one concrete example using her actual situation.
+3. Tell her what action she can take based on the concept.
+4. Invite a follow-up question.
+
+NEVER:
+- Lecture.
+- Use a financial term without defining it the first time.
+- Make her feel behind for not already knowing.
+- Skip the "why" to get to the "what."`
+  }
+};
+
+// ============================================================
+// ============ PAGE → ROLE MAPPING ===========================
+// ============================================================
+// Determines which specialist's voice answers questions on each page.
+var PAGE_TO_ROLE = {
+  // Zach (default voice — holds it all together)
+  dashboard: 'zach', askzach: 'zach', todo: 'zach', sourceoftruth: 'zach',
+  dataconnections: 'zach', links: 'zach', settings: 'zach',
+  foundation: 'zach', giving: 'zach', retreat: 'zach',
+  // Personal CFO — money mechanics
+  incomestmt: 'pcfo', cashflow: 'pcfo', balancesheet: 'pcfo', moneymachine: 'pcfo',
+  incomelog: 'pcfo', expenselog: 'pcfo', categories: 'pcfo',
+  assets: 'pcfo', liabilities: 'pcfo',
+  // Vision Coach — destination & planning
+  vision: 'vision', gap: 'vision', bestyear: 'vision',
+  rocks: 'vision', monthly: 'vision', weekly: 'vision',
+  // Tax Strategist
+  taxstrategy: 'tax',
+  // Investment Advisor
+  investmentstrategy: 'invest',
+  // Family Office Advisor
+  familyoffice: 'fo', insurance: 'fo',
+  // Education Coach (default for Sumary's beginner-mode learning)
+  education: 'edu'
+};
+
+// ============================================================
+// ============ SPEAKER + BEGINNER MODE STATE =================
+// ============================================================
+function getCurrentSpeakerName(){
+  var s = CLIENT_CONTEXT.current_speaker;
+  if(s === 'his') return CLIENT_CONTEXT.his_name;
+  if(s === 'hers') return CLIENT_CONTEXT.hers_name;
+  return 'the household';
+}
+
+function getCurrentCommPref(){
+  var s = CLIENT_CONTEXT.current_speaker;
+  if(s === 'his') return CLIENT_CONTEXT.his_comm_pref;
+  if(s === 'hers') return CLIENT_CONTEXT.hers_comm_pref;
+  return CLIENT_CONTEXT.his_comm_pref + ' / ' + CLIENT_CONTEXT.hers_comm_pref;
+}
+
+function setSpeaker(spk){
+  CLIENT_CONTEXT.current_speaker = spk;
+  try { localStorage.setItem('lgr_speaker', spk); } catch(e){}
+  // Update sidebar buttons
+  ['his','hers','joint'].forEach(function(s){
+    var el = document.getElementById('spk-' + s);
+    if(el) el.classList.toggle('active', s === spk);
+  });
+  // Update help text
+  var help = document.getElementById('spk-help');
+  if(help){
+    if(spk === 'his') help.textContent = "Zach's view — strategic, founder-to-founder, no kid gloves.";
+    else if(spk === 'hers') help.textContent = "Sumary's view — beginner-friendly guidance and her Dream Life Number.";
+    else help.textContent = "Joint view — household-level numbers, both Dream Life Numbers in scope.";
+  }
+  // Update top-bar speaker indicator
+  var ind = document.getElementById('topbar-spk');
+  if(ind){
+    if(spk === 'his') ind.textContent = '👤 ' + CLIENT_CONTEXT.his_name;
+    else if(spk === 'hers') ind.textContent = '👤 ' + CLIENT_CONTEXT.hers_name;
+    else ind.textContent = '👥 Joint';
+  }
+  // Update dashboard hero name
+  var heroN = document.getElementById('hero-name');
+  if(heroN){
+    if(spk === 'his') heroN.textContent = CLIENT_CONTEXT.his_name;
+    else if(spk === 'hers') heroN.textContent = CLIENT_CONTEXT.hers_name;
+    else heroN.textContent = 'Team';
+  }
+}
+
+function toggleBeginnerMode(){
+  CLIENT_CONTEXT.beginner_mode = !CLIENT_CONTEXT.beginner_mode;
+  try { localStorage.setItem('lgr_beginner_mode', CLIENT_CONTEXT.beginner_mode ? '1' : '0'); } catch(e){}
+  var t = document.getElementById('bm-toggle');
+  var txt = document.getElementById('bm-text');
+  var bdg = document.getElementById('bm-badge');
+  if(CLIENT_CONTEXT.beginner_mode){
+    t.classList.remove('off');
+    txt.textContent = 'Beginner mode — on';
+    if(bdg){ bdg.textContent = 'Beginner mode'; bdg.style.display = ''; }
+  } else {
+    t.classList.add('off');
+    txt.textContent = 'Beginner mode — off';
+    if(bdg){ bdg.style.display = 'none'; }
+  }
+}
+
+// Restore persisted state on load
+(function(){
+  try {
+    var spk = localStorage.getItem('lgr_speaker');
+    if(spk === 'his' || spk === 'hers' || spk === 'joint'){
+      CLIENT_CONTEXT.current_speaker = spk;
+    }
+    var bm = localStorage.getItem('lgr_beginner_mode');
+    if(bm === '0') CLIENT_CONTEXT.beginner_mode = false;
+    if(bm === '1') CLIENT_CONTEXT.beginner_mode = true;
+  } catch(e){}
+})();
+
+// ============================================================
+// ============ MODEL SELECTION ===============================
+// ============================================================
+var CLAUDE_MODEL = (function(){
+  try {
+    var stored = localStorage.getItem('lgr_personal_claude_model');
+    if(stored === 'claude-sonnet-4-6' || stored === 'claude-haiku-4-5-20251001') return stored;
+  } catch(e){}
+  return 'claude-haiku-4-5-20251001';
+})();
+function setClaudeModel(m){
+  CLAUDE_MODEL = m;
+  try { localStorage.setItem('lgr_personal_claude_model', m); } catch(e){}
+  renderModelBadge();
+}
+function renderModelBadge(){
+  var el = document.getElementById('model-badge-text');
+  if(!el) return;
+  if(CLAUDE_MODEL === 'claude-haiku-4-5-20251001'){
+    el.textContent = 'Haiku 4.5 · fast';
+    el.parentElement.style.color = '#7dba4a';
+    el.parentElement.style.borderColor = '#2a4a3a';
+  } else {
+    el.textContent = 'Sonnet 4.6 · deep';
+    el.parentElement.style.color = '#7aabdd';
+    el.parentElement.style.borderColor = '#2a3a5a';
+  }
+}
+function showModelMenu(){
+  var existing = document.getElementById('model-menu-popup');
+  if(existing){ existing.remove(); return; }
+  var isHaiku = CLAUDE_MODEL === 'claude-haiku-4-5-20251001';
+  var html = ''
+    + '<div id="model-menu-popup" style="position:absolute;top:42px;right:22px;z-index:30;background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:8px;min-width:240px;box-shadow:0 8px 24px rgba(0,0,0,.6)">'
+    + '<div onclick="setClaudeModel(\'claude-haiku-4-5-20251001\');document.getElementById(\'model-menu-popup\').remove();" style="padding:9px 10px;border-radius:5px;cursor:pointer;background:'+(isHaiku?'#0d1a14':'transparent')+';border:1px solid '+(isHaiku?'#2a4a3a':'transparent')+';margin-bottom:5px">'
+    + '<div style="font-size:11px;font-weight:700;color:#7dba4a">Haiku 4.5 · fast</div>'
+    + '<div style="font-size:9px;color:#888;margin-top:2px">$1/$5 per million tokens. Best for quick coaching, simple Q&A, daily check-ins.</div>'
+    + '</div>'
+    + '<div onclick="setClaudeModel(\'claude-sonnet-4-6\');document.getElementById(\'model-menu-popup\').remove();" style="padding:9px 10px;border-radius:5px;cursor:pointer;background:'+(!isHaiku?'#0d1318':'transparent')+';border:1px solid '+(!isHaiku?'#2a3a5a':'transparent')+'">'
+    + '<div style="font-size:11px;font-weight:700;color:#7aabdd">Sonnet 4.6 · deep</div>'
+    + '<div style="font-size:9px;color:#888;margin-top:2px">$3/$15 per million tokens. Best for nuanced strategy, deep analysis, long-form teaching.</div>'
+    + '</div>'
+    + '</div>';
+  document.body.insertAdjacentHTML('beforeend', html);
+  setTimeout(function(){
+    document.addEventListener('click', function clo(e){
+      var p = document.getElementById('model-menu-popup');
+      if(p && !p.contains(e.target) && !e.target.closest('.model-badge')){
+        p.remove();
+        document.removeEventListener('click', clo);
+      }
+    });
+  }, 100);
+}
+
+// ============================================================
+// ============ NAV / PAGE SWITCHING ==========================
+// ============================================================
+var CURRENT_PAGE = 'dashboard';
+
+var PAGE_TITLES = {
+  dashboard:'Dashboard', askzach:'Ask Zach', todo:'To-Do List',
+  sourceoftruth:'Source of Truth', dataconnections:'Data Connections',
+  incomestmt:'Income Statement', cashflow:'Cash Flow Statement',
+  balancesheet:'Balance Sheet', moneymachine:'Money Making Machine',
+  incomelog:'Income Log', expenselog:'Expense Log', categories:'Categories',
+  assets:'Assets Register', liabilities:'Liabilities Register',
+  vision:'Vision To Reality', gap:'The Gap',
+  bestyear:'Best Year Ever', rocks:'Quarterly Rocks',
+  monthly:'Monthly Check-in', weekly:'Weekly Review',
+  familyoffice:'Family Office', taxstrategy:'Tax Strategy',
+  investmentstrategy:'Investment Strategy', insurance:'Insurance & Estate',
+  foundation:'The Foundation', giving:'Giving Cadence', retreat:'The Retreat',
+  education:'Education Center', links:'Important Links', settings:'Settings'
+};
+
+function goPage(id, el){
+  CURRENT_PAGE = id;
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  // Show requested page
+  var page = document.getElementById('page-' + id);
+  if(page) page.classList.add('active');
+  // Update nav-item active state
+  document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+  if(el) el.classList.add('active');
+  // Update topbar title
+  var t = document.getElementById('topbar-title');
+  if(t) t.textContent = PAGE_TITLES[id] || id;
+  // Scroll main back to top
+  var m = document.getElementById('main');
+  if(m) m.scrollTop = 0;
+}
+
+function goPageById(id){
+  // Find the matching nav-item by examining onclick attributes
+  var items = document.querySelectorAll('.nav-item');
+  for(var i=0;i<items.length;i++){
+    var oc = items[i].getAttribute('onclick') || '';
+    if(oc.indexOf("'"+id+"'") > -1){
+      goPage(id, items[i]);
+      return;
+    }
+  }
+  goPage(id, null);
+}
+
+// ============================================================
+// ============ VISION TAB SWITCHING ==========================
+// ============================================================
+function setVisionTab(t){
+  ['his','hers','joint'].forEach(function(x){
+    var btn = document.getElementById('vtab-'+x);
+    var pane = document.getElementById('vpane-'+x);
+    if(btn) btn.classList.toggle('active', x === t);
+    if(pane) pane.classList.toggle('active', x === t);
+  });
+}
+
+// ============================================================
+// ============ SYSTEM PROMPT BUILDER =========================
+// ============================================================
+function buildSystemPrompt(roleKey){
+  var role = ROLES[roleKey] || ROLES.zach;
+  var ctx = CLIENT_CONTEXT;
+
+  var spkLine = '';
+  if(ctx.current_speaker === 'his'){
+    spkLine = 'CURRENTLY SPEAKING TO: ' + ctx.his_name + '. Use his communication preference. ' +
+              'When referencing the Dream Life Number, default to his ($' + ctx.his_dln_annual + '/yr). Adjust if the question is clearly joint.';
+  } else if(ctx.current_speaker === 'hers'){
+    spkLine = 'CURRENTLY SPEAKING TO: ' + ctx.hers_name + '. Use her communication preference. ' +
+              'When referencing the Dream Life Number, default to hers ($' + ctx.hers_dln_annual + '/yr). Adjust if the question is clearly joint.';
+  } else {
+    spkLine = 'CURRENTLY SPEAKING TO: the joint household. Reference the joint Dream Life Number ($' + ctx.joint_dln_annual + '/yr) plus the total combined number ($' + ctx.total_dln_annual + '/yr) where relevant.';
+  }
+
+  var bmLine = ctx.beginner_mode
+    ? 'BEGINNER MODE IS ON. Always teach the concept first, in plain language with one concrete example, before giving the answer or recommendation. Never use a financial term without defining it the first time you use it. Use her actual numbers in examples whenever possible.'
+    : 'Beginner mode is off. Speak directly. Skip the basics.';
+
+  var contextBlock =
+    'CLIENT CONTEXT — who you are advising:\n' +
+    '----------------------------------------\n' +
+    'Household: ' + ctx.household + '\n' +
+    'Spouse 1 (His): ' + ctx.his_name + ', ' + ctx.his_age + ', ' + ctx.his_role + '\n' +
+    'Spouse 2 (Hers): ' + ctx.hers_name + ', ' + ctx.hers_age + ', ' + ctx.hers_role + '\n' +
+    'Country: ' + ctx.country + ' · Currency: ' + ctx.currency + ' · Filing: ' + ctx.filing_status + '\n' +
+    'Children: ' + ctx.children + '\n\n' +
+    'THE PLAN:\n' +
+    '  3-year vision: ' + ctx.three_year_vision + '\n' +
+    '  10-year vision: ' + ctx.ten_year_vision + '\n' +
+    '  Baseline (where coming from): ' + ctx.baseline + '\n' +
+    '  The plan: ' + ctx.the_plan + '\n\n' +
+    'DREAM LIFE NUMBERS:\n' +
+    '  His monthly: $' + ctx.his_dln_monthly + ' · annual: $' + ctx.his_dln_annual + '\n' +
+    '  Hers monthly: $' + ctx.hers_dln_monthly + ' · annual: $' + ctx.hers_dln_annual + '\n' +
+    '  Joint monthly: $' + ctx.joint_dln_monthly + ' · annual: $' + ctx.joint_dln_annual + '\n' +
+    '  Total combined annual: $' + ctx.total_dln_annual + '\n\n' +
+    'CURRENT STATE:\n' +
+    '  Priorities: ' + ctx.current_priorities + '\n' +
+    '  Working: ' + ctx.whats_working + '\n' +
+    '  Stuck: ' + ctx.whats_stuck + '\n\n' +
+    'L&GR LAYER (the human underneath):\n' +
+    '  Why: ' + ctx.why + '\n' +
+    '  Values: ' + ctx.values + '\n' +
+    '  Giving back: ' + ctx.giving_back + '\n' +
+    '  Family: ' + ctx.family + '\n' +
+    '  Time horizon: ' + ctx.time_horizon + '\n' +
+    '  Prosperity definition: ' + ctx.prosperity_def + '\n\n' +
+    'COMMUNICATION PREFERENCES:\n' +
+    '  His: ' + ctx.his_comm_pref + '\n' +
+    '  Hers: ' + ctx.hers_comm_pref + '\n\n' +
+    spkLine + '\n' +
+    bmLine;
+
+  return [
+    'YOU ARE: ' + role.title + '.',
+    role.prompt,
+    '',
+    FRAMEWORK,
+    '',
+    contextBlock,
+    '',
+    'Anchor every response to the Plan-Centered Framework. Be useful. Be concrete. Use their actual numbers.'
+  ].join('\n');
+}
+
+function getCurrentRolePrompt(){
+  var role = PAGE_TO_ROLE[CURRENT_PAGE] || 'zach';
+  return buildSystemPrompt(role);
+}
+
+// ============================================================
+// ============ ANTHROPIC API CALL (via Netlify proxy) =======
+// ============================================================
+async function callAI(msgs, sys, opts){
+  var systemPrompt = sys || getCurrentRolePrompt();
+  var maxTok = (opts && opts.max_tokens) ? opts.max_tokens : 800;
+  var timeoutMs = (opts && opts.timeout_ms) ? opts.timeout_ms : 24000;
+  var modelToUse = (opts && opts.model) ? opts.model : (CLAUDE_MODEL || 'claude-haiku-4-5-20251001');
+  var body = { model: modelToUse, max_tokens: maxTok, messages: msgs, system: systemPrompt };
+
+  var controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+  var abortTimer = null;
+  if(controller){
+    abortTimer = setTimeout(function(){ controller.abort(); }, timeoutMs);
+  }
+
+  try {
+    var fetchOpts = { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) };
+    if(controller) fetchOpts.signal = controller.signal;
+    var r = await fetch('/api/anthropic-proxy-personal', fetchOpts);
+    if(abortTimer) clearTimeout(abortTimer);
+
+    var rawText = await r.text();
+    var d;
+    try { d = JSON.parse(rawText); }
+    catch(parseErr){
+      console.error('[callAI] Non-JSON response. Status:', r.status, 'Body:', rawText.substring(0, 400));
+      var hint = r.status === 504 ? 'gateway timeout — request took too long' : 'status ' + r.status;
+      return 'Sorry, could not get a response. (' + hint + ')';
+    }
+    if(!r.ok){
+      var em = (d && d.error) ? (d.error.message || d.error.type || JSON.stringify(d.error)) : 'unknown error';
+      return 'Sorry, could not get a response. (HTTP ' + r.status + ': ' + em + ')';
+    }
+    if(d.error){
+      return 'Sorry, could not get a response. (' + (d.error.message || d.error.type || 'unknown error') + ')';
+    }
+    if(d.content && d.content.length){
+      var textBlocks = d.content.filter(function(b){return b.type === 'text' && b.text;}).map(function(b){return b.text;});
+      if(textBlocks.length) return textBlocks.join('\n');
+    }
+    return 'Sorry, could not get a response. (empty content)';
+  } catch(err){
+    if(abortTimer) clearTimeout(abortTimer);
+    if(err && err.name === 'AbortError'){
+      return 'Sorry, the response is taking too long. Try again, or switch to Haiku 4.5 (fast) in the model menu.';
+    }
+    console.error('[callAI] Exception:', err);
+    return 'Sorry, could not get a response. (' + (err && err.message ? err.message : 'network error') + ')';
+  }
+}
+
+// ============================================================
+// ============ ASK ZACH CHAT =================================
+// ============================================================
+var AZ_HISTORY = [];
+
+function azRender(role, text){
+  var win = document.getElementById('az-chat');
+  if(!win) return;
+  var bubble = document.createElement('div');
+  bubble.className = 'az-msg ' + (role === 'user' ? 'user' : '');
+  var avChar = role === 'user' ? (CLIENT_CONTEXT.current_speaker === 'his' ? 'Z' : (CLIENT_CONTEXT.current_speaker === 'hers' ? 'S' : 'JH')) : 'Z';
+  var avClass = role === 'user' ? 'user' : 'zach';
+  bubble.innerHTML = '<div class="az-av ' + avClass + '">' + avChar + '</div><div class="az-bub"></div>';
+  bubble.querySelector('.az-bub').textContent = text;
+  win.appendChild(bubble);
+  win.scrollTop = win.scrollHeight;
+}
+
+function azThinking(){
+  var win = document.getElementById('az-chat');
+  if(!win) return null;
+  var t = document.createElement('div');
+  t.className = 'az-msg';
+  t.innerHTML = '<div class="az-av zach">Z</div><div class="az-bub az-thinking"><span class="az-dots"></span> Thinking…</div>';
+  win.appendChild(t);
+  win.scrollTop = win.scrollHeight;
+  return t;
+}
+
+function azQ(q){
+  var input = document.getElementById('az-input');
+  if(input){ input.value = q; }
+  azSend();
+}
+
+async function azSend(){
+  var input = document.getElementById('az-input');
+  var btn = document.getElementById('az-btn');
+  if(!input) return;
+  var text = (input.value || '').trim();
+  if(!text) return;
+
+  azRender('user', text);
+  AZ_HISTORY.push({role:'user', content:text});
+  input.value = '';
+  if(btn){ btn.disabled = true; btn.textContent = 'Thinking…'; }
+
+  var thinking = azThinking();
+  var reply = await callAI(AZ_HISTORY);
+  if(thinking) thinking.remove();
+
+  azRender('assistant', reply);
+  AZ_HISTORY.push({role:'assistant', content:reply});
+
+  if(btn){ btn.disabled = false; btn.textContent = 'Send ↑'; }
+}
+
+// Allow other pages to deep-link a question into Ask Zach
+function askZachAbout(q){
+  goPageById('askzach');
+  setTimeout(function(){
+    var input = document.getElementById('az-input');
+    if(input){ input.value = q; }
+    azSend();
+  }, 150);
+}
+
+// ============================================================
+// ============ QUICK ACTIONS (placeholders) ==================
+// ============================================================
+function quickLogIncome(){
+  askZachAbout('I want to log income. Walk me through it conversationally — ask me the questions you need to log it correctly, then summarize what you would write to my Google Sheet. (Note: actual write to Sheet ships in v1.1.)');
+}
+function quickLogExpense(){
+  askZachAbout('I want to log an expense. Walk me through it conversationally — ask me the questions you need to log it correctly, then summarize what you would write to my Google Sheet. (Note: actual write to Sheet ships in v1.1.)');
+}
+
+// ============================================================
+// ============ MONEY MECHANICS PAGE RENDERERS ===============
+// ============================================================
+// State: which owner column is selected for each statement
+var STMT_PIVOT = { is: 'total', bs: 'total' };
+
+function setStmtPivot(stmt, owner){
+  STMT_PIVOT[stmt] = owner;
+  // Update pill UI
+  var container = document.getElementById(stmt + '-pivot');
+  if(container){
+    container.querySelectorAll('.pivot-pill').forEach(function(p){
+      p.classList.toggle('active', p.getAttribute('data-owner') === owner);
+    });
+  }
+  // Re-render
+  if(stmt === 'is') renderIncomeStatement();
+  if(stmt === 'bs') renderBalanceSheet();
+}
+
+function _d(key){
+  // Helper: read a number from SHEET_DATA, return 0 if absent or non-numeric
+  if(!SHEET_DATA) return 0;
+  var n = _toNum(SHEET_DATA[key]);
+  return n === null ? 0 : n;
+}
+
+// ---- Income Statement ----
+var IS_INCOME_LINES = [
+  ['active_income',    'Active Income (W-2, salary, contract)'],
+  ['business_income',  'Business Income (S-corp, LLC distributions)'],
+  ['passive_income',   'Passive Income (rental, dividends, interest)'],
+  ['side_income',      'Side Income (freelance, gigs)'],
+  ['investment_gains', 'Investment Gains (capital gains, realized)'],
+  ['gifts_windfalls',  'Gifts &amp; Windfalls'],
+  ['other_income',     'Other Income']
+];
+var IS_EXPENSE_LINES = [
+  ['exp_housing',       'Housing'],
+  ['exp_food',          'Food'],
+  ['exp_transport',     'Transport'],
+  ['exp_health',        'Health'],
+  ['exp_lifestyle',     'Lifestyle'],
+  ['exp_travel',        'Travel &amp; Adventure'],
+  ['exp_family_kids',   'Family &amp; Kids'],
+  ['exp_education',     'Education'],
+  ['exp_personal',      'Personal'],
+  ['exp_subscriptions', 'Subscriptions'],
+  ['exp_giving',        'Giving'],
+  ['exp_taxes',         'Taxes'],
+  ['exp_debt_service',  'Debt Service'],
+  ['exp_insurance',     'Insurance'],
+  ['exp_other',         'Other Expenses']
+];
+
+function renderIncomeStatement(){
+  var owner = STMT_PIVOT.is;
+  var prefix = 'is_' + owner + '_';
+  var totalIncome = _d(prefix + 'total_gross_income');
+  var totalExp = _d(prefix + 'exp_total');
+  var netIncome = _d(prefix + 'net_income_pretax');
+
+  // KPI tiles
+  var k1 = document.getElementById('is-kpi-income');
+  var k2 = document.getElementById('is-kpi-expenses');
+  var k3 = document.getElementById('is-kpi-net');
+  if(k1) k1.textContent = _fmtUsd(totalIncome);
+  if(k2) k2.textContent = _fmtUsd(totalExp);
+  if(k3){
+    k3.textContent = _fmtUsd(netIncome);
+    k3.className = 'mval stmt-num ' + (netIncome > 0 ? 'pos' : (netIncome < 0 ? 'neg' : 'zero'));
+  }
+
+  // Table body
+  var html = '';
+  html += '<tr class="section"><td>Gross income</td><td></td><td></td></tr>';
+  IS_INCOME_LINES.forEach(function(pair){
+    var key = prefix + pair[0];
+    var v = _d(key);
+    var pct = totalIncome > 0 ? (v / totalIncome * 100) : 0;
+    var cls = v === 0 ? 'zero' : '';
+    html += '<tr><td>' + pair[1] + '</td>'
+          + '<td class="stmt-num ' + cls + '">' + _fmtUsd(v) + '</td>'
+          + '<td class="stmt-num ' + cls + '">' + (v === 0 ? '—' : pct.toFixed(1) + '%') + '</td></tr>';
+  });
+  html += '<tr class="subtotal"><td>Total gross income</td>'
+        + '<td class="stmt-num">' + _fmtUsd(totalIncome) + '</td>'
+        + '<td class="stmt-num">100%</td></tr>';
+
+  html += '<tr class="spacer"><td></td><td></td><td></td></tr>';
+  html += '<tr class="section"><td>Expenses</td><td></td><td></td></tr>';
+  IS_EXPENSE_LINES.forEach(function(pair){
+    var key = prefix + pair[0];
+    var v = _d(key);
+    var pct = totalIncome > 0 ? (v / totalIncome * 100) : 0;
+    var cls = v === 0 ? 'zero' : '';
+    html += '<tr><td>' + pair[1] + '</td>'
+          + '<td class="stmt-num ' + cls + '">' + _fmtUsd(v) + '</td>'
+          + '<td class="stmt-num ' + cls + '">' + (v === 0 ? '—' : pct.toFixed(1) + '%') + '</td></tr>';
+  });
+  var expPct = totalIncome > 0 ? (totalExp / totalIncome * 100) : 0;
+  html += '<tr class="subtotal"><td>Total expenses</td>'
+        + '<td class="stmt-num">' + _fmtUsd(totalExp) + '</td>'
+        + '<td class="stmt-num">' + expPct.toFixed(1) + '%</td></tr>';
+
+  html += '<tr class="spacer"><td></td><td></td><td></td></tr>';
+  var netPct = totalIncome > 0 ? (netIncome / totalIncome * 100) : 0;
+  html += '<tr class="grand-total"><td>NET INCOME</td>'
+        + '<td class="stmt-num">' + _fmtUsd(netIncome) + '</td>'
+        + '<td class="stmt-num">' + netPct.toFixed(1) + '% savings rate</td></tr>';
+
+  var tbody = document.getElementById('is-tbody');
+  if(tbody) tbody.innerHTML = html;
+
+  // Composition bars
+  function renderBars(targetId, lines, total, color){
+    var values = lines.map(function(p){ return [p[1], _d(prefix + p[0])]; })
+                      .filter(function(x){ return x[1] > 0; })
+                      .sort(function(a, b){ return b[1] - a[1]; });
+    if(!values.length || total === 0){
+      var emptyEl = document.getElementById(targetId);
+      if(emptyEl) emptyEl.innerHTML = '<div style="color:#666;font-size:11px;font-style:italic;padding:6px">No data for this owner.</div>';
+      return;
+    }
+    var max = values[0][1];
+    var html = '';
+    values.forEach(function(pair){
+      var pct = (pair[1] / max * 100).toFixed(1);
+      html += '<div class="bar-row">'
+            + '<div class="lab">' + pair[0] + '</div>'
+            + '<div class="bar-track"><div class="bar-fill ' + color + '" style="width:' + pct + '%"></div></div>'
+            + '<div class="val">' + _fmtUsd(pair[1]) + '</div>'
+            + '</div>';
+    });
+    var el = document.getElementById(targetId);
+    if(el) el.innerHTML = html;
+  }
+  renderBars('is-income-bars', IS_INCOME_LINES, totalIncome, 'green');
+  renderBars('is-expense-bars', IS_EXPENSE_LINES, totalExp, 'red');
+}
+
+// ---- Cash Flow ----
+function renderCashFlow(){
+  var ops = _d('cf_net_from_operations');
+  var inv = _d('cf_net_from_investing');
+  var fin = _d('cf_net_from_financing');
+  var netCh = _d('cf_net_change_in_cash');
+
+  // KPIs
+  function setKpi(id, v){
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.textContent = _fmtUsd(v);
+    el.className = 'mval stmt-num ' + (v > 0 ? 'pos' : (v < 0 ? 'neg' : 'zero'));
+  }
+  setKpi('cf-kpi-ops', ops);
+  setKpi('cf-kpi-inv', inv);
+  setKpi('cf-kpi-fin', fin);
+
+  var totalIncome = _d('cf_total_income');
+  var totalExp = _d('cf_total_expenses');
+  var purchases = _d('cf_asset_purchases');
+  var sales = _d('cf_asset_sales');
+  var newDebt = _d('cf_new_debt');
+  var debtPaid = _d('cf_debt_paid');
+
+  var html = '';
+  html += '<tr class="section"><td>Cash from operations</td><td></td><td></td></tr>';
+  html += '<tr><td>Total income (all sources)</td><td class="stmt-num pos">' + _fmtUsd(totalIncome) + '</td><td></td></tr>';
+  html += '<tr><td>Total operating expenses</td><td class="stmt-num neg">' + _fmtUsd(totalExp) + '</td><td></td></tr>';
+  html += '<tr class="subtotal"><td>Net cash from operations</td><td class="stmt-num">' + _fmtUsd(ops) + '</td><td></td></tr>';
+
+  html += '<tr class="spacer"><td></td><td></td><td></td></tr>';
+  html += '<tr class="section"><td>Cash from investing</td><td></td><td></td></tr>';
+  html += '<tr><td>Asset purchases</td><td class="stmt-num ' + (purchases===0?'zero':'') + '">' + _fmtUsd(purchases) + '</td><td></td></tr>';
+  html += '<tr><td>Asset sales</td><td class="stmt-num ' + (sales===0?'zero':'') + '">' + _fmtUsd(sales) + '</td><td></td></tr>';
+  html += '<tr class="subtotal"><td>Net cash from investing</td><td class="stmt-num">' + _fmtUsd(inv) + '</td><td></td></tr>';
+
+  html += '<tr class="spacer"><td></td><td></td><td></td></tr>';
+  html += '<tr class="section"><td>Cash from financing</td><td></td><td></td></tr>';
+  html += '<tr><td>New debt taken on</td><td class="stmt-num ' + (newDebt===0?'zero':'') + '">' + _fmtUsd(newDebt) + '</td><td></td></tr>';
+  html += '<tr><td>Debt principal paid</td><td class="stmt-num ' + (debtPaid===0?'zero':'') + '">' + _fmtUsd(debtPaid) + '</td><td></td></tr>';
+  html += '<tr class="subtotal"><td>Net cash from financing</td><td class="stmt-num">' + _fmtUsd(fin) + '</td><td></td></tr>';
+
+  html += '<tr class="spacer"><td></td><td></td><td></td></tr>';
+  html += '<tr class="grand-total"><td>NET CHANGE IN CASH</td><td class="stmt-num">' + _fmtUsd(netCh) + '</td><td></td></tr>';
+
+  var tbody = document.getElementById('cf-tbody');
+  if(tbody) tbody.innerHTML = html;
+
+  // Bars — visualize the three buckets
+  var max = Math.max(Math.abs(ops), Math.abs(inv), Math.abs(fin), 1);
+  var barsHtml = '';
+  [['Operations', ops], ['Investing', inv], ['Financing', fin]].forEach(function(pair){
+    var v = pair[1];
+    var pct = (Math.abs(v) / max * 100).toFixed(1);
+    var color = v > 0 ? 'green' : (v < 0 ? 'red' : '');
+    barsHtml += '<div class="bar-row">'
+              + '<div class="lab">' + pair[0] + '</div>'
+              + '<div class="bar-track"><div class="bar-fill ' + color + '" style="width:' + pct + '%"></div></div>'
+              + '<div class="val">' + _fmtUsd(v) + '</div>'
+              + '</div>';
+  });
+  var bel = document.getElementById('cf-bars');
+  if(bel) bel.innerHTML = barsHtml;
+}
+
+// ---- Balance Sheet ----
+var BS_ASSET_LINES = [
+  ['asset_cash',          'Cash &amp; Equivalents'],
+  ['asset_investments',   'Taxable Investments'],
+  ['asset_retirement',    'Retirement Accounts'],
+  ['asset_real_estate',   'Real Estate'],
+  ['asset_vehicles',      'Vehicles'],
+  ['asset_businesses',    'Businesses Owned'],
+  ['asset_other',         'Other Assets']
+];
+var BS_LIAB_LINES = [
+  ['liab_credit_cards',   'Credit Cards'],
+  ['liab_personal_loans', 'Personal Loans'],
+  ['liab_auto_loans',     'Auto Loans'],
+  ['liab_student_loans',  'Student Loans'],
+  ['liab_mortgages',      'Mortgages'],
+  ['liab_business_debt',  'Business Debt'],
+  ['liab_other',          'Other Liabilities']
+];
+
+function renderBalanceSheet(){
+  var owner = STMT_PIVOT.bs;
+  var prefix = 'bs_' + owner + '_';
+  var totalAssets = _d(prefix + 'asset_total');
+  var totalLiab = _d(prefix + 'liab_total');
+  var netWorth = _d(prefix + 'net_worth_line');
+
+  // KPIs
+  var k1 = document.getElementById('bs-kpi-assets');
+  var k2 = document.getElementById('bs-kpi-liab');
+  var k3 = document.getElementById('bs-kpi-nw');
+  if(k1) k1.textContent = _fmtUsd(totalAssets);
+  if(k2) k2.textContent = _fmtUsd(totalLiab);
+  if(k3) k3.textContent = _fmtUsd(netWorth);
+
+  // Table body
+  var html = '';
+  html += '<tr class="section"><td>Assets</td><td></td><td></td></tr>';
+  BS_ASSET_LINES.forEach(function(pair){
+    var v = _d(prefix + pair[0]);
+    var pct = totalAssets > 0 ? (v / totalAssets * 100) : 0;
+    var cls = v === 0 ? 'zero' : '';
+    html += '<tr><td>' + pair[1] + '</td>'
+          + '<td class="stmt-num ' + cls + '">' + _fmtUsd(v) + '</td>'
+          + '<td class="stmt-num ' + cls + '">' + (v === 0 ? '—' : pct.toFixed(1) + '%') + '</td></tr>';
+  });
+  html += '<tr class="subtotal"><td>Total assets</td>'
+        + '<td class="stmt-num">' + _fmtUsd(totalAssets) + '</td>'
+        + '<td class="stmt-num">100%</td></tr>';
+
+  html += '<tr class="spacer"><td></td><td></td><td></td></tr>';
+  html += '<tr class="section"><td>Liabilities</td><td></td><td></td></tr>';
+  BS_LIAB_LINES.forEach(function(pair){
+    var v = _d(prefix + pair[0]);
+    var pct = totalLiab > 0 ? (v / totalLiab * 100) : 0;
+    var cls = v === 0 ? 'zero' : '';
+    html += '<tr><td>' + pair[1] + '</td>'
+          + '<td class="stmt-num ' + cls + '">' + _fmtUsd(v) + '</td>'
+          + '<td class="stmt-num ' + cls + '">' + (v === 0 ? '—' : pct.toFixed(1) + '%') + '</td></tr>';
+  });
+  var liabPct = totalLiab > 0 ? 100 : 0;
+  html += '<tr class="subtotal"><td>Total liabilities</td>'
+        + '<td class="stmt-num">' + _fmtUsd(totalLiab) + '</td>'
+        + '<td class="stmt-num">' + (totalLiab === 0 ? '—' : '100%') + '</td></tr>';
+
+  html += '<tr class="spacer"><td></td><td></td><td></td></tr>';
+  html += '<tr class="grand-total"><td>NET WORTH</td>'
+        + '<td class="stmt-num">' + _fmtUsd(netWorth) + '</td>'
+        + '<td class="stmt-num">assets − liabilities</td></tr>';
+
+  var tbody = document.getElementById('bs-tbody');
+  if(tbody) tbody.innerHTML = html;
+
+  // Asset and liability bars
+  function renderBars(targetId, lines, total, color){
+    var values = lines.map(function(p){ return [p[1], _d(prefix + p[0])]; })
+                      .filter(function(x){ return x[1] > 0; })
+                      .sort(function(a, b){ return b[1] - a[1]; });
+    if(!values.length){
+      var emptyEl = document.getElementById(targetId);
+      if(emptyEl) emptyEl.innerHTML = '<div style="color:#666;font-size:11px;font-style:italic;padding:6px">No data for this owner.</div>';
+      return;
+    }
+    var max = values[0][1];
+    var html = '';
+    values.forEach(function(pair){
+      var pct = (pair[1] / max * 100).toFixed(1);
+      html += '<div class="bar-row">'
+            + '<div class="lab">' + pair[0] + '</div>'
+            + '<div class="bar-track"><div class="bar-fill ' + color + '" style="width:' + pct + '%"></div></div>'
+            + '<div class="val">' + _fmtUsd(pair[1]) + '</div>'
+            + '</div>';
+    });
+    var el = document.getElementById(targetId);
+    if(el) el.innerHTML = html;
+  }
+  renderBars('bs-asset-bars', BS_ASSET_LINES, totalAssets, 'green');
+  renderBars('bs-liab-bars', BS_LIAB_LINES, totalLiab, 'red');
+}
+
+// ---- Source of Truth ----
+function renderSourceOfTruth(){
+  var ctx = CLIENT_CONTEXT;
+  var setText = function(id, text){
+    var el = document.getElementById(id);
+    if(el) el.textContent = text;
+  };
+  setText('sot-household-name', ctx.household);
+  setText('sot-country', ctx.country);
+  setText('sot-currency', ctx.currency);
+  setText('sot-filing', ctx.filing_status);
+  setText('sot-children', ctx.children);
+  setText('sot-his-name', ctx.his_name);
+  setText('sot-his-age', String(ctx.his_age));
+  setText('sot-his-role', ctx.his_role);
+  setText('sot-his-dln', _fmtUsd(ctx.his_dln_annual));
+  setText('sot-his-income', _fmtUsd(_d('his_annual_income')));
+  setText('sot-hers-name', ctx.hers_name);
+  setText('sot-hers-age', String(ctx.hers_age));
+  setText('sot-hers-role', ctx.hers_role);
+  setText('sot-hers-dln', _fmtUsd(ctx.hers_dln_annual));
+  setText('sot-hers-income', _fmtUsd(_d('hers_annual_income')));
+  setText('sot-3yr', ctx.three_year_vision);
+  setText('sot-10yr', ctx.ten_year_vision);
+  setText('sot-baseline', ctx.baseline);
+  setText('sot-plan', ctx.the_plan);
+}
+
+// ---- Hook into applySheetData so pages re-render whenever fresh data lands ----
+function renderAllMoneyMechanics(){
+  try { renderIncomeStatement(); } catch(e){ console.warn('IS render', e); }
+  try { renderCashFlow(); } catch(e){ console.warn('CF render', e); }
+  try { renderBalanceSheet(); } catch(e){ console.warn('BS render', e); }
+  try { renderSourceOfTruth(); } catch(e){ console.warn('SOT render', e); }
+}
+
+
+// Uses Google Identity Services (GIS) — the modern OAuth library.
+// Access tokens last 1 hour, kept in MEMORY ONLY (not localStorage).
+// Sheet ID and Client ID are persisted; tokens are not.
+
+var GOOGLE_CLIENT_ID = (function(){
+  try { return localStorage.getItem('lgr_google_client_id') || ''; }
+  catch(e){ return ''; }
+})();
+var SHEET_ID = (function(){
+  try { return localStorage.getItem('lgr_sheet_id') || null; }
+  catch(e){ return null; }
+})();
+var ACCESS_TOKEN = null;            // Memory-only — XSS hygiene
+var TOKEN_CLIENT = null;            // GIS token client instance
+var GOOGLE_USER_EMAIL = null;       // For display only
+var CONNECTION_MODE = null;         // 'oauth' | 'csv' | null
+
+// Wait for the Google Identity Services script to load on the page,
+// then configure a token client. Called lazily — only when the user
+// first attempts to sign in.
+function initOAuthClient(){
+  if(!GOOGLE_CLIENT_ID){
+    return { error: 'Client ID not set. Save your Google OAuth Client ID first.' };
+  }
+  if(typeof google === 'undefined' || !google.accounts || !google.accounts.oauth2){
+    return { error: 'Google Identity Services not loaded yet. Reload the page and try again.' };
+  }
+  TOKEN_CLIENT = google.accounts.oauth2.initTokenClient({
+    client_id: GOOGLE_CLIENT_ID,
+    scope: 'https://www.googleapis.com/auth/spreadsheets',
+    callback: function(resp){
+      if(resp.error){
+        renderOAuthStatus('error', 'Sign-in failed: ' + (resp.error_description || resp.error));
+        return;
+      }
+      ACCESS_TOKEN = resp.access_token;
+      // Best-effort: pull the email so we can show "Signed in as <email>"
+      fetchGoogleUserInfo();
+      renderOAuthStatus('signed_in');
+    }
+  });
+  return { ok: true };
+}
+
+// Fetch the user's email for display (best-effort, non-blocking).
+async function fetchGoogleUserInfo(){
+  if(!ACCESS_TOKEN) return;
+  try {
+    var r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: { Authorization: 'Bearer ' + ACCESS_TOKEN }
+    });
+    if(r.ok){
+      var d = await r.json();
+      GOOGLE_USER_EMAIL = d.email || null;
+      // Re-render to show the email
+      if(ACCESS_TOKEN) renderOAuthStatus('signed_in');
+    }
+  } catch(e){ console.warn('userinfo fetch failed', e); }
+}
+
+function saveClientId(){
+  var input = document.getElementById('oauth-clientid-input');
+  var id = input ? (input.value || '').trim() : '';
+  if(!id){
+    renderOAuthStatus('error', 'Paste your Client ID first.');
+    return;
+  }
+  if(id.indexOf('.apps.googleusercontent.com') < 0){
+    renderOAuthStatus('error', 'That doesn\'t look like a Google OAuth Client ID. It should end with ".apps.googleusercontent.com".');
+    return;
+  }
+  try { localStorage.setItem('lgr_google_client_id', id); } catch(e){}
+  GOOGLE_CLIENT_ID = id;
+  // Reload so the GIS library picks it up cleanly
+  location.reload();
+}
+
+function signInWithGoogle(){
+  var init = initOAuthClient();
+  if(init.error){
+    renderOAuthStatus('error', init.error);
+    return;
+  }
+  // empty prompt = silent if previously consented, otherwise show consent
+  TOKEN_CLIENT.requestAccessToken({ prompt: '' });
+}
+
+function signOutGoogle(){
+  if(ACCESS_TOKEN && typeof google !== 'undefined' && google.accounts && google.accounts.oauth2){
+    google.accounts.oauth2.revoke(ACCESS_TOKEN, function(){});
+  }
+  ACCESS_TOKEN = null;
+  GOOGLE_USER_EMAIL = null;
+  CONNECTION_MODE = null;
+  SHEET_DATA = null;
+  SHEET_LAST_LOADED = null;
+  renderOAuthStatus('signed_out');
+  renderTopbarPill('disconnected');
+}
+
+// Accept either a full Sheet URL or a raw ID; return just the ID.
+function extractSheetId(input){
+  if(!input) return '';
+  var s = String(input).trim();
+  var m = s.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
+  if(m) return m[1];
+  // Raw ID (alphanumeric + dashes/underscores)
+  if(/^[a-zA-Z0-9-_]{20,}$/.test(s)) return s;
+  return '';
+}
+
+// READ via Sheets API. Returns parsed {key: value} like the CSV path.
+async function readSheetViaAPI(sheetId, range){
+  if(!ACCESS_TOKEN) throw new Error('Not signed in to Google. Click Sign in with Google first.');
+  if(!sheetId) throw new Error('Sheet ID is empty.');
+  range = range || 'App_Data!A:C';
+  var url = 'https://sheets.googleapis.com/v4/spreadsheets/' + encodeURIComponent(sheetId)
+          + '/values/' + encodeURIComponent(range);
+  var r = await fetch(url, { headers: { Authorization: 'Bearer ' + ACCESS_TOKEN }});
+  if(r.status === 401){
+    ACCESS_TOKEN = null;
+    throw new Error('Your Google session expired. Click Sign in with Google again.');
+  }
+  if(r.status === 403){
+    throw new Error('Permission denied. Make sure you are signed in with the Google account that owns this Sheet, and that the Sheets API is enabled in your Google Cloud project.');
+  }
+  if(r.status === 404){
+    throw new Error('Sheet not found. Double-check the Sheet ID. (Also: the App_Data tab must exist — it ships with the v3 spreadsheet.)');
+  }
+  if(!r.ok){
+    var errBody = await r.text();
+    throw new Error('Sheets API error (' + r.status + '): ' + errBody.substring(0, 200));
+  }
+  var d = await r.json();
+  var rows = d.values || [];
+  // Convert 2D array to {key: value} object using same rules as CSV path
+  var out = {};
+  for(var i=0;i<rows.length;i++){
+    var row = rows[i];
+    if(!row || !row.length) continue;
+    var key = (row[0] || '').toString().trim();
+    var val = (row[1] || '').toString().trim();
+    if(!key || key === 'key') continue;
+    if(/^[A-Z_]+$/.test(key) && val === '') continue;
+    out[key] = val;
+  }
+  return out;
+}
+
+// WRITE via Sheets API — appends a row to the given range.
+async function appendRowViaAPI(sheetId, range, rowValues){
+  if(!ACCESS_TOKEN) throw new Error('Not signed in to Google.');
+  var url = 'https://sheets.googleapis.com/v4/spreadsheets/' + encodeURIComponent(sheetId)
+          + '/values/' + encodeURIComponent(range)
+          + ':append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS';
+  var r = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + ACCESS_TOKEN,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ values: [rowValues] })
+  });
+  if(r.status === 401){ ACCESS_TOKEN = null; throw new Error('Session expired. Sign in again.'); }
+  if(!r.ok){
+    var errBody = await r.text();
+    throw new Error('Append failed (' + r.status + '): ' + errBody.substring(0, 200));
+  }
+  return await r.json();
+}
+
+async function connectViaOAuth(){
+  if(!ACCESS_TOKEN){
+    renderOAuthStatus('error', 'Sign in with Google first (Step 2).');
+    return;
+  }
+  var input = document.getElementById('oauth-sheet-input');
+  var rawInput = input ? (input.value || '').trim() : '';
+  var sheetId = extractSheetId(rawInput);
+  if(!sheetId){
+    renderOAuthStatus('error', 'Paste a Google Sheet URL or ID.');
+    return;
+  }
+
+  renderOAuthStatus('loading');
+  try {
+    var data = await readSheetViaAPI(sheetId);
+    SHEET_ID = sheetId;
+    CONNECTION_MODE = 'oauth';
+    try { localStorage.setItem('lgr_sheet_id', sheetId); } catch(e){}
+    try { localStorage.setItem('lgr_connection_mode', 'oauth'); } catch(e){}
+    applySheetData(data);
+    renderOAuthStatus('connected');
+    renderTopbarPill('connected');
+  } catch(err){
+    console.error('[connectViaOAuth] error:', err);
+    renderOAuthStatus('error', err.message || String(err));
+  }
+}
+
+async function testWriteToSheet(){
+  if(!ACCESS_TOKEN || !SHEET_ID){
+    var msg = document.getElementById('oauth-write-msg');
+    if(msg) msg.innerHTML = '<span style="color:#e26b6b">Sign in and connect to a Sheet first.</span>';
+    return;
+  }
+  var btn = document.getElementById('oauth-write-btn');
+  if(btn){ btn.disabled = true; btn.textContent = 'Writing…'; }
+  var msg = document.getElementById('oauth-write-msg');
+  try {
+    var ts = new Date().toISOString().replace('T',' ').substring(0,19);
+    var row = [ts, 'test_write', 'Confirmed write path from app · ' + (GOOGLE_USER_EMAIL || 'unknown user'), 'oauth_test'];
+    await appendRowViaAPI(SHEET_ID, 'App_Log!A:D', row);
+    if(msg) msg.innerHTML = '<span style="color:#7dba4a">✓ Test row written. Check the App_Log tab in your Sheet.</span>';
+  } catch(err){
+    console.error('[testWriteToSheet] error:', err);
+    if(msg) msg.innerHTML = '<span style="color:#e26b6b">✗ ' + (err.message || String(err)) + '</span>';
+  } finally {
+    if(btn){ btn.disabled = false; btn.textContent = 'Append test row →'; }
+  }
+}
+
+// Render the OAuth pane based on the current state.
+function renderOAuthStatus(state, errMsg){
+  var title = document.getElementById('oauth-title');
+  var sub = document.getElementById('oauth-sub');
+  var dot = document.getElementById('oauth-dot');
+  var stepClient = document.getElementById('oauth-step-clientid');
+  var stepSignin = document.getElementById('oauth-step-signin');
+  var stepSheet = document.getElementById('oauth-step-sheet');
+  var msg = document.getElementById('oauth-msg');
+  var writeCard = document.getElementById('oauth-write-card');
+  var dataCard = document.getElementById('oauth-data-card');
+  var loadedTime = document.getElementById('oauth-loaded-time');
+  var dataTable = document.getElementById('oauth-data-table');
+
+  // Show/hide steps based on state of GOOGLE_CLIENT_ID and ACCESS_TOKEN
+  var clientReady = !!GOOGLE_CLIENT_ID;
+  var signedIn = !!ACCESS_TOKEN;
+  if(stepClient) stepClient.style.display = clientReady ? 'none' : '';
+  if(stepSignin) stepSignin.style.display = (clientReady && !signedIn) ? '' : 'none';
+  if(stepSheet) stepSheet.style.display = (clientReady && signedIn) ? '' : 'none';
+
+  // Pre-fill saved client ID for visibility
+  var idInput = document.getElementById('oauth-clientid-input');
+  if(idInput && !idInput.value && GOOGLE_CLIENT_ID) idInput.value = GOOGLE_CLIENT_ID;
+  // Pre-fill saved sheet id
+  var sheetInput = document.getElementById('oauth-sheet-input');
+  if(sheetInput && !sheetInput.value && SHEET_ID) sheetInput.value = SHEET_ID;
+
+  if(state === 'connected'){
+    if(title) title.textContent = '✓ Connected · live read/write';
+    if(sub) sub.textContent = (GOOGLE_USER_EMAIL ? 'Signed in as ' + GOOGLE_USER_EMAIL + ' · ' : '') + 'Reading App_Data!A:C from your Sheet.';
+    if(dot){ dot.style.background = '#7dba4a'; dot.style.boxShadow = '0 0 8px #7dba4a55'; }
+    if(msg) msg.innerHTML = '';
+    if(writeCard) writeCard.style.display = '';
+    if(dataCard) dataCard.style.display = '';
+    if(loadedTime && SHEET_LAST_LOADED) loadedTime.textContent = 'Loaded ' + SHEET_LAST_LOADED.toLocaleString() + ' · ' + (SHEET_DATA ? Object.keys(SHEET_DATA).length : 0) + ' values';
+    if(dataTable && SHEET_DATA){
+      var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-top:8px">';
+      Object.keys(SHEET_DATA).slice(0, 30).forEach(function(k){
+        var v = SHEET_DATA[k];
+        var n = _toNum(v);
+        var displayV = n !== null && k.indexOf('age') < 0 ? _fmtUsd(n) : v;
+        html += '<div style="font-family:\'SF Mono\',Consolas,monospace;color:#888">' + k + '</div>';
+        html += '<div style="text-align:right;color:#cfcfcf">' + displayV + '</div>';
+      });
+      html += '</div>';
+      dataTable.innerHTML = html;
+    }
+  } else if(state === 'signed_in'){
+    if(title) title.textContent = '🔓 Signed in';
+    if(sub) sub.textContent = (GOOGLE_USER_EMAIL ? 'Signed in as ' + GOOGLE_USER_EMAIL + '. ' : '') + 'Now paste your Sheet URL below.';
+    if(dot){ dot.style.background = '#dba84a'; dot.style.boxShadow = ''; }
+    if(msg) msg.innerHTML = '';
+  } else if(state === 'signed_out'){
+    if(title) title.textContent = 'Not signed in';
+    if(sub) sub.textContent = 'Sign in with Google to read and write to your private Sheet.';
+    if(dot){ dot.style.background = '#5a4a1a'; dot.style.boxShadow = ''; }
+    if(msg) msg.innerHTML = '';
+    if(writeCard) writeCard.style.display = 'none';
+    if(dataCard) dataCard.style.display = 'none';
+  } else if(state === 'loading'){
+    if(title) title.textContent = '⟳ Loading…';
+    if(sub) sub.textContent = 'Reading from your Sheet via Sheets API.';
+    if(dot){ dot.style.background = '#dba84a'; dot.style.boxShadow = ''; }
+    if(msg) msg.innerHTML = '';
+  } else if(state === 'error'){
+    if(title) title.textContent = '✗ Error';
+    if(sub) sub.textContent = errMsg || 'Something went wrong.';
+    if(dot){ dot.style.background = '#e26b6b'; dot.style.boxShadow = ''; }
+    if(msg) msg.innerHTML = '<div style="color:#e26b6b;background:#1a0a0a;border:1px solid #4a1a1a;border-radius:6px;padding:8px 11px"><b>Details:</b> ' + (errMsg || 'unknown error') + '</div>';
+  } else {
+    if(title) title.textContent = clientReady ? 'Not signed in' : 'Setup required';
+    if(sub) sub.textContent = clientReady ? 'Sign in with Google to continue.' : 'Paste your Google OAuth Client ID first.';
+    if(dot){ dot.style.background = '#5a4a1a'; dot.style.boxShadow = ''; }
+  }
+}
+
+function setConnTab(t){
+  ['oauth','csv'].forEach(function(x){
+    var btn = document.getElementById('conn-tab-'+x);
+    var pane = document.getElementById('conn-pane-'+x);
+    if(btn) btn.classList.toggle('active', x === t);
+    if(pane) pane.classList.toggle('active', x === t);
+  });
+}
+
+// Update topbar pill — works for both OAuth and CSV connection modes.
+function renderTopbarPill(state){
+  var pill = document.getElementById('sheet-pill');
+  var refreshBtn = document.getElementById('sheet-refresh-btn');
+  if(!pill) return;
+  if(state === 'connected'){
+    var label = CONNECTION_MODE === 'oauth' ? '🔒 Sheet connected (OAuth)' : '✓ Sheet connected (CSV)';
+    pill.textContent = label;
+    pill.style.background = '#1f2a1a';
+    pill.style.borderColor = '#3a5a2a';
+    pill.style.color = '#7dba4a';
+    if(refreshBtn) refreshBtn.style.display = '';
+  } else if(state === 'error'){
+    pill.textContent = '⚠ Sheet error';
+    pill.style.background = '#2a1010';
+    pill.style.borderColor = '#5a2a2a';
+    pill.style.color = '#e26b6b';
+  } else {
+    pill.textContent = '📋 Sheet not connected';
+    pill.style.background = '#2a200a';
+    pill.style.borderColor = '#5a4a1a';
+    pill.style.color = '#dba84a';
+    if(refreshBtn) refreshBtn.style.display = 'none';
+  }
+}
+
+// ============================================================
+// ============ GOOGLE SHEET CONNECTION (CSV — fallback) ======
+// ============================================================
+// Reads the App_Data tab from a published-to-web Google Sheet (CSV),
+// parses key/value rows, and applies values to CLIENT_CONTEXT and
+// every visible screen. Read-only for v1; writes ship in v1.1 (OAuth).
+
+var SHEET_URL = null;          // The published CSV URL
+var SHEET_DATA = null;         // Last successfully loaded {key: value}
+var SHEET_LAST_LOADED = null;  // ISO timestamp of last successful load
+
+// Strip $ and commas, parse as Number. Returns null if not numeric.
+function _toNum(s){
+  if(s === null || s === undefined || s === '') return null;
+  var cleaned = String(s).replace(/[\$,\s]/g, '').replace(/^\((.+)\)$/, '-$1');
+  var n = Number(cleaned);
+  return isNaN(n) ? null : n;
+}
+
+// Format a number as a USD currency string (with optional /yr suffix).
+function _fmtUsd(n, suffix){
+  if(n === null || n === undefined || isNaN(n)) return '—';
+  var sign = n < 0 ? '-' : '';
+  var v = Math.round(Math.abs(n));
+  var s = sign + '$' + v.toLocaleString();
+  return suffix ? (s + ' ' + suffix) : s;
+}
+
+// Parse a CSV string into an object {key: value}. Skips header row and section dividers.
+// Section dividers are rows where the key is ALL_CAPS_WITH_UNDERSCORES (no value, no formula).
+function parseSheetCSV(text){
+  // Remove BOM if present
+  if(text.charCodeAt(0) === 0xFEFF) text = text.slice(1);
+  var lines = text.split(/\r?\n/);
+  var out = {};
+  for(var i=0;i<lines.length;i++){
+    var line = lines[i];
+    if(!line) continue;
+    // Simple CSV split — handles quoted values containing commas
+    var cells = [];
+    var cur = '';
+    var inQuotes = false;
+    for(var j=0;j<line.length;j++){
+      var ch = line[j];
+      if(ch === '"'){
+        if(inQuotes && line[j+1] === '"'){ cur += '"'; j++; }
+        else inQuotes = !inQuotes;
+      } else if(ch === ',' && !inQuotes){
+        cells.push(cur); cur = '';
+      } else { cur += ch; }
+    }
+    cells.push(cur);
+    var key = (cells[0] || '').trim();
+    var val = (cells[1] || '').trim();
+    if(!key) continue;
+    if(key === 'key') continue; // header row
+    // Section dividers: all caps with underscores, no value
+    if(/^[A-Z_]+$/.test(key) && val === '') continue;
+    out[key] = val;
+  }
+  return out;
+}
+
+// Fetch the CSV URL, parse, and return the data object. Throws on failure.
+async function fetchSheetData(url){
+  var r = await fetch(url, { cache: 'no-store' });
+  if(!r.ok) throw new Error('HTTP ' + r.status + ' from your Sheet URL');
+  var text = await r.text();
+  // Cheap detection: published CSVs always start with at least one comma in line 1
+  if(text.indexOf(',') < 0) throw new Error('Response does not look like a CSV. Did you pick "Comma-separated values" when publishing?');
+  return parseSheetCSV(text);
+}
+
+// Apply data to CLIENT_CONTEXT and every visible screen.
+function applySheetData(data){
+  SHEET_DATA = data;
+  SHEET_LAST_LOADED = new Date();
+
+  // ---- Update CLIENT_CONTEXT (so the AI also gets the latest) ----
+  if(data.household_name) CLIENT_CONTEXT.household = data.household_name;
+  if(data.his_name) CLIENT_CONTEXT.his_name = data.his_name;
+  if(data.hers_name) CLIENT_CONTEXT.hers_name = data.hers_name;
+  if(_toNum(data.his_age) !== null) CLIENT_CONTEXT.his_age = _toNum(data.his_age);
+  if(_toNum(data.hers_age) !== null) CLIENT_CONTEXT.hers_age = _toNum(data.hers_age);
+  if(data.his_role) CLIENT_CONTEXT.his_role = data.his_role;
+  if(data.hers_role) CLIENT_CONTEXT.hers_role = data.hers_role;
+  if(data.country) CLIENT_CONTEXT.country = data.country;
+  if(data.currency) CLIENT_CONTEXT.currency = data.currency;
+  if(data.filing_status) CLIENT_CONTEXT.filing_status = data.filing_status;
+
+  // Numbers
+  var fields = [
+    'his_dln_monthly','his_dln_annual','hers_dln_monthly','hers_dln_annual',
+    'joint_dln_monthly','joint_dln_annual'
+  ];
+  fields.forEach(function(f){
+    var n = _toNum(data[f]);
+    if(n !== null) CLIENT_CONTEXT[f] = n;
+  });
+  var combined = _toNum(data.combined_dln_annual);
+  if(combined !== null) CLIENT_CONTEXT.total_dln_annual = combined;
+
+  // ---- Update Dashboard KPIs ----
+  var nw = _toNum(data.net_worth);
+  var annualNet = _toNum(data.annual_net);
+  var gapAnn = _toNum(data.gap_annual);
+
+  var kpiNw = document.getElementById('kpi-nw');
+  var kpiNet = document.getElementById('kpi-net');
+  var kpiGap = document.getElementById('kpi-gap');
+  if(kpiNw && nw !== null) kpiNw.textContent = _fmtUsd(nw);
+  if(kpiNet && annualNet !== null) kpiNet.textContent = _fmtUsd(annualNet/12);
+  if(kpiGap && gapAnn !== null) kpiGap.textContent = _fmtUsd(gapAnn, '/ yr');
+
+  // ---- Update Vision panes ----
+  var hisAnn = _toNum(data.his_dln_annual);
+  var hisMo = _toNum(data.his_dln_monthly);
+  var hersAnn = _toNum(data.hers_dln_annual);
+  var hersMo = _toNum(data.hers_dln_monthly);
+  var jntAnn = _toNum(data.joint_dln_annual);
+  var jntMo = _toNum(data.joint_dln_monthly);
+
+  var dlHis = document.getElementById('dl-his');
+  var dlHisSub = document.getElementById('dl-his-sub');
+  if(dlHis && hisAnn !== null) dlHis.textContent = _fmtUsd(hisAnn, '/ yr');
+  if(dlHisSub && hisMo !== null) dlHisSub.textContent = _fmtUsd(hisMo) + ' / month — what your perfect month costs.';
+
+  var dlHers = document.getElementById('dl-hers');
+  var dlHersSub = document.getElementById('dl-hers-sub');
+  if(dlHers && hersAnn !== null) dlHers.textContent = _fmtUsd(hersAnn, '/ yr');
+  if(dlHersSub && hersMo !== null) dlHersSub.textContent = _fmtUsd(hersMo) + ' / month — what your perfect month costs.';
+
+  var dlJoint = document.getElementById('dl-joint');
+  var dlJointSub = document.getElementById('dl-joint-sub');
+  if(dlJoint && jntAnn !== null) dlJoint.textContent = _fmtUsd(jntAnn, '/ yr');
+  if(dlJointSub && jntMo !== null) dlJointSub.textContent = _fmtUsd(jntMo) + ' / month — what your shared dream life costs.';
+
+  // ---- Update Gap page ----
+  var annualIncome = _toNum(data.annual_income);
+  var combinedDLN = _toNum(data.combined_dln_annual);
+
+  var gapToday = document.getElementById('gap-today');
+  var gapDream = document.getElementById('gap-dream');
+  var gapAmount = document.getElementById('gap-amount');
+  var gapFill = document.getElementById('gap-fill');
+  if(gapToday && annualIncome !== null) gapToday.textContent = _fmtUsd(annualIncome);
+  if(gapDream && combinedDLN !== null) gapDream.textContent = _fmtUsd(combinedDLN);
+  if(gapAmount && gapAnn !== null) gapAmount.textContent = _fmtUsd(gapAnn);
+  if(gapFill && annualIncome !== null && combinedDLN !== null && combinedDLN > 0){
+    var pct = Math.max(0, Math.min(100, (annualIncome / combinedDLN) * 100));
+    gapFill.style.width = pct.toFixed(1) + '%';
+  }
+
+  // ---- Update sidebar speaker labels (use real names from Sheet) ----
+  var spkHis = document.getElementById('spk-his');
+  var spkHers = document.getElementById('spk-hers');
+  if(spkHis && CLIENT_CONTEXT.his_name) spkHis.textContent = CLIENT_CONTEXT.his_name;
+  if(spkHers && CLIENT_CONTEXT.hers_name) spkHers.textContent = CLIENT_CONTEXT.hers_name;
+  // Refresh the speaker indicator with the fresh names
+  setSpeaker(CLIENT_CONTEXT.current_speaker);
+
+  // ---- Update connection-status pill in topbar ----
+  renderTopbarPill('connected');
+
+  // ---- Re-render all Money Mechanics pages with fresh data ----
+  renderAllMoneyMechanics();
+
+  // ---- Update Data Connections page status ----
+  renderConnStatus('connected');
+}
+
+function renderConnStatus(state, errMsg){
+  var title = document.getElementById('conn-title');
+  var sub = document.getElementById('conn-sub');
+  var dot = document.getElementById('conn-dot');
+  var msg = document.getElementById('conn-msg');
+  var dataCard = document.getElementById('conn-data-card');
+  var loadedTime = document.getElementById('conn-loaded-time');
+  var dataTable = document.getElementById('conn-data-table');
+
+  if(state === 'connected'){
+    if(title) title.textContent = '✓ Connected';
+    if(sub) sub.textContent = 'Live values are flowing into the app from your Sheet.';
+    if(dot){ dot.style.background = '#7dba4a'; dot.style.boxShadow = '0 0 8px #7dba4a55'; }
+    if(msg) msg.innerHTML = '';
+    if(dataCard) dataCard.style.display = '';
+    if(loadedTime && SHEET_LAST_LOADED) loadedTime.textContent = 'Loaded ' + SHEET_LAST_LOADED.toLocaleString() + ' · ' + (SHEET_DATA ? Object.keys(SHEET_DATA).length : 0) + ' values';
+    if(dataTable && SHEET_DATA){
+      var html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-top:8px">';
+      Object.keys(SHEET_DATA).slice(0, 30).forEach(function(k){
+        var v = SHEET_DATA[k];
+        var n = _toNum(v);
+        var displayV = n !== null && k.indexOf('age') < 0 ? _fmtUsd(n) : v;
+        html += '<div style="font-family:\'SF Mono\',Consolas,monospace;color:#888">' + k + '</div>';
+        html += '<div style="text-align:right;color:#cfcfcf">' + displayV + '</div>';
+      });
+      html += '</div>';
+      dataTable.innerHTML = html;
+    }
+  } else if(state === 'loading'){
+    if(title) title.textContent = '⟳ Loading…';
+    if(sub) sub.textContent = 'Fetching the latest values from your Sheet.';
+    if(dot){ dot.style.background = '#dba84a'; dot.style.boxShadow = ''; }
+    if(msg) msg.innerHTML = '';
+  } else if(state === 'error'){
+    if(title) title.textContent = '✗ Connection error';
+    if(sub) sub.textContent = errMsg || 'Could not load your Sheet.';
+    if(dot){ dot.style.background = '#e26b6b'; dot.style.boxShadow = ''; }
+    if(msg) msg.innerHTML = '<div style="color:#e26b6b;background:#1a0a0a;border:1px solid #4a1a1a;border-radius:6px;padding:8px 11px">' +
+      '<b>What went wrong:</b> ' + (errMsg || 'unknown error') + '<br>' +
+      '<b>Things to check:</b> Did you publish the App_Data tab as CSV (not Web page)? Is the URL the one Google gave you after clicking "Publish"? Are you online?</div>';
+    var pill = document.getElementById('sheet-pill');
+    if(pill){
+      pill.textContent = '⚠ Sheet error';
+      pill.style.background = '#2a1010';
+      pill.style.borderColor = '#5a2a2a';
+      pill.style.color = '#e26b6b';
+    }
+  } else {
+    // disconnected
+    if(title) title.textContent = 'Not connected';
+    if(sub) sub.textContent = 'Paste your published CSV URL below to connect.';
+    if(dot){ dot.style.background = '#5a4a1a'; dot.style.boxShadow = ''; }
+    if(msg) msg.innerHTML = '';
+    if(dataCard) dataCard.style.display = 'none';
+    var pill2 = document.getElementById('sheet-pill');
+    var refreshBtn = document.getElementById('sheet-refresh-btn');
+    if(pill2){
+      pill2.textContent = '📋 Sheet not connected';
+      pill2.style.background = '#2a200a';
+      pill2.style.borderColor = '#5a4a1a';
+      pill2.style.color = '#dba84a';
+    }
+    if(refreshBtn) refreshBtn.style.display = 'none';
+  }
+}
+
+async function connectViaCSV(){
+  var input = document.getElementById('sheet-url-input');
+  var url = input ? (input.value || '').trim() : '';
+  if(!url){
+    renderConnStatus('error', 'Please paste your CSV URL first.');
+    return;
+  }
+  // Allow either a published CSV URL or a regular Sheet URL — but warn on the latter
+  if(url.indexOf('output=csv') < 0 && url.indexOf('/pub') < 0){
+    renderConnStatus('error', 'That URL does not look like a published CSV link. It should contain "/pub" and "output=csv". Re-do File → Share → Publish to web → CSV.');
+    return;
+  }
+
+  renderConnStatus('loading');
+  try {
+    var data = await fetchSheetData(url);
+    SHEET_URL = url;
+    CONNECTION_MODE = 'csv';
+    try { localStorage.setItem('lgr_sheet_url', url); } catch(e){}
+    try { localStorage.setItem('lgr_connection_mode', 'csv'); } catch(e){}
+    applySheetData(data);
+    renderTopbarPill('connected');
+  } catch(err){
+    console.error('[connectViaCSV] error:', err);
+    renderConnStatus('error', err && err.message ? err.message : 'Unknown fetch error');
+  }
+}
+
+async function refreshFromSheet(){
+  // Dispatch based on the active connection mode.
+  if(CONNECTION_MODE === 'oauth'){
+    if(!ACCESS_TOKEN || !SHEET_ID){
+      goPageById('dataconnections');
+      return;
+    }
+    renderOAuthStatus('loading');
+    try {
+      var data = await readSheetViaAPI(SHEET_ID);
+      applySheetData(data);
+      renderOAuthStatus('connected');
+      renderTopbarPill('connected');
+    } catch(err){
+      console.error('[refreshFromSheet/oauth] error:', err);
+      renderOAuthStatus('error', err.message || String(err));
+      renderTopbarPill('error');
+    }
+    return;
+  }
+
+  if(CONNECTION_MODE === 'csv'){
+    if(!SHEET_URL){
+      goPageById('dataconnections');
+      return;
+    }
+    renderConnStatus('loading');
+    try {
+      var data = await fetchSheetData(SHEET_URL);
+      applySheetData(data);
+    } catch(err){
+      console.error('[refreshFromSheet/csv] error:', err);
+      renderConnStatus('error', err && err.message ? err.message : 'Unknown fetch error');
+    }
+    return;
+  }
+
+  // No mode set — go to Data Connections page
+  goPageById('dataconnections');
+}
+
+function disconnectSheet(){
+  SHEET_URL = null;
+  SHEET_DATA = null;
+  SHEET_LAST_LOADED = null;
+  CONNECTION_MODE = null;
+  try {
+    localStorage.removeItem('lgr_sheet_url');
+    localStorage.removeItem('lgr_connection_mode');
+  } catch(e){}
+  var input = document.getElementById('sheet-url-input');
+  if(input) input.value = '';
+  renderConnStatus('disconnected');
+  renderTopbarPill('disconnected');
+}
+
+
+// ============================================================
+// ============ INITIAL RENDER ================================
+// ============================================================
+(function init(){
+  // Apply persisted speaker
+  setSpeaker(CLIENT_CONTEXT.current_speaker);
+  // Apply persisted beginner mode (toggle is already-on state — only change if needed)
+  var t = document.getElementById('bm-toggle');
+  var txt = document.getElementById('bm-text');
+  var bdg = document.getElementById('bm-badge');
+  if(!CLIENT_CONTEXT.beginner_mode){
+    if(t) t.classList.add('off');
+    if(txt) txt.textContent = 'Beginner mode — off';
+    if(bdg) bdg.style.display = 'none';
+  }
+  // Render model badge
+  renderModelBadge();
+
+  // Render Money Mechanics pages — Source of Truth uses CLIENT_CONTEXT,
+  // others will be empty until Sheet connects (and re-render then)
+  try { renderAllMoneyMechanics(); } catch(e){ console.warn('Init render:', e); }
+
+  // Try to auto-restore the previous connection.
+  // CSV mode: re-fetch the URL (works without user interaction).
+  // OAuth mode: render the OAuth pane in a "needs sign-in" state — we can't
+  // auto-fetch without a fresh token, but we can pre-fill the saved Sheet ID
+  // so the user just clicks Sign in and they're back in.
+  try {
+    var savedMode = localStorage.getItem('lgr_connection_mode');
+    if(savedMode === 'oauth'){
+      CONNECTION_MODE = 'oauth';
+      // Switch the Data Connections page to OAuth tab so they see the right UI
+      var oauthTab = document.getElementById('conn-tab-oauth');
+      if(oauthTab) setConnTab('oauth');
+      // Render initial state (will show "Not signed in" plus Sheet ID pre-filled)
+      renderOAuthStatus('signed_out');
+    } else if(savedMode === 'csv'){
+      CONNECTION_MODE = 'csv';
+      var csvTab = document.getElementById('conn-tab-csv');
+      if(csvTab) setConnTab('csv');
+      var savedUrl = localStorage.getItem('lgr_sheet_url');
+      if(savedUrl){
+        SHEET_URL = savedUrl;
+        var input = document.getElementById('sheet-url-input');
+        if(input) input.value = savedUrl;
+        // Fire and forget
+        fetchSheetData(savedUrl).then(function(data){
+          applySheetData(data);
+        }).catch(function(err){
+          console.warn('[init] CSV auto-load failed:', err);
+          renderConnStatus('error', err && err.message ? err.message : 'Auto-load failed');
+        });
+      }
+    } else {
+      // Legacy fallback: if a CSV URL was saved before connection_mode existed
+      var savedUrl2 = localStorage.getItem('lgr_sheet_url');
+      if(savedUrl2){
+        CONNECTION_MODE = 'csv';
+        SHEET_URL = savedUrl2;
+        var input2 = document.getElementById('sheet-url-input');
+        if(input2) input2.value = savedUrl2;
+        fetchSheetData(savedUrl2).then(function(data){
+          applySheetData(data);
+        }).catch(function(err){ console.warn('[init] legacy auto-load failed:', err); });
+      } else {
+        renderOAuthStatus('signed_out');
+      }
+    }
+  } catch(e){}
+
+  // Greet on Ask Zach so it's not empty on first open
+  azRender('assistant',
+    'Hi ' + getCurrentSpeakerName() + ' — I\'m Zach. I have your full Dream Life context, your numbers, and your plan. Beginner mode is ' + (CLIENT_CONTEXT.beginner_mode ? 'on (I\'ll teach as I go)' : 'off') + '. Ask me anything, or tap one of the chips above to get started.');
+})();
+
+</script>
+
+</body>
+</html>
