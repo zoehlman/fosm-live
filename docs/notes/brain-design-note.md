@@ -245,8 +245,24 @@ fosm-brain-private/
 │   └── ...
 ├── vision-cc/                     ← prompts where the OUTPUT is Vision CC content
 │   └── ...
-└── (future CCs as they're built — operations-cc/, leadership-cc/, etc.)
+└── (future CCs as they're built — operations-cc/, leadership-cc/, integrity-cc/,
+    emotional-intelligence-cc/, security-cc/, audit-cc/)
 ```
+
+**Future CC folders (planned, not yet created):**
+
+- `operations-cc/` — Operations CC prompts
+- `leadership-cc/` — Leadership CC prompts
+- `integrity-cc/` — Integrity CC prompts
+- `emotional-intelligence-cc/` — Emotional Intelligence CC prompts
+- `security-cc/` — Security CC prompts (third-party-style security/cybersecurity audit team)
+- `audit-cc/` — Audit CC prompts (third-party-style integrity auditor team)
+
+The Security CC and Audit CC are **meta-CCs** — they don't deliver work in
+any one F·O·S·M·L·I·V·E pillar; they protect and verify *all* of them. Their
+brain folders contain prompts for security review (penetration testing,
+threat modeling, defense-in-depth analysis) and integrity auditing (prompt
+accuracy, voice alignment, math verification, output traceability).
 
 **The organizing principle: "Where does the work product live? That's where
 the prompt lives."**
