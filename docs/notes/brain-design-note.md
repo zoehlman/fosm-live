@@ -1,13 +1,15 @@
 # The Brain · Prompt Library · Design Note
 
-**Status:** Placeholder · context capture · NOT a spec
-**Date:** 2026-05-08 (late-night)
+**Status:** v0.2 · context capture with read-through upgrades · NOT yet a spec
+**Date:** 2026-05-08
 **Next:** Full spec drafted Saturday morning at `docs/brain-spec.md`
 
 This is a bridge document. It captures tonight's design conversation about
 the prompt library so tomorrow morning's spec sprint doesn't have to
-reconstruct context from memory. Every decision recorded here is **locked**
-and serves as the foundation for the full spec.
+reconstruct context from memory. v0.1 captured the initial design sprint;
+v0.2 incorporates upgrades from a structured end-to-end read-through with
+Zach. Every decision recorded here is **locked** and serves as the foundation
+for the full spec.
 
 ---
 
@@ -206,26 +208,77 @@ if there's no reason to upgrade. The brain is opt-in, per-CC, per-prompt.
 ## Open questions for tomorrow's spec
 
 These are the architectural decisions that need real thought tomorrow before
-the spec can be drafted:
+the spec can be drafted. Question 1 (folder taxonomy) was resolved during
+the read-through and is captured here for reference. Questions 2–5 require
+fresh-head thinking tomorrow morning.
 
-### 1 · The folder taxonomy
+### 1 · Folder taxonomy — RESOLVED in read-through
 
-How are prompts organized inside the private repo? Some candidate top-level
-groupings:
+**Decision: organize by Command Center, with a `shared/` folder for
+cross-cutting prompts.** The folder structure mirrors the actual usage —
+when working on Marketing CC, Marketing CC's prompts are in
+`marketing-cc/`. No abstract category-hunting.
 
 ```
-brain/
-├── voice/              ← brand voice rules per brand
-├── framework/          ← F.O.S.M., L.I.V.E., 12 Domains, etc.
-├── audit/              ← all audit prompts
-├── icp/                ← ICP analysis, Triangle of Death scoring
-├── content/            ← content-generation prompts (longform, slicing, etc.)
-├── client/             ← per-client custom prompts (or stays in Drive?)
-└── meta/               ← prompts about prompts (the audit auditor)
+fosm-brain-private/
+├── README.md                      ← brain purpose, structure, rules
+├── shared/                        ← prompts used by MORE than one CC
+│   ├── voice/                     ← brand voice rules per brand (used everywhere)
+│   ├── framework/                 ← F.O.S.M., L.I.V.E., 12 Domains (multi-CC)
+│   ├── icp/                       ← ICP analysis (used by Marketing + Sales + others)
+│   └── meta/                      ← prompts about prompts (the audit auditor)
+├── fosm-live-cc/                  ← prompts where the OUTPUT is FOSM·LIVE CC content
+│   ├── audit/                     ← audit prompts producing audit results in dashboards
+│   ├── client-demo-with-data/     ← personalized demos when prospect data exists
+│   ├── client-demo-without-data/  ← fictional demos when no prospect data yet
+│   └── ...
+├── fosm-live-personal/            ← prompts where the OUTPUT is FOSM·LIVE Personal content
+│   └── ...
+├── marketing-cc/                  ← prompts where the OUTPUT is Marketing CC content
+│   ├── campaign-builder/
+│   ├── longform-studio/
+│   └── ...
+├── sales-cc/                      ← prompts where the OUTPUT is Sales CC content
+│   ├── audit-intake/
+│   ├── pipeline-prompts/
+│   └── ...
+├── vision-cc/                     ← prompts where the OUTPUT is Vision CC content
+│   └── ...
+└── (future CCs as they're built — operations-cc/, leadership-cc/, etc.)
 ```
 
-Right answer depends on how prompts cluster naturally — best decided after
-auditing the existing prompt inventory.
+**The organizing principle: "Where does the work product live? That's where
+the prompt lives."**
+
+If a prompt produces output that ends up in FOSM·LIVE CC dashboards (e.g.,
+audit results, demo dashboards), it lives in `fosm-live-cc/` — even if Sales
+CC operators are the ones who *trigger* the prompt during sales calls. The
+output is FOSM·LIVE CC content, so the prompt belongs there.
+
+If a prompt is genuinely cross-cutting — used by multiple CCs to produce
+different outputs — it lives in `shared/`. Brand voice rules apply to every
+CC's content. F.O.S.M. framework definitions apply to multiple CCs. These
+are `shared/`.
+
+**This is the "single source of truth, references everywhere" principle in
+action.** The voice rules live in ONE place (`shared/voice/`). Marketing CC,
+Sales CC, FOSM·LIVE CC all reference the same source. Update once, every CC
+sees the new version on next fetch.
+
+**Per-client custom prompts (deferred decision):** the `client/` folder from
+the original taxonomy is deferred to tomorrow's spec sprint. Question to
+resolve: do per-client prompt overrides live inside the brain (e.g.,
+`fosm-live-cc/clients/<client-id>/voice-override.md`) or in the existing
+Drive-mode pattern? The Drive option keeps client data separate from your
+master IP. The brain option keeps everything version-controlled. Real
+tradeoff. Worth deciding tomorrow when designing the client-override flow.
+
+**This taxonomy is a Zach decision from the read-through:** initial draft
+proposed organizing by prompt type (voice/framework/audit/icp/content/meta).
+Zach refactored it to organize by Command Center based on how prompts are
+actually used in practice — making lookup intuitive ("where's the
+campaign-builder prompt? marketing-cc/campaign-builder/, obviously") and
+making cross-cutting prompts explicit (`shared/`).
 
 ### 2 · The auth mechanism for the gated endpoint
 
@@ -238,28 +291,114 @@ Two reasonable options:
 
 v1 likely shared secret + origin pinning. v2 may upgrade.
 
-### 3 · The PR template format
+### 3 · The PR template format — DIRECTION SET in read-through
 
-What does the heavy-protocol PR template actually look like? GitHub PRs
-support markdown templates that auto-fill on PR creation. Worth designing
-the template carefully — it's the form that gets filled out on every prompt
-change for the next several years.
+**Direction: structured form with required fields, more-rather-than-less.**
 
-### 4 · The fetch-and-cache pattern
+The PR template is the form that gets filled out on every prompt change for
+the next several years. Designed thoughtfully, it *enforces* the heavy
+protocol automatically. Designed poorly, it becomes a checkbox-tick exercise
+that loses meaning.
 
-When a CC fetches a prompt, does it:
-- Always hit the brain endpoint? (slow but always fresh)
-- Cache for N minutes? (fast but staleness window)
-- Cache forever, with manual "refresh prompts" button? (fastest, full operator control)
+**Zach's guidance during read-through:** *"My suggestion is we make it more
+than less, because we can always trim it down. It's better to have more
+information there than less."*
 
-Tradeoff: freshness vs. speed vs. UX complexity.
+**Candidate structured fields** (refined and finalized in tomorrow's spec):
 
-### 5 · The migration sequence
+- **Prompt being changed** — dropdown of all prompt files (auto-populated)
+- **Type of change** — refinement / bug fix / new framework / voice update / IP update / new prompt
+- **What's changing** — auto-populated diff view (GitHub native)
+- **Why** — required free-text justification, max 500 chars
+- **Upstream prompts that may need review** — auto-populated from `depends_on` metadata
+- **Downstream prompts that may need review** — auto-populated from `feeds_into` metadata
+- **Estimated impact** — low / medium / high (signals how carefully Zach should review)
+- **Test confirmation** — checkbox: "I have tested this prompt at least once before submitting"
+- **Reviewer notes** — optional free-text for context Zach should know
 
-Once the brain is built, in what order do existing CCs migrate from
-hardcoded prompts to brain-fetched prompts? Same logic as System Map
-rollout (lowest-stakes first), but the prompts inside each CC need
-auditing before migration.
+**Why required fields matter:** GitHub PR templates can mark fields as
+required-before-submission. This prevents a hurried "looks fine, merge"
+moment from skipping the upstream/downstream check. Friction is a feature
+here, not a bug.
+
+**Tomorrow's spec will:** finalize the exact field list, write the
+markdown template file, document the workflow.
+
+### 4 · The fetch-and-cache pattern — RESOLVED in read-through
+
+**Decision: cache for 5–15 minutes, with a "Force refresh prompts" button
+visible in each CC's settings.**
+
+When a CC fetches a prompt, the response is cached in localStorage with a
+timestamp. Subsequent requests within the cache window return the cached
+copy. Requests after the window expire fetch fresh from the brain.
+
+**Why this balance:**
+- *Always-fetch* (no cache) — every operation takes an extra network hop.
+  Annoying. Adds latency on every prompt-using interaction.
+- *Cache forever* — operators get prompt updates only when they manually
+  refresh. They forget. Stale prompts run for weeks unnoticed.
+- *Cache 5–15 minutes* — operations feel instant. Maximum staleness window
+  is short. Operator can manually trigger immediate refresh when they know
+  Zach just pushed a change.
+
+**The manual refresh button:** prominent enough to find when needed, not so
+prominent it gets clicked accidentally. Probably under each CC's Settings
+or Resources nav, labeled something like "🔄 Refresh prompt cache."
+
+**Open implementation questions** (resolved in spec tomorrow):
+- Exact cache duration — 5? 10? 15 minutes? Probably operator-configurable.
+- Cache invalidation strategy — does updating a prompt in the brain push
+  invalidation events to active CCs, or do we rely purely on time-based
+  expiration? Push invalidation requires WebSockets or polling; time-based
+  is simpler.
+- Per-prompt cache override — some prompts (e.g., voice rules) might have
+  longer caches because they change rarely. Some (e.g., active campaign
+  prompts) might want shorter caches.
+
+### 5 · The migration sequence — RESOLVED in read-through
+
+**Decision: per-CC two-step migration, in same order as System Map rollout
+(lowest-stakes first).**
+
+For each CC, two steps:
+
+**Step 1 · Prompt audit.** Read every prompt currently inside that CC's
+`index.html` and `localStorage` templates. Sort each prompt into one of two
+buckets:
+
+- **Brain-worthy** — IP-grade thinking. Voice rules, audit logic, ICP
+  analysis, framework applications, content generation prompts. These move
+  to the brain.
+- **CC-local** — UI labels, dropdown options, tooltips, error messages,
+  plumbing strings. These stay hardcoded in the CC. They're "prompts" in the
+  technical sense but not part of your IP.
+
+The audit step is judgment-heavy. Worth doing carefully, one CC at a time.
+
+**Step 2 · Migration.** For each brain-worthy prompt, replace the inline
+version in the CC with a `brain.fetch(prompt-id)` call. Verify behavior is
+unchanged. Commit. Move to the next prompt.
+
+**Per-CC order** (same as System Map rollout — lowest-stakes first so we
+learn before touching operator data):
+
+1. Vision CC (newest, no operator data yet)
+2. FOSM·LIVE Personal (data exists but it's Zach's, not a client's)
+3. System Map (no operator data, just a wireframe — minimal prompts to migrate)
+4. FOSM·LIVE CC (data exists but resettable)
+5. Sales CC (operator data — prospects)
+6. Marketing CC (operator data — ICPs, offers, longforms — most prompts)
+
+**Why two-step per CC, not all-audit-first:** doing per-CC lets us learn.
+We audit Marketing CC first, decide which prompts are brain-worthy, migrate
+them, observe how the brain handles real load. Then we audit Sales CC with
+that experience informing better judgment calls. Auditing all CCs up-front
+might lock us into folder taxonomies we'd revise after seeing real usage.
+
+**Cadence:** Phase 4 of the build (this migration) spreads across days/weeks
+without urgency. As Zach naturally uses each CC for real work, prompts get
+audited and migrated organically.
 
 ---
 
@@ -275,6 +414,12 @@ To keep the spec from sprawling:
 - **Real-time collaborative editing.** Locked to Zach + Claude only in v1.
 - **Per-prompt access control.** Either you have access to the brain or you
   don't. Granular access is Phase 4.
+- **Client-side prompt editing UI.** Future scenario where a paid FOSM·LIVE
+  CC operator could tweak prompts through a UI rather than asking Zach.
+  Phase 4 multi-tenant work.
+- **Future trusted team-member write access.** When LGR grows beyond Zach,
+  trusted team members may need write access to specific prompt categories.
+  v1 keeps it Zach + Claude only; revisit when the team grows.
 
 ---
 
@@ -331,8 +476,24 @@ based on this note plus a fresh design pass.
 
 ## Last updated
 
-2026-05-08 by Zach Oehlman + Claude. Late-night design capture before sleep.
-The vision is locked. The architecture is sketched. The full spec lands
-Saturday.
+2026-05-08 by Zach Oehlman + Claude. v0.1 captured during initial late-night
+design sprint. v0.2 incorporates upgrades from a structured end-to-end
+read-through:
+
+- Folder taxonomy resolved — CC-organized with `shared/` for cross-cutting
+  prompts (Zach's design)
+- Demo prompts go under `fosm-live-cc/` (organize by output, not function)
+- PR template direction set — structured form with required fields,
+  more-rather-than-less
+- Fetch-and-cache resolved — 5–15 minute cache with manual refresh button
+- Migration sequence resolved — per-CC two-step (audit, then migrate), in
+  System Map rollout order
+- Out-of-scope list expanded with client-side editing UI and future team
+  member write access
+
+The vision is locked. The architecture is sketched. Three of five open
+questions are now resolved. Two remain (auth mechanism, exact cache
+durations) for tomorrow's spec sprint. The full spec (`docs/brain-spec.md`)
+lands Saturday.
 
 — Cheers and have a blessed day.
