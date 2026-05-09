@@ -691,6 +691,78 @@
   .mv-look-card.active .mv-look-card-name{color:var(--gold)}
   .mv-look-card-mood{font-size:9.5px;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-top:2px}
 
+  /* ============= AI VIDEO TAB ============= */
+  .aiv-form{display:flex;flex-direction:column;gap:14px}
+  .aiv-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media (max-width:600px){.aiv-row{grid-template-columns:1fr}}
+  .aiv-label{font-size:10.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3);margin-bottom:6px}
+  .aiv-textarea{width:100%;background:var(--bg-0);border:1px solid var(--line);color:var(--text-0);
+    padding:14px 16px;border-radius:10px;font-size:13px;font-family:inherit;outline:none;
+    resize:vertical;min-height:90px;line-height:1.55}
+  .aiv-textarea:focus{border-color:var(--gold)}
+  .aiv-pickrow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .aiv-pick{background:var(--bg-0);border:1px solid var(--line);color:var(--text-2);
+    padding:10px 8px;border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;
+    transition:all .15s;font-family:inherit;text-align:center;line-height:1.3}
+  .aiv-pick:hover{border-color:var(--gold-dim);color:var(--text-1)}
+  .aiv-pick.active{background:rgba(212,165,116,.1);border-color:var(--gold);color:var(--gold)}
+  .aiv-pick-cost{display:block;font-size:9.5px;color:var(--text-3);margin-top:2px;font-weight:400;letter-spacing:.3px}
+  .aiv-pick.active .aiv-pick-cost{color:var(--gold-dim)}
+
+  .aiv-toggle-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text-1)}
+  .aiv-toggle{position:relative;width:36px;height:20px;background:var(--bg-2);border-radius:30px;
+    cursor:pointer;transition:all .2s;border:1px solid var(--line)}
+  .aiv-toggle.on{background:var(--gold);border-color:var(--gold)}
+  .aiv-toggle::after{content:'';position:absolute;top:1px;left:1px;width:16px;height:16px;
+    background:var(--text-0);border-radius:50%;transition:all .2s}
+  .aiv-toggle.on::after{left:17px;background:var(--bg-0)}
+
+  .aiv-cost-summary{background:linear-gradient(135deg,rgba(212,165,116,.08) 0%,rgba(212,165,116,.03) 100%);
+    border:1px solid var(--gold-dim);border-radius:10px;padding:14px 16px;
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+  .aiv-cost-main{font-family:'Fraunces',serif;font-size:24px;font-style:italic;color:var(--gold);font-weight:300}
+  .aiv-cost-sub{font-size:10.5px;color:var(--text-2);letter-spacing:.3px}
+  .aiv-cost-mtd{font-size:11px;color:var(--text-3);text-align:right}
+  .aiv-cost-mtd b{color:var(--text-1);font-weight:600}
+  .aiv-cost-mtd.warn b{color:var(--warm)}
+  .aiv-cost-mtd.danger b{color:var(--red)}
+
+  .aiv-polish-btn{background:linear-gradient(135deg,rgba(122,171,221,.15),rgba(122,171,221,.05));
+    border:1px solid rgba(122,171,221,.4);color:var(--cool);padding:9px 14px;border-radius:8px;
+    font-size:11.5px;font-weight:500;cursor:pointer;font-family:inherit;display:inline-flex;
+    align-items:center;gap:7px;transition:all .15s}
+  .aiv-polish-btn:hover{background:rgba(122,171,221,.2);border-color:var(--cool);color:var(--text-0)}
+  .aiv-polish-btn:disabled{opacity:.5;cursor:wait}
+  .aiv-polish-btn svg{width:13px}
+  .aiv-polished-note{background:var(--bg-0);border:1px solid var(--line);border-left:2px solid var(--cool);
+    border-radius:7px;padding:10px 14px;font-size:11px;color:var(--text-2);line-height:1.6;margin-top:6px;display:none}
+  .aiv-polished-note.show{display:block}
+  .aiv-polished-note b{color:var(--cool)}
+
+  /* Generation status overlay */
+  .aiv-status{display:none;flex-direction:column;align-items:center;gap:18px;
+    padding:32px;background:var(--bg-0);border:1px solid var(--gold-dim);border-radius:14px;text-align:center}
+  .aiv-status.show{display:flex}
+  .aiv-status-stage{font-size:10px;color:var(--gold);letter-spacing:3px;text-transform:uppercase;font-weight:600}
+  .aiv-status-title{font-family:'Fraunces',serif;font-size:18px;color:var(--text-0);font-style:italic;line-height:1.4}
+  .aiv-status-spinner{width:32px;height:32px;border:2px solid var(--line);border-top-color:var(--gold);
+    border-radius:50%;animation:spin 1s linear infinite}
+  .aiv-status-detail{font-size:11.5px;color:var(--text-2);max-width:420px;line-height:1.6}
+  .aiv-status-elapsed{font-size:10.5px;color:var(--text-3);font-style:italic}
+
+  /* Password modal */
+  .aiv-password-form{display:flex;flex-direction:column;gap:14px}
+  .aiv-password-input{background:var(--bg-0);border:1px solid var(--line);color:var(--text-0);
+    padding:12px 16px;border-radius:8px;font-size:14px;outline:none;font-family:'SF Mono',Monaco,monospace;letter-spacing:.5px}
+  .aiv-password-input:focus{border-color:var(--gold)}
+
+  /* Mood tile: AI video badge */
+  .mood-tile.is-aivideo::after{content:'▶';position:absolute;top:10px;right:10px;
+    width:30px;height:30px;border-radius:50%;background:rgba(10,9,8,.75);backdrop-filter:blur(6px);
+    color:var(--gold);font-size:11px;display:flex;align-items:center;justify-content:center;
+    z-index:2;border:1px solid var(--gold-dim);padding-left:2px}
+  .mood-tile.is-aivideo .mood-tile-tag{background:rgba(212,165,116,.2);color:var(--gold);border:1px solid var(--gold-dim)}
+
   /* Render overlay (full screen during render) */
   .mv-render-overlay{position:fixed;inset:0;background:rgba(10,9,8,.96);backdrop-filter:blur(20px);
     z-index:5000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center}
@@ -1146,6 +1218,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
           Upload
         </button>
+        <button class="ps-tab" data-pstab="aivideo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 3l14 9-14 9V3z"/></svg>
+          Generate AI video
+        </button>
       </div>
     </div>
 
@@ -1192,7 +1268,106 @@
         </div>
       </div>
 
+      <!-- AI VIDEO TAB -->
+      <div class="ps-pane" id="ps-pane-aivideo">
+        <div id="aivContainer">
+          <div class="aiv-form" id="aivForm">
+
+            <div>
+              <div class="aiv-label">Describe the moment</div>
+              <textarea class="aiv-textarea" id="aivPrompt" placeholder="A moment from your dream day. The motorcycle accelerating through the cobblestone street at sunset. Walking through the door of the new house with morning coffee. Riding horses across the property at dawn. Be specific — light, motion, what's in the frame."></textarea>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;flex-wrap:wrap;gap:8px">
+                <button class="aiv-polish-btn" id="aivPolishBtn" onclick="aivPolishPrompt()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l1.8 5.6L19 9l-4.5 3 1.7 5.5L12 14l-4.2 3.5L9.5 12 5 9l5.2-1.4L12 2z"/></svg>
+                  <span>Polish my prompt</span>
+                </button>
+                <span style="font-size:10.5px;color:var(--text-3);font-style:italic">Claude turns rough ideas into cinematic prompts · ~$0.001</span>
+              </div>
+              <div class="aiv-polished-note" id="aivPolishedNote"></div>
+            </div>
+
+            <div>
+              <div class="aiv-label">Quality</div>
+              <div class="aiv-pickrow" id="aivQualityRow">
+                <button class="aiv-pick active" data-aiv-quality="veo-3.1-lite-generate-preview">Lite<span class="aiv-pick-cost">$0.075/sec</span></button>
+                <button class="aiv-pick" data-aiv-quality="veo-3.1-fast-generate-preview">Fast<span class="aiv-pick-cost">$0.15/sec</span></button>
+                <button class="aiv-pick" data-aiv-quality="veo-3.1-generate-preview">Premium<span class="aiv-pick-cost">$0.40/sec</span></button>
+              </div>
+            </div>
+
+            <div class="aiv-row">
+              <div>
+                <div class="aiv-label">Duration</div>
+                <div class="aiv-pickrow" id="aivDurationRow">
+                  <button class="aiv-pick" data-aiv-duration="4">4 sec</button>
+                  <button class="aiv-pick active" data-aiv-duration="6">6 sec</button>
+                  <button class="aiv-pick" data-aiv-duration="8">8 sec</button>
+                </div>
+              </div>
+              <div>
+                <div class="aiv-label">Aspect</div>
+                <div class="aiv-pickrow" id="aivAspectRow" style="grid-template-columns:repeat(2,1fr)">
+                  <button class="aiv-pick active" data-aiv-aspect="9:16">9:16<span class="aiv-pick-cost">For Sumary</span></button>
+                  <button class="aiv-pick" data-aiv-aspect="16:9">16:9<span class="aiv-pick-cost">For trailers</span></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="aiv-toggle-row">
+              <div class="aiv-toggle on" id="aivAudioToggle" onclick="aivToggleAudio()"></div>
+              <span><b>Audio</b> — Veo generates ambient sound &amp; foley. ON for standalone clips, consider OFF if you'll layer music in the trailer.</span>
+            </div>
+
+            <div class="aiv-cost-summary" id="aivCostSummary">
+              <div>
+                <div class="aiv-cost-main" id="aivCostMain">$0.45</div>
+                <div class="aiv-cost-sub" id="aivCostSub">6 seconds · Veo 3.1 Lite · 9:16 with audio</div>
+              </div>
+              <div class="aiv-cost-mtd" id="aivCostMtd">
+                This month:<br><b id="aivCostMtdValue">$0.00</b> / $50 soft cap
+              </div>
+            </div>
+
+            <button class="top-btn primary" id="aivGenerateBtn" onclick="aivGenerate()" style="padding:14px 24px;font-size:13px;justify-content:center;width:100%">
+              <svg viewBox="0 0 24 24" width="14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 3l14 9-14 9V3z"/></svg>
+              Generate video
+            </button>
+
+            <div style="font-size:10.5px;color:var(--text-3);text-align:center;line-height:1.7">
+              Generation takes ~60-90 seconds. The clip will save to <b id="aivTargetLabel" style="color:var(--gold)">—</b>'s mood board when ready.
+            </div>
+          </div>
+
+          <!-- Status panel during generation -->
+          <div class="aiv-status" id="aivStatus">
+            <div class="aiv-status-stage" id="aivStatusStage">Starting</div>
+            <div class="aiv-status-spinner"></div>
+            <div class="aiv-status-title" id="aivStatusTitle">Generating your clip…</div>
+            <div class="aiv-status-detail" id="aivStatusDetail">Veo is composing the frames. This usually takes 60-90 seconds for short clips, longer for higher quality.</div>
+            <div class="aiv-status-elapsed" id="aivStatusElapsed">Elapsed: 0s</div>
+            <button class="top-btn" onclick="aivCancel()">Cancel</button>
+          </div>
+
+        </div>
+      </div>
+
     </div>
+  </div>
+</div>
+
+<!-- MODAL: AI VIDEO PASSWORD -->
+<div class="modal-overlay" id="aivPasswordModal">
+  <div class="modal modal-narrow">
+    <div class="modal-head">Confirm <em>generation</em></div>
+    <div class="modal-sub">AI video generation costs real money. Enter the password to proceed.</div>
+    <form class="aiv-password-form" onsubmit="event.preventDefault();aivConfirmPassword()">
+      <input type="password" class="aiv-password-input" id="aivPasswordInput" placeholder="Password" autocomplete="current-password">
+      <div style="font-size:11px;color:var(--text-3);font-style:italic" id="aivPasswordHint">The password is set by the workspace owner.</div>
+      <div class="modal-actions">
+        <button type="button" class="top-btn" onclick="closeModal('aivPasswordModal')">Cancel</button>
+        <button type="submit" class="top-btn primary">Continue</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -1398,8 +1573,10 @@
 <div class="lightbox" id="lightbox">
   <button class="lightbox-close" onclick="closeLightbox()">×</button>
   <img id="lightboxImg" src="" alt="">
+  <video id="lightboxVideo" style="display:none;max-width:90vw;max-height:80vh;border-radius:10px;background:#000" controls playsinline></video>
   <div class="lightbox-meta">
     <input class="lightbox-cap" id="lightboxCap" placeholder="Add a caption…">
+    <button class="top-btn" id="lightboxDownloadBtn" style="display:none" onclick="downloadCurrentLightboxVideo()">↓ Download</button>
     <button class="top-btn danger" onclick="deletePhoto()">Delete</button>
     <button class="top-btn primary" onclick="closeLightbox()">Done</button>
   </div>
@@ -2012,6 +2189,7 @@ function renderMoodboard() {
     let tag = 'Photo';
     let tagCls = '';
     if (p.type === 'ai') { tag = 'AI'; tagCls = 'ai-gen'; }
+    else if (p.type === 'ai_video') { tag = 'AI Video'; tagCls = 'is-aivideo'; }
     else if (p.type === 'unsplash') { tag = 'Unsplash'; }
     else if (p.type === 'url') { tag = 'Web'; }
     const freshCls = freshlyAddedIds.includes(p.id) ? 'fresh' : '';
@@ -2221,14 +2399,51 @@ function openLightbox(photoId) {
   currentLightboxPhotoId = photoId;
   const photo = T().obj.photos.find(p => p.id === photoId);
   if (!photo) return;
-  document.getElementById('lightboxImg').src = photo.dataUrl || photo.url;
+
+  const imgEl = document.getElementById('lightboxImg');
+  const vidEl = document.getElementById('lightboxVideo');
+  const dlBtn = document.getElementById('lightboxDownloadBtn');
+
+  if (photo.type === 'ai_video') {
+    // Show video, hide image
+    imgEl.style.display = 'none';
+    vidEl.style.display = '';
+    dlBtn.style.display = '';
+    // Resolve playable source
+    let videoSrc = photo.videoDataUrl;
+    if (!videoSrc && photo.runtimeBlobKey && aivRuntimeBlobs.has(photo.runtimeBlobKey)) {
+      videoSrc = URL.createObjectURL(aivRuntimeBlobs.get(photo.runtimeBlobKey));
+    } else if (!videoSrc && photo.videoBlobUrlSession) {
+      videoSrc = photo.videoBlobUrlSession;
+    }
+    if (videoSrc) {
+      vidEl.src = videoSrc;
+      vidEl.play().catch(() => {});
+    } else {
+      // Lost session blob — we have just the thumbnail
+      imgEl.src = photo.dataUrl || '';
+      imgEl.style.display = '';
+      vidEl.style.display = 'none';
+      toast('Video data not in this session — only the thumbnail. Re-generate to view.', 'warn');
+    }
+  } else {
+    imgEl.style.display = '';
+    imgEl.src = photo.dataUrl || photo.url;
+    vidEl.style.display = 'none';
+    vidEl.src = '';
+    dlBtn.style.display = 'none';
+  }
+
   document.getElementById('lightboxCap').value = photo.caption || '';
-  // Attribution
+
+  // Attribution / source info
   const attrEl = document.getElementById('lightboxAttr');
-  if (photo.source && photo.source.photographer) {
+  if (photo.type === 'ai_video' && photo.source) {
+    const s = photo.source;
+    attrEl.innerHTML = `<i>${escape(s.modelLabel || 'AI Video')}</i> · ${s.duration}s · ${s.aspect} · $${s.cost}<br><span style="opacity:.65">Prompt: "${escape(s.prompt || '').slice(0, 200)}${(s.prompt || '').length > 200 ? '…' : ''}"</span>`;
+  } else if (photo.source && photo.source.photographer) {
     const photog = escape(photo.source.photographer);
     const photogUrl = photo.source.photographerUrl || '#';
-    const unsplashUrl = photo.source.unsplashUrl || '#';
     attrEl.innerHTML = `Photo by <a href="${photogUrl}?utm_source=vcc&utm_medium=referral" target="_blank">${photog}</a> on <a href="https://unsplash.com?utm_source=vcc&utm_medium=referral" target="_blank">Unsplash</a>`;
   } else if (photo.type === 'url' && photo.source && photo.source.originalUrl) {
     attrEl.innerHTML = `From <a href="${photo.source.originalUrl}" target="_blank">${escape(photo.source.originalUrl).slice(0,60)}…</a>`;
@@ -2237,6 +2452,7 @@ function openLightbox(photoId) {
   }
   document.getElementById('lightbox').classList.add('show');
 }
+
 function closeLightbox() {
   if (!currentLightboxPhotoId) return;
   const photo = T().obj.photos.find(p => p.id === currentLightboxPhotoId);
@@ -2245,8 +2461,31 @@ function closeLightbox() {
     T().save();
     renderMoodboard();
   }
+  // Stop video playback
+  const vidEl = document.getElementById('lightboxVideo');
+  vidEl.pause();
+  vidEl.removeAttribute('src');
+  vidEl.load();
+
   document.getElementById('lightbox').classList.remove('show');
   currentLightboxPhotoId = null;
+}
+
+function downloadCurrentLightboxVideo() {
+  if (!currentLightboxPhotoId) return;
+  const photo = T().obj.photos.find(p => p.id === currentLightboxPhotoId);
+  if (!photo) return;
+  let url = photo.videoDataUrl;
+  if (!url && photo.runtimeBlobKey && aivRuntimeBlobs.has(photo.runtimeBlobKey)) {
+    url = URL.createObjectURL(aivRuntimeBlobs.get(photo.runtimeBlobKey));
+  } else if (!url) url = photo.videoBlobUrlSession;
+  if (!url) { toast('No downloadable video available', 'warn'); return; }
+  const a = document.createElement('a');
+  a.href = url;
+  const safeCap = (photo.caption || 'ai-clip').replace(/[^a-z0-9-]+/gi, '-').toLowerCase().slice(0, 40);
+  a.download = `vcc-${safeCap}-${new Date().toISOString().slice(0,10)}.mp4`;
+  a.click();
+  toast('Downloaded · share with Sumary', 'success');
 }
 function deletePhoto() {
   if (!currentLightboxPhotoId) return;
@@ -2884,6 +3123,7 @@ function psSwitchTab(tab) {
   document.getElementById('ps-pane-' + tab).classList.add('active');
   if (tab === 'inspiration') renderInspiration();
   if (tab === 'search') renderSearchPane();
+  if (tab === 'aivideo') aivOnTabOpen();
 }
 
 document.querySelectorAll('.ps-tab').forEach(t => {
@@ -3128,6 +3368,459 @@ async function psHandleUpload(event) {
   updatePsStatus();
   event.target.value = '';
 }
+
+// =================== AI VIDEO ===================
+// Calls our Netlify functions (gemini-proxy, claude-polish) to generate video
+// clips that drop into the user's mood board as a new photo type.
+
+const AIV_QUALITY_COSTS = {
+  'veo-3.1-lite-generate-preview':  0.075,
+  'veo-3.1-fast-generate-preview':  0.15,
+  'veo-3.1-generate-preview':       0.40
+};
+const AIV_QUALITY_LABELS = {
+  'veo-3.1-lite-generate-preview':  'Veo 3.1 Lite',
+  'veo-3.1-fast-generate-preview':  'Veo 3.1 Fast',
+  'veo-3.1-generate-preview':       'Veo 3.1 Premium'
+};
+const AIV_PROXY_URL = '/.netlify/functions/gemini-proxy';
+const AIV_POLISH_URL = '/.netlify/functions/claude-polish';
+const AIV_SOFT_CAP = 50;
+const AIV_HARD_CAP = 100;
+
+// Persistent state — password kept session-only for safety
+let aivQuality = 'veo-3.1-lite-generate-preview';
+let aivDuration = 6;
+let aivAspect = '9:16';
+let aivAudio = true;
+let aivPolling = false;
+let aivPollTimer = null;
+let aivStartTime = 0;
+let aivElapsedTimer = null;
+let aivCurrentOperation = null;
+
+// Spend tracking — per calendar month, in localStorage
+function aivCurrentMonthKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+function aivGetMonthSpend() {
+  const key = STORAGE_PREFIX + 'aiv-spend-' + aivCurrentMonthKey();
+  return parseFloat(localStorage.getItem(key) || '0');
+}
+function aivAddSpend(amount) {
+  const key = STORAGE_PREFIX + 'aiv-spend-' + aivCurrentMonthKey();
+  const current = aivGetMonthSpend();
+  const next = current + parseFloat(amount);
+  localStorage.setItem(key, next.toFixed(4));
+  return next;
+}
+
+// Wire pickers
+function aivWirePickers() {
+  document.querySelectorAll('[data-aiv-quality]').forEach(b => {
+    b.addEventListener('click', () => {
+      aivQuality = b.dataset.aivQuality;
+      document.querySelectorAll('[data-aiv-quality]').forEach(x => x.classList.toggle('active', x.dataset.aivQuality === aivQuality));
+      aivUpdateCost();
+    });
+  });
+  document.querySelectorAll('[data-aiv-duration]').forEach(b => {
+    b.addEventListener('click', () => {
+      aivDuration = parseInt(b.dataset.aivDuration);
+      document.querySelectorAll('[data-aiv-duration]').forEach(x => x.classList.toggle('active', parseInt(x.dataset.aivDuration) === aivDuration));
+      aivUpdateCost();
+    });
+  });
+  document.querySelectorAll('[data-aiv-aspect]').forEach(b => {
+    b.addEventListener('click', () => {
+      aivAspect = b.dataset.aivAspect;
+      document.querySelectorAll('[data-aiv-aspect]').forEach(x => x.classList.toggle('active', x.dataset.aivAspect === aivAspect));
+      aivUpdateCost();
+    });
+  });
+}
+
+function aivToggleAudio() {
+  aivAudio = !aivAudio;
+  document.getElementById('aivAudioToggle').classList.toggle('on', aivAudio);
+  aivUpdateCost();
+}
+
+function aivUpdateCost() {
+  const perSec = AIV_QUALITY_COSTS[aivQuality];
+  const cost = aivDuration * perSec;
+  const main = document.getElementById('aivCostMain');
+  const sub = document.getElementById('aivCostSub');
+  if (!main) return;
+  main.textContent = '$' + cost.toFixed(2);
+  sub.textContent = `${aivDuration} seconds · ${AIV_QUALITY_LABELS[aivQuality]} · ${aivAspect}${aivAudio ? ' with audio' : ''}`;
+
+  const monthSpend = aivGetMonthSpend();
+  const mtdEl = document.getElementById('aivCostMtd');
+  const mtdVal = document.getElementById('aivCostMtdValue');
+  if (mtdEl && mtdVal) {
+    mtdVal.textContent = '$' + monthSpend.toFixed(2);
+    mtdEl.classList.remove('warn', 'danger');
+    if (monthSpend >= AIV_HARD_CAP) mtdEl.classList.add('danger');
+    else if (monthSpend >= AIV_SOFT_CAP) mtdEl.classList.add('warn');
+  }
+
+  // Update target label
+  const t = T();
+  if (t) {
+    const tl = document.getElementById('aivTargetLabel');
+    if (tl) tl.textContent = t.label;
+  }
+}
+
+// Call this whenever the AI video tab opens (refreshes month spend display)
+function aivOnTabOpen() {
+  aivUpdateCost();
+  // Pre-seed prompt with vision text if empty
+  const t = T();
+  const promptEl = document.getElementById('aivPrompt');
+  if (t && promptEl && !promptEl.value.trim() && t.obj.vision) {
+    promptEl.placeholder = t.obj.vision.slice(0, 200) + (t.obj.vision.length > 200 ? '…' : '');
+  }
+}
+
+// =================== POLISH ===================
+async function aivPolishPrompt() {
+  const promptEl = document.getElementById('aivPrompt');
+  const raw = promptEl.value.trim();
+  if (!raw) {
+    toast('Type a rough idea first, then polish it', 'warn');
+    return;
+  }
+  const password = await aivEnsurePassword();
+  if (!password) return;
+
+  const btn = document.getElementById('aivPolishBtn');
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Polishing…';
+
+  const t = T();
+  const domainContext = t ? (t.obj.vision || '').trim() : '';
+  const domainName = t ? t.label : '';
+
+  try {
+    const res = await fetch(AIV_POLISH_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        password, prompt: raw, domainContext, domainName,
+        aspect: aivAspect, duration: aivDuration, audio: aivAudio
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Polish failed');
+
+    // Replace the prompt with the polished one, keeping original visible in note
+    promptEl.value = data.polished;
+    const note = document.getElementById('aivPolishedNote');
+    note.classList.add('show');
+    note.innerHTML = `<b>Polished by Claude</b> · Original: "${escape(raw)}"`;
+    toast('Polished — review and Generate when ready', 'success');
+  } catch (e) {
+    toast(e.message || 'Polish failed', 'error');
+  } finally {
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Polish my prompt';
+  }
+}
+
+// =================== PASSWORD ===================
+let aivPendingAfterPassword = null;
+
+function aivEnsurePassword() {
+  return new Promise(resolve => {
+    const sessionPwd = sessionStorage.getItem(STORAGE_PREFIX + 'aiv-pwd');
+    if (sessionPwd) { resolve(sessionPwd); return; }
+    aivPendingAfterPassword = resolve;
+    document.getElementById('aivPasswordInput').value = '';
+    document.getElementById('aivPasswordModal').classList.add('show');
+    setTimeout(() => document.getElementById('aivPasswordInput').focus(), 100);
+  });
+}
+function aivConfirmPassword() {
+  const v = document.getElementById('aivPasswordInput').value.trim();
+  if (!v) { toast('Enter the password', 'warn'); return; }
+  // Store for the rest of the session
+  sessionStorage.setItem(STORAGE_PREFIX + 'aiv-pwd', v);
+  closeModal('aivPasswordModal');
+  if (aivPendingAfterPassword) {
+    const fn = aivPendingAfterPassword;
+    aivPendingAfterPassword = null;
+    fn(v);
+  }
+}
+
+// =================== GENERATE ===================
+async function aivGenerate() {
+  const t = T();
+  if (!t) { toast('Open a domain, project, or subsection first', 'warn'); return; }
+
+  const promptEl = document.getElementById('aivPrompt');
+  const prompt = promptEl.value.trim();
+  if (!prompt) { toast('Describe the moment first', 'warn'); return; }
+
+  // Spend cap check
+  const monthSpend = aivGetMonthSpend();
+  const cost = aivDuration * AIV_QUALITY_COSTS[aivQuality];
+  if (monthSpend + cost > AIV_HARD_CAP) {
+    toast(`Would push you past the $${AIV_HARD_CAP} hard cap. Wait until next month or raise the cap.`, 'error');
+    return;
+  }
+  if (monthSpend + cost > AIV_SOFT_CAP) {
+    if (!confirm(`This generation will put you at $${(monthSpend + cost).toFixed(2)} for the month, past the $${AIV_SOFT_CAP} soft cap. Proceed?`)) return;
+  }
+
+  const password = await aivEnsurePassword();
+  if (!password) return;
+
+  // Show status panel
+  document.getElementById('aivForm').style.display = 'none';
+  const statusEl = document.getElementById('aivStatus');
+  statusEl.classList.add('show');
+  document.getElementById('aivStatusStage').textContent = 'Sending prompt to Veo';
+  document.getElementById('aivStatusTitle').textContent = 'Starting your clip…';
+  document.getElementById('aivStatusDetail').textContent = 'Veo is queuing the generation. Should take 60-90 seconds for the lite model.';
+
+  aivStartTime = Date.now();
+  aivElapsedTimer = setInterval(() => {
+    const sec = Math.floor((Date.now() - aivStartTime) / 1000);
+    document.getElementById('aivStatusElapsed').textContent = `Elapsed: ${sec}s`;
+  }, 1000);
+
+  try {
+    // 1. START
+    const startRes = await fetch(AIV_PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'start', password,
+        prompt, model: aivQuality, duration: aivDuration, aspect: aivAspect, audio: aivAudio
+      })
+    });
+    const startData = await startRes.json();
+    if (!startRes.ok) {
+      // 401 = bad password, clear it so they can re-enter
+      if (startRes.status === 401) sessionStorage.removeItem(STORAGE_PREFIX + 'aiv-pwd');
+      throw new Error(startData.error || 'Generation failed to start');
+    }
+    aivCurrentOperation = startData.operationName;
+
+    document.getElementById('aivStatusStage').textContent = 'Generating';
+
+    // 2. POLL
+    aivPolling = true;
+    const result = await aivPollUntilDone(password, startData.operationName);
+    if (!result || !aivPolling) return; // cancelled
+
+    // 3. FETCH the actual video bytes (Veo URI requires API key auth)
+    document.getElementById('aivStatusStage').textContent = 'Downloading clip';
+    const fetchRes = await fetch(AIV_PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'fetch_video', password, videoUri: result.videoUri })
+    });
+    const fetchData = await fetchRes.json();
+    if (!fetchRes.ok) throw new Error(fetchData.error || 'Failed to download generated video');
+
+    // 4. Build a data URL or Blob from base64
+    const blob = aivBase64ToBlob(fetchData.base64, fetchData.contentType || 'video/mp4');
+    const blobUrl = URL.createObjectURL(blob);
+
+    // Build a thumbnail from the first frame
+    document.getElementById('aivStatusStage').textContent = 'Generating thumbnail';
+    const thumbDataUrl = await aivExtractThumbnail(blobUrl);
+
+    // 5. Save to mood board as a new photo entry of type 'ai_video'
+    // Strategy: encode video as data URL for persistence — but only if small enough
+    // For larger clips, store the blob in runtime + thumbnail in localStorage with a regenerate flag
+    const sizeMB = blob.size / (1024 * 1024);
+    let storedAsDataUrl = false;
+    let videoData = null;
+
+    if (sizeMB < 4) {
+      // Small enough to inline as data URL — full persistence
+      videoData = await aivBlobToDataUrl(blob);
+      storedAsDataUrl = true;
+    } else {
+      // Too large for localStorage — keep in runtime, save thumbnail + metadata
+      aivRuntimeBlobs.set('ai_' + Date.now(), blob);
+    }
+
+    const photoId = 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+    const photo = {
+      id: photoId,
+      type: 'ai_video',
+      videoDataUrl: videoData, // null if too large
+      videoBlobUrlSession: blobUrl, // for current session playback even if no dataUrl
+      dataUrl: thumbDataUrl, // thumbnail used as the mood-board image
+      caption: prompt.length > 60 ? prompt.slice(0, 57) + '…' : prompt,
+      addedAt: Date.now(),
+      source: {
+        prompt,
+        model: aivQuality,
+        modelLabel: AIV_QUALITY_LABELS[aivQuality],
+        duration: aivDuration,
+        aspect: aivAspect,
+        audio: aivAudio,
+        sizeMB: sizeMB.toFixed(2),
+        cost: cost.toFixed(4),
+        contentType: fetchData.contentType || 'video/mp4'
+      }
+    };
+
+    if (!storedAsDataUrl) {
+      photo._tooLargeForPersistence = true;
+      photo.runtimeBlobKey = 'ai_' + photoId;
+      aivRuntimeBlobs.set(photo.runtimeBlobKey, blob);
+    }
+
+    // Add to current target's photos
+    t.obj.photos.push(photo);
+    t.save();
+    freshlyAddedIds = [photoId];
+
+    // Track spend
+    const newTotal = aivAddSpend(cost);
+
+    // Reset UI
+    aivPolling = false;
+    aivCurrentOperation = null;
+    clearInterval(aivElapsedTimer);
+    document.getElementById('aivForm').style.display = '';
+    statusEl.classList.remove('show');
+    promptEl.value = '';
+    document.getElementById('aivPolishedNote').classList.remove('show');
+    aivUpdateCost();
+
+    // Re-render mood board so the new clip appears
+    renderMoodboard();
+    renderHeroMeta();
+
+    // Close the photo sources modal so the user can see their new clip
+    closeModal('photoSourcesModal');
+    const elapsedSec = Math.floor((Date.now() - aivStartTime) / 1000);
+    toast(`Clip ready · ${elapsedSec}s · $${cost.toFixed(2)} · this month: $${newTotal.toFixed(2)}`, 'success');
+
+    // Auto-open the lightbox so they immediately see what they made
+    setTimeout(() => openLightbox(photoId), 600);
+
+  } catch (e) {
+    aivPolling = false;
+    aivCurrentOperation = null;
+    clearInterval(aivElapsedTimer);
+    document.getElementById('aivForm').style.display = '';
+    statusEl.classList.remove('show');
+    toast(e.message || 'Generation failed', 'error');
+  }
+}
+
+async function aivPollUntilDone(password, operationName) {
+  const POLL_INTERVAL_MS = 6000;
+  const MAX_DURATION_MS = 6 * 60 * 1000; // 6 min hard timeout
+  const start = Date.now();
+  while (aivPolling) {
+    if (Date.now() - start > MAX_DURATION_MS) {
+      throw new Error('Generation timed out after 6 minutes');
+    }
+    await new Promise(r => { aivPollTimer = setTimeout(r, POLL_INTERVAL_MS); });
+    if (!aivPolling) return null;
+
+    const res = await fetch(AIV_PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'poll', password, operationName })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Poll failed');
+
+    if (data.done) {
+      if (data.status === 'completed' && data.videoUri) return { videoUri: data.videoUri };
+      if (data.status === 'error') throw new Error(data.error || 'Veo reported failure');
+      throw new Error('Generation finished with no video');
+    }
+    // Update detail message based on elapsed
+    const sec = Math.floor((Date.now() - aivStartTime) / 1000);
+    if (sec > 30) document.getElementById('aivStatusDetail').textContent = 'Veo is rendering frames. Lite model usually wraps in 60-90s, Premium can take 2-3 min.';
+    if (sec > 90) document.getElementById('aivStatusDetail').textContent = 'Still going. Veo is being thorough — almost done.';
+    if (sec > 180) document.getElementById('aivStatusDetail').textContent = 'Premium-quality renders take longer. Hang in there.';
+  }
+}
+
+function aivCancel() {
+  aivPolling = false;
+  if (aivPollTimer) clearTimeout(aivPollTimer);
+  if (aivElapsedTimer) clearInterval(aivElapsedTimer);
+  document.getElementById('aivForm').style.display = '';
+  document.getElementById('aivStatus').classList.remove('show');
+  toast('Cancelled', 'warn');
+}
+
+// Runtime blob storage for clips too large to persist in localStorage
+const aivRuntimeBlobs = new Map();
+
+function aivBase64ToBlob(b64, contentType) {
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return new Blob([bytes], { type: contentType });
+}
+function aivBlobToDataUrl(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+// Extract a thumbnail from a video by drawing the first frame to a canvas
+function aivExtractThumbnail(blobUrl) {
+  return new Promise((resolve, reject) => {
+    const v = document.createElement('video');
+    v.muted = true; v.playsInline = true; v.preload = 'metadata';
+    v.crossOrigin = 'anonymous';
+    let resolved = false;
+    const cleanup = () => {
+      v.removeAttribute('src');
+      v.load();
+    };
+    v.addEventListener('loadeddata', () => {
+      // Seek a tiny bit in to skip black frames
+      try { v.currentTime = Math.min(0.5, (v.duration || 1) * 0.15); } catch (e) {}
+    });
+    v.addEventListener('seeked', () => {
+      if (resolved) return;
+      resolved = true;
+      try {
+        const c = document.createElement('canvas');
+        // Match aspect of the video
+        const w = v.videoWidth || 720;
+        const h = v.videoHeight || 1280;
+        // Cap the larger dimension to 600 for storage efficiency
+        const maxDim = 600;
+        const scale = Math.min(1, maxDim / Math.max(w, h));
+        c.width = Math.round(w * scale);
+        c.height = Math.round(h * scale);
+        const ctx = c.getContext('2d');
+        ctx.drawImage(v, 0, 0, c.width, c.height);
+        const url = c.toDataURL('image/jpeg', 0.75);
+        cleanup();
+        resolve(url);
+      } catch (e) { cleanup(); reject(e); }
+    });
+    v.addEventListener('error', () => { cleanup(); reject(new Error('Video decode failed')); });
+    setTimeout(() => { if (!resolved) { cleanup(); resolve(null); } }, 8000);
+    v.src = blobUrl;
+  });
+}
+
+// =================== END AI VIDEO ===================
 
 // =================== END PHOTO SOURCES ===================
 
@@ -4943,6 +5636,7 @@ renderDomainsGrid();
 renderProjectsGrid();
 updateStorageMeter();
 updateBackupPill();
+aivWirePickers();
 document.getElementById('whoName').textContent = state.user.name;
 document.getElementById('whoAv').textContent = state.user.initial;
 
