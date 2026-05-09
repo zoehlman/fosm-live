@@ -1,0 +1,2644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vision Command Center · Learn And Grow Rich</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --bg-0:#0a0908;--bg-1:#14110f;--bg-2:#1c1815;--bg-3:#241f1b;
+    --line:#2a2520;--line-strong:#3a342d;
+    --text-0:#f5efe6;--text-1:#c9bfb1;--text-2:#8a8175;--text-3:#5a544a;
+    --gold:#d4a574;--gold-bright:#e8c08a;--gold-dim:#8a6b48;
+    --cool:#7aabdd;--warm:#c97a5a;--green:#7dba4a;--red:#e24b4a;
+    --gold-grad:linear-gradient(135deg,#d4a574 0%,#c9a87a 50%,#b8895a 100%);
+  }
+  html,body{background:var(--bg-0);color:var(--text-0);font-family:'Inter',-apple-system,sans-serif}
+  body{min-height:100vh;display:flex;font-size:13px;line-height:1.55;overflow:hidden}
+  ::selection{background:var(--gold);color:var(--bg-0)}
+  button{font-family:inherit;cursor:pointer}
+  input,textarea{font-family:inherit;color:inherit}
+
+  /* SIDEBAR */
+  #sidebar{width:240px;min-width:240px;height:100vh;background:var(--bg-1);
+    border-right:1px solid var(--line);display:flex;flex-direction:column;flex-shrink:0}
+  .brand-area{padding:22px 22px 18px;border-bottom:1px solid var(--line)}
+  .brand-mark{font-family:'Fraunces',serif;font-size:18px;font-weight:500;
+    color:var(--text-0);line-height:1.1;font-style:italic}
+  .brand-mark span{color:var(--gold);font-style:normal;font-weight:400}
+  .brand-sub{font-size:9.5px;color:var(--text-3);margin-top:4px;
+    letter-spacing:1.5px;text-transform:uppercase;font-weight:500}
+  .who-card{padding:14px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .15s}
+  .who-card:hover{background:var(--bg-2)}
+  .who-av{width:32px;height:32px;border-radius:50%;background:var(--gold-grad);
+    display:flex;align-items:center;justify-content:center;font-weight:600;
+    color:var(--bg-0);font-size:12px;font-family:'Fraunces',serif;flex-shrink:0}
+  .who-name{font-size:12px;color:var(--text-0);font-weight:500}
+  .who-meta{font-size:9.5px;color:var(--text-3);margin-top:1px;letter-spacing:.3px}
+  nav{flex:1;padding:8px 0;overflow-y:auto}
+  .nav-section-label{font-size:9px;font-weight:600;letter-spacing:2px;
+    color:var(--text-3);padding:16px 22px 8px;text-transform:uppercase}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:9px 22px;
+    cursor:pointer;color:var(--text-2);font-size:12px;transition:all .18s;
+    border-left:2px solid transparent;user-select:none}
+  .nav-item:hover{background:var(--bg-2);color:var(--text-0)}
+  .nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(212,165,116,.06)}
+  .nav-icon{width:14px;opacity:.7}
+  .nav-item.active .nav-icon{opacity:1}
+  .nav-domain-list{padding:0 0 8px}
+  .nav-domain-item{display:flex;align-items:center;gap:8px;padding:6px 22px 6px 38px;
+    cursor:pointer;color:var(--text-3);font-size:11px;transition:all .15s}
+  .nav-domain-item:hover{color:var(--text-1);background:var(--bg-2)}
+  .nav-domain-item.active{color:var(--gold)}
+  .nav-domain-num{font-family:'Fraunces',serif;font-style:italic;font-size:10px;opacity:.7;width:18px}
+
+  .conn-area{padding:14px 22px;border-top:1px solid var(--line)}
+  .conn-label{font-size:9px;font-weight:600;letter-spacing:2px;
+    color:var(--text-3);margin-bottom:8px;text-transform:uppercase}
+  .conn-pill{display:flex;align-items:center;gap:8px;padding:7px 9px;
+    border-radius:6px;background:var(--bg-2);margin-bottom:5px;font-size:11px;
+    color:var(--text-1);border:1px solid var(--line);cursor:pointer;transition:all .15s}
+  .conn-pill:hover{border-color:var(--line-strong)}
+  .conn-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+  .conn-dot.linked{background:var(--cool)}
+  .save-status{font-size:9px;color:var(--text-3);padding:8px 0 0;letter-spacing:1px;text-transform:uppercase;text-align:center}
+  .save-status.saving{color:var(--gold-dim)}
+  .save-status.saved{color:var(--green)}
+
+  /* MAIN */
+  #main{flex:1;height:100vh;overflow-y:auto;background:var(--bg-0);position:relative}
+  .topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(20px);
+    background:rgba(10,9,8,.85);border-bottom:1px solid var(--line);
+    padding:14px 38px;display:flex;align-items:center;justify-content:space-between}
+  .topbar-trail{font-size:11px;color:var(--text-2);font-weight:400}
+  .topbar-trail span{color:var(--text-3);margin:0 8px}
+  .topbar-trail b{color:var(--text-0);font-weight:500}
+  .top-actions{display:flex;align-items:center;gap:8px}
+  .top-btn{background:transparent;border:1px solid var(--line);color:var(--text-1);
+    padding:7px 14px;border-radius:30px;font-size:11px;font-weight:500;
+    transition:all .18s;display:inline-flex;align-items:center;gap:7px}
+  .top-btn:hover{border-color:var(--gold-dim);color:var(--gold)}
+  .top-btn.primary{background:var(--gold);border-color:var(--gold);color:var(--bg-0);font-weight:600}
+  .top-btn.primary:hover{background:var(--gold-bright);border-color:var(--gold-bright)}
+  .top-btn.danger{color:var(--red);border-color:rgba(226,75,74,.3)}
+  .top-btn.danger:hover{background:rgba(226,75,74,.1);border-color:var(--red)}
+  .top-btn svg{width:13px}
+
+  /* PAGES */
+  .page{display:none;animation:fadeIn .5s ease}
+  .page.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  /* HOME HERO */
+  .hero{position:relative;height:78vh;min-height:540px;max-height:720px;overflow:hidden}
+  .hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    transform:scale(1.05);transition:transform 8s ease}
+  .hero:hover .hero-img{transform:scale(1.0)}
+  .hero-veil{position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(10,9,8,.2) 0%,rgba(10,9,8,.4) 50%,rgba(10,9,8,.95) 100%)}
+  .hero-content{position:absolute;inset:0;padding:60px 38px 50px;display:flex;
+    flex-direction:column;justify-content:flex-end}
+  .hero-pre{font-size:10.5px;color:var(--gold);letter-spacing:3px;
+    text-transform:uppercase;margin-bottom:18px;font-weight:600}
+  .hero-title{font-family:'Fraunces',serif;font-size:clamp(40px,6vw,72px);
+    font-weight:300;line-height:1.05;color:var(--text-0);letter-spacing:-0.02em;
+    margin-bottom:14px;max-width:900px}
+  .hero-title em{font-style:italic;font-weight:400;color:var(--gold)}
+  .hero-sub{font-size:14px;color:var(--text-1);max-width:580px;
+    line-height:1.6;margin-bottom:26px;font-weight:300}
+  .play-row{display:flex;align-items:center;gap:18px}
+  .play-btn{width:64px;height:64px;border-radius:50%;background:var(--gold);
+    border:none;display:flex;align-items:center;justify-content:center;
+    transition:all .25s;box-shadow:0 8px 32px rgba(212,165,116,.3)}
+  .play-btn:hover{transform:scale(1.06);background:var(--gold-bright)}
+  .play-btn svg{width:22px;margin-left:4px;fill:var(--bg-0)}
+  .play-meta{font-size:11px;color:var(--text-1)}
+  .play-meta b{color:var(--text-0);font-weight:500;display:block;margin-bottom:2px}
+  .play-meta span{color:var(--text-3);font-size:10.5px}
+  .movie-chips{position:absolute;top:30px;right:38px;display:flex;gap:6px}
+  .movie-chip{background:rgba(10,9,8,.6);backdrop-filter:blur(8px);
+    border:1px solid rgba(212,165,116,.2);color:var(--text-1);
+    padding:7px 14px;border-radius:30px;font-size:10.5px;font-weight:500;transition:all .15s}
+  .movie-chip:hover{border-color:var(--gold);color:var(--gold)}
+  .movie-chip.active{background:var(--gold);color:var(--bg-0);border-color:var(--gold);font-weight:600}
+
+  /* SECTIONS */
+  .section{padding:60px 38px}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;
+    margin-bottom:38px;flex-wrap:wrap;gap:18px}
+  .section-titles{max-width:620px}
+  .section-eyebrow{font-size:10px;color:var(--gold);letter-spacing:3px;
+    text-transform:uppercase;margin-bottom:12px;font-weight:600}
+  .section-title{font-family:'Fraunces',serif;font-size:38px;font-weight:300;
+    color:var(--text-0);letter-spacing:-0.02em;line-height:1.1;margin-bottom:12px}
+  .section-title em{font-style:italic;color:var(--gold)}
+  .section-sub{font-size:13px;color:var(--text-1);line-height:1.7;font-weight:300}
+
+  /* DOMAINS GRID */
+  .domains-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media (max-width:1300px){.domains-grid{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:900px){.domains-grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:600px){.domains-grid{grid-template-columns:1fr}}
+  .domain-card{position:relative;aspect-ratio:4/5;border-radius:14px;overflow:hidden;
+    cursor:pointer;transition:all .35s cubic-bezier(.2,.7,.3,1);
+    background:var(--bg-2);border:1px solid var(--line)}
+  .domain-card:hover{transform:translateY(-4px);
+    box-shadow:0 18px 40px rgba(0,0,0,.5);border-color:var(--gold-dim)}
+  .domain-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+  .domain-card:hover .domain-img{transform:scale(1.06)}
+  .domain-veil{position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 30%,rgba(10,9,8,.4) 60%,rgba(10,9,8,.96) 100%)}
+  .domain-content{position:absolute;inset:0;padding:22px;display:flex;
+    flex-direction:column;justify-content:space-between}
+  .domain-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .domain-num{font-family:'Fraunces',serif;font-size:12px;color:var(--gold);
+    font-style:italic;opacity:.85;letter-spacing:1px}
+  .domain-tag{font-size:8.5px;padding:3px 8px;border-radius:30px;
+    background:rgba(10,9,8,.55);border:1px solid rgba(212,165,116,.3);
+    color:var(--gold);font-weight:600;letter-spacing:1.2px;text-transform:uppercase;backdrop-filter:blur(6px)}
+  .domain-tag.ours{background:rgba(122,171,221,.15);border-color:rgba(122,171,221,.4);color:var(--cool)}
+  .domain-name{font-family:'Fraunces',serif;font-size:28px;font-weight:400;
+    color:var(--text-0);letter-spacing:-0.01em;line-height:1.1;margin-bottom:8px}
+  .domain-tagline{font-size:11.5px;color:var(--text-1);line-height:1.5;
+    font-weight:300;opacity:.92;max-width:90%}
+  .domain-meta{display:flex;align-items:center;gap:10px;margin-top:12px;
+    font-size:9.5px;color:var(--text-3);letter-spacing:.5px}
+  .domain-meta-dot{width:4px;height:4px;border-radius:50%;background:var(--text-3)}
+  .domain-progress{display:flex;gap:3px;margin-top:10px}
+  .domain-prog-pip{height:2px;flex:1;background:var(--line);border-radius:2px}
+  .domain-prog-pip.done{background:var(--gold)}
+
+  /* DREAMER FAB */
+  .dreamer-fab{position:fixed;bottom:32px;right:32px;z-index:100;
+    background:var(--bg-1);border:1px solid var(--gold-dim);color:var(--gold);
+    padding:14px 22px;border-radius:40px;font-size:12px;font-weight:500;
+    display:flex;align-items:center;gap:10px;backdrop-filter:blur(20px);
+    box-shadow:0 10px 40px rgba(0,0,0,.5),0 0 0 1px rgba(212,165,116,.05);transition:all .25s}
+  .dreamer-fab:hover{background:var(--gold);color:var(--bg-0);transform:translateY(-2px);
+    box-shadow:0 14px 48px rgba(212,165,116,.3)}
+  .dreamer-fab svg{width:14px}
+
+  /* DOMAIN DETAIL */
+  .domain-hero{position:relative;height:65vh;min-height:440px;max-height:600px;cursor:pointer}
+  .domain-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .domain-hero .hero-veil{background:linear-gradient(180deg,rgba(10,9,8,.3) 0%,rgba(10,9,8,.5) 60%,rgba(10,9,8,1) 100%)}
+  .domain-hero-content{position:absolute;inset:0;padding:60px 38px 50px;display:flex;
+    flex-direction:column;justify-content:flex-end;pointer-events:none}
+  .domain-hero-num{font-family:'Fraunces',serif;font-size:14px;color:var(--gold);
+    font-style:italic;letter-spacing:2px;margin-bottom:16px;text-transform:uppercase}
+  .domain-hero-title{font-family:'Fraunces',serif;font-size:clamp(56px,8vw,96px);
+    font-weight:300;line-height:.95;color:var(--text-0);letter-spacing:-0.03em;margin-bottom:20px}
+  .domain-hero-title em{font-style:italic;color:var(--gold)}
+  .domain-hero-meta{display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+    font-size:11.5px;color:var(--text-1);letter-spacing:.4px}
+  .domain-hero-meta b{color:var(--text-0)}
+  .change-hero-btn{position:absolute;top:80px;right:38px;background:rgba(10,9,8,.65);
+    backdrop-filter:blur(10px);border:1px solid rgba(212,165,116,.3);color:var(--gold);
+    padding:8px 14px;border-radius:30px;font-size:10.5px;font-weight:500;
+    pointer-events:auto;transition:all .15s;display:flex;align-items:center;gap:6px}
+  .change-hero-btn:hover{background:var(--gold);color:var(--bg-0);border-color:var(--gold)}
+
+  /* VISION BLOCK */
+  .vision-block{padding:80px 38px 40px;max-width:1180px}
+  .vision-quote-wrap{position:relative;border-left:2px solid var(--gold);padding-left:28px}
+  .vision-quote{font-family:'Fraunces',serif;font-size:clamp(22px,2.6vw,32px);
+    font-weight:300;line-height:1.45;color:var(--text-0);letter-spacing:-0.01em;
+    background:transparent;border:none;width:100%;resize:none;font-style:normal;outline:none;
+    padding:0;min-height:1.5em}
+  .vision-quote:focus{outline:none}
+  .vision-quote::placeholder{color:var(--text-3);font-style:italic}
+  .vision-edit{margin-top:20px;padding-left:28px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .vision-meta{font-size:10.5px;color:var(--text-3);font-style:italic}
+
+  /* MOOD BOARD */
+  .moodboard-section{padding:40px 38px 60px}
+  .moodboard-head{display:flex;justify-content:space-between;align-items:flex-end;
+    margin-bottom:28px;flex-wrap:wrap;gap:18px}
+  .moodboard-title{font-family:'Fraunces',serif;font-size:28px;font-weight:400;
+    color:var(--text-0);letter-spacing:-0.01em}
+  .moodboard-title em{font-style:italic;color:var(--gold)}
+  .moodboard-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .moodboard-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;grid-auto-rows:220px}
+  @media (max-width:1000px){.moodboard-grid{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:700px){.moodboard-grid{grid-template-columns:repeat(2,1fr)}}
+  .mood-tile{position:relative;border-radius:10px;overflow:hidden;
+    transition:all .35s;background:var(--bg-2);cursor:pointer}
+  .mood-tile.tall{grid-row:span 2}
+  .mood-tile.wide{grid-column:span 2}
+  .mood-tile img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+  .mood-tile:hover img{transform:scale(1.04)}
+  .mood-tile-veil{position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 60%,rgba(10,9,8,.85) 100%);
+    opacity:0;transition:opacity .25s}
+  .mood-tile:hover .mood-tile-veil{opacity:1}
+  .mood-tile-meta{position:absolute;bottom:12px;left:12px;right:12px;
+    color:var(--text-0);font-size:10.5px;opacity:0;transition:opacity .25s;
+    display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+  .mood-tile:hover .mood-tile-meta{opacity:1}
+  .mood-tile-caption{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mood-tile-tag{background:rgba(212,165,116,.9);color:var(--bg-0);
+    font-size:9px;padding:3px 7px;border-radius:20px;font-weight:600;
+    letter-spacing:.5px;text-transform:uppercase;flex-shrink:0}
+  .mood-tile.ai-gen .mood-tile-tag{background:rgba(122,171,221,.95)}
+
+  .ai-gen-tile{background:linear-gradient(135deg,var(--bg-2) 0%,rgba(212,165,116,.05) 100%);
+    border:1px dashed var(--gold-dim);display:flex;flex-direction:column;
+    justify-content:center;align-items:center;padding:24px;text-align:center;transition:all .25s}
+  .ai-gen-tile:hover{border-color:var(--gold);background:linear-gradient(135deg,var(--bg-2) 0%,rgba(212,165,116,.1) 100%)}
+  .ai-gen-icon{width:36px;height:36px;border-radius:50%;background:rgba(212,165,116,.15);
+    display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:18px;color:var(--gold)}
+  .ai-gen-title{font-family:'Fraunces',serif;font-size:15px;color:var(--text-0);margin-bottom:6px;font-style:italic}
+  .ai-gen-sub{font-size:10.5px;color:var(--text-2);line-height:1.5}
+
+  .upload-tile{background:var(--bg-1);border:1px dashed var(--line-strong);display:flex;flex-direction:column;
+    justify-content:center;align-items:center;padding:24px;text-align:center;transition:all .25s}
+  .upload-tile:hover{border-color:var(--gold-dim);background:var(--bg-2)}
+  .upload-tile.dragover{border-color:var(--gold);background:rgba(212,165,116,.08)}
+
+  /* STORIES */
+  .stories-section{padding:40px 38px 60px;background:var(--bg-1)}
+  .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:1200px}
+  @media (max-width:800px){.story-grid{grid-template-columns:1fr}}
+  .story{background:var(--bg-0);border:1px solid var(--line);
+    border-radius:12px;padding:28px;transition:border-color .2s;position:relative}
+  .story:hover{border-color:var(--line-strong)}
+  .story-head{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .story-icon{width:32px;height:32px;border-radius:8px;background:var(--bg-2);
+    display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--gold);flex-shrink:0}
+  .story-title{font-family:'Fraunces',serif;font-size:17px;color:var(--text-0);
+    font-style:italic;flex:1;background:transparent;border:none;outline:none}
+  .story-actions{display:flex;gap:6px;opacity:0;transition:opacity .15s}
+  .story:hover .story-actions{opacity:1}
+  .story-act-btn{background:none;border:none;color:var(--text-3);font-size:13px;padding:4px}
+  .story-act-btn:hover{color:var(--text-0)}
+  .story-act-btn.del:hover{color:var(--red)}
+  .story-body{font-size:13px;color:var(--text-1);line-height:1.7;font-weight:300;
+    background:transparent;border:none;outline:none;width:100%;resize:none;min-height:120px;font-family:inherit}
+  .story-empty{padding:40px 28px;text-align:center;border:1px dashed var(--line-strong);
+    border-radius:12px;color:var(--text-2);font-size:12px;font-style:italic}
+
+  .add-story-card{background:transparent;border:1px dashed var(--line-strong);
+    border-radius:12px;padding:28px;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;color:var(--text-2);font-size:13px;transition:all .2s;min-height:200px}
+  .add-story-card:hover{border-color:var(--gold);color:var(--gold)}
+  .add-story-card svg{width:24px;margin-bottom:10px}
+
+  /* HORIZONS */
+  .horizons-section{padding:60px 38px}
+  .horizons-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  @media (max-width:1000px){.horizons-strip{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:600px){.horizons-strip{grid-template-columns:1fr}}
+  .horizon{background:var(--bg-1);border:1px solid var(--line);
+    border-radius:10px;padding:20px;cursor:text;transition:all .2s;
+    border-top:2px solid var(--line-strong)}
+  .horizon:hover{border-color:var(--gold-dim);border-top-color:var(--gold)}
+  .horizon:focus-within{border-color:var(--gold);border-top-color:var(--gold)}
+  .horizon-when{font-size:9.5px;color:var(--gold);letter-spacing:2px;
+    text-transform:uppercase;font-weight:600;margin-bottom:12px}
+  .horizon-vision{font-family:'Fraunces',serif;font-size:14px;color:var(--text-0);
+    line-height:1.5;font-style:italic;font-weight:300;background:transparent;border:none;
+    outline:none;width:100%;resize:none;min-height:80px}
+  .horizon-vision::placeholder{color:var(--text-3);font-style:italic}
+
+  /* CONNECTION */
+  .conn-section{padding:30px 38px 80px}
+  .conn-trail{background:var(--bg-1);border:1px solid var(--line);
+    border-left:2px solid var(--cool);border-radius:10px;padding:22px 28px;
+    display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .conn-trail-icon{width:36px;height:36px;border-radius:50%;background:rgba(122,171,221,.12);
+    display:flex;align-items:center;justify-content:center;color:var(--cool)}
+  .conn-trail-text{flex:1;min-width:200px}
+  .conn-trail-label{font-size:9.5px;color:var(--cool);letter-spacing:1.5px;
+    text-transform:uppercase;font-weight:600;margin-bottom:5px}
+  .conn-trail-path{font-size:12.5px;color:var(--text-1);line-height:1.6;font-weight:300}
+  .conn-trail-path b{color:var(--text-0);font-weight:500}
+  .conn-trail-arrow{color:var(--text-3);margin:0 6px}
+
+  /* DREAMER */
+  .dreamer-shell{padding:0;min-height:100vh;display:flex;flex-direction:column;position:relative}
+  .dreamer-bg{position:fixed;inset:0 0 0 240px;z-index:0;opacity:.35;
+    transition:opacity 1.2s,background-image 1.2s ease;background-size:cover;background-position:center}
+  .dreamer-bg::after{content:'';position:absolute;inset:0;
+    background:radial-gradient(ellipse at center,rgba(10,9,8,.5) 0%,rgba(10,9,8,.95) 100%)}
+  .dreamer-content{position:relative;z-index:2;padding:80px 38px;max-width:880px;
+    margin:0 auto;flex:1;display:flex;flex-direction:column;justify-content:center}
+  .dreamer-pre{font-size:10px;color:var(--gold);letter-spacing:4px;
+    text-transform:uppercase;font-weight:600;margin-bottom:30px}
+  .dreamer-pre span{color:var(--text-3);margin:0 10px}
+  .dreamer-question{font-family:'Fraunces',serif;font-size:clamp(34px,4.4vw,56px);
+    font-weight:300;line-height:1.15;color:var(--text-0);letter-spacing:-0.02em;margin-bottom:18px}
+  .dreamer-question em{font-style:italic;color:var(--gold)}
+  .dreamer-sub{font-size:14px;color:var(--text-1);line-height:1.7;margin-bottom:40px;
+    max-width:600px;font-weight:300}
+  .dreamer-sub em{color:var(--gold-bright);font-style:italic}
+  .dreamer-textarea-wrap{position:relative}
+  .dreamer-textarea{width:100%;background:rgba(20,17,15,.5);border:1px solid var(--line-strong);
+    border-radius:14px;padding:22px 24px;color:var(--text-0);
+    font-family:'Fraunces',serif;font-size:17px;font-style:italic;line-height:1.6;
+    min-height:160px;resize:vertical;backdrop-filter:blur(10px);transition:border-color .2s;outline:none}
+  .dreamer-textarea:focus{border-color:var(--gold)}
+  .dreamer-textarea::placeholder{color:var(--text-3);font-style:italic}
+  .dreamer-foot{display:flex;justify-content:space-between;align-items:center;
+    margin-top:30px;gap:18px;flex-wrap:wrap}
+  .dreamer-progress{display:flex;gap:4px;flex-wrap:wrap}
+  .dreamer-pip{width:24px;height:3px;background:var(--line-strong);border-radius:2px;cursor:pointer;transition:all .15s}
+  .dreamer-pip:hover{background:var(--gold-dim)}
+  .dreamer-pip.done{background:var(--gold)}
+  .dreamer-pip.current{background:var(--gold-bright);width:36px}
+  .dreamer-actions{display:flex;gap:10px}
+  .dreamer-recap{margin-top:60px;padding:30px;background:rgba(20,17,15,.5);
+    backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:12px;display:none}
+  .dreamer-recap.show{display:block}
+  .dreamer-recap-head{font-family:'Fraunces',serif;font-size:20px;color:var(--gold);
+    font-style:italic;margin-bottom:18px}
+  .dreamer-recap-item{padding:14px 0;border-bottom:1px solid var(--line)}
+  .dreamer-recap-item:last-child{border-bottom:none}
+  .dreamer-recap-q{font-size:11px;color:var(--gold-dim);letter-spacing:1px;
+    text-transform:uppercase;margin-bottom:6px;font-weight:600}
+  .dreamer-recap-a{font-family:'Fraunces',serif;font-size:14px;font-style:italic;
+    color:var(--text-1);line-height:1.6}
+
+  /* MODAL */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(20px);
+    z-index:1000;display:none;align-items:center;justify-content:center;padding:40px}
+  .modal-overlay.show{display:flex;animation:fadeIn .25s ease}
+  .modal{background:var(--bg-1);border:1px solid var(--line);border-radius:14px;
+    max-width:560px;width:100%;max-height:90vh;overflow-y:auto;padding:32px}
+  .modal-large{max-width:900px}
+  .modal-head{font-family:'Fraunces',serif;font-size:22px;color:var(--text-0);
+    margin-bottom:8px;font-weight:400}
+  .modal-head em{font-style:italic;color:var(--gold)}
+  .modal-sub{font-size:12px;color:var(--text-2);margin-bottom:24px;line-height:1.6}
+  .modal-field{margin-bottom:16px}
+  .modal-label{font-size:10px;color:var(--text-3);letter-spacing:2px;
+    text-transform:uppercase;font-weight:600;margin-bottom:6px;display:block}
+  .modal-input{width:100%;background:var(--bg-0);border:1px solid var(--line);
+    color:var(--text-0);padding:10px 14px;border-radius:8px;font-size:13px;outline:none}
+  .modal-input:focus{border-color:var(--gold)}
+  textarea.modal-input{min-height:140px;resize:vertical;line-height:1.6;font-family:'Fraunces',serif;font-style:italic;font-size:14px}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:24px;flex-wrap:wrap}
+
+  /* PHOTO LIGHTBOX */
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:1100;
+    display:none;align-items:center;justify-content:center;padding:40px;flex-direction:column;gap:18px}
+  .lightbox.show{display:flex}
+  .lightbox img{max-width:100%;max-height:75vh;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+  .lightbox-meta{display:flex;gap:14px;align-items:center;width:100%;max-width:800px}
+  .lightbox-cap{flex:1;background:var(--bg-1);border:1px solid var(--line);color:var(--text-0);
+    padding:10px 14px;border-radius:8px;font-size:13px;outline:none}
+  .lightbox-cap:focus{border-color:var(--gold)}
+  .lightbox-close{position:absolute;top:24px;right:24px;background:var(--bg-1);
+    border:1px solid var(--line);color:var(--text-1);width:40px;height:40px;
+    border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center}
+  .lightbox-close:hover{color:var(--gold);border-color:var(--gold)}
+
+  /* DRAG OVERLAY */
+  #dropOverlay{position:fixed;inset:0;background:rgba(212,165,116,.15);backdrop-filter:blur(20px);
+    z-index:2000;display:none;align-items:center;justify-content:center;
+    border:3px dashed var(--gold);pointer-events:none}
+  #dropOverlay.show{display:flex}
+  .drop-msg{font-family:'Fraunces',serif;font-size:32px;color:var(--gold);font-style:italic;text-align:center}
+
+  /* TOAST */
+  .toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--bg-1);border:1px solid var(--gold-dim);color:var(--gold);
+    padding:12px 24px;border-radius:30px;font-size:12px;z-index:3000;opacity:0;
+    transition:all .3s;font-weight:500;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* SCROLLBAR */
+  #main::-webkit-scrollbar,nav::-webkit-scrollbar{width:8px}
+  #main::-webkit-scrollbar-track,nav::-webkit-scrollbar-track{background:var(--bg-0)}
+  #main::-webkit-scrollbar-thumb,nav::-webkit-scrollbar-thumb{background:var(--line);border-radius:4px}
+  #main::-webkit-scrollbar-thumb:hover{background:var(--line-strong)}
+
+  /* GRAIN */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:999;
+    opacity:.04;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+
+  /* PHOTO SOURCES MODAL */
+  .modal-xl{max-width:1100px;width:96vw;max-height:92vh;display:flex;flex-direction:column;padding:0}
+  .ps-head{padding:24px 28px 18px;border-bottom:1px solid var(--line)}
+  .ps-head-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:12px}
+  .ps-title{font-family:'Fraunces',serif;font-size:22px;color:var(--text-0);font-weight:400}
+  .ps-title em{font-style:italic;color:var(--gold)}
+  .ps-target{font-size:11px;color:var(--text-2)}
+  .ps-target b{color:var(--gold)}
+  .ps-tabs{display:flex;gap:4px;border:1px solid var(--line);border-radius:30px;padding:3px;background:var(--bg-0);flex-wrap:wrap}
+  .ps-tab{background:none;border:none;color:var(--text-2);padding:7px 16px;border-radius:30px;
+    font-size:11px;font-weight:500;transition:all .15s;display:flex;align-items:center;gap:6px}
+  .ps-tab:hover{color:var(--text-0)}
+  .ps-tab.active{background:var(--bg-2);color:var(--gold)}
+  .ps-tab svg{width:13px}
+
+  .ps-body{flex:1;overflow-y:auto;padding:22px 28px 28px;min-height:300px}
+  .ps-pane{display:none}
+  .ps-pane.active{display:block;animation:fadeIn .25s ease}
+
+  /* Inspiration / Search grids */
+  .ps-chips{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+  .ps-chip{background:var(--bg-0);border:1px solid var(--line);color:var(--text-2);
+    padding:6px 14px;border-radius:30px;font-size:10.5px;font-weight:500;transition:all .15s}
+  .ps-chip:hover{border-color:var(--gold-dim);color:var(--text-0)}
+  .ps-chip.active{background:var(--gold);color:var(--bg-0);border-color:var(--gold);font-weight:600}
+
+  .ps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media (max-width:900px){.ps-grid{grid-template-columns:repeat(3,1fr)}}
+  @media (max-width:600px){.ps-grid{grid-template-columns:repeat(2,1fr)}}
+  .ps-photo{aspect-ratio:1/1;border-radius:8px;overflow:hidden;cursor:pointer;
+    background:var(--bg-2);position:relative;transition:all .25s}
+  .ps-photo:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.4)}
+  .ps-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .ps-photo:hover img{transform:scale(1.06)}
+  .ps-photo.added{outline:2px solid var(--gold);outline-offset:-2px}
+  .ps-photo.added::after{content:'✓';position:absolute;top:8px;right:8px;
+    width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--bg-0);
+    font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .ps-photo-credit{position:absolute;bottom:0;left:0;right:0;padding:6px 8px;
+    background:linear-gradient(0deg,rgba(0,0,0,.85) 0%,transparent 100%);
+    color:var(--text-1);font-size:9.5px;opacity:0;transition:opacity .2s;
+    text-overflow:ellipsis;overflow:hidden;white-space:nowrap}
+  .ps-photo:hover .ps-photo-credit{opacity:1}
+
+  /* Search bar */
+  .ps-search-bar{display:flex;gap:8px;margin-bottom:18px}
+  .ps-search-input{flex:1;background:var(--bg-0);border:1px solid var(--line);color:var(--text-0);
+    padding:10px 14px;border-radius:8px;font-size:13px;outline:none}
+  .ps-search-input:focus{border-color:var(--gold)}
+  .ps-search-btn{background:var(--gold);border:none;color:var(--bg-0);padding:10px 20px;
+    border-radius:8px;font-size:12px;font-weight:600}
+  .ps-search-btn:hover{background:var(--gold-bright)}
+  .ps-search-btn:disabled{opacity:.5}
+
+  /* Empty / setup state */
+  .ps-empty{padding:36px 28px;text-align:center;background:var(--bg-0);border:1px dashed var(--line-strong);border-radius:12px}
+  .ps-empty-icon{font-size:32px;color:var(--gold);margin-bottom:14px}
+  .ps-empty-title{font-family:'Fraunces',serif;font-size:20px;color:var(--text-0);font-style:italic;margin-bottom:10px}
+  .ps-empty-sub{font-size:12px;color:var(--text-2);max-width:520px;margin:0 auto 18px;line-height:1.7}
+  .ps-empty-sub b{color:var(--gold)}
+  .ps-empty-sub a{color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-dim)}
+  .ps-empty-sub a:hover{color:var(--gold-bright)}
+  .ps-empty-steps{text-align:left;max-width:460px;margin:0 auto 22px;font-size:11.5px;color:var(--text-1);line-height:2}
+  .ps-empty-steps span{display:inline-block;width:22px;color:var(--gold);font-weight:700;font-family:'Fraunces',serif;font-style:italic}
+  .ps-empty-key{display:flex;gap:6px;max-width:460px;margin:0 auto}
+  .ps-empty-key input{flex:1;background:var(--bg-0);border:1px solid var(--line);color:var(--text-0);
+    padding:9px 12px;border-radius:7px;font-size:11.5px;outline:none;font-family:'SF Mono',Monaco,monospace}
+  .ps-empty-key input:focus{border-color:var(--gold)}
+
+  .ps-loading{padding:60px;text-align:center;color:var(--text-2);font-style:italic;font-size:13px}
+  .ps-loading::before{content:'';display:inline-block;width:16px;height:16px;
+    border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;
+    margin-right:10px;vertical-align:middle;animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* URL pane */
+  .ps-url-row{display:flex;gap:8px;margin-bottom:14px}
+  .ps-url-input{flex:1;background:var(--bg-0);border:1px solid var(--line);color:var(--text-0);
+    padding:10px 14px;border-radius:8px;font-size:12.5px;outline:none;font-family:'SF Mono',Monaco,monospace}
+  .ps-url-input:focus{border-color:var(--gold)}
+  .ps-url-help{font-size:11px;color:var(--text-2);line-height:1.8;background:var(--bg-0);
+    border:1px solid var(--line);border-left:2px solid var(--gold-dim);
+    border-radius:7px;padding:14px 18px;margin-bottom:18px}
+  .ps-url-help b{color:var(--gold)}
+  .ps-url-preview{margin-top:14px;background:var(--bg-0);border:1px solid var(--line);border-radius:10px;
+    padding:14px;display:none;align-items:flex-start;gap:14px}
+  .ps-url-preview.show{display:flex}
+  .ps-url-preview img{max-width:240px;max-height:160px;border-radius:6px;flex-shrink:0;background:var(--bg-2)}
+  .ps-url-preview-meta{flex:1;min-width:0}
+  .ps-url-preview-status{font-size:10.5px;color:var(--green);margin-bottom:8px;font-weight:600;letter-spacing:.5px}
+  .ps-url-preview-status.warn{color:var(--gold)}
+  .ps-url-preview-status.err{color:var(--red)}
+  .ps-url-preview-url{font-size:10.5px;color:var(--text-3);font-family:'SF Mono',Monaco,monospace;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:14px}
+
+  /* Upload pane */
+  .ps-upload-zone{padding:60px 28px;text-align:center;background:var(--bg-0);
+    border:2px dashed var(--line-strong);border-radius:12px;transition:all .25s;cursor:pointer}
+  .ps-upload-zone:hover{border-color:var(--gold);background:rgba(212,165,116,.04)}
+  .ps-upload-icon{font-size:36px;color:var(--gold);margin-bottom:14px}
+  .ps-upload-title{font-family:'Fraunces',serif;font-size:20px;color:var(--text-0);font-style:italic;margin-bottom:8px}
+  .ps-upload-sub{font-size:12px;color:var(--text-2);margin-bottom:22px;line-height:1.7}
+
+  .ps-foot{padding:14px 28px;border-top:1px solid var(--line);display:flex;
+    justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+  .ps-foot-status{font-size:11px;color:var(--text-2)}
+  .ps-foot-status b{color:var(--gold)}
+
+  /* Lightbox attribution */
+  .lightbox-attr{font-size:10.5px;color:var(--text-3);font-style:italic;margin-top:6px;text-align:center}
+  .lightbox-attr a{color:var(--gold-dim);text-decoration:none}
+  .lightbox-attr a:hover{color:var(--gold)}
+
+  /* PROJECTS — large cards with subsection counter */
+  .projects-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+  @media (max-width:900px){.projects-grid{grid-template-columns:1fr}}
+  .project-card{position:relative;aspect-ratio:16/10;border-radius:16px;overflow:hidden;
+    cursor:pointer;transition:all .35s cubic-bezier(.2,.7,.3,1);
+    background:var(--bg-2);border:1px solid var(--line)}
+  .project-card:hover{transform:translateY(-4px);
+    box-shadow:0 22px 52px rgba(0,0,0,.55);border-color:var(--gold-dim)}
+  .project-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1s ease}
+  .project-card:hover img{transform:scale(1.05)}
+  .project-card-veil{position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 25%,rgba(10,9,8,.45) 55%,rgba(10,9,8,.97) 100%)}
+  .project-card-content{position:absolute;inset:0;padding:30px;display:flex;flex-direction:column;justify-content:space-between}
+  .project-card-pre{font-size:10.5px;color:var(--gold);letter-spacing:3px;
+    text-transform:uppercase;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+  .project-card-pre-tag{font-size:8.5px;padding:3px 9px;border-radius:30px;
+    background:rgba(122,171,221,.15);border:1px solid rgba(122,171,221,.4);
+    color:var(--cool);font-weight:600;letter-spacing:1.2px}
+  .project-card-name{font-family:'Fraunces',serif;font-size:42px;font-weight:300;
+    color:var(--text-0);letter-spacing:-0.02em;line-height:1.05;margin-bottom:10px}
+  .project-card-name em{font-style:italic;color:var(--gold)}
+  .project-card-tagline{font-size:13px;color:var(--text-1);line-height:1.55;
+    font-weight:300;max-width:80%;margin-bottom:14px}
+  .project-card-meta{display:flex;align-items:center;gap:12px;font-size:10.5px;color:var(--text-2);letter-spacing:.5px}
+  .project-card-meta-dot{width:4px;height:4px;border-radius:50%;background:var(--text-3)}
+  .project-card-subcount{color:var(--gold);font-weight:600}
+
+  /* SUBSECTION GRID inside project page */
+  .subsections-section{padding:60px 38px;background:var(--bg-1)}
+  .subsections-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media (max-width:1100px){.subsections-grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:600px){.subsections-grid{grid-template-columns:1fr}}
+  .sub-card{position:relative;aspect-ratio:5/4;border-radius:12px;overflow:hidden;
+    cursor:pointer;transition:all .3s;background:var(--bg-2);border:1px solid var(--line)}
+  .sub-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,0,0,.45);border-color:var(--gold-dim)}
+  .sub-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s}
+  .sub-card:hover img{transform:scale(1.05)}
+  .sub-card-veil{position:absolute;inset:0;
+    background:linear-gradient(180deg,transparent 35%,rgba(10,9,8,.45) 65%,rgba(10,9,8,.95) 100%)}
+  .sub-card-content{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;justify-content:space-between}
+  .sub-card-actions{display:flex;gap:6px;opacity:0;transition:opacity .15s}
+  .sub-card:hover .sub-card-actions{opacity:1}
+  .sub-card-act{background:rgba(10,9,8,.7);backdrop-filter:blur(8px);border:1px solid rgba(212,165,116,.25);color:var(--gold);
+    padding:5px 10px;border-radius:30px;font-size:10px;font-weight:500;cursor:pointer;font-family:inherit;line-height:1}
+  .sub-card-act:hover{background:var(--gold);color:var(--bg-0);border-color:var(--gold)}
+  .sub-card-act.del:hover{background:var(--red);border-color:var(--red);color:var(--text-0)}
+  .sub-card-name{font-family:'Fraunces',serif;font-size:24px;font-weight:400;
+    color:var(--text-0);letter-spacing:-0.01em;line-height:1.15;margin-bottom:6px}
+  .sub-card-tagline{font-size:11px;color:var(--text-1);line-height:1.5;font-weight:300;opacity:.92;max-width:90%}
+  .sub-card-meta{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:9.5px;color:var(--text-3);letter-spacing:.5px}
+
+  .sub-card-add{background:transparent;border:1.5px dashed var(--line-strong);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;transition:all .2s;
+    color:var(--text-2);cursor:pointer;font-family:inherit}
+  .sub-card-add:hover{border-color:var(--gold);color:var(--gold);background:rgba(212,165,116,.04)}
+  .sub-card-add-icon{font-size:24px;margin-bottom:10px}
+  .sub-card-add-title{font-family:'Fraunces',serif;font-size:18px;font-style:italic;margin-bottom:4px}
+  .sub-card-add-sub{font-size:10.5px;line-height:1.5}
+
+  /* Sidebar nav: project group */
+  .nav-project-group{padding:0 0 4px}
+  .nav-project-head{display:flex;align-items:center;gap:8px;padding:7px 22px;
+    cursor:pointer;color:var(--text-2);font-size:11.5px;transition:all .15s;user-select:none;border-left:2px solid transparent}
+  .nav-project-head:hover{background:var(--bg-2);color:var(--text-0)}
+  .nav-project-head.active{color:var(--gold);border-left-color:var(--gold);background:rgba(212,165,116,.06)}
+  .nav-project-head .nav-arrow{margin-left:auto;font-size:8px;transition:transform .15s;opacity:.6}
+  .nav-project-head.expanded .nav-arrow{transform:rotate(90deg)}
+  .nav-sub-list{display:none;padding:2px 0 4px}
+  .nav-project-group.expanded .nav-sub-list{display:block}
+  .nav-sub-item{display:flex;align-items:center;gap:8px;padding:5px 22px 5px 50px;
+    cursor:pointer;color:var(--text-3);font-size:10.5px;transition:all .15s;border-left:2px solid transparent}
+  .nav-sub-item:hover{color:var(--text-1);background:var(--bg-2)}
+  .nav-sub-item.active{color:var(--gold);border-left-color:var(--gold-dim)}
+  .nav-sub-item-bullet{font-size:6px;color:var(--text-3);opacity:.6}
+
+  /* Subsection rename modal styling (uses generic modal but a bit narrower) */
+  .modal-narrow{max-width:440px}
+</style>
+</head>
+<body>
+
+<aside id="sidebar">
+  <div class="brand-area">
+    <div class="brand-mark">Vision <span>Command</span></div>
+    <div class="brand-sub">Learn And Grow Rich</div>
+  </div>
+
+  <div class="who-card" onclick="openSettings()">
+    <div class="who-av" id="whoAv">Z</div>
+    <div>
+      <div class="who-name" id="whoName">Zach Oehlman</div>
+      <div class="who-meta">Primary · Active</div>
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-section-label">Vision</div>
+    <div class="nav-item active" data-page="home">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-6 9 6v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>
+      Command Center
+    </div>
+    <div class="nav-item" data-page="movies">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M10 9l5 3-5 3V9z" fill="currentColor"/></svg>
+      Vision Movies
+    </div>
+    <div class="nav-item" data-page="dreamer">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+      The Dreamer
+    </div>
+
+    <div class="nav-section-label">The 12 Domains</div>
+    <div class="nav-domain-list" id="navDomainList"></div>
+
+    <div class="nav-section-label">The Projects</div>
+    <div id="navProjectList"></div>
+
+    <div class="nav-section-label">Soon</div>
+    <div class="nav-item" style="opacity:.5;cursor:default" onclick="toast('Couple Vision · Build 3')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Couple Vision
+    </div>
+    <div class="nav-item" style="opacity:.5;cursor:default" onclick="toast('Calendar · later build')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Calendar
+    </div>
+  </nav>
+
+  <div class="conn-area">
+    <div class="conn-label">Connections</div>
+    <div class="conn-pill"><div class="conn-dot"></div><span>Sumary's VCC</span><span style="color:var(--text-3);font-size:9px;margin-left:auto">soon</span></div>
+    <div class="conn-pill"><div class="conn-dot linked"></div><span>FOSM Live</span><span style="color:var(--text-3);font-size:9px;margin-left:auto">→</span></div>
+    <div class="save-status" id="saveStatus">All changes saved</div>
+  </div>
+</aside>
+
+<main id="main">
+
+  <div class="topbar">
+    <div class="topbar-trail" id="topTrail"><b>Command Center</b></div>
+    <div class="top-actions">
+      <button class="top-btn" onclick="exportJSON()" title="Download your vision as JSON">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Export
+      </button>
+      <button class="top-btn" onclick="document.getElementById('importInput').click()">Import</button>
+      <input type="file" id="importInput" style="display:none" accept=".json" onchange="importJSON(event)">
+      <button class="top-btn" onclick="goPage('dreamer')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6L12 2z"/></svg>
+        Dreamer
+      </button>
+      <button class="top-btn primary" onclick="captureMenu()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        Capture
+      </button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+    <div class="hero" onclick="toast('Vision Movie player coming in Build 2')">
+      <img class="hero-img" id="heroImg" src="https://images.unsplash.com/photo-1502209524164-acea936639a2?w=2400&q=85" alt="">
+      <div class="hero-veil"></div>
+      <div class="movie-chips">
+        <button class="movie-chip active" onclick="event.stopPropagation()">Lifetime</button>
+        <button class="movie-chip" onclick="event.stopPropagation()">3 Years</button>
+        <button class="movie-chip" onclick="event.stopPropagation()">This Year</button>
+        <button class="movie-chip" onclick="event.stopPropagation()">12 Weeks</button>
+      </div>
+      <div class="hero-content">
+        <div class="hero-pre">Your Vision Movie · Lifetime</div>
+        <h1 class="hero-title" id="heroTitle">A life lived <em>by design</em>,<br>lit by purpose, shared with the world.</h1>
+        <p class="hero-sub" id="heroSub">Five minutes of your dream — your places, your people, your work, your peace. Refreshed monthly from your domains.</p>
+        <div class="play-row">
+          <button class="play-btn" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+          <div class="play-meta">
+            <b id="movieMetaB">Coming in Build 2</b>
+            <span id="movieMetaS">Add photos to your domains. We'll cut the trailer.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-titles">
+          <div class="section-eyebrow">The Twelve Domains</div>
+          <h2 class="section-title">Your <em>whole life</em>, on one canvas.</h2>
+          <p class="section-sub">Each domain holds your vision, your photos, your stories, and the math that turns it real. Tap any one to step inside.</p>
+        </div>
+      </div>
+      <div class="domains-grid" id="domainsGrid"></div>
+    </section>
+
+    <section class="section" style="background:var(--bg-1);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+      <div class="section-head">
+        <div class="section-titles">
+          <div class="section-eyebrow">The Projects</div>
+          <h2 class="section-title">The <em>worlds</em> you're building.</h2>
+          <p class="section-sub">The Farm. The Retreat. The Foundation. The Business. Each project is a world unto itself — with its own vision, its own photos, and its own subsections inside. Click in.</p>
+        </div>
+      </div>
+      <div class="projects-grid" id="projectsGrid"></div>
+    </section>
+  </div>
+
+  <!-- DOMAIN DETAIL -->
+  <div class="page" id="page-domain">
+    <div class="domain-hero" id="domainHero">
+      <img id="domainHeroImg" src="" alt="">
+      <div class="hero-veil"></div>
+      <div class="domain-hero-content">
+        <div class="domain-hero-num" id="domainHeroNum"></div>
+        <h1 class="domain-hero-title" id="domainHeroTitle"></h1>
+        <div class="domain-hero-meta" id="domainHeroMeta"></div>
+      </div>
+      <button class="change-hero-btn" onclick="event.stopPropagation();chooseHero()">
+        <svg viewBox="0 0 24 24" width="12" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+        Change cover
+      </button>
+    </div>
+
+    <div class="vision-block">
+      <div class="vision-quote-wrap">
+        <textarea class="vision-quote" id="visionQuote" placeholder="Describe your perfect [domain] — three years from now. The smell of the morning, the texture of the day, the people in it. Don't think — see it." rows="4"></textarea>
+      </div>
+      <div class="vision-edit">
+        <span class="vision-meta" id="visionMeta">Click to edit · auto-saves</span>
+      </div>
+    </div>
+
+    <section class="moodboard-section">
+      <div class="moodboard-head">
+        <div><h3 class="moodboard-title">Mood <em>board</em></h3></div>
+        <div class="moodboard-actions">
+          <button class="top-btn primary" onclick="openPhotoSources()">+ Add photos</button>
+          <input type="file" id="photoInput" style="display:none" accept="image/*" multiple onchange="handlePhotoUpload(event)">
+        </div>
+      </div>
+      <div class="moodboard-grid" id="moodboardGrid"></div>
+      <p style="font-size:11px;color:var(--text-3);margin-top:18px;font-style:italic">Tip: drag photos directly into this window from your desktop, or paste from clipboard (⌘V). The "Add photos" button gives you Unsplash search, URL paste, and curated inspiration too.</p>
+    </section>
+
+    <section class="stories-section">
+      <div class="moodboard-head" style="margin-bottom:28px">
+        <div><h3 class="moodboard-title">Stories from the <em>life I'm building</em></h3></div>
+        <button class="top-btn" onclick="addStory()">+ New story</button>
+      </div>
+      <div class="story-grid" id="storyGrid"></div>
+    </section>
+
+    <section class="horizons-section">
+      <div class="moodboard-head" style="margin-bottom:28px">
+        <div><h3 class="moodboard-title">The <em>arc</em> across time</h3></div>
+      </div>
+      <div class="horizons-strip" id="horizonsStrip"></div>
+    </section>
+
+    <section class="conn-section">
+      <div class="conn-trail">
+        <div class="conn-trail-icon">
+          <svg viewBox="0 0 24 24" width="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="conn-trail-text">
+          <div class="conn-trail-label">This domain feeds</div>
+          <div class="conn-trail-path" id="connPath"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUBSECTIONS — only visible when on a project page -->
+    <section class="subsections-section" id="subsectionsSection" style="display:none">
+      <div class="moodboard-head" style="margin-bottom:28px">
+        <div>
+          <h3 class="moodboard-title">Inside <em>this world</em></h3>
+          <p style="font-size:12px;color:var(--text-2);margin-top:6px;font-weight:300">Subsections — like Pinterest boards within this project. Give a name and brief intro, we'll set up a beautiful page with photos and a starting vision.</p>
+        </div>
+        <button class="top-btn primary" onclick="addSubsection()">+ Add subsection</button>
+      </div>
+      <div class="subsections-grid" id="subsectionsGrid"></div>
+    </section>
+  </div>
+
+  <!-- MOVIES -->
+  <div class="page" id="page-movies">
+    <section class="section">
+      <div class="section-head">
+        <div class="section-titles">
+          <div class="section-eyebrow">The Library</div>
+          <h2 class="section-title">Your <em>vision movies</em>.</h2>
+          <p class="section-sub">Coming in Build 2. Once you've put photos and vision text into your domains, the system will auto-cut cinematic trailers — 60-90 second domain clips, 5-minute lifetime arcs, and short future-self imagination clips.</p>
+        </div>
+      </div>
+      <div style="background:var(--bg-1);border:1px dashed var(--line-strong);border-radius:14px;padding:60px 38px;text-align:center">
+        <div style="font-family:'Fraunces',serif;font-size:32px;font-style:italic;color:var(--gold);margin-bottom:14px">Build 2 · The Movie engine</div>
+        <p style="color:var(--text-1);max-width:540px;margin:0 auto 22px;font-weight:300;line-height:1.7">For now, fill your domains with photos and vision text. The Movie engine will read everything and assemble it.</p>
+        <button class="top-btn primary" onclick="goPage('home')">Back to domains</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- DREAMER -->
+  <div class="page" id="page-dreamer">
+    <div class="dreamer-shell">
+      <div class="dreamer-bg" id="dreamerBg"></div>
+      <div class="dreamer-content">
+        <div class="dreamer-pre" id="dreamerPre"></div>
+        <h1 class="dreamer-question" id="dreamerQ"></h1>
+        <p class="dreamer-sub" id="dreamerSub"></p>
+        <div class="dreamer-textarea-wrap">
+          <textarea class="dreamer-textarea" id="dreamerInput" placeholder="Don't think. See it. Write what comes…"></textarea>
+        </div>
+        <div class="dreamer-foot">
+          <div class="dreamer-progress" id="dreamerProgress"></div>
+          <div class="dreamer-actions">
+            <button class="top-btn" onclick="dreamerPrev()">← Back</button>
+            <button class="top-btn" onclick="dreamerNext(true)">Skip</button>
+            <button class="top-btn primary" onclick="dreamerNext()">Continue →</button>
+          </div>
+        </div>
+        <div class="dreamer-recap" id="dreamerRecap">
+          <div class="dreamer-recap-head">Your dream so far</div>
+          <div id="dreamerRecapList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<button class="dreamer-fab" id="dreamerFab" onclick="goPage('dreamer')">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6L12 2z"/></svg>
+  Open the Dreamer
+</button>
+
+<!-- MODAL: PHOTO SOURCES -->
+<div class="modal-overlay" id="photoSourcesModal">
+  <div class="modal modal-xl">
+    <div class="ps-head">
+      <div class="ps-head-row">
+        <div>
+          <div class="ps-title">Add <em>photos</em></div>
+          <div class="ps-target">to <b id="psTargetDomain">—</b></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="ps-foot-status" id="psSessionAdded"></span>
+          <button class="top-btn" onclick="closeModal('photoSourcesModal')">Done</button>
+        </div>
+      </div>
+      <div class="ps-tabs">
+        <button class="ps-tab active" data-pstab="inspiration">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6L12 2z"/></svg>
+          Inspiration
+        </button>
+        <button class="ps-tab" data-pstab="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          Search Unsplash
+        </button>
+        <button class="ps-tab" data-pstab="url">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          From URL
+        </button>
+        <button class="ps-tab" data-pstab="upload">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          Upload
+        </button>
+      </div>
+    </div>
+
+    <div class="ps-body">
+
+      <!-- INSPIRATION TAB -->
+      <div class="ps-pane active" id="ps-pane-inspiration">
+        <div class="ps-chips" id="psChips"></div>
+        <div class="ps-grid" id="psInspirationGrid"></div>
+      </div>
+
+      <!-- SEARCH TAB -->
+      <div class="ps-pane" id="ps-pane-search">
+        <div id="ps-search-container"></div>
+      </div>
+
+      <!-- URL TAB -->
+      <div class="ps-pane" id="ps-pane-url">
+        <div class="ps-url-help">
+          Paste any direct image URL — and it lands in your mood board. <b>Pinterest:</b> right-click a pin, choose "Copy image address." <b>Unsplash, Pexels, blogs:</b> right-click → copy image. <b>Instagram:</b> usually blocks direct hotlinking — try a screenshot instead.
+        </div>
+        <div class="ps-url-row">
+          <input class="ps-url-input" id="psUrlInput" placeholder="https://images.unsplash.com/photo-..." onkeydown="if(event.key==='Enter')checkUrl()">
+          <button class="ps-search-btn" onclick="checkUrl()">Preview</button>
+        </div>
+        <div class="ps-url-preview" id="psUrlPreview">
+          <img id="psUrlPreviewImg" src="" alt="">
+          <div class="ps-url-preview-meta">
+            <div class="ps-url-preview-status" id="psUrlPreviewStatus">Image loaded</div>
+            <div class="ps-url-preview-url" id="psUrlPreviewUrl"></div>
+            <button class="top-btn primary" onclick="addUrlPhoto()">Add to mood board</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- UPLOAD TAB -->
+      <div class="ps-pane" id="ps-pane-upload">
+        <div class="ps-upload-zone" onclick="document.getElementById('psUploadInput').click()">
+          <div class="ps-upload-icon">⬆</div>
+          <div class="ps-upload-title">Pick photos from your computer</div>
+          <div class="ps-upload-sub">JPG, PNG, WebP, HEIC. Auto-resized to 1400px and saved as JPEG.<br>You can also <b>drag &amp; drop</b> photos onto this window — or paste from clipboard with ⌘V.</div>
+          <button class="top-btn primary">Choose files</button>
+          <input type="file" id="psUploadInput" style="display:none" accept="image/*" multiple onchange="psHandleUpload(event)">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: SUBSECTION NAME -->
+<div class="modal-overlay" id="subModal">
+  <div class="modal modal-narrow">
+    <div class="modal-head" id="subModalHead">A new <em>subsection</em></div>
+    <div class="modal-sub" id="subModalSub">Give it a name and a brief intro of what it's about. We'll set up a beautiful page with a hero image, starting inspiration photos picked to match, and your intro as the opening vision. Tweak everything from there.</div>
+    <div class="modal-field">
+      <label class="modal-label">Name</label>
+      <input class="modal-input" id="subModalName" placeholder="The Workshop, The Greenhouse, The Kids' Wing…">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Brief intro — what is this about?</label>
+      <textarea class="modal-input" id="subModalTagline" rows="3" style="min-height:80px;resize:vertical" placeholder="Where I'll build motorcycles and woodwork. The tools I trust. The light at the right angle. The smell of wood and oil."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="top-btn" onclick="closeModal('subModal')">Cancel</button>
+      <button class="top-btn primary" onclick="saveSubsection()">Create subsection</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: STORY -->
+<div class="modal-overlay" id="storyModal">
+  <div class="modal modal-large">
+    <div class="modal-head" id="storyModalHead">A new <em>story</em></div>
+    <div class="modal-sub">Write a scene from the life you're building. Tuesday in 2028. The quarterly ride. The morning ritual. Anything. Future-tense or present-tense — your call.</div>
+    <div class="modal-field">
+      <label class="modal-label">Title</label>
+      <input class="modal-input" id="storyModalTitle" placeholder="A Tuesday in 2028">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">The story</label>
+      <textarea class="modal-input" id="storyModalBody" placeholder="Wake at 6:14, the room still cool…"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="top-btn" onclick="closeModal('storyModal')">Cancel</button>
+      <button class="top-btn primary" onclick="saveStory()">Save story</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: SETTINGS -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <div class="modal-head">Your <em>profile</em></div>
+    <div class="modal-sub">This is your Primary Vision Command Center. Couple Vision and shared partner views come in Build 3.</div>
+    <div class="modal-field">
+      <label class="modal-label">Your name</label>
+      <input class="modal-input" id="settingsName">
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Initial (avatar)</label>
+      <input class="modal-input" id="settingsInitial" maxlength="2" style="max-width:80px">
+    </div>
+    <div style="border-top:1px solid var(--line);margin:18px 0 16px;padding-top:18px">
+      <div style="font-size:11px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;margin-bottom:8px">Photo Search · Optional</div>
+      <p style="font-size:11.5px;color:var(--text-2);line-height:1.7;margin-bottom:14px">Add a free Unsplash API key to unlock search across 5 million photos. Don't have one? <a href="https://unsplash.com/developers" target="_blank" style="color:var(--gold);border-bottom:1px solid var(--gold-dim);text-decoration:none">unsplash.com/developers</a> → "New Application" → copy the <b style="color:var(--text-1)">Access Key</b> → paste below. Takes 60 seconds. Stays on your machine, never exported.</p>
+      <input class="modal-input" id="settingsUnsplashKey" placeholder="Access Key (e.g. AbC123...)" style="font-family:'SF Mono',Monaco,monospace;font-size:11.5px">
+    </div>
+    <div class="modal-actions">
+      <button class="top-btn danger" onclick="resetAll()">Reset everything</button>
+      <div style="flex:1"></div>
+      <button class="top-btn" onclick="closeModal('settingsModal')">Cancel</button>
+      <button class="top-btn primary" onclick="saveSettings()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-meta">
+    <input class="lightbox-cap" id="lightboxCap" placeholder="Add a caption…">
+    <button class="top-btn danger" onclick="deletePhoto()">Delete</button>
+    <button class="top-btn primary" onclick="closeLightbox()">Done</button>
+  </div>
+  <div class="lightbox-attr" id="lightboxAttr"></div>
+</div>
+
+<!-- DROP OVERLAY -->
+<div id="dropOverlay">
+  <div class="drop-msg">Drop photos here<br><span style="color:var(--text-2);font-size:14px;font-style:normal">— from your desktop, or dragged from another browser tab</span></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// =================== STATE ===================
+const STORAGE_PREFIX = 'vcc:v1:';
+const SK = {
+  user: STORAGE_PREFIX + 'user',
+  dreamer: STORAGE_PREFIX + 'dreamer',
+  unsplashKey: STORAGE_PREFIX + 'apikey:unsplash',
+  domain: (id) => STORAGE_PREFIX + 'domain:' + id,
+  project: (id) => STORAGE_PREFIX + 'project:' + id
+};
+
+const DOMAINS_DEF = [
+  {id:'body',      num:'01', name:'Body',      ours:false, defaultImg:'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600&q=85', tagline:'Health, energy, longevity. The vehicle.',                placeholder:'A morning on the gym floor. Energy by 7am. Sleep that resets you. Food that fuels you.'},
+  {id:'spirit',    num:'02', name:'Spirit',    ours:false, defaultImg:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=85', tagline:'God, the light, presence. The why behind the why.',     placeholder:'The 20 minutes before the day starts. Where I meet the light. The practice that anchors everything else.'},
+  {id:'mind',      num:'03', name:'Mind',      ours:false, defaultImg:'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1600&q=85', tagline:'Books, learning, curiosity. The hunger to know.',       placeholder:'Always a book on the table. The next thing I want to learn. The conversations that stretch me.'},
+  {id:'heart',     num:'04', name:'Heart',     ours:false, defaultImg:'https://images.unsplash.com/photo-1491895200222-0fc4a4c35e18?w=1600&q=85', tagline:'Where peace lives. Where pissed off lives.',            placeholder:'The work I do on myself so I can do the work in the world. Where my emotions live, and how they move.'},
+  {id:'character', num:'05', name:'Character', ours:false, defaultImg:'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1600&q=85', tagline:"Who I'm becoming. Walking the path.",                    placeholder:"The man I'm becoming. The integrity I hold. The path I'm walking."},
+  {id:'marriage',  num:'06', name:'Marriage',  ours:true,  defaultImg:'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1600&q=85', tagline:'Co-creation. Covenant. The weekly date.',               placeholder:'The partnership we are building. The rituals we keep. The dreams we share.'},
+  {id:'family',    num:'07', name:'Family',    ours:true,  defaultImg:'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1600&q=85', tagline:'Parents, siblings, the kids ahead. Lineage.',           placeholder:'The family I came from. The family I am building. The lineage I am stewarding.'},
+  {id:'tribe',     num:'08', name:'Tribe',     ours:false, defaultImg:'https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=1600&q=85', tagline:'Friendships. Community. Who you do life with.',          placeholder:'The friends who go all the way back. The new ones earning their place. The community I belong to.'},
+  {id:'money',     num:'09', name:'Money',     ours:true,  defaultImg:'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1600&q=85', tagline:'Freedom. The Dream Life Number lives here.',            placeholder:'What freedom looks like in numbers. The Dream Life Number. What enough actually means.'},
+  {id:'mission',   num:'10', name:'Mission',   ours:false, defaultImg:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85', tagline:'The work. The calling. The for-profit.',                placeholder:'The work that feels like creation, not labor. The companies I am building. The clients I am serving.'},
+  {id:'legacy',    num:'11', name:'Legacy',    ours:true,  defaultImg:'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=1600&q=85', tagline:'The Foundation. What survives you.',                    placeholder:'What I leave behind. The Foundation. The plan to heal the world. What survives me.'},
+  {id:'lifestyle', num:'12', name:'Lifestyle', ours:false, defaultImg:'https://images.unsplash.com/photo-1558981852-426c6c22a060?w=1600&q=85', tagline:'Homes, places, the motorcycle, the texture.',           placeholder:"The texture of daily life. The homes. The motorcycle. The cities I move between. Where I live, slowly."}
+];
+
+const PROJECTS_DEF = [
+  {
+    id: 'farm', name: 'The Farm',
+    defaultImg: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1800&q=85',
+    tagline: 'The land. The houses. The animals. The slow life we build with our own hands.',
+    placeholder: "Describe The Farm — the land, the climate, the way the morning starts. Who's there. What's growing. What it smells like in October.",
+    subsections: [
+      {id:'houses',   name:'Houses',         tagline:'The dwellings on the land.',          defaultImg:'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=1400&q=85', placeholder:'The houses on the property. The architecture. Inside and out.'},
+      {id:'animals',  name:'Animals',        tagline:'Who lives on the land with us.',      defaultImg:'https://images.unsplash.com/photo-1437846972679-9e6e537be46e?w=1400&q=85', placeholder:'Dogs, horses, chickens, whatever else. The lives that share the place.'},
+      {id:'land',     name:'Land & Gardens', tagline:'The earth that holds it all.',        defaultImg:'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=1400&q=85', placeholder:'The acreage. The gardens. The trees. The trails. What grows here.'}
+    ]
+  },
+  {
+    id: 'retreat', name: 'The Retreat',
+    defaultImg: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&q=85',
+    tagline: 'Where high-functioning leaders come to release the traumas, and walk back out lighter.',
+    placeholder: 'Describe The Retreat — the location, the spirit of it, what people leave behind. The week, hour by hour. Who shows up. What they carry home.',
+    subsections: [
+      {id:'setting',   name:'The Setting',   tagline:'Location, views, the land it sits on.',  defaultImg:'https://images.unsplash.com/photo-1542202229-7d93c33f5d07?w=1400&q=85', placeholder:'Where in the world. The terrain. The arrival. What you see when you walk in.'},
+      {id:'spaces',    name:'The Spaces',    tagline:'The rooms, the structures, the ceremonial places.', defaultImg:'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=1400&q=85', placeholder:'Rooms for sleep. Rooms for ceremony. The kitchen. The bath. The fire.'},
+      {id:'practices', name:'The Practices', tagline:'What happens here, hour by hour.',       defaultImg:'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1400&q=85', placeholder:'Breathwork. Plant medicine. Sound. Somatic. Silence. The arc of the week.'}
+    ]
+  },
+  {
+    id: 'foundation', name: 'The Foundation',
+    defaultImg: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80?w=1800&q=85',
+    tagline: 'The Foundation by Learn And Grow Rich. 100% of what is given, reaches the children.',
+    placeholder: "Describe The Foundation — what you're solving, who you're serving, what makes it different from every other 'foundation' out there. The promise. The math. The mission.",
+    subsections: [
+      {id:'mission',  name:'The Mission',  tagline:"What we're solving in the world.",   defaultImg:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&q=85', placeholder:"What you're standing for. The problem you're naming. Why it matters that you do this and not someone else."},
+      {id:'children', name:'The Children', tagline:"Who we're here for.",                defaultImg:'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=1400&q=85', placeholder:'The kids, the families, the lineages you serve. Where they live. What they need. What changes when you reach them.'},
+      {id:'programs', name:'The Programs', tagline:'The actual work being funded.',      defaultImg:'https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=1400&q=85', placeholder:'The programs. The schools. The meals. The mentoring. What 100% of the money is actually buying.'}
+    ]
+  },
+  {
+    id: 'business', name: 'The Business',
+    defaultImg: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1800&q=85',
+    tagline: 'Learn And Grow Rich. The for-profit that funds the foundation that heals the world.',
+    placeholder: 'Describe The Business — what you sell, who you serve, the team behind it, how it grows. The map from where you are to where it goes.',
+    subsections: [
+      {id:'brand',   name:'The Brand',   tagline:'Visual identity, voice, marketing.',     defaultImg:'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1400&q=85', placeholder:'How the brand looks. How it sounds. The visual world it lives in. The tone of voice everywhere it speaks.'},
+      {id:'product', name:'The Product', tagline:'FOSM Live, the dashboards, the planners.', defaultImg:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1400&q=85', placeholder:'What you sell. FOSM Live. The Strategic Plan template. The audit. The Vision Command Center itself. The roadmap.'},
+      {id:'team',    name:'The Team',    tagline:'You, Sumary, the closers, the consultants.', defaultImg:'https://images.unsplash.com/photo-1543807535-eceef0bc6599?w=1400&q=85', placeholder:'Who runs it. Who sells it. Who delivers it. Who is coming next. Where the org is in 12 months.'}
+    ]
+  }
+];
+
+const DREAMER_QS = [
+  {q:'When were you <em>most alive</em>? A moment, a season, a year. Take me there.', sub:"Don't try to make it impressive. Just true. The first thing that came to mind is usually the right thing.",
+   bg:'https://images.unsplash.com/photo-1542202229-7d93c33f5d07?w=2400&q=80'},
+  {q:'What did you <em>love</em> at age 7?', sub:"The thing that made you lose track of time. The thing your parents had to drag you away from. That signal is still in there.",
+   bg:'https://images.unsplash.com/photo-1519791883288-dc8bd696e667?w=2400&q=80'},
+  {q:'Imagine you wake up <em>five years from today</em>. Describe the room.', sub:"Don't think. See it. The light through the window. The smell of the air. Who's beside you. The first thing you reach for.",
+   bg:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=2400&q=80'},
+  {q:"If money truly didn't exist as a constraint, <em>what would you build?</em>", sub:"Not the safe answer. The answer you'd never tell anyone. Write it for yourself. Nobody else has to read it.",
+   bg:'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=2400&q=80'},
+  {q:"Who is the <em>person you're becoming</em>? Describe them in third person.", sub:"Not who you should become. Who you're already becoming. The traits, the habits, the way they move through a room.",
+   bg:'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=2400&q=80'},
+  {q:'What does <em>peace</em> look like to you — separate from prosperity?', sub:"You can have all the money and still have no peace. So what is peace, on its own? Try to describe it without the money next to it.",
+   bg:'https://images.unsplash.com/photo-1502209524164-acea936639a2?w=2400&q=80'},
+  {q:'What are you <em>avoiding</em>?', sub:"The thing you keep meaning to deal with. The conversation you keep not having. Name it here. Nobody else has to see it.",
+   bg:'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=2400&q=80'},
+  {q:'Who do you need to <em>forgive</em>?', sub:"Yourself counts. The list might be longer than you think. Just start writing.",
+   bg:'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=2400&q=80'},
+  {q:'When you imagine your <em>perfect day</em>, what time do you wake up — and why?', sub:"What's pulling you out of bed? The first hour of the day will tell you what kind of life you actually want.",
+   bg:'https://images.unsplash.com/photo-1465056836041-7f43ac27dcb5?w=2400&q=80'},
+  {q:'What is the <em>place</em> you keep coming back to in your imagination?', sub:"A city. A coastline. A house. The place that shows up when you close your eyes. Describe it.",
+   bg:'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=2400&q=80'},
+  {q:'Five years from now, <em>what is no longer in your life</em>?', sub:"The habit. The relationship. The story. The version of you. Sometimes the vision is about what's gone, not what's added.",
+   bg:'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=2400&q=80'},
+  {q:'<em>When is enough enough?</em>', sub:"This is the question that builds the Dream Life Number. Not how much can you make. How much do you need to live the life you actually want. Try to write a number.",
+   bg:'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=2400&q=80'}
+];
+
+let state = {
+  user: { name: 'Zach Oehlman', initial: 'Z' },
+  domains: {},
+  projects: {},
+  dreamer: { responses: {}, currentIdx: 0 }
+};
+let currentDomainId = null;
+let currentProjectId = null;
+let currentSubsectionId = null;
+let currentLightboxPhotoId = null;
+let editingStoryId = null;
+let editingSubsectionId = null;
+
+// =================== STORAGE ===================
+function loadState() {
+  try {
+    const u = localStorage.getItem(SK.user);
+    if (u) state.user = JSON.parse(u);
+    const d = localStorage.getItem(SK.dreamer);
+    if (d) state.dreamer = JSON.parse(d);
+    DOMAINS_DEF.forEach(def => {
+      const raw = localStorage.getItem(SK.domain(def.id));
+      if (raw) {
+        state.domains[def.id] = JSON.parse(raw);
+      } else {
+        state.domains[def.id] = createBlankDomain(def);
+      }
+    });
+    PROJECTS_DEF.forEach(def => {
+      const raw = localStorage.getItem(SK.project(def.id));
+      if (raw) {
+        const loaded = JSON.parse(raw);
+        // Merge with def to ensure fields exist; preserve user data
+        state.projects[def.id] = {
+          ...createBlankProject(def),
+          ...loaded,
+          // Ensure subsections array exists; preserve user-edited ones
+          subsections: (loaded.subsections && loaded.subsections.length)
+            ? loaded.subsections
+            : def.subsections.map(createBlankSubsection)
+        };
+      } else {
+        state.projects[def.id] = createBlankProject(def);
+      }
+    });
+  } catch (e) { console.error('Load failed', e); }
+}
+function createBlankDomain(def) {
+  return {
+    id: def.id, name: def.name, num: def.num, ours: def.ours,
+    tagline: def.tagline, heroImg: def.defaultImg,
+    vision: '', photos: [], stories: [],
+    horizons: { lifetime: '', tenYear: '', threeYear: '', oneYear: '', twelveWeek: '' }
+  };
+}
+function createBlankProject(def) {
+  return {
+    id: def.id, name: def.name,
+    tagline: def.tagline, heroImg: def.defaultImg,
+    vision: '', photos: [], stories: [],
+    horizons: { lifetime: '', tenYear: '', threeYear: '', oneYear: '', twelveWeek: '' },
+    subsections: def.subsections.map(createBlankSubsection)
+  };
+}
+function createBlankSubsection(def) {
+  return {
+    id: def.id, name: def.name, tagline: def.tagline || '',
+    heroImg: def.defaultImg, placeholder: def.placeholder || '',
+    vision: '', photos: [], stories: [],
+    horizons: { lifetime: '', tenYear: '', threeYear: '', oneYear: '', twelveWeek: '' }
+  };
+}
+let saveTimer = null;
+function saveDomain(id) { localStorage.setItem(SK.domain(id), JSON.stringify(state.domains[id])); flashSaved(); }
+function saveProject(id) { localStorage.setItem(SK.project(id), JSON.stringify(state.projects[id])); flashSaved(); }
+function saveUser() { localStorage.setItem(SK.user, JSON.stringify(state.user)); flashSaved(); }
+function saveDreamer() { localStorage.setItem(SK.dreamer, JSON.stringify(state.dreamer)); flashSaved(); }
+function debouncedSave(fn) {
+  setSaving();
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(fn, 500);
+}
+function setSaving() {
+  const el = document.getElementById('saveStatus');
+  el.className = 'save-status saving'; el.textContent = 'Saving…';
+}
+function flashSaved() {
+  const el = document.getElementById('saveStatus');
+  el.className = 'save-status saved'; el.textContent = '✓ Saved';
+  setTimeout(() => { el.className = 'save-status'; el.textContent = 'All changes saved'; }, 1800);
+}
+
+// =================== CONTEXT HELPER ===================
+// Returns the current edit target — domain, project, or subsection
+function getCurrentTarget() {
+  if (currentProjectId && currentSubsectionId) {
+    const proj = state.projects[currentProjectId];
+    if (!proj) return null;
+    const sub = proj.subsections.find(s => s.id === currentSubsectionId);
+    if (!sub) return null;
+    return { obj: sub, save: () => saveProject(currentProjectId), kind: 'subsection', label: proj.name + ' · ' + sub.name };
+  }
+  if (currentProjectId) {
+    const proj = state.projects[currentProjectId];
+    if (!proj) return null;
+    return { obj: proj, save: () => saveProject(currentProjectId), kind: 'project', label: proj.name };
+  }
+  if (currentDomainId) {
+    const dom = state.domains[currentDomainId];
+    if (!dom) return null;
+    return { obj: dom, save: () => saveDomain(currentDomainId), kind: 'domain', label: dom.name };
+  }
+  return null;
+}
+// Short alias
+function T() { return getCurrentTarget(); }
+function clearAllContext() {
+  currentDomainId = null;
+  currentProjectId = null;
+  currentSubsectionId = null;
+}
+
+// =================== TOAST ===================
+let toastTimer;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// =================== NAV ===================
+function goPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-item[data-page]').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-domain-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-sub-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-project-head').forEach(n => n.classList.remove('active'));
+  const ni = document.querySelector('.nav-item[data-page="' + page + '"]');
+  if (ni) ni.classList.add('active');
+  document.getElementById('dreamerFab').style.display = (page === 'dreamer') ? 'none' : 'flex';
+  const trails = {
+    home:    '<b>Command Center</b>',
+    movies:  '<span>Command Center</span> · <b>Vision Movies</b>',
+    dreamer: '<b>The Dreamer</b> <span style="color:var(--text-3);font-size:10px">· session in progress</span>'
+  };
+  document.getElementById('topTrail').innerHTML = trails[page] || '<b>Command Center</b>';
+  document.getElementById('main').scrollTo({ top: 0, behavior: 'instant' });
+  if (page === 'dreamer') paintDreamer();
+  if (page === 'home') {
+    clearAllContext();
+    renderDomainsGrid();
+    renderProjectsGrid();
+    renderNavDomains();
+    renderProjectsNav();
+  }
+}
+
+document.querySelectorAll('.nav-item[data-page]').forEach(item => {
+  item.addEventListener('click', () => goPage(item.dataset.page));
+});
+
+// =================== HOME ===================
+function renderDomainsGrid() {
+  const grid = document.getElementById('domainsGrid');
+  grid.innerHTML = DOMAINS_DEF.map(def => {
+    const d = state.domains[def.id];
+    const photoCount = d.photos.length;
+    const storyCount = d.stories.length;
+    const hasVision = (d.vision || '').trim().length > 20;
+    const hasHorizons = Object.values(d.horizons).filter(v => (v||'').trim().length > 5).length;
+    const score = (hasVision ? 1 : 0) + Math.min(2, Math.floor(photoCount / 4)) + Math.min(1, storyCount > 0 ? 1 : 0) + Math.min(1, hasHorizons >= 2 ? 1 : 0);
+    let pips = '';
+    for (let i = 0; i < 5; i++) pips += '<div class="domain-prog-pip ' + (i < score ? 'done' : '') + '"></div>';
+    const tagText = d.ours ? 'Ours' : 'Yours';
+    return `<div class="domain-card" onclick="openDomain('${def.id}')">
+      <img class="domain-img" src="${d.heroImg}" alt="" onerror="this.src='${def.defaultImg}'">
+      <div class="domain-veil"></div>
+      <div class="domain-content">
+        <div class="domain-top">
+          <div class="domain-num">${def.num}</div>
+          <div class="domain-tag ${d.ours ? 'ours' : ''}">${tagText}</div>
+        </div>
+        <div>
+          <div class="domain-name">${def.name}</div>
+          <div class="domain-tagline">${d.tagline || def.tagline}</div>
+          <div class="domain-meta">
+            <span>${photoCount} photo${photoCount===1?'':'s'}</span>
+            <div class="domain-meta-dot"></div>
+            <span>${storyCount} stor${storyCount===1?'y':'ies'}</span>
+            <div class="domain-meta-dot"></div>
+            <span>${score}/5</span>
+          </div>
+          <div class="domain-progress">${pips}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function renderNavDomains() {
+  const list = document.getElementById('navDomainList');
+  list.innerHTML = DOMAINS_DEF.map(def => {
+    return `<div class="nav-domain-item" onclick="openDomain('${def.id}')" data-domain="${def.id}">
+      <span class="nav-domain-num">${def.num}</span>${def.name}
+    </div>`;
+  }).join('');
+}
+
+// =================== DOMAIN DETAIL ===================
+function openDomain(id) {
+  clearAllContext();
+  currentDomainId = id;
+  const d = state.domains[id];
+  const def = DOMAINS_DEF.find(x => x.id === id);
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-domain').classList.add('active');
+  document.querySelectorAll('.nav-item[data-page]').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-domain-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.domain === id);
+  });
+  document.querySelectorAll('.nav-sub-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-project-head').forEach(n => n.classList.remove('active'));
+  document.getElementById('dreamerFab').style.display = 'flex';
+  document.getElementById('topTrail').innerHTML = `<span onclick="goPage('home')" style="cursor:pointer">Command Center</span> · <span>Domains</span> · <b>${d.name}</b>`;
+
+  document.getElementById('domainHeroImg').src = d.heroImg;
+  document.getElementById('domainHeroImg').onerror = function() { this.src = def.defaultImg; };
+  document.getElementById('domainHeroNum').textContent = def.num + ' · ' + d.name;
+  document.getElementById('domainHeroTitle').innerHTML = renderDomainHeroTitle(def);
+  renderHeroMeta();
+
+  document.getElementById('visionQuote').value = d.vision || '';
+  document.getElementById('visionQuote').placeholder = def.placeholder || 'Describe your vision for this domain…';
+  updateVisionMeta(d);
+
+  renderMoodboard();
+  renderStories();
+  renderHorizons();
+  renderConnPath(d, def);
+  // Hide subsections (only for projects)
+  document.getElementById('subsectionsSection').style.display = 'none';
+
+  document.getElementById('main').scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function openProject(id) {
+  clearAllContext();
+  currentProjectId = id;
+  const p = state.projects[id];
+  const def = PROJECTS_DEF.find(x => x.id === id);
+  if (!p || !def) return;
+  document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
+  document.getElementById('page-domain').classList.add('active');
+  document.querySelectorAll('.nav-item[data-page]').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-domain-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-sub-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-project-head').forEach(n => {
+    n.classList.toggle('active', n.dataset.project === id);
+  });
+  // Auto-expand the active project's subs in the sidebar
+  document.querySelectorAll('.nav-project-group').forEach(n => {
+    n.classList.toggle('expanded', n.dataset.project === id);
+  });
+  document.getElementById('dreamerFab').style.display = 'flex';
+  document.getElementById('topTrail').innerHTML = `<span onclick="goPage('home')" style="cursor:pointer">Command Center</span> · <span>Projects</span> · <b>${p.name}</b>`;
+
+  document.getElementById('domainHeroImg').src = p.heroImg;
+  document.getElementById('domainHeroImg').onerror = function() { this.src = def.defaultImg; };
+  document.getElementById('domainHeroNum').textContent = 'PROJECT · ' + p.name;
+  document.getElementById('domainHeroTitle').innerHTML = renderProjectHeroTitle(def);
+  renderHeroMeta();
+
+  document.getElementById('visionQuote').value = p.vision || '';
+  document.getElementById('visionQuote').placeholder = def.placeholder || 'Describe this project — what it is, who it serves, what it looks like.';
+  updateVisionMeta(p);
+
+  renderMoodboard();
+  renderStories();
+  renderHorizons();
+  renderProjectConnPath(p, def);
+  // Show subsections grid for projects
+  document.getElementById('subsectionsSection').style.display = 'block';
+  renderSubsectionsGrid();
+
+  document.getElementById('main').scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function openSubsection(projectId, subId) {
+  clearAllContext();
+  currentProjectId = projectId;
+  currentSubsectionId = subId;
+  const proj = state.projects[projectId];
+  const sub = proj.subsections.find(s => s.id === subId);
+  const projDef = PROJECTS_DEF.find(x => x.id === projectId);
+  const subDef = projDef.subsections.find(s => s.id === subId);
+  if (!sub) return;
+  document.querySelectorAll('.page').forEach(pg => pg.classList.remove('active'));
+  document.getElementById('page-domain').classList.add('active');
+  document.querySelectorAll('.nav-item[data-page]').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-domain-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-sub-item').forEach(n => {
+    n.classList.toggle('active', n.dataset.project === projectId && n.dataset.sub === subId);
+  });
+  document.querySelectorAll('.nav-project-head').forEach(n => {
+    n.classList.toggle('active', n.dataset.project === projectId);
+  });
+  document.querySelectorAll('.nav-project-group').forEach(n => {
+    n.classList.toggle('expanded', n.dataset.project === projectId);
+  });
+  document.getElementById('dreamerFab').style.display = 'flex';
+  document.getElementById('topTrail').innerHTML = `<span onclick="goPage('home')" style="cursor:pointer">Command Center</span> · <span onclick="openProject('${projectId}')" style="cursor:pointer">${proj.name}</span> · <b>${sub.name}</b>`;
+
+  const heroSrc = sub.heroImg || (subDef && subDef.defaultImg) || projDef.defaultImg;
+  document.getElementById('domainHeroImg').src = heroSrc;
+  document.getElementById('domainHeroImg').onerror = function() { this.src = projDef.defaultImg; };
+  document.getElementById('domainHeroNum').textContent = proj.name.toUpperCase() + ' · ' + sub.name.toUpperCase();
+  document.getElementById('domainHeroTitle').innerHTML = `<em>${sub.name}.</em>`;
+  renderHeroMeta();
+
+  document.getElementById('visionQuote').value = sub.vision || '';
+  document.getElementById('visionQuote').placeholder = (subDef && subDef.placeholder) || sub.tagline || 'Describe this subsection — photos, stories, vision.';
+  updateVisionMeta(sub);
+
+  renderMoodboard();
+  renderStories();
+  renderHorizons();
+  renderSubsectionConnPath(proj, sub);
+  // Hide subsections grid (we're in a leaf)
+  document.getElementById('subsectionsSection').style.display = 'none';
+
+  document.getElementById('main').scrollTo({ top: 0, behavior: 'instant' });
+}
+
+const heroTitles = {
+  body:      ['The vehicle', 'I move through life in.'],
+  spirit:    ['The light', "I'm rooted in."],
+  mind:      ['The hunger', 'to keep learning.'],
+  heart:     ['Where my emotions', 'actually live.'],
+  character: ['The person', "I'm becoming."],
+  marriage:  ['Two visions', 'becoming one.'],
+  family:    ['The lineage', "I'm stewarding."],
+  tribe:     ["The people", 'I do life with.'],
+  money:     ['The freedom', 'numbers buy.'],
+  mission:   ['The work', 'that feels like creation.'],
+  legacy:    ['What survives', 'after I am gone.'],
+  lifestyle: ['The texture of', 'daily life.']
+};
+const projectHeroTitles = {
+  farm:       ['The land,', 'the animals, <em>the slow life.</em>'],
+  retreat:    ['Where leaders come', 'to <em>walk back lighter.</em>'],
+  foundation: ['One hundred percent', '<em>reaches the children.</em>'],
+  business:   ['The for-profit', 'that <em>funds the foundation.</em>']
+};
+function renderDomainHeroTitle(def) {
+  const t = heroTitles[def.id] || [def.name, ''];
+  return `${t[0]}<br><em>${t[1]}</em>`;
+}
+function renderProjectHeroTitle(def) {
+  const t = projectHeroTitles[def.id] || [def.name, ''];
+  return `${t[0]}<br>${t[1]}`;
+}
+
+function renderHeroMeta() {
+  const t = T(); if (!t) return;
+  const obj = t.obj;
+  const photoCount = (obj.photos || []).length, storyCount = (obj.stories || []).length;
+  let tag = '';
+  if (t.kind === 'domain') tag = obj.ours ? '<b>Ours</b> · joint domain' : '<b>Yours</b> · primary domain';
+  else if (t.kind === 'project') tag = `<b>Project</b> · ${(obj.subsections || []).length} subsection${(obj.subsections||[]).length===1?'':'s'}`;
+  else if (t.kind === 'subsection') tag = `<b>Subsection</b> of ${state.projects[currentProjectId].name}`;
+  const m = `<span>${tag}</span><span style="color:var(--text-3)">|</span>
+    <span>${photoCount} photo${photoCount===1?'':'s'}</span><span style="color:var(--text-3)">|</span>
+    <span>${storyCount} stor${storyCount===1?'y':'ies'}</span>`;
+  document.getElementById('domainHeroMeta').innerHTML = m;
+}
+// Backwards compatibility — older code calls renderDomainHeroMeta
+function renderDomainHeroMeta() { renderHeroMeta(); }
+
+function updateVisionMeta(d) {
+  const wc = (d.vision || '').trim().split(/\s+/).filter(Boolean).length;
+  document.getElementById('visionMeta').innerHTML = wc > 0
+    ? `<span style="color:var(--gold-dim)">${wc} word${wc===1?'':'s'}</span> · auto-saves as you type`
+    : 'Click to edit · auto-saves as you type';
+}
+
+document.getElementById('visionQuote').addEventListener('input', function() {
+  const t = T();
+  if (!t) return;
+  t.obj.vision = this.value;
+  updateVisionMeta(t.obj);
+  debouncedSave(() => { const t2 = T(); if (t2) t2.save(); });
+});
+
+function renderConnPath(d, def) {
+  const paths = {
+    body:      `<b>Body</b><span class="conn-trail-arrow">→</span> health spend in <b>Money domain</b><span class="conn-trail-arrow">→</span> <b>Dream Life Number</b><span class="conn-trail-arrow">→</span> <b>FOSM Live · Strategic Plan</b>`,
+    spirit:    `<b>Spirit</b><span class="conn-trail-arrow">→</span> <b>Coaching Center</b> on FOSM Live<span class="conn-trail-arrow">→</span> Vision / EQ / Leadership ratings`,
+    mind:      `<b>Mind</b><span class="conn-trail-arrow">→</span> learning budget in <b>Money</b><span class="conn-trail-arrow">→</span> calendar time blocks`,
+    heart:     `<b>Heart</b><span class="conn-trail-arrow">→</span> <b>Coaching Center</b> · EQ assessment<span class="conn-trail-arrow">→</span> trauma / inner work tracking`,
+    character: `<b>Character</b><span class="conn-trail-arrow">→</span> <b>Leadership</b> ratings on FOSM Live<span class="conn-trail-arrow">→</span> who I'm becoming`,
+    marriage:  `<b>Marriage</b><span class="conn-trail-arrow">→</span> joint domain with <b>Sumary's VCC</b><span class="conn-trail-arrow">→</span> shared rituals + budget`,
+    family:    `<b>Family</b><span class="conn-trail-arrow">→</span> family budget allocation<span class="conn-trail-arrow">→</span> <b>Money</b><span class="conn-trail-arrow">→</span> Dream Life Number`,
+    tribe:     `<b>Tribe</b><span class="conn-trail-arrow">→</span> social / community budget<span class="conn-trail-arrow">→</span> calendar`,
+    money:     `<b>Money</b><span class="conn-trail-arrow">→</span> <b>Dream Life Number</b><span class="conn-trail-arrow">→</span> <b>FOSM Live · Strategic Plan</b><span class="conn-trail-arrow">→</span> revenue targets`,
+    mission:   `<b>Mission</b><span class="conn-trail-arrow">→</span> <b>FOSM Live · Strategic Plan</b><span class="conn-trail-arrow">→</span> for-profit roadmap`,
+    legacy:    `<b>Legacy</b><span class="conn-trail-arrow">→</span> <b>Foundation by Learn And Grow Rich</b><span class="conn-trail-arrow">→</span> giving budget`,
+    lifestyle: `<b>Lifestyle</b><span class="conn-trail-arrow">→</span> lifestyle spend in <b>Money</b><span class="conn-trail-arrow">→</span> <b>Dream Life Number</b><span class="conn-trail-arrow">→</span> <b>FOSM Live · Strategic Plan</b>`
+  };
+  document.getElementById('connPath').innerHTML = paths[def.id] || `<b>${def.name}</b><span class="conn-trail-arrow">→</span> Dream Life Number`;
+}
+
+// =================== MOODBOARD ===================
+function renderMoodboard() {
+  const d = T().obj;
+  const grid = document.getElementById('moodboardGrid');
+  let html = '';
+  d.photos.forEach((p, i) => {
+    let cls = '';
+    if (i % 7 === 0) cls = 'tall';
+    else if (i % 11 === 5) cls = 'wide';
+    const src = p.dataUrl || p.url;
+    let tag = 'Photo';
+    let tagCls = '';
+    if (p.type === 'ai') { tag = 'AI'; tagCls = 'ai-gen'; }
+    else if (p.type === 'unsplash') { tag = 'Unsplash'; }
+    else if (p.type === 'url') { tag = 'Web'; }
+    html += `<div class="mood-tile ${cls} ${tagCls}" onclick="openLightbox('${p.id}')">
+      <img src="${src}" alt="" loading="lazy">
+      <div class="mood-tile-veil"></div>
+      <div class="mood-tile-meta">
+        <span class="mood-tile-caption">${escape(p.caption || 'Untitled')}</span>
+        <span class="mood-tile-tag">${tag}</span>
+      </div>
+    </div>`;
+  });
+  // Always show upload tile
+  html += `<div class="mood-tile upload-tile" onclick="openPhotoSources()">
+    <div class="ai-gen-icon">+</div>
+    <div class="ai-gen-title">Add a photo</div>
+    <div class="ai-gen-sub">Search Unsplash, paste a URL, browse curated, or upload</div>
+  </div>`;
+  // AI gen tile
+  html += `<div class="mood-tile ai-gen-tile" onclick="toast('AI image gen — Build 2')">
+    <div class="ai-gen-icon">✦</div>
+    <div class="ai-gen-title">Generate an image</div>
+    <div class="ai-gen-sub">Type a moment from your dream day. We'll paint it.</div>
+  </div>`;
+  grid.innerHTML = html;
+}
+
+function escape(s) { return (s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// Resize image via canvas
+function resizeImage(file, maxWidth = 1400) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const ratio = Math.min(1, maxWidth / img.width);
+        const w = Math.round(img.width * ratio);
+        const h = Math.round(img.height * ratio);
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', 0.85));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handlePhotoUpload(event) {
+  const files = Array.from(event.target.files || []);
+  await addPhotosFromFiles(files);
+  event.target.value = '';
+}
+
+async function addPhotosFromFiles(files) {
+  if (!T()) {
+    toast('Open a domain, project, or subsection first');
+    return;
+  }
+  if (!files || !files.length) return;
+  setSaving();
+  let added = 0;
+  for (const file of files) {
+    if (!file.type.startsWith('image/')) continue;
+    try {
+      const dataUrl = await resizeImage(file);
+      const photo = {
+        id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+        dataUrl, caption: '', type: 'upload', addedAt: Date.now()
+      };
+      T().obj.photos.push(photo);
+      added++;
+    } catch (e) { console.error('Photo upload failed', e); }
+  }
+  T().save();
+  renderMoodboard();
+  const d = T().obj;
+  renderDomainHeroMeta(d);
+  if (added > 0) toast(`Added ${added} photo${added===1?'':'s'}`);
+}
+
+// Drag-drop (files + dragged image URLs from other tabs)
+const dropOverlay = document.getElementById('dropOverlay');
+let dragCounter = 0;
+window.addEventListener('dragenter', e => {
+  e.preventDefault();
+  if (e.dataTransfer && (
+    Array.from(e.dataTransfer.types || []).includes('Files') ||
+    Array.from(e.dataTransfer.types || []).includes('text/uri-list') ||
+    Array.from(e.dataTransfer.types || []).includes('text/html')
+  )) {
+    dragCounter++;
+    dropOverlay.classList.add('show');
+  }
+});
+window.addEventListener('dragover', e => e.preventDefault());
+window.addEventListener('dragleave', e => {
+  dragCounter = Math.max(0, dragCounter - 1);
+  if (dragCounter === 0) dropOverlay.classList.remove('show');
+});
+window.addEventListener('drop', async e => {
+  e.preventDefault();
+  dragCounter = 0;
+  dropOverlay.classList.remove('show');
+  const files = Array.from(e.dataTransfer.files || []);
+  if (files.length) {
+    await addPhotosFromFiles(files);
+    return;
+  }
+  // Try dragged URL from another browser tab
+  const uri = e.dataTransfer.getData('text/uri-list') || e.dataTransfer.getData('text/plain');
+  if (uri && uri.match(/^https?:\/\//)) {
+    if (!T()) { toast('Open a domain, project, or subsection first to drop photos there'); return; }
+    addUrlAsPhoto(uri.trim());
+    return;
+  }
+  // Try extracting img src from dragged HTML
+  const html = e.dataTransfer.getData('text/html');
+  if (html) {
+    const match = html.match(/<img[^>]+src=["']([^"']+)["']/i);
+    if (match) {
+      if (!T()) { toast('Open a domain, project, or subsection first to drop photos there'); return; }
+      addUrlAsPhoto(match[1]);
+      return;
+    }
+  }
+});
+
+function addUrlAsPhoto(url) {
+  const test = new Image();
+  test.onload = () => {
+    const existing = T().obj.photos.find(p => p.url === url);
+    if (existing) { toast('Already in your mood board'); return; }
+    T().obj.photos.push({
+      id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+      url, caption: '', type: 'url',
+      source: { originalUrl: url }, addedAt: Date.now()
+    });
+    T().save();
+    renderMoodboard();
+    renderDomainHeroMeta(T().obj);
+    toast('Added from drop');
+  };
+  test.onerror = () => {
+    toast("That URL didn't load as an image. Try right-click → Copy image address.");
+  };
+  test.src = url;
+}
+
+// Paste
+window.addEventListener('paste', async e => {
+  if (!T()) return;
+  const items = Array.from(e.clipboardData?.items || []);
+  const files = items.filter(i => i.type.startsWith('image/')).map(i => i.getAsFile()).filter(Boolean);
+  if (files.length) await addPhotosFromFiles(files);
+});
+
+// =================== LIGHTBOX ===================
+function openLightbox(photoId) {
+  currentLightboxPhotoId = photoId;
+  const photo = T().obj.photos.find(p => p.id === photoId);
+  if (!photo) return;
+  document.getElementById('lightboxImg').src = photo.dataUrl || photo.url;
+  document.getElementById('lightboxCap').value = photo.caption || '';
+  // Attribution
+  const attrEl = document.getElementById('lightboxAttr');
+  if (photo.source && photo.source.photographer) {
+    const photog = escape(photo.source.photographer);
+    const photogUrl = photo.source.photographerUrl || '#';
+    const unsplashUrl = photo.source.unsplashUrl || '#';
+    attrEl.innerHTML = `Photo by <a href="${photogUrl}?utm_source=vcc&utm_medium=referral" target="_blank">${photog}</a> on <a href="https://unsplash.com?utm_source=vcc&utm_medium=referral" target="_blank">Unsplash</a>`;
+  } else if (photo.type === 'url' && photo.source && photo.source.originalUrl) {
+    attrEl.innerHTML = `From <a href="${photo.source.originalUrl}" target="_blank">${escape(photo.source.originalUrl).slice(0,60)}…</a>`;
+  } else {
+    attrEl.innerHTML = '';
+  }
+  document.getElementById('lightbox').classList.add('show');
+}
+function closeLightbox() {
+  if (!currentLightboxPhotoId) return;
+  const photo = T().obj.photos.find(p => p.id === currentLightboxPhotoId);
+  if (photo) {
+    photo.caption = document.getElementById('lightboxCap').value;
+    T().save();
+    renderMoodboard();
+  }
+  document.getElementById('lightbox').classList.remove('show');
+  currentLightboxPhotoId = null;
+}
+function deletePhoto() {
+  if (!currentLightboxPhotoId) return;
+  T().obj.photos = T().obj.photos.filter(p => p.id !== currentLightboxPhotoId);
+  T().save();
+  renderMoodboard();
+  renderDomainHeroMeta(T().obj);
+  document.getElementById('lightbox').classList.remove('show');
+  currentLightboxPhotoId = null;
+  toast('Photo removed');
+}
+
+// Use first photo as hero
+function chooseHero() {
+  const photos = T().obj.photos;
+  if (!photos.length) {
+    toast('Add a photo first, then you can pick a cover');
+    return;
+  }
+  const current = T().obj.heroImg;
+  let idx = photos.findIndex(p => (p.dataUrl || p.url) === current);
+  idx = (idx + 1) % photos.length;
+  const newImg = photos[idx].dataUrl || photos[idx].url;
+  T().obj.heroImg = newImg;
+  T().save();
+  document.getElementById('domainHeroImg').src = newImg;
+  renderDomainsGrid();
+  toast('Cover updated');
+}
+
+// =================== STORIES ===================
+function renderStories() {
+  const d = T().obj;
+  const grid = document.getElementById('storyGrid');
+  let html = '';
+  d.stories.forEach(s => {
+    html += `<div class="story" data-story-id="${s.id}">
+      <div class="story-head">
+        <div class="story-icon">${s.icon || '✦'}</div>
+        <div class="story-title">${escape(s.title)}</div>
+        <div class="story-actions">
+          <button class="story-act-btn" onclick="editStory('${s.id}')">✎</button>
+          <button class="story-act-btn del" onclick="deleteStory('${s.id}')">×</button>
+        </div>
+      </div>
+      <div class="story-body">${escape(s.body).replace(/\n/g, '<br>')}</div>
+    </div>`;
+  });
+  html += `<div class="add-story-card" onclick="addStory()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 5v14M5 12h14"/></svg>
+    Write a story
+  </div>`;
+  grid.innerHTML = html;
+}
+
+function addStory() {
+  editingStoryId = null;
+  document.getElementById('storyModalHead').innerHTML = 'A new <em>story</em>';
+  document.getElementById('storyModalTitle').value = '';
+  document.getElementById('storyModalBody').value = '';
+  document.getElementById('storyModal').classList.add('show');
+  setTimeout(() => document.getElementById('storyModalTitle').focus(), 100);
+}
+function editStory(id) {
+  editingStoryId = id;
+  const s = T().obj.stories.find(x => x.id === id);
+  if (!s) return;
+  document.getElementById('storyModalHead').innerHTML = 'Edit <em>story</em>';
+  document.getElementById('storyModalTitle').value = s.title;
+  document.getElementById('storyModalBody').value = s.body;
+  document.getElementById('storyModal').classList.add('show');
+}
+function saveStory() {
+  const title = document.getElementById('storyModalTitle').value.trim();
+  const body = document.getElementById('storyModalBody').value.trim();
+  if (!title && !body) { closeModal('storyModal'); return; }
+  if (editingStoryId) {
+    const s = T().obj.stories.find(x => x.id === editingStoryId);
+    if (s) { s.title = title || 'Untitled'; s.body = body; s.editedAt = Date.now(); }
+  } else {
+    const icons = ['☀','⛰','🜨','✦','✺','◈','❖','✿'];
+    T().obj.stories.push({
+      id: 's_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+      title: title || 'Untitled', body, icon: icons[Math.floor(Math.random()*icons.length)],
+      addedAt: Date.now()
+    });
+  }
+  T().save();
+  renderStories();
+  renderDomainHeroMeta(T().obj);
+  closeModal('storyModal');
+  toast(editingStoryId ? 'Story updated' : 'Story saved');
+}
+function deleteStory(id) {
+  if (!confirm('Delete this story?')) return;
+  T().obj.stories = T().obj.stories.filter(x => x.id !== id);
+  T().save();
+  renderStories();
+  renderDomainHeroMeta(T().obj);
+}
+
+// =================== HORIZONS ===================
+const HORIZON_DEF = [
+  { key: 'lifetime',  label: 'Lifetime',   placeholder: 'A life lived in service. Always learning. Always building.' },
+  { key: 'tenYear',   label: '10 Years',   placeholder: 'Where I am at 50. The big architectural picture.' },
+  { key: 'threeYear', label: '3 Years',    placeholder: 'The future self I am becoming over the next 1000 days.' },
+  { key: 'oneYear',   label: 'This Year',  placeholder: 'What 2026 actually looks like by December.' },
+  { key: 'twelveWeek',label: '12 Weeks',   placeholder: 'The next 12 weeks. Specific. Measurable. Real.' }
+];
+function renderHorizons() {
+  const d = T().obj;
+  const strip = document.getElementById('horizonsStrip');
+  strip.innerHTML = HORIZON_DEF.map(h => {
+    return `<div class="horizon">
+      <div class="horizon-when">${h.label}</div>
+      <textarea class="horizon-vision" data-horizon="${h.key}" placeholder="${h.placeholder}">${escape(d.horizons[h.key] || '')}</textarea>
+    </div>`;
+  }).join('');
+  strip.querySelectorAll('.horizon-vision').forEach(el => {
+    el.addEventListener('input', function() {
+      T().obj.horizons[this.dataset.horizon] = this.value;
+      debouncedSave(() => T().save());
+    });
+  });
+}
+
+// =================== DREAMER ===================
+function paintDreamer() {
+  const idx = state.dreamer.currentIdx || 0;
+  const q = DREAMER_QS[idx];
+  document.getElementById('dreamerQ').innerHTML = q.q;
+  document.getElementById('dreamerSub').innerHTML = q.sub;
+  document.getElementById('dreamerBg').style.backgroundImage = `url('${q.bg}')`;
+  document.getElementById('dreamerPre').innerHTML = `The Dreamer <span>·</span> Question ${idx + 1} of ${DREAMER_QS.length}`;
+  document.getElementById('dreamerInput').value = state.dreamer.responses[idx] || '';
+  // pips
+  const pipsEl = document.getElementById('dreamerProgress');
+  pipsEl.innerHTML = DREAMER_QS.map((_, i) => {
+    let cls = '';
+    if (i < idx) cls = 'done';
+    else if (i === idx) cls = 'current';
+    else if (state.dreamer.responses[i]) cls = 'done';
+    return `<div class="dreamer-pip ${cls}" onclick="dreamerJump(${i})"></div>`;
+  }).join('');
+  // recap
+  const answered = Object.keys(state.dreamer.responses).filter(k => (state.dreamer.responses[k] || '').trim()).length;
+  if (answered > 0) {
+    document.getElementById('dreamerRecap').classList.add('show');
+    let recap = '';
+    Object.keys(state.dreamer.responses).forEach(k => {
+      const ans = (state.dreamer.responses[k] || '').trim();
+      if (!ans) return;
+      const qd = DREAMER_QS[k];
+      if (!qd) return;
+      const qStripped = qd.q.replace(/<[^>]+>/g, '');
+      recap += `<div class="dreamer-recap-item">
+        <div class="dreamer-recap-q">Q${parseInt(k)+1} · ${qStripped}</div>
+        <div class="dreamer-recap-a">${escape(ans).replace(/\n/g,'<br>')}</div>
+      </div>`;
+    });
+    document.getElementById('dreamerRecapList').innerHTML = recap;
+  } else {
+    document.getElementById('dreamerRecap').classList.remove('show');
+  }
+}
+
+document.getElementById('dreamerInput').addEventListener('input', function() {
+  state.dreamer.responses[state.dreamer.currentIdx] = this.value;
+  debouncedSave(saveDreamer);
+});
+
+function dreamerNext(skip) {
+  if (!skip) {
+    const v = document.getElementById('dreamerInput').value;
+    state.dreamer.responses[state.dreamer.currentIdx] = v;
+    saveDreamer();
+  }
+  if (state.dreamer.currentIdx < DREAMER_QS.length - 1) {
+    state.dreamer.currentIdx++;
+    saveDreamer();
+    paintDreamer();
+  } else {
+    toast("You've completed all 12 questions. The dream is on the page.");
+  }
+}
+function dreamerPrev() {
+  if (state.dreamer.currentIdx > 0) {
+    state.dreamer.currentIdx--;
+    saveDreamer();
+    paintDreamer();
+  }
+}
+function dreamerJump(i) {
+  state.dreamer.currentIdx = i;
+  saveDreamer();
+  paintDreamer();
+}
+
+// =================== MODAL HELPERS ===================
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('show'); });
+});
+document.getElementById('lightbox').addEventListener('click', e => {
+  if (e.target === e.currentTarget) closeLightbox();
+});
+
+// =================== SETTINGS ===================
+function openSettings() {
+  document.getElementById('settingsName').value = state.user.name;
+  document.getElementById('settingsInitial').value = state.user.initial;
+  document.getElementById('settingsUnsplashKey').value = localStorage.getItem(SK.unsplashKey) || '';
+  document.getElementById('settingsModal').classList.add('show');
+}
+function saveSettings() {
+  state.user.name = document.getElementById('settingsName').value.trim() || 'You';
+  state.user.initial = document.getElementById('settingsInitial').value.trim().toUpperCase().slice(0,2) || 'V';
+  saveUser();
+  const key = document.getElementById('settingsUnsplashKey').value.trim();
+  if (key) localStorage.setItem(SK.unsplashKey, key);
+  else localStorage.removeItem(SK.unsplashKey);
+  document.getElementById('whoName').textContent = state.user.name;
+  document.getElementById('whoAv').textContent = state.user.initial;
+  closeModal('settingsModal');
+  toast('Profile updated');
+}
+function resetAll() {
+  if (!confirm('This will erase all your vision data — every photo, story, and answer. This cannot be undone. Continue?')) return;
+  if (!confirm('Are you absolutely sure? Tip: hit Cancel and Export your data first as a backup.')) return;
+  Object.keys(localStorage).filter(k => k.startsWith(STORAGE_PREFIX)).forEach(k => localStorage.removeItem(k));
+  location.reload();
+}
+
+// =================== CAPTURE MENU ===================
+function captureMenu() {
+  if (T() && document.getElementById('page-domain').classList.contains('active')) {
+    openPhotoSources();
+  } else {
+    toast('Open a domain, project, or subsection first — then Capture adds photos to it');
+  }
+}
+
+// =================== PROJECTS ===================
+function renderProjectsGrid() {
+  const grid = document.getElementById('projectsGrid');
+  if (!grid) return;
+  grid.innerHTML = PROJECTS_DEF.map(def => {
+    const p = state.projects[def.id];
+    if (!p) return '';
+    const photoCount = (p.photos || []).length;
+    const subCount = (p.subsections || []).length;
+    const totalSubPhotos = (p.subsections || []).reduce((sum, s) => sum + ((s.photos || []).length), 0);
+    return `<div class="project-card" onclick="openProject('${def.id}')">
+      <img src="${p.heroImg || def.defaultImg}" alt="" onerror="this.src='${def.defaultImg}'">
+      <div class="project-card-veil"></div>
+      <div class="project-card-content">
+        <div class="project-card-pre">
+          <span>Project</span>
+          <span class="project-card-pre-tag">${subCount} subsection${subCount===1?'':'s'}</span>
+        </div>
+        <div>
+          <div class="project-card-name">${p.name}</div>
+          <div class="project-card-tagline">${escape(p.tagline || def.tagline)}</div>
+          <div class="project-card-meta">
+            <span>${photoCount} cover photo${photoCount===1?'':'s'}</span>
+            <div class="project-card-meta-dot"></div>
+            <span class="project-card-subcount">${totalSubPhotos} photo${totalSubPhotos===1?'':'s'} across subsections</span>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderProjectsNav() {
+  const list = document.getElementById('navProjectList');
+  if (!list) return;
+  list.innerHTML = PROJECTS_DEF.map(def => {
+    const p = state.projects[def.id];
+    if (!p) return '';
+    const subItems = (p.subsections || []).map(s =>
+      `<div class="nav-sub-item" data-project="${def.id}" data-sub="${s.id}" onclick="event.stopPropagation();openSubsection('${def.id}','${s.id}')">
+        <span class="nav-sub-item-bullet">●</span>${escape(s.name)}
+      </div>`
+    ).join('');
+    return `<div class="nav-project-group" data-project="${def.id}">
+      <div class="nav-project-head" data-project="${def.id}" onclick="navProjectClick('${def.id}', event)">
+        ${escape(p.name)}
+        <span class="nav-arrow">▶</span>
+      </div>
+      <div class="nav-sub-list">${subItems}</div>
+    </div>`;
+  }).join('');
+}
+
+function navProjectClick(projectId, event) {
+  // Single click → open the project. Caret arrow toggles expand on its own.
+  if (event && event.target && event.target.classList.contains('nav-arrow')) {
+    event.stopPropagation();
+    const group = document.querySelector(`.nav-project-group[data-project="${projectId}"]`);
+    if (group) group.classList.toggle('expanded');
+    return;
+  }
+  openProject(projectId);
+}
+
+function renderSubsectionsGrid() {
+  const grid = document.getElementById('subsectionsGrid');
+  if (!grid || !currentProjectId) return;
+  const p = state.projects[currentProjectId];
+  const def = PROJECTS_DEF.find(x => x.id === currentProjectId);
+  let html = (p.subsections || []).map(s => {
+    const subDef = def.subsections.find(d => d.id === s.id);
+    const heroSrc = s.heroImg || (subDef && subDef.defaultImg) || def.defaultImg;
+    const photoCount = (s.photos || []).length;
+    return `<div class="sub-card" onclick="openSubsection('${currentProjectId}','${s.id}')">
+      <img src="${heroSrc}" alt="" onerror="this.src='${def.defaultImg}'">
+      <div class="sub-card-veil"></div>
+      <div class="sub-card-content">
+        <div class="sub-card-actions">
+          <button class="sub-card-act" onclick="event.stopPropagation();editSubsection('${s.id}')">✎ Rename</button>
+          <button class="sub-card-act del" onclick="event.stopPropagation();deleteSubsection('${s.id}')">×</button>
+        </div>
+        <div>
+          <div class="sub-card-name">${escape(s.name)}</div>
+          ${s.tagline ? `<div class="sub-card-tagline">${escape(s.tagline)}</div>` : ''}
+          <div class="sub-card-meta">
+            <span>${photoCount} photo${photoCount===1?'':'s'}</span>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  // Add tile
+  html += `<div class="sub-card sub-card-add" onclick="addSubsection()">
+    <div class="sub-card-add-icon">+</div>
+    <div class="sub-card-add-title">New subsection</div>
+    <div class="sub-card-add-sub">Like another Pinterest board within this project</div>
+  </div>`;
+  grid.innerHTML = html;
+}
+
+function renderProjectConnPath(p, def) {
+  const paths = {
+    farm:       `<b>The Farm</b><span class="conn-trail-arrow">→</span> physical-asset spend in <b>Money domain</b><span class="conn-trail-arrow">→</span> <b>Dream Life Number</b><span class="conn-trail-arrow">→</span> <b>FOSM Live · Strategic Plan</b>`,
+    retreat:    `<b>The Retreat</b><span class="conn-trail-arrow">→</span> tied to <b>Spirit / Heart domains</b><span class="conn-trail-arrow">→</span> retreat-program revenue line in <b>FOSM Live</b>`,
+    foundation: `<b>The Foundation</b><span class="conn-trail-arrow">→</span> <b>Legacy domain</b><span class="conn-trail-arrow">→</span> giving budget in <b>Money</b><span class="conn-trail-arrow">→</span> 100% pass-through to children`,
+    business:   `<b>The Business</b><span class="conn-trail-arrow">→</span> <b>Mission domain</b><span class="conn-trail-arrow">→</span> directly drives <b>FOSM Live · Strategic Plan</b><span class="conn-trail-arrow">→</span> revenue that funds the foundation`
+  };
+  document.getElementById('connPath').innerHTML = paths[p.id] || `<b>${p.name}</b><span class="conn-trail-arrow">→</span> Strategic Plan`;
+}
+function renderSubsectionConnPath(proj, sub) {
+  document.getElementById('connPath').innerHTML = `<b>${escape(sub.name)}</b><span class="conn-trail-arrow">→</span> rolls up to <b>${escape(proj.name)}</b><span class="conn-trail-arrow">→</span> Strategic Plan`;
+}
+
+// ---------- Subsection management ----------
+
+// Smart tag matching — picks the best CURATED_TAGS match from name + intro keywords.
+// Used to pre-load relevant inspiration photos when a new subsection is created.
+const SUB_TAG_KEYWORDS = {
+  home:       ['house','home','kitchen','bedroom','room','interior','dwelling','cozy','living','wing','space','indoor','furniture'],
+  wild:       ['garden','land','nature','forest','mountain','ocean','beach','animal','plant','tree','farm','wild','horse','dog','chicken','cow','livestock','field','meadow','outdoor','wilderness'],
+  adventure:  ['motorcycle','road','travel','adventure','ride','trip','peak','expedition','climb','offroad','bike','car'],
+  journey:    ['journey','route','voyage','trail','path','migration','pilgrim'],
+  still:      ['meditation','calm','peace','still','quiet','rest','silence','contemplation','retreat','sanctuary'],
+  light:      ['sunrise','sunset','golden','morning','light','dawn','dusk','glow','ethereal'],
+  connection: ['couple','partner','family','friend','child','children','kids','group','community','gathering','wife','husband','parent','people','tribe','social'],
+  spirit:     ['spirit','prayer','sacred','divine','soul','god','temple','church','ceremony','ritual','holy','blessing','consciousness'],
+  mind:       ['book','library','read','study','learn','mind','idea','think','intellect','wisdom','knowledge','school','education'],
+  body:       ['body','fitness','gym','yoga','health','exercise','strength','movement','workout','training','muscle','run'],
+  work:       ['work','office','studio','craft','build','create','make','business','tools','workshop','desk','project','design']
+};
+function smartMatchTag(name, intro) {
+  const text = ((name || '') + ' ' + (intro || '')).toLowerCase();
+  let best = { tag: null, score: 0 };
+  for (const tag of Object.keys(SUB_TAG_KEYWORDS)) {
+    let score = 0;
+    for (const kw of SUB_TAG_KEYWORDS[tag]) {
+      if (text.includes(kw)) score++;
+    }
+    if (score > best.score) best = { tag, score };
+  }
+  return best.tag;
+}
+
+// Pick a hero + a handful of inspiration photos based on the matched tag.
+// Falls back to a random selection if no clear match.
+function autoPopulateSubsection(name, intro) {
+  const tag = smartMatchTag(name, intro);
+  let pool = tag ? CURATED_PHOTOS.filter(p => p.tags.includes(tag)) : [];
+  if (pool.length < 5) {
+    // Top up with random curated photos
+    const extras = CURATED_PHOTOS.filter(p => !pool.includes(p));
+    pool = pool.concat(extras.sort(() => Math.random() - 0.5)).slice(0, 8);
+  } else {
+    pool = pool.sort(() => Math.random() - 0.5);
+  }
+  const picked = pool.slice(0, 5);
+  const heroPhoto = picked[0];
+  const photos = picked.map(p => ({
+    id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8) + '_' + Math.floor(Math.random() * 999),
+    url: unsplashThumb(p.id, 1200),
+    caption: p.alt || '',
+    type: 'unsplash',
+    source: { unsplashId: p.id, alt: p.alt || '' },
+    addedAt: Date.now()
+  }));
+  return {
+    tag,
+    heroImg: heroPhoto ? unsplashThumb(heroPhoto.id, 1800) : null,
+    photos
+  };
+}
+
+function addSubsection() {
+  if (!currentProjectId) return;
+  editingSubsectionId = null;
+  document.getElementById('subModalHead').innerHTML = 'A new <em>subsection</em>';
+  document.getElementById('subModalSub').innerHTML = "Give it a name and a brief intro of what it's about. We'll set up a beautiful page with a hero image, starting inspiration photos picked to match, and your intro as the opening vision. Tweak everything from there.";
+  document.getElementById('subModalName').value = '';
+  document.getElementById('subModalTagline').value = '';
+  document.querySelector('#subModal .top-btn.primary').textContent = 'Create subsection';
+  document.getElementById('subModal').classList.add('show');
+  setTimeout(() => document.getElementById('subModalName').focus(), 100);
+}
+function editSubsection(subId) {
+  if (!currentProjectId) return;
+  editingSubsectionId = subId;
+  const s = state.projects[currentProjectId].subsections.find(x => x.id === subId);
+  if (!s) return;
+  document.getElementById('subModalHead').innerHTML = 'Rename <em>subsection</em>';
+  document.getElementById('subModalSub').textContent = "Update the name or intro. Photos, vision, and stories all stay.";
+  document.getElementById('subModalName').value = s.name;
+  document.getElementById('subModalTagline').value = s.tagline || '';
+  document.querySelector('#subModal .top-btn.primary').textContent = 'Save';
+  document.getElementById('subModal').classList.add('show');
+}
+function saveSubsection() {
+  if (!currentProjectId) return;
+  const name = document.getElementById('subModalName').value.trim();
+  const intro = document.getElementById('subModalTagline').value.trim();
+  if (!name) { toast('Give it a name first'); return; }
+  const proj = state.projects[currentProjectId];
+  const projDef = PROJECTS_DEF.find(x => x.id === currentProjectId);
+  if (editingSubsectionId) {
+    const s = proj.subsections.find(x => x.id === editingSubsectionId);
+    if (s) { s.name = name; s.tagline = intro; }
+    saveProject(currentProjectId);
+    renderSubsectionsGrid();
+    renderProjectsNav();
+    renderHeroMeta();
+    closeModal('subModal');
+    toast('Renamed');
+    editingSubsectionId = null;
+    return;
+  }
+  // NEW subsection — auto-populate with a hero + inspiration photos
+  const auto = autoPopulateSubsection(name, intro);
+  const newId = 'sub_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+  proj.subsections.push({
+    id: newId,
+    name,
+    tagline: intro,
+    heroImg: auto.heroImg || projDef.defaultImg,
+    vision: intro || '',
+    photos: auto.photos,
+    stories: [],
+    horizons: { lifetime: '', tenYear: '', threeYear: '', oneYear: '', twelveWeek: '' }
+  });
+  saveProject(currentProjectId);
+  renderProjectsNav();
+  closeModal('subModal');
+  // Open the new subsection — let the user see what we built
+  setTimeout(() => {
+    openSubsection(currentProjectId, newId);
+    const tagNote = auto.tag ? ` · matched <b>${auto.tag}</b> theme` : '';
+    toast(`Created "${name}" · ${auto.photos.length} photos pre-loaded${tagNote ? '' : ''}`);
+  }, 150);
+}
+function deleteSubsection(subId) {
+  if (!currentProjectId) return;
+  const proj = state.projects[currentProjectId];
+  const s = proj.subsections.find(x => x.id === subId);
+  if (!s) return;
+  if (!confirm(`Delete "${s.name}"? All its photos and stories will be lost.`)) return;
+  proj.subsections = proj.subsections.filter(x => x.id !== subId);
+  saveProject(currentProjectId);
+  renderSubsectionsGrid();
+  renderProjectsNav();
+  renderHeroMeta();
+  toast('Subsection deleted');
+}
+
+// =================== EXPORT / IMPORT ===================
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `vision-command-center-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Exported · save this file as your backup');
+}
+function importJSON(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!confirm('Replace your current data with this file?')) return;
+      if (data.user) { state.user = data.user; saveUser(); }
+      if (data.dreamer) { state.dreamer = data.dreamer; saveDreamer(); }
+      if (data.domains) {
+        Object.keys(data.domains).forEach(id => {
+          state.domains[id] = data.domains[id];
+          saveDomain(id);
+        });
+      }
+      if (data.projects) {
+        Object.keys(data.projects).forEach(id => {
+          state.projects[id] = data.projects[id];
+          saveProject(id);
+        });
+      }
+      document.getElementById('whoName').textContent = state.user.name;
+      document.getElementById('whoAv').textContent = state.user.initial;
+      renderDomainsGrid();
+      renderProjectsGrid();
+      renderProjectsNav();
+      toast('Imported · welcome back');
+    } catch (err) {
+      toast('Invalid file');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+// =================== PHOTO SOURCES MODAL ===================
+
+// Curated inspiration — confirmed-working Unsplash photo IDs across themes
+// Each photo has tags so it can appear in multiple categories
+const CURATED_PHOTOS = [
+  // Adventure / Motion / Travel
+  {id:'1502209524164-acea936639a2',tags:['adventure','journey','wild'],alt:'Mountain road sunset'},
+  {id:'1469854523086-cc02fe5d8800',tags:['adventure','journey','wild'],alt:'Desert highway'},
+  {id:'1558981403-c5f9899a28bc',tags:['adventure','wild','still'],alt:'Patagonia landscape'},
+  {id:'1500382017468-9049fed747ef',tags:['adventure','wild'],alt:'Mountain peaks fog'},
+  {id:'1511920170033-f8396924c348',tags:['adventure','wild'],alt:'Mountain crest'},
+  {id:'1502920917128-1aa500764cbd',tags:['adventure','journey'],alt:'Winding road'},
+  {id:'1465056836041-7f43ac27dcb5',tags:['adventure','light','wild'],alt:'Golden hour valley'},
+  {id:'1437846972679-9e6e537be46e',tags:['adventure','wild','journey'],alt:'Ocean coast'},
+  {id:'1539635278303-d4002c07eae3',tags:['adventure','light'],alt:'Sunset peaks'},
+  {id:'1469474968028-56623f02e42e',tags:['adventure','still','wild'],alt:'Forest light'},
+  // Stillness / Spirit / Light
+  {id:'1506905925346-21bda4d32df4',tags:['still','spirit','light'],alt:'Meditation light'},
+  {id:'1542202229-7d93c33f5d07',tags:['still','spirit'],alt:'Calm waters'},
+  {id:'1518611012118-696072aa579a',tags:['body','still','spirit'],alt:'Yoga pose'},
+  {id:'1519681393784-d120267933ba',tags:['still','wild','light'],alt:'Mountain calm'},
+  {id:'1519791883288-dc8bd696e667',tags:['still','light'],alt:'Hands light'},
+  {id:'1491895200222-0fc4a4c35e18',tags:['still','connection','spirit'],alt:'Hands holding'},
+  // Home / Texture / Books
+  {id:'1514525253161-7a46d19cd819',tags:['home','still'],alt:'Warm interior'},
+  {id:'1481627834876-b7833e8f5570',tags:['home','mind'],alt:'Books and coffee'},
+  {id:'1518709268805-4e9042af2176',tags:['home','still'],alt:'Interior plants'},
+  {id:'1486406146926-c627a92ad1ab',tags:['mind','work','home'],alt:'Workspace'},
+  {id:'1497486751825-1233686d5d80',tags:['home','still'],alt:'Cozy room'},
+  {id:'1551632811-561732d1e306',tags:['home','still','light'],alt:'Kitchen morning'},
+  // Connection / People
+  {id:'1518837695005-2083093ee35b',tags:['connection','still','spirit'],alt:'Couple silhouette'},
+  {id:'1543807535-eceef0bc6599',tags:['connection'],alt:'Friends gathered'},
+  {id:'1511895426328-dc8714191300',tags:['connection','home'],alt:'Family moment'},
+  // Body / Movement
+  {id:'1517637382994-f02da38c6728',tags:['body','adventure'],alt:'Mountain biker'},
+  // Mission / Work / Craft
+  {id:'1542435503-956c469947f6',tags:['work','mind'],alt:'Studio workspace'},
+];
+
+const CURATED_TAGS = [
+  {id:'all',name:'All'},
+  {id:'adventure',name:'Adventure'},
+  {id:'still',name:'Stillness'},
+  {id:'light',name:'Light'},
+  {id:'home',name:'Home'},
+  {id:'connection',name:'Connection'},
+  {id:'wild',name:'Wild'},
+  {id:'journey',name:'Journey'},
+  {id:'spirit',name:'Spirit'},
+  {id:'mind',name:'Mind'},
+  {id:'body',name:'Body'},
+  {id:'work',name:'Work'}
+];
+
+let psActiveTag = 'all';
+let psSessionAdded = 0;
+let psSearchResults = [];
+
+function unsplashThumb(id, w = 600) { return `https://images.unsplash.com/photo-${id}?w=${w}&q=80&auto=format&fit=crop`; }
+
+function openPhotoSources() {
+  const t = T();
+  if (!t) {
+    toast('Open a domain, project, or subsection first');
+    return;
+  }
+  document.getElementById('psTargetDomain').textContent = t.label;
+  psSessionAdded = 0;
+  updatePsStatus();
+  psSwitchTab('inspiration');
+  document.getElementById('photoSourcesModal').classList.add('show');
+}
+
+function updatePsStatus() {
+  const el = document.getElementById('psSessionAdded');
+  if (psSessionAdded > 0) {
+    el.innerHTML = `<b>${psSessionAdded}</b> added this session`;
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+function psSwitchTab(tab) {
+  document.querySelectorAll('.ps-tab').forEach(t => t.classList.toggle('active', t.dataset.pstab === tab));
+  document.querySelectorAll('.ps-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('ps-pane-' + tab).classList.add('active');
+  if (tab === 'inspiration') renderInspiration();
+  if (tab === 'search') renderSearchPane();
+}
+
+document.querySelectorAll('.ps-tab').forEach(t => {
+  t.addEventListener('click', () => psSwitchTab(t.dataset.pstab));
+});
+
+// ----- Inspiration -----
+function renderInspiration() {
+  const chipsEl = document.getElementById('psChips');
+  chipsEl.innerHTML = CURATED_TAGS.map(t =>
+    `<button class="ps-chip ${psActiveTag === t.id ? 'active' : ''}" onclick="psSetTag('${t.id}')">${t.name}</button>`
+  ).join('');
+
+  const filtered = psActiveTag === 'all'
+    ? CURATED_PHOTOS
+    : CURATED_PHOTOS.filter(p => p.tags.includes(psActiveTag));
+
+  const addedUrls = getAddedPhotoUrls();
+  const gridEl = document.getElementById('psInspirationGrid');
+  gridEl.innerHTML = filtered.map(p => {
+    const url = unsplashThumb(p.id, 1200);
+    const isAdded = addedUrls.includes(url);
+    return `<div class="ps-photo ${isAdded ? 'added' : ''}" onclick="addCuratedPhoto('${p.id}','${escape(p.alt)}')">
+      <img src="${unsplashThumb(p.id, 600)}" alt="${escape(p.alt)}" loading="lazy">
+      <div class="ps-photo-credit">${escape(p.alt)} · Unsplash</div>
+    </div>`;
+  }).join('');
+}
+
+function getAddedPhotoUrls() {
+  if (!T()) return [];
+  return T().obj.photos.map(p => p.url || '').filter(Boolean);
+}
+
+function psSetTag(tag) {
+  psActiveTag = tag;
+  renderInspiration();
+}
+
+function addCuratedPhoto(unsplashId, alt) {
+  if (!T()) return;
+  const url = unsplashThumb(unsplashId, 1200);
+  // Don't double-add
+  const existing = T().obj.photos.find(p => p.url === url);
+  if (existing) {
+    toast('Already in your mood board');
+    return;
+  }
+  T().obj.photos.push({
+    id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    url, caption: alt || '', type: 'unsplash',
+    source: { unsplashId, alt: alt || '' },
+    addedAt: Date.now()
+  });
+  T().save();
+  renderMoodboard();
+  renderDomainHeroMeta(T().obj);
+  renderInspiration();
+  psSessionAdded++;
+  updatePsStatus();
+}
+
+// ----- Unsplash Search -----
+function renderSearchPane() {
+  const container = document.getElementById('ps-search-container');
+  const key = localStorage.getItem(SK.unsplashKey);
+  if (!key) {
+    container.innerHTML = `<div class="ps-empty">
+      <div class="ps-empty-icon">🔍</div>
+      <div class="ps-empty-title">Connect your free Unsplash account</div>
+      <div class="ps-empty-sub">Search 5 million curated photos. The API is free and takes <b>60 seconds</b> to set up.</div>
+      <div class="ps-empty-steps">
+        <div><span>1.</span> Visit <a href="https://unsplash.com/developers" target="_blank">unsplash.com/developers</a> and sign in (free).</div>
+        <div><span>2.</span> Click <b style="color:var(--text-1)">"New Application"</b>, accept the terms, give it a name like "Vision Command".</div>
+        <div><span>3.</span> Copy the <b style="color:var(--text-1)">Access Key</b> from the app page.</div>
+        <div><span>4.</span> Paste it below — saved on your machine, never exported.</div>
+      </div>
+      <div class="ps-empty-key">
+        <input id="psKeySetup" placeholder="Access Key (e.g. AbC123_def...)" />
+        <button class="ps-search-btn" onclick="psSaveKeyFromSetup()">Save</button>
+      </div>
+      <div style="margin-top:18px;font-size:11px;color:var(--text-3)">In the meantime, the <b style="color:var(--gold)">Inspiration</b> tab has hand-picked beautiful photos already loaded.</div>
+    </div>`;
+    return;
+  }
+
+  container.innerHTML = `
+    <div class="ps-search-bar">
+      <input class="ps-search-input" id="psSearchInput" placeholder="Search 5M photos: 'patagonia motorcycle', 'morning light bedroom', 'old hands'…" onkeydown="if(event.key==='Enter')runUnsplashSearch()">
+      <button class="ps-search-btn" onclick="runUnsplashSearch()">Search</button>
+    </div>
+    <div id="psSearchResults"></div>
+  `;
+}
+
+function psSaveKeyFromSetup() {
+  const v = (document.getElementById('psKeySetup')?.value || '').trim();
+  if (!v) { toast('Paste your Access Key first'); return; }
+  localStorage.setItem(SK.unsplashKey, v);
+  toast('✓ Unsplash connected');
+  renderSearchPane();
+}
+
+async function runUnsplashSearch() {
+  const key = localStorage.getItem(SK.unsplashKey);
+  const q = (document.getElementById('psSearchInput')?.value || '').trim();
+  if (!q) return;
+  const resultsEl = document.getElementById('psSearchResults');
+  resultsEl.innerHTML = `<div class="ps-loading">Searching Unsplash for "${escape(q)}"…</div>`;
+  try {
+    const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(q)}&per_page=24&content_filter=high&orientation=landscape`;
+    const res = await fetch(url, { headers: { 'Authorization': `Client-ID ${key}` } });
+    if (!res.ok) {
+      if (res.status === 401) throw new Error('Your Access Key was rejected. Check it in Settings.');
+      if (res.status === 403) throw new Error('Rate limit reached. Demo apps get 50 requests/hour. Wait an hour or upgrade your Unsplash app.');
+      throw new Error('Unsplash returned ' + res.status);
+    }
+    const data = await res.json();
+    psSearchResults = data.results || [];
+    renderSearchResults();
+  } catch (e) {
+    resultsEl.innerHTML = `<div class="ps-empty"><div class="ps-empty-icon" style="color:var(--red)">!</div><div class="ps-empty-title">Search failed</div><div class="ps-empty-sub">${escape(e.message)}</div></div>`;
+  }
+}
+
+function renderSearchResults() {
+  const resultsEl = document.getElementById('psSearchResults');
+  if (!psSearchResults.length) {
+    resultsEl.innerHTML = `<div class="ps-empty"><div class="ps-empty-icon">⌖</div><div class="ps-empty-title">Nothing matched</div><div class="ps-empty-sub">Try a different search.</div></div>`;
+    return;
+  }
+  const addedUrls = getAddedPhotoUrls();
+  resultsEl.innerHTML = `<div class="ps-grid">${psSearchResults.map(r => {
+    const url = r.urls.regular;
+    const thumb = r.urls.small;
+    const isAdded = addedUrls.includes(url);
+    const photog = escape(r.user.name || '');
+    return `<div class="ps-photo ${isAdded ? 'added' : ''}" onclick='addUnsplashSearchResult(${JSON.stringify({id:r.id,url,thumb,photog:r.user.name,photogUrl:r.user.links.html,unsplashUrl:r.links.html,downloadLocation:r.links.download_location,alt:r.alt_description||r.description||""}).replace(/'/g,"&apos;")})'>
+      <img src="${thumb}" alt="${escape(r.alt_description || '')}" loading="lazy">
+      <div class="ps-photo-credit">${photog}</div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function addUnsplashSearchResult(p) {
+  if (!T()) return;
+  const existing = T().obj.photos.find(x => x.url === p.url);
+  if (existing) { toast('Already in your mood board'); return; }
+  T().obj.photos.push({
+    id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    url: p.url, caption: p.alt || '', type: 'unsplash',
+    source: {
+      unsplashId: p.id, photographer: p.photog, photographerUrl: p.photogUrl,
+      unsplashUrl: p.unsplashUrl, alt: p.alt || ''
+    },
+    addedAt: Date.now()
+  });
+  T().save();
+  renderMoodboard();
+  renderDomainHeroMeta(T().obj);
+  renderSearchResults();
+  psSessionAdded++;
+  updatePsStatus();
+  // Trigger Unsplash download tracking (per their API guidelines)
+  const key = localStorage.getItem(SK.unsplashKey);
+  if (key && p.downloadLocation) {
+    fetch(p.downloadLocation, { headers: { 'Authorization': `Client-ID ${key}` } }).catch(()=>{});
+  }
+}
+
+// ----- URL Paste -----
+let pendingUrlPhoto = null;
+function checkUrl() {
+  const url = document.getElementById('psUrlInput').value.trim();
+  const previewEl = document.getElementById('psUrlPreview');
+  const statusEl = document.getElementById('psUrlPreviewStatus');
+  const urlDisp = document.getElementById('psUrlPreviewUrl');
+  const imgEl = document.getElementById('psUrlPreviewImg');
+  if (!url) { previewEl.classList.remove('show'); return; }
+  if (!url.match(/^https?:\/\//)) {
+    statusEl.className = 'ps-url-preview-status err';
+    statusEl.textContent = 'URL must start with http:// or https://';
+    previewEl.classList.add('show');
+    imgEl.src = '';
+    return;
+  }
+  statusEl.className = 'ps-url-preview-status';
+  statusEl.textContent = 'Loading…';
+  urlDisp.textContent = url;
+  previewEl.classList.add('show');
+  // Try loading as image
+  const testImg = new Image();
+  testImg.onload = () => {
+    imgEl.src = url;
+    statusEl.className = 'ps-url-preview-status';
+    statusEl.textContent = '✓ Image loaded';
+    pendingUrlPhoto = { url };
+  };
+  testImg.onerror = () => {
+    statusEl.className = 'ps-url-preview-status err';
+    statusEl.textContent = "Couldn't load this URL as an image. Make sure it's a direct image link (right-click → Copy image address).";
+    pendingUrlPhoto = null;
+  };
+  testImg.src = url;
+}
+
+function addUrlPhoto() {
+  if (!pendingUrlPhoto || !currentDomainId) return;
+  const url = pendingUrlPhoto.url;
+  const existing = T().obj.photos.find(p => p.url === url);
+  if (existing) { toast('Already in your mood board'); return; }
+  T().obj.photos.push({
+    id: 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+    url, caption: '', type: 'url',
+    source: { originalUrl: url },
+    addedAt: Date.now()
+  });
+  T().save();
+  renderMoodboard();
+  renderDomainHeroMeta(T().obj);
+  document.getElementById('psUrlInput').value = '';
+  document.getElementById('psUrlPreview').classList.remove('show');
+  pendingUrlPhoto = null;
+  psSessionAdded++;
+  updatePsStatus();
+  toast('Added · keep going');
+}
+
+// ----- Upload (within modal) -----
+async function psHandleUpload(event) {
+  const files = Array.from(event.target.files || []);
+  await addPhotosFromFiles(files);
+  psSessionAdded += files.filter(f => f.type.startsWith('image/')).length;
+  updatePsStatus();
+  event.target.value = '';
+}
+
+// =================== END PHOTO SOURCES ===================
+
+
+// =================== INIT ===================
+loadState();
+renderNavDomains();
+renderProjectsNav();
+renderDomainsGrid();
+renderProjectsGrid();
+document.getElementById('whoName').textContent = state.user.name;
+document.getElementById('whoAv').textContent = state.user.initial;
+
+// Show welcome toast on first load
+if (!localStorage.getItem(STORAGE_PREFIX + 'welcomed')) {
+  setTimeout(() => {
+    toast('Welcome. Click any domain to start. ✦');
+    localStorage.setItem(STORAGE_PREFIX + 'welcomed', '1');
+  }, 800);
+}
+</script>
+</body>
+</html>
