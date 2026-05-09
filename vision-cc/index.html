@@ -1587,7 +1587,7 @@ function renderDomainsGrid() {
     for (let i = 0; i < 5; i++) pips += '<div class="domain-prog-pip ' + (i < score ? 'done' : '') + '"></div>';
     const tagText = d.ours ? 'Ours' : 'Yours';
     return `<div class="domain-card" onclick="openDomain('${def.id}')">
-      <img class="domain-img" src="${d.heroImg}" alt="" onerror="this.src='${def.defaultImg}'">
+      <img class="domain-img" src="${d.heroImg}" alt="" onerror="if(!this.dataset.fbk){this.dataset.fbk=1;this.src='${def.defaultImg}'}else{this.onerror=null;this.style.background='var(--bg-2)';this.removeAttribute('src')}">
       <div class="domain-veil"></div>
       <div class="domain-content">
         <div class="domain-top">
@@ -1636,8 +1636,9 @@ function openDomain(id) {
   document.getElementById('dreamerFab').style.display = 'flex';
   document.getElementById('topTrail').innerHTML = `<span onclick="goPage('home')" style="cursor:pointer">Command Center</span> · <span>Domains</span> · <b>${d.name}</b>`;
 
+  document.getElementById('domainHeroImg').dataset.fbk='';
   document.getElementById('domainHeroImg').src = d.heroImg;
-  document.getElementById('domainHeroImg').onerror = function() { this.src = def.defaultImg; };
+  document.getElementById('domainHeroImg').onerror = function() { if(this.dataset.fbk) { this.onerror=null; return; } this.dataset.fbk=1; this.src = def.defaultImg; };
   document.getElementById('domainHeroNum').textContent = def.num + ' · ' + d.name;
   document.getElementById('domainHeroTitle').innerHTML = renderDomainHeroTitle(def);
   renderHeroMeta();
@@ -1677,8 +1678,9 @@ function openProject(id) {
   document.getElementById('dreamerFab').style.display = 'flex';
   document.getElementById('topTrail').innerHTML = `<span onclick="goPage('home')" style="cursor:pointer">Command Center</span> · <span>Projects</span> · <b>${p.name}</b>`;
 
+  document.getElementById('domainHeroImg').dataset.fbk='';
   document.getElementById('domainHeroImg').src = p.heroImg;
-  document.getElementById('domainHeroImg').onerror = function() { this.src = def.defaultImg; };
+  document.getElementById('domainHeroImg').onerror = function() { if(this.dataset.fbk) { this.onerror=null; return; } this.dataset.fbk=1; this.src = def.defaultImg; };
   document.getElementById('domainHeroNum').textContent = 'PROJECT · ' + p.name;
   document.getElementById('domainHeroTitle').innerHTML = renderProjectHeroTitle(def);
   renderHeroMeta();
@@ -1724,8 +1726,9 @@ function openSubsection(projectId, subId) {
   document.getElementById('topTrail').innerHTML = `<span onclick="goPage('home')" style="cursor:pointer">Command Center</span> · <span onclick="openProject('${projectId}')" style="cursor:pointer">${proj.name}</span> · <b>${sub.name}</b>`;
 
   const heroSrc = sub.heroImg || (subDef && subDef.defaultImg) || projDef.defaultImg;
+  document.getElementById('domainHeroImg').dataset.fbk='';
   document.getElementById('domainHeroImg').src = heroSrc;
-  document.getElementById('domainHeroImg').onerror = function() { this.src = projDef.defaultImg; };
+  document.getElementById('domainHeroImg').onerror = function() { if(this.dataset.fbk) { this.onerror=null; return; } this.dataset.fbk=1; this.src = projDef.defaultImg; };
   document.getElementById('domainHeroNum').textContent = proj.name.toUpperCase() + ' · ' + sub.name.toUpperCase();
   document.getElementById('domainHeroTitle').innerHTML = `<em>${sub.name}.</em>`;
   renderHeroMeta();
@@ -2280,7 +2283,7 @@ function renderProjectsGrid() {
     const subCount = (p.subsections || []).length;
     const totalSubPhotos = (p.subsections || []).reduce((sum, s) => sum + ((s.photos || []).length), 0);
     return `<div class="project-card" onclick="openProject('${def.id}')">
-      <img src="${p.heroImg || def.defaultImg}" alt="" onerror="this.src='${def.defaultImg}'">
+      <img src="${p.heroImg || def.defaultImg}" alt="" onerror="if(!this.dataset.fbk){this.dataset.fbk=1;this.src='${def.defaultImg}'}else{this.onerror=null;this.style.background='var(--bg-2)';this.removeAttribute('src')}">
       <div class="project-card-veil"></div>
       <div class="project-card-content">
         <div class="project-card-pre">
@@ -2343,7 +2346,7 @@ function renderSubsectionsGrid() {
     const heroSrc = s.heroImg || (subDef && subDef.defaultImg) || def.defaultImg;
     const photoCount = (s.photos || []).length;
     return `<div class="sub-card" onclick="openSubsection('${currentProjectId}','${s.id}')">
-      <img src="${heroSrc}" alt="" onerror="this.src='${def.defaultImg}'">
+      <img src="${heroSrc}" alt="" onerror="if(!this.dataset.fbk){this.dataset.fbk=1;this.src='${def.defaultImg}'}else{this.onerror=null;this.style.background='var(--bg-2)';this.removeAttribute('src')}">
       <div class="sub-card-veil"></div>
       <div class="sub-card-content">
         <div class="sub-card-actions">
