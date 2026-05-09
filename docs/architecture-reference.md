@@ -90,18 +90,30 @@ vast to live inside a dashboard — they're separate apps that feed dashboards.
 | **V** · Vision | Human | Vision CC | ✅ live (gifted to all) |
 | **E** · Emotional Intelligence | Human | Emotional Intelligence CC | ⏳ planned |
 
-### Distribution model (decision per CC, not category)
+### Distribution model (current state · v1)
 
-Every expansion CC is architecturally identical. What differs is *who gets it*:
+Every expansion CC is architecturally identical. What differs is *role*:
 
-- **Gifted to everyone** — Vision CC, FOSM·LIVE Personal. Free. Brand-alignment
-  with "give everything away, only help those who qualify."
-- **Sold or gifted at discretion** — Marketing CC, Sales CC, future Operations,
-  Leadership, Integrity, Emotional Intelligence. Per-relationship decision.
+- **Sold to clients** — **FOSM·LIVE CC only.** This is the dashboard product.
+  It incorporates Finance (via QuickBooks/Stripe integration) and is the
+  thing a paying client receives, operates, and sees.
+- **Gifted to everyone** — Vision CC, FOSM·LIVE Personal. Free, public-
+  facing tools. Brand-alignment with "give everything away, only help those
+  who qualify." Funnel-bottom upsell path: a small percentage of free users
+  upgrade to paid FOSM·LIVE CC, at which point their existing free-tool data
+  flows into their new paid dashboard.
+- **Internal tools (not sold today)** — Marketing CC, Sales CC, future
+  Operations CC, Leadership CC, Integrity CC, Emotional Intelligence CC.
+  Used by Zach and team to do the work that produces results in client
+  FOSM·LIVE CC dashboards. Clients don't operate these directly; they see
+  the work product flowing into their dashboard. These CCs may ship as
+  standalone products in a future phase if/when there's demand, but that's
+  not the v1 model.
 
-Distribution is a marketing/strategy choice, not an architectural one. The
-codebase doesn't have "free" vs. "paid" CC categories. Any CC can be moved
-between distribution tiers without code changes.
+Distribution is a strategic choice, not an architectural one. The codebase
+doesn't enforce "free" vs "paid" vs "internal" categories. Any CC can be
+moved between roles without code changes — meaning if/when expansion CCs
+become sellable products in the future, the architecture is ready for it.
 
 ### Vision CC — special note
 
