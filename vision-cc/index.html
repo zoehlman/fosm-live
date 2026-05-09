@@ -3768,11 +3768,15 @@ function drawTitle(ctx, shot, t, W, H) {
 
 // =================== SAVE & LIBRARY ===================
 async function saveMovie(result, source, music, sequence) {
-  // Create a thumbnail from the canvas
-  const canvas = document.getElementById('mvRenderCanvas');
-  const thumbDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+  // Create a SMALL thumbnail (was 1280x720 = ~100KB; now 320x180 = ~10KB)
+  // This fits in localStorage even when storage is tight.
+  const fullCanvas = document.getElementById('mvRenderCanvas');
+  const thumbCanvas = document.createElement('canvas');
+  thumbCanvas.width = 320; thumbCanvas.height = 180;
+  const thumbCtx = thumbCanvas.getContext('2d');
+  thumbCtx.drawImage(fullCanvas, 0, 0, 320, 180);
+  const thumbDataUrl = thumbCanvas.toDataURL('image/jpeg', 0.65);
 
-  // Convert blob to data URL for storage (small movies only — large ones get a warning)
   const blobSizeMB = result.blob.size / (1024 * 1024);
 
   const movie = {
@@ -3790,24 +3794,70 @@ async function saveMovie(result, source, music, sequence) {
     mimeType: result.mimeType
   };
 
-  // Store the video blob via blob URL - kept in-memory only this session
-  // For persistence, we'd need IndexedDB (real videos are too big for localStorage)
-  // For now, we store the metadata + a session-scoped blob URL
+  // Always wire up the runtime blob first — this is what plays in the player.
+  // It exists in browser memory regardless of whether localStorage save succeeds.
   movie.blobUrl = URL.createObjectURL(result.blob);
-  movie._blob = result.blob; // keep reference to prevent GC
+  movie._blob = result.blob;
+  mvRuntimeBlobs.set(movie.id, { blob: result.blob, blobUrl: movie.blobUrl });
 
-  // Save metadata to localStorage (no blob — that lives in memory this session)
-  // The blob is rebuilt from the same source if user regenerates
+  // Try to save metadata — gracefully degrade if storage is full.
+  // Strategy: try with thumbnail → without thumbnail → just toast and skip.
   const meta = { ...movie };
   delete meta.blobUrl;
   delete meta._blob;
-  localStorage.setItem(MV_STORAGE_PREFIX + movie.id, JSON.stringify(meta));
 
-  // Also store the live blob in a runtime-only map so we can play it without re-rendering
-  mvRuntimeBlobs.set(movie.id, { blob: result.blob, blobUrl: movie.blobUrl });
+  try {
+    localStorage.setItem(MV_STORAGE_PREFIX + movie.id, JSON.stringify(meta));
+    flashSaved();
+  } catch (e1) {
+    // Try without the thumbnail
+    try {
+      const metaNoThumb = { ...meta };
+      delete metaNoThumb.thumbDataUrl;
+      metaNoThumb.thumbMissing = true;
+      localStorage.setItem(MV_STORAGE_PREFIX + movie.id, JSON.stringify(metaNoThumb));
+      flashSaved();
+      toast('Movie saved (thumbnail skipped — storage tight)');
+    } catch (e2) {
+      // Still couldn't save — try clearing oldest movie metadata to make room
+      const cleared = clearOldestMovieMeta();
+      if (cleared) {
+        try {
+          const metaNoThumb = { ...meta };
+          delete metaNoThumb.thumbDataUrl;
+          metaNoThumb.thumbMissing = true;
+          localStorage.setItem(MV_STORAGE_PREFIX + movie.id, JSON.stringify(metaNoThumb));
+          flashSaved();
+          toast('Saved · removed an older movie to make room');
+        } catch (e3) {
+          // Give up on saving — but the movie still plays from runtime blob
+          toast('Storage full · movie will play but won\'t appear in library. Download it now to keep it.');
+        }
+      } else {
+        toast('Storage full · movie will play but won\'t appear in library. Download it now to keep it.');
+      }
+    }
+  }
 
-  flashSaved();
   return movie;
+}
+
+// Removes the oldest movie metadata entry to free space. Returns true if it cleared one.
+function clearOldestMovieMeta() {
+  const keys = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith(MV_STORAGE_PREFIX)) {
+      try {
+        const m = JSON.parse(localStorage.getItem(k));
+        keys.push({ k, ts: m.createdAt || 0 });
+      } catch(e) {}
+    }
+  }
+  if (!keys.length) return false;
+  keys.sort((a, b) => a.ts - b.ts);
+  localStorage.removeItem(keys[0].k);
+  return true;
 }
 
 const mvRuntimeBlobs = new Map();
@@ -3866,9 +3916,12 @@ function renderMovieLibrary() {
 function renderMovieCard(m) {
   const dateStr = new Date(m.createdAt).toLocaleDateString();
   const playable = !!m.blobUrl;
+  const thumbHtml = m.thumbDataUrl
+    ? `<img src="${m.thumbDataUrl}" alt="">`
+    : `<div style="width:100%;height:100%;background:linear-gradient(135deg,var(--bg-1) 0%,var(--bg-2) 100%);display:flex;align-items:center;justify-content:center;color:var(--gold);font-family:'Fraunces',serif;font-size:32px;font-style:italic;opacity:.5">▶</div>`;
   return `<div class="mv-card" onclick="${playable ? `playMovieById('${m.id}')` : `regenerateMovie('${m.id}')`}">
     <div class="mv-card-thumb">
-      <img src="${m.thumbDataUrl}" alt="">
+      ${thumbHtml}
       ${playable ? `<div class="mv-card-play"><div class="mv-card-play-btn"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>` : ''}
       <div class="mv-card-len">${m.duration}s</div>
       <div class="mv-card-actions">
