@@ -1,0 +1,3369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOSM·LIVE System Map · The Plan To Heal The World</title>
+<meta name="description" content="The full system architecture for FOSM·LIVE — God's Economy as an operating system. Three software layers (For-Profit, Non-Profit, Retreat), one Brain with three chambers, six brand doorways, all serving The Plan To Heal The World.">
+<meta name="author" content="Zach Oehlman · Learn And Grow Rich">
+<meta name="theme-color" content="#FF6B00">
+
+<!-- Open Graph / Social -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="FOSM·LIVE System Map · The Plan To Heal The World">
+<meta property="og:description" content="The architecture for God's Economy — three software layers, one Brain, six brands, one mission: peace + prosperity for all.">
+<meta property="og:site_name" content="Learn And Grow Rich">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FOSM·LIVE System Map">
+<meta name="twitter:description" content="The architecture for God's Economy — three software layers, one Brain, six brands.">
+
+<!-- Favicon: orange dot on dark, inline SVG so no extra file needed -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d0d0d'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23FF6B00'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23FF6B00' stroke-width='1' opacity='0.4'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS — matched to Marketing Command Center
+═══════════════════════════════════════════════ */
+:root {
+  --bg: #0d0d0d;
+  --panel: #161616;
+  --panel2: #1a1a1a;
+  --panel3: #0e0e0e;
+  --border: #242424;
+  --border2: #1e1e1e;
+  --ink: #e8e8e8;
+  --mute: #666;
+  --mute2: #444;
+  --orange: #FF6B00;
+  --orange-dim: #2a1a08;
+  --orange-border: #4a2e10;
+  --green: #5faa3a;
+  --green-dim: #0a1f0a;
+  --green-border: #2a4a1a;
+  --blue: #4a8fd4;
+  --blue-dim: #0d1626;
+  --blue-border: #1e3a5a;
+  --purple: #8060cc;
+  --purple-dim: #181028;
+  --purple-border: #2a1a5a;
+  --gold: #c49a52;
+  --gold-dim: #1e1408;
+  --gold-border: #3a2a10;
+  --rose: #cc4466;
+  --rose-dim: #200a12;
+  --rose-border: #4a1a28;
+  --teal: #3aa89a;
+  --teal-dim: #0a1f1c;
+  --teal-border: #1a3a36;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+  --sidebar-w: 248px;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 13px; line-height: 1.5; overflow: hidden; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+
+/* ═══════════════════════════════════════════════
+   LAYOUT SHELL
+═══════════════════════════════════════════════ */
+.shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-rows: 44px 1fr;
+  height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════
+   TOP MODE BAR
+═══════════════════════════════════════════════ */
+.modebar {
+  grid-column: 1 / -1;
+  background: #0a0a0a;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  font-family: var(--mono);
+  font-size: 10px;
+  position: relative;
+  z-index: 50;
+}
+.modebar-brand { font-size: 12px; font-weight: 600; color: #fff; letter-spacing: .3px; }
+.modebar-brand span { color: var(--orange); }
+.modebar-brand em { color: var(--mute); font-style: normal; font-weight: 400; margin-left: 4px; }
+.modebar-sep { color: var(--border); margin: 0 2px; }
+.modebar-pill {
+  padding: 2px 8px; border-radius: 3px; font-size: 9px; font-weight: 600;
+  letter-spacing: .5px; text-transform: uppercase;
+}
+.pill-orange { background: var(--orange-dim); border: 1px solid var(--orange-border); color: var(--orange); }
+.pill-blue { background: var(--blue-dim); border: 1px solid var(--blue-border); color: var(--blue); }
+.pill-green { background: var(--green-dim); border: 1px solid var(--green-border); color: var(--green); }
+.pill-gold { background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); }
+.modebar-tabs { margin-left: auto; display: flex; gap: 2px; }
+.mtab {
+  font-family: var(--mono); font-size: 9.5px; padding: 0 11px; height: 44px;
+  border: none; border-bottom: 2px solid transparent; background: transparent;
+  color: var(--mute); cursor: pointer; letter-spacing: .3px; white-space: nowrap;
+  transition: color .15s, border-color .15s;
+}
+.mtab:hover { color: #bbb; }
+.mtab.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+/* ═══════════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════════ */
+.sidebar {
+  grid-row: 2;
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.sb-logo {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border2);
+  flex-shrink: 0;
+}
+.sb-badge {
+  display: inline-block; font-family: var(--mono); font-size: 8px; font-weight: 700;
+  letter-spacing: 1.5px; background: var(--orange); color: #000;
+  padding: 2px 6px; border-radius: 2px; margin-bottom: 5px;
+}
+.sb-title { font-size: 13px; font-weight: 700; color: #fff; line-height: 1.15; }
+.sb-sub { font-family: var(--mono); font-size: 9px; color: var(--mute); margin-top: 3px; letter-spacing: .5px; }
+
+/* Brand switcher */
+.sb-brand {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border2);
+  background: #111;
+  flex-shrink: 0;
+}
+.sb-brand-lbl { font-family: var(--mono); font-size: 8px; color: #555; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; }
+.sb-brand-sel {
+  background: #1a1a1a; border: 1px solid var(--border);
+  border-radius: 4px; padding: 5px 8px; font-family: var(--mono); font-size: 10px;
+  color: #ddd; display: flex; justify-content: space-between; align-items: center;
+  cursor: pointer; transition: border-color .15s;
+}
+.sb-brand-sel:hover { border-color: var(--orange); }
+.brand-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--orange); margin-right: 6px; }
+
+/* Nav */
+.sb-nav { flex: 1; overflow-y: auto; padding: 2px 0 16px; }
+.nav-sec {
+  font-family: var(--mono); font-size: 8px; font-weight: 600; letter-spacing: 1.4px;
+  color: #555; text-transform: uppercase; padding: 8px 12px 5px;
+  background: #0e0e0e; border-top: 1px solid var(--border2);
+  border-bottom: 1px solid var(--border2);
+}
+.nav-item {
+  display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 15px;
+  color: #888; font-family: var(--mono); font-size: 10px;
+  border-left: 2px solid transparent; cursor: pointer;
+  transition: background .12s, color .12s, border-color .12s;
+  letter-spacing: .2px; white-space: nowrap;
+}
+.nav-item:hover { background: #1e1e1e; color: #ddd; }
+.nav-item.active { border-left-color: var(--orange); background: #1e1e1e; color: var(--orange); }
+.nav-ic { width: 14px; text-align: center; color: #555; font-style: normal; font-size: 10px; flex-shrink: 0; }
+.nav-item.acc-blue { border-left-color: #2a3a5a; }
+.nav-item.acc-blue.active, .nav-item.acc-blue:hover { border-left-color: var(--blue); color: var(--blue); }
+.nav-item.acc-green.active, .nav-item.acc-green:hover { border-left-color: var(--green); color: var(--green); }
+.nav-item.acc-purple.active, .nav-item.acc-purple:hover { border-left-color: var(--purple); color: var(--purple); }
+.nav-item.acc-gold.active, .nav-item.acc-gold:hover { border-left-color: var(--gold); color: var(--gold); }
+.nav-item.acc-teal.active, .nav-item.acc-teal:hover { border-left-color: var(--teal); color: var(--teal); }
+.nav-item.acc-rose.active, .nav-item.acc-rose:hover { border-left-color: var(--rose); color: var(--rose); }
+
+/* ═══════════════════════════════════════════════
+   MAIN AREA
+═══════════════════════════════════════════════ */
+.main {
+  grid-row: 2;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+.topbar {
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 0 18px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.topbar-title { font-size: 15px; font-weight: 700; color: #fff; }
+.topbar-sub { font-family: var(--mono); font-size: 9.5px; color: var(--mute); margin-left: 6px; }
+.topbar-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.canvas { flex: 1; overflow-y: auto; padding: 18px 22px 60px; }
+
+/* tags */
+.tag {
+  display: inline-block; font-family: var(--mono); font-size: 8.5px;
+  padding: 2px 7px; border-radius: 3px; border: 1px solid var(--border);
+  color: var(--mute); letter-spacing: .5px; white-space: nowrap;
+}
+.tag-orange { background: var(--orange-dim); border-color: var(--orange-border); color: #e8a040; }
+.tag-green { background: var(--green-dim); border-color: var(--green-border); color: var(--green); }
+.tag-blue { background: var(--blue-dim); border-color: var(--blue-border); color: var(--blue); }
+.tag-rose { background: var(--rose-dim); border-color: var(--rose-border); color: var(--rose); }
+.tag-gold { background: var(--gold-dim); border-color: var(--gold-border); color: var(--gold); }
+.tag-purple { background: var(--purple-dim); border-color: var(--purple-border); color: var(--purple); }
+.tag-teal { background: var(--teal-dim); border-color: var(--teal-border); color: var(--teal); }
+
+/* buttons */
+.btn {
+  font-family: var(--mono); font-size: 10px; padding: 6px 12px;
+  border-radius: 4px; border: 1px solid var(--border); background: transparent;
+  color: #888; cursor: pointer; transition: all .15s; letter-spacing: .3px;
+}
+.btn:hover { border-color: #3a3a3a; color: #ccc; background: #1a1a1a; }
+.btn-primary { border-color: var(--orange); color: var(--orange); background: var(--orange-dim); }
+.btn-primary:hover { background: #3a2010; color: #ffaa40; }
+
+/* section headers */
+.sec-h { display: flex; align-items: center; gap: 12px; margin: 22px 0 12px; }
+.sec-h .sec-title { font-size: 14px; font-weight: 700; color: #ddd; white-space: nowrap; letter-spacing: .2px; }
+.sec-h .sec-sub { font-family: var(--mono); font-size: 9.5px; color: var(--mute); }
+.sec-h .sec-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
+
+/* views — must be flex column with min-height:0 so .canvas scrolls */
+.view { display: none; }
+.view.active {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  animation: fadeIn .25s ease;
+}
+
+/* ═══════════════════════════════════════════════
+   ECOSYSTEM MAP — V1
+═══════════════════════════════════════════════ */
+.ecosystem-canvas {
+  background: radial-gradient(ellipse at top, #18120a 0%, var(--bg) 60%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px 16px;
+  position: relative;
+  overflow: hidden;
+}
+.ecosystem-canvas::before {
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,107,0,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,107,0,.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+.eco-layer-lbl {
+  font-family: var(--mono); font-size: 9px; color: #555;
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 10px; padding-left: 4px;
+  display: flex; align-items: center; gap: 8px;
+}
+.eco-layer-lbl::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, #2a2a2a, transparent); }
+
+/* Vision halo (top) */
+.vision-halo {
+  position: relative; z-index: 2;
+  display: flex; justify-content: center; padding: 14px 0 30px;
+}
+.vision-card {
+  background: linear-gradient(135deg, #1a0f04 0%, #0e0e0e 100%);
+  border: 1px solid var(--orange-border);
+  border-radius: 10px;
+  padding: 18px 28px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 0 60px rgba(255,107,0,.08), inset 0 0 1px rgba(255,107,0,.3);
+  max-width: 580px;
+}
+.vision-card::before {
+  content: ""; position: absolute; inset: -20px;
+  background: radial-gradient(ellipse at center, rgba(255,107,0,.12) 0%, transparent 70%);
+  pointer-events: none; z-index: -1;
+}
+.vision-card-tag { font-family: var(--mono); font-size: 8.5px; color: var(--orange); letter-spacing: 2px; margin-bottom: 6px; }
+.vision-card-title { font-size: 19px; font-weight: 700; color: #fff; line-height: 1.25; margin-bottom: 6px; }
+.vision-card-sub { font-family: var(--mono); font-size: 10px; color: #c49a52; letter-spacing: .5px; }
+.vision-card-tagline { font-size: 11px; color: #aaa; margin-top: 8px; font-style: italic; }
+
+/* Brand grid */
+.eco-brand-grid {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+  position: relative; z-index: 2;
+  margin-bottom: 26px;
+}
+.eco-brand {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 11px 12px;
+  cursor: pointer;
+  transition: all .15s;
+  position: relative;
+}
+.eco-brand:hover { border-color: var(--orange); transform: translateY(-1px); }
+.eco-brand.parent { border-color: var(--orange-border); background: linear-gradient(180deg, #1a1208 0%, var(--panel) 60%); }
+.eco-brand.foundation { border-left: 3px solid var(--gold); }
+.eco-brand.retreat { border-left: 3px solid var(--teal); }
+.eco-brand.mgp { border-left: 3px solid var(--purple); }
+.eco-brand.indiana { border-left: 3px solid var(--blue); }
+.eco-brand-tag { font-family: var(--mono); font-size: 8px; color: var(--mute); letter-spacing: 1.5px; text-transform: uppercase; }
+.eco-brand-name { font-size: 12px; font-weight: 700; color: #fff; margin-top: 3px; line-height: 1.2; }
+.eco-brand-role { font-family: var(--mono); font-size: 9px; color: #888; margin-top: 3px; }
+.eco-brand-children { margin-top: 9px; padding-top: 8px; border-top: 1px dashed #2a2a2a; }
+.eco-brand-child {
+  font-family: var(--mono); font-size: 9px; color: #aaa;
+  padding: 3px 6px; background: #0a0a0a; border-radius: 3px;
+  display: inline-block; margin-right: 4px; margin-bottom: 3px;
+  border: 1px solid #1e1e1e;
+}
+.eco-brand-child.proj { color: var(--orange); border-color: var(--orange-border); }
+.eco-brand-child.sub-found { color: var(--gold); border-color: var(--gold-border); }
+.eco-brand-child.sub-retreat { color: var(--teal); border-color: var(--teal-border); }
+
+/* Software / brain layer */
+.eco-brain-wrap {
+  position: relative; z-index: 2;
+  background: linear-gradient(180deg, #0e0e0e 0%, #0a0a0a 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 8px;
+}
+.eco-brain-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.eco-brain-title { font-size: 13px; font-weight: 700; color: #fff; }
+.eco-brain-title span { color: var(--orange); }
+
+.eco-brain-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 10px;
+}
+.brain-master {
+  grid-row: span 2;
+  background: linear-gradient(135deg, #1a0f04 0%, #0e0e0e 80%);
+  border: 1px solid var(--orange);
+  border-radius: 6px;
+  padding: 14px;
+  display: flex; flex-direction: column;
+  position: relative;
+  cursor: pointer;
+}
+.brain-master::after {
+  content: "MASTER · BRAIN"; position: absolute; top: 8px; right: 10px;
+  font-family: var(--mono); font-size: 7.5px; letter-spacing: 1.5px;
+  color: var(--orange); opacity: .7;
+}
+.brain-master-name { font-size: 16px; font-weight: 700; color: #fff; }
+.brain-master-name em { color: var(--orange); font-style: normal; }
+.brain-master-sub { font-family: var(--mono); font-size: 9.5px; color: #aaa; margin-top: 3px; letter-spacing: .3px; }
+.brain-pillars { margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.brain-pillar-grp { background: rgba(0,0,0,.3); border: 1px solid #2a2a2a; border-radius: 4px; padding: 7px 8px; }
+.brain-pillar-grp.fosm { border-color: var(--orange-border); }
+.brain-pillar-grp.live { border-color: var(--blue-border); }
+.brain-pillar-lbl { font-family: var(--mono); font-size: 8px; color: var(--mute); letter-spacing: 1.2px; margin-bottom: 4px; }
+.brain-pillar-grp.fosm .brain-pillar-lbl { color: var(--orange); }
+.brain-pillar-grp.live .brain-pillar-lbl { color: var(--blue); }
+.brain-pillar-row { font-family: var(--mono); font-size: 9px; color: #ddd; line-height: 1.7; }
+.brain-pillar-row b { color: #fff; font-weight: 600; margin-right: 3px; }
+
+.brain-sat {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 11px 12px;
+  cursor: pointer;
+  transition: all .15s;
+  display: flex; flex-direction: column;
+  position: relative;
+}
+.brain-sat:hover { border-color: var(--orange); }
+.brain-sat-tag { font-family: var(--mono); font-size: 7.5px; color: var(--mute); letter-spacing: 1.4px; text-transform: uppercase; }
+.brain-sat-name { font-size: 12px; font-weight: 700; color: #fff; margin-top: 3px; line-height: 1.2; }
+.brain-sat-sub { font-family: var(--mono); font-size: 9px; color: #888; margin-top: 4px; }
+.brain-sat-status { margin-top: 7px; }
+.brain-sat.mktg { border-left: 3px solid var(--orange); }
+.brain-sat.sales { border-left: 3px solid var(--green); }
+.brain-sat.ops { border-left: 3px solid var(--purple); }
+.brain-sat.exec { border-left: 3px solid var(--gold); }
+.brain-sat.v2r { border-left: 3px solid var(--blue); }
+.brain-sat.found { border-left: 3px solid var(--rose); }
+.brain-sat.retreat { border-left: 3px solid var(--teal); }
+.brain-sat.lgr-inst { border-left: 3px solid #888; }
+
+/* status dots */
+.status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+.status-dot.live { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.status-dot.build { background: var(--orange); box-shadow: 0 0 6px var(--orange); }
+.status-dot.plan { background: var(--mute); }
+
+/* connector svg overlay */
+.connector-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+
+/* ═══════════════════════════════════════════════
+   LAYER 3 RESTRUCTURED — Apex · Brain · Instances · Separate
+═══════════════════════════════════════════════ */
+
+/* APEX: Executive CC banner */
+.layer3-apex {
+  background: linear-gradient(135deg, #1e1408 0%, #0e0e0e 60%, #1a1208 100%);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 16px 22px;
+  text-align: center;
+  position: relative;
+  margin-bottom: 4px;
+  box-shadow: 0 0 40px rgba(196,154,82,.12), inset 0 0 1px rgba(196,154,82,.4);
+  cursor: pointer;
+  transition: box-shadow .18s;
+}
+.layer3-apex:hover { box-shadow: 0 0 60px rgba(196,154,82,.22), inset 0 0 1px rgba(196,154,82,.6); }
+.apex-tag { font-family: var(--mono); font-size: 8.5px; color: var(--gold); letter-spacing: 2.5px; }
+.apex-name { font-size: 18px; font-weight: 700; color: #fff; margin-top: 5px; letter-spacing: 1.2px; }
+.apex-sub { font-family: var(--mono); font-size: 10px; color: #ccc; margin-top: 5px; letter-spacing: .3px; }
+
+.layer3-flow-up {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--gold);
+  padding: 4px 0 6px;
+  letter-spacing: 3px;
+  opacity: .85;
+}
+
+/* MAIN ROW: Brain on left, Instances on right */
+.layer3-main-row {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 14px;
+  align-items: stretch;
+  margin-bottom: 4px;
+}
+
+/* Brain (left rack) */
+.layer3-brain {
+  background: linear-gradient(180deg, #1a0f04 0%, #0e0e0e 100%);
+  border: 1px solid var(--orange);
+  border-radius: 8px;
+  padding: 14px;
+  position: relative;
+  box-shadow: 0 0 40px rgba(255,107,0,.14), inset 0 0 1px rgba(255,107,0,.3);
+  display: flex;
+  flex-direction: column;
+}
+.brain-tag-line { font-family: var(--mono); font-size: 8.5px; color: var(--orange); letter-spacing: 2.5px; text-align: center; }
+.brain-name-line { font-size: 16px; font-weight: 700; color: #fff; margin-top: 4px; text-align: center; letter-spacing: .5px; }
+.brain-sub-line { font-family: var(--mono); font-size: 9.5px; color: #c49a52; margin-top: 4px; text-align: center; letter-spacing: .3px; }
+.brain-flow-row {
+  margin: 11px 0 8px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  color: var(--mute);
+  letter-spacing: 1.5px;
+}
+.brain-zach-card {
+  background: rgba(0,0,0,.4);
+  border: 1px dashed #3a2a10;
+  border-radius: 4px;
+  padding: 8px 6px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 1.2px;
+}
+.brain-zach-card .zach-sub {
+  display: block;
+  font-size: 8px;
+  font-weight: 400;
+  color: var(--mute);
+  margin-top: 2px;
+  letter-spacing: .5px;
+}
+.brain-pillars-line {
+  margin-top: 11px;
+  padding-top: 10px;
+  border-top: 1px solid var(--orange-border);
+  font-family: var(--mono);
+  font-size: 11px;
+  text-align: center;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+}
+.brain-pillars-line .fp { color: var(--orange); }
+.brain-pillars-line .lp { color: var(--blue); margin-top: 4px; display: block; }
+
+/* Lateral arrow indicator from brain → instances */
+.layer3-brain::after {
+  content: "→";
+  position: absolute;
+  right: -18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  font-size: 18px;
+  color: var(--orange);
+  z-index: 5;
+  background: var(--bg);
+  padding: 0 4px;
+  text-shadow: 0 0 8px rgba(255,107,0,.5);
+}
+
+/* Instances (right) */
+.layer3-instances {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+}
+.instances-header {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--orange);
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.instances-header::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--orange-border), transparent); }
+.instances-header .ihint { color: var(--mute); letter-spacing: .5px; text-transform: none; font-size: 9px; }
+.instances-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 7px;
+  flex: 1;
+}
+@media (max-width: 1200px) { .instances-grid { grid-template-columns: repeat(3, 1fr); } }
+.instance-card {
+  background: #0e0e0e;
+  border: 1px solid var(--border2);
+  border-left: 3px solid var(--orange);
+  border-radius: 4px;
+  padding: 9px 10px;
+  cursor: pointer;
+  transition: all .12s;
+  display: flex;
+  flex-direction: column;
+  min-height: 88px;
+}
+.instance-card:hover { border-color: var(--orange); transform: translateY(-1px); }
+.instance-card.flagship { background: linear-gradient(135deg, #1a1208 0%, #0e0e0e 70%); }
+.instance-card.more {
+  border-left-color: var(--mute);
+  border-left-style: dashed;
+  cursor: default;
+  opacity: .85;
+  background: transparent;
+}
+.instance-card.more:hover { transform: none; border-color: var(--border2); }
+.instance-tag { font-family: var(--mono); font-size: 7.5px; color: var(--mute); letter-spacing: 1.4px; text-transform: uppercase; }
+.instance-card.flagship .instance-tag { color: var(--orange); }
+.instance-name { font-size: 11px; font-weight: 600; color: #fff; margin-top: 3px; line-height: 1.25; }
+.instance-modules {
+  margin-top: auto;
+  padding-top: 6px;
+  font-family: var(--mono);
+  font-size: 8px;
+  color: #aaa;
+  letter-spacing: .5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  align-items: center;
+}
+.instance-modules b {
+  color: #fff;
+  padding: 1px 4px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: 8px;
+  letter-spacing: .5px;
+}
+.instance-modules b.fosm { background: #2a1a08; color: var(--orange); }
+.instance-modules b.live { background: #0d1626; color: var(--blue); }
+.instance-modules .dot { color: var(--mute); padding: 0 2px; }
+.instances-foot {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed #2a2a2a;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: #888;
+  line-height: 1.55;
+  text-align: center;
+  letter-spacing: .2px;
+}
+
+/* SEPARATE: Foundation + Retreat */
+.layer3-separate {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed #2a2a2a;
+}
+.separate-label {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  color: var(--mute);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.separate-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.separate-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.separate-card.foundation { border-left: 3px solid var(--rose); }
+.separate-card.retreat { border-left: 3px solid var(--teal); }
+.separate-card:hover { border-color: var(--orange); transform: translateY(-1px); }
+.sep-tag { font-family: var(--mono); font-size: 7.5px; color: var(--mute); letter-spacing: 1.4px; text-transform: uppercase; }
+.sep-name { font-size: 13px; font-weight: 700; color: #fff; margin-top: 3px; }
+.sep-sub { font-family: var(--mono); font-size: 9px; color: #888; margin-top: 5px; line-height: 1.5; }
+
+/* ═══════════════════════════════════════════════
+   SHARED BRAIN (top) + LAYER 4 / LAYER 5 variants
+═══════════════════════════════════════════════ */
+
+/* Shared Brain — sits above all 3 software layers */
+.brain-shared-wrap {
+  background: linear-gradient(180deg, #1a0f04 0%, #0c0c0c 100%);
+  border: 1px solid var(--orange);
+  border-radius: 8px;
+  padding: 18px 16px;
+  position: relative;
+  box-shadow: 0 0 50px rgba(255,107,0,.15), inset 0 0 1px rgba(255,107,0,.3);
+  margin-bottom: 18px;
+}
+.brain-shared-header { text-align: center; margin-bottom: 12px; }
+.brain-shared-tag { font-family: var(--mono); font-size: 9.5px; color: var(--orange); letter-spacing: 3px; }
+.brain-shared-name { font-size: 22px; font-weight: 700; color: #fff; margin-top: 5px; letter-spacing: 1px; }
+.brain-shared-sub { font-family: var(--mono); font-size: 10px; color: #c49a52; margin-top: 5px; letter-spacing: .3px; }
+
+.zach-feeder {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  color: var(--mute);
+  letter-spacing: 2px;
+  margin: 4px 0 14px;
+}
+.zach-card-inline {
+  display: inline-block;
+  background: rgba(0,0,0,.4);
+  border: 1px dashed #3a2a10;
+  border-radius: 4px;
+  padding: 7px 18px;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 1.2px;
+}
+.zach-card-inline span { display: block; font-size: 8.5px; font-weight: 400; color: var(--mute); margin-top: 3px; letter-spacing: .5px; }
+
+.brain-chambers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 6px 0 12px;
+}
+.chamber {
+  background: rgba(0,0,0,.35);
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  padding: 12px 12px;
+  text-align: center;
+  transition: all .15s;
+  cursor: pointer;
+}
+.chamber:hover { transform: translateY(-1px); }
+.chamber.fp { border-color: var(--orange-border); background: linear-gradient(135deg, rgba(42,26,8,.55) 0%, rgba(0,0,0,.3) 100%); }
+.chamber.np { border-color: var(--rose-border); background: linear-gradient(135deg, rgba(32,10,18,.55) 0%, rgba(0,0,0,.3) 100%); }
+.chamber.rt { border-color: var(--teal-border); background: linear-gradient(135deg, rgba(10,31,28,.55) 0%, rgba(0,0,0,.3) 100%); }
+.chamber.fp:hover { border-color: var(--orange); box-shadow: 0 0 12px rgba(255,107,0,.2); }
+.chamber.np:hover { border-color: var(--rose); box-shadow: 0 0 12px rgba(204,68,102,.2); }
+.chamber.rt:hover { border-color: var(--teal); box-shadow: 0 0 12px rgba(58,168,154,.2); }
+.chamber-letters { font-family: var(--mono); font-size: 17px; font-weight: 700; letter-spacing: 2px; }
+.chamber.fp .chamber-letters { color: var(--orange); }
+.chamber.np .chamber-letters { color: var(--rose); }
+.chamber.rt .chamber-letters { color: var(--teal); }
+.chamber-name { font-size: 12px; font-weight: 700; color: #fff; margin-top: 3px; letter-spacing: .3px; }
+.chamber-sub { font-family: var(--mono); font-size: 9px; color: #999; margin-top: 5px; letter-spacing: .2px; line-height: 1.5; }
+
+.brain-shared-footer {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--mute);
+  letter-spacing: 1.8px;
+  padding-top: 10px;
+  border-top: 1px dashed #2a2a2a;
+}
+
+/* Brain Inputs — 4 streams feeding the Brain */
+.brain-inputs {
+  margin: 4px 0 14px;
+}
+.brain-inputs-header {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  color: var(--mute);
+  letter-spacing: 2.5px;
+  margin-bottom: 10px;
+}
+.zach-card-prominent {
+  background: rgba(0,0,0,.45);
+  border: 1px solid var(--orange-border);
+  border-radius: 6px;
+  padding: 11px 16px;
+  text-align: center;
+  margin: 0 auto;
+  max-width: 620px;
+  box-shadow: inset 0 0 1px rgba(255,107,0,.2);
+}
+.zach-tag {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  color: var(--orange);
+  letter-spacing: 2.5px;
+  margin-bottom: 4px;
+}
+.zach-name-bold {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1.5px;
+}
+.zach-feeds-list {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: #aaa;
+  margin-top: 5px;
+  letter-spacing: .3px;
+}
+.brain-inputs-divider {
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #3a3a3a;
+  margin: 10px 0 8px;
+  letter-spacing: 4px;
+  font-weight: 700;
+}
+.data-feeds-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.feed-card {
+  background: rgba(0,0,0,.35);
+  border: 1px solid #2a2a2a;
+  border-radius: 5px;
+  padding: 10px 12px;
+  transition: all .15s;
+  cursor: pointer;
+}
+.feed-card.client { border-left: 2px solid var(--blue); }
+.feed-card.industry { border-left: 2px solid var(--purple); }
+.feed-card.economic { border-left: 2px solid var(--green); }
+.feed-card.client:hover { border-color: var(--blue); box-shadow: 0 0 12px rgba(74,143,212,.15); }
+.feed-card.industry:hover { border-color: var(--purple); box-shadow: 0 0 12px rgba(128,96,204,.15); }
+.feed-card.economic:hover { border-color: var(--green); box-shadow: 0 0 12px rgba(95,170,58,.15); }
+.feed-tag {
+  font-family: var(--mono);
+  font-size: 7.5px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+.feed-card.client .feed-tag { color: var(--blue); }
+.feed-card.industry .feed-tag { color: var(--purple); }
+.feed-card.economic .feed-tag { color: var(--green); }
+.feed-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 3px;
+  letter-spacing: .3px;
+}
+.feed-items {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  color: #999;
+  margin-top: 6px;
+  line-height: 1.55;
+  letter-spacing: .2px;
+}
+
+/* Apex variants — L4 (rose) and L5 (teal) */
+.layer3-apex.l4 {
+  border-color: var(--rose);
+  background: linear-gradient(135deg, #200a12 0%, #0e0e0e 60%, #1a0a14 100%);
+  box-shadow: 0 0 40px rgba(204,68,102,.12), inset 0 0 1px rgba(204,68,102,.4);
+}
+.layer3-apex.l4:hover { box-shadow: 0 0 60px rgba(204,68,102,.22), inset 0 0 1px rgba(204,68,102,.6); }
+.layer3-apex.l4 .apex-tag { color: var(--rose); }
+
+.layer3-apex.l5 {
+  border-color: var(--teal);
+  background: linear-gradient(135deg, #0a1f1c 0%, #0e0e0e 60%, #0a1c18 100%);
+  box-shadow: 0 0 40px rgba(58,168,154,.12), inset 0 0 1px rgba(58,168,154,.4);
+}
+.layer3-apex.l5:hover { box-shadow: 0 0 60px rgba(58,168,154,.22), inset 0 0 1px rgba(58,168,154,.6); }
+.layer3-apex.l5 .apex-tag { color: var(--teal); }
+
+/* flow-up variants */
+.layer3-flow-up.l4 { color: var(--rose); }
+.layer3-flow-up.l5 { color: var(--teal); }
+
+/* Instances container variants (used standalone, no Brain beside) */
+.instances-only {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+}
+.instances-only.l3 { border-left: 3px solid var(--orange); }
+.instances-only.l4 { border-left: 3px solid var(--rose); }
+.instances-only.l5 { border-left: 3px solid var(--teal); }
+
+/* Instance card color variants */
+.instance-card.l4 { border-left-color: var(--rose); }
+.instance-card.l4.flagship { background: linear-gradient(135deg, #200a12 0%, #0e0e0e 70%); }
+.instance-card.l4.flagship .instance-tag { color: var(--rose); }
+.instance-card.l4 .instance-modules b.fosm { background: rgba(204,68,102,.18); color: var(--rose); }
+
+.instance-card.l5 { border-left-color: var(--teal); }
+.instance-card.l5.flagship { background: linear-gradient(135deg, #0a1f1c 0%, #0e0e0e 70%); }
+.instance-card.l5.flagship .instance-tag { color: var(--teal); }
+.instance-card.l5 .instance-modules b.fosm { background: rgba(58,168,154,.18); color: var(--teal); }
+
+.instances-header.l4 { color: var(--rose); }
+.instances-header.l4::after { background: linear-gradient(90deg, var(--rose-border), transparent); }
+.instances-header.l5 { color: var(--teal); }
+.instances-header.l5::after { background: linear-gradient(90deg, var(--teal-border), transparent); }
+
+/* Layer label variants */
+.eco-layer-lbl.l4 { color: #6a4458; }
+.eco-layer-lbl.l5 { color: #4a7a72; }
+
+/* Layer block spacing */
+.software-layer { margin-bottom: 4px; }
+.software-layer + .software-layer { margin-top: 24px; }
+
+/* ═══════════════════════════════════════════════
+   PILLAR CARDS (FOSM·LIVE drilldown — V2)
+═══════════════════════════════════════════════ */
+.pillar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
+.pillar-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+  position: relative;
+  min-height: 220px;
+}
+.pillar-card.f { border-top: 3px solid var(--orange); }
+.pillar-card.o { border-top: 3px solid var(--purple); }
+.pillar-card.s { border-top: 3px solid var(--green); }
+.pillar-card.m { border-top: 3px solid var(--rose); }
+.pillar-card.l { border-top: 3px solid var(--blue); }
+.pillar-card.i { border-top: 3px solid var(--gold); }
+.pillar-card.v { border-top: 3px solid var(--teal); }
+.pillar-card.e { border-top: 3px solid #b06ed4; }
+.pillar-letter { font-family: var(--mono); font-size: 36px; font-weight: 700; color: #fff; line-height: 1; opacity: .9; }
+.pillar-name { font-size: 14px; font-weight: 700; color: #fff; margin-top: 4px; }
+.pillar-tag { font-family: var(--mono); font-size: 8.5px; color: var(--mute); margin-top: 2px; letter-spacing: .5px; }
+.pillar-feeds { margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border2); }
+.pillar-feeds-lbl { font-family: var(--mono); font-size: 8px; color: var(--mute); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; }
+.pillar-feed { font-family: var(--mono); font-size: 9.5px; color: #aaa; padding: 3px 0; display: flex; gap: 6px; align-items: flex-start; }
+.pillar-feed::before { content: "↳"; color: var(--mute); flex-shrink: 0; }
+.pillar-feed b { color: #fff; font-weight: 600; }
+
+/* ═══════════════════════════════════════════════
+   SITEMAP TREE — V3 Marketing CC drilldown
+═══════════════════════════════════════════════ */
+.sitemap-root {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.sm-overview {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+  position: sticky; top: 0;
+}
+.sm-overview h3 { font-size: 13px; color: #fff; margin-bottom: 8px; }
+.sm-overview p { font-family: var(--mono); font-size: 9.5px; color: #aaa; line-height: 1.55; margin-bottom: 8px; }
+.sm-overview .legend-row { display: flex; gap: 6px; align-items: center; margin: 5px 0; font-family: var(--mono); font-size: 9px; color: #aaa; }
+.sm-overview .legend-row .swatch { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+
+.sm-tree { display: flex; flex-direction: column; gap: 10px; }
+.sm-group {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.sm-group-h {
+  padding: 10px 14px;
+  background: linear-gradient(90deg, #161616 0%, #111 100%);
+  border-bottom: 1px solid var(--border2);
+  display: flex; align-items: center; gap: 10px;
+}
+.sm-group-icon { font-size: 14px; }
+.sm-group-title { font-size: 13px; font-weight: 700; color: #fff; flex: 1; }
+.sm-group-meta { font-family: var(--mono); font-size: 9px; color: var(--mute); letter-spacing: .5px; }
+.sm-group-body { padding: 10px 14px 14px; }
+.sm-modules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.sm-mod {
+  background: #0e0e0e;
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 9px 11px;
+  cursor: pointer;
+  transition: border-color .12s;
+}
+.sm-mod:hover { border-color: var(--orange); }
+.sm-mod-title { font-size: 11px; font-weight: 600; color: #fff; line-height: 1.25; }
+.sm-mod-sub { font-family: var(--mono); font-size: 9px; color: #888; margin-top: 3px; line-height: 1.4; }
+.sm-mod-tags { margin-top: 6px; display: flex; gap: 3px; flex-wrap: wrap; }
+.sm-mod-tags .tag { font-size: 7.5px; padding: 1px 5px; }
+
+/* group accent colors */
+.sm-group.strategy { border-left: 3px solid var(--blue); }
+.sm-group.plan { border-left: 3px solid var(--orange); }
+.sm-group.channels { border-left: 3px solid var(--purple); }
+.sm-group.ai { border-left: 3px solid var(--gold); }
+.sm-group.engine { border-left: 3px solid var(--rose); }
+.sm-group.outreach { border-left: 3px solid var(--teal); }
+.sm-group.funnel { border-left: 3px solid var(--green); }
+.sm-group.attribution { border-left: 3px solid #b06ed4; }
+.sm-group.money { border-left: 3px solid #888; }
+
+/* ═══════════════════════════════════════════════
+   EXECUTIVE / MULTI-TENANT — V4
+═══════════════════════════════════════════════ */
+.tenant-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+.tenant-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+  border-top: 3px solid var(--gold);
+}
+.tenant-card h4 { font-size: 13px; color: #fff; }
+.tenant-card .tag { margin-top: 6px; }
+.tenant-card p { font-size: 11px; color: #aaa; margin-top: 8px; line-height: 1.5; }
+
+.portfolio-table {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.pt-h, .pt-row {
+  display: grid;
+  grid-template-columns: 1.6fr repeat(8, 1fr) 1.2fr;
+  align-items: center;
+  padding: 9px 14px;
+  font-family: var(--mono); font-size: 10px;
+}
+.pt-h {
+  background: #111;
+  border-bottom: 1px solid var(--border);
+  color: var(--mute); letter-spacing: 1px; text-transform: uppercase; font-size: 8.5px;
+}
+.pt-row { border-bottom: 1px solid var(--border2); color: #ccc; cursor: pointer; transition: background .12s; }
+.pt-row:hover { background: #1a1a1a; }
+.pt-row:last-child { border-bottom: none; }
+.pt-name { color: #fff; font-weight: 600; }
+.ryg {
+  display: inline-block; width: 10px; height: 10px; border-radius: 2px;
+  margin: 0 1px; vertical-align: middle;
+}
+.ryg.r { background: var(--rose); }
+.ryg.y { background: var(--gold); }
+.ryg.g { background: var(--green); }
+.pt-totals {
+  background: linear-gradient(90deg, #1a1208 0%, #111 100%);
+  padding: 12px 14px;
+  border-top: 2px solid var(--orange-border);
+  font-family: var(--mono); font-size: 10px;
+  display: flex; gap: 28px; flex-wrap: wrap;
+}
+.pt-totals b { color: var(--orange); }
+
+/* ═══════════════════════════════════════════════
+   BRAND WORLDS — V5
+═══════════════════════════════════════════════ */
+.bw-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.bw-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+}
+.bw-card.parent { border-top: 3px solid var(--orange); background: linear-gradient(180deg, #1a1208 0%, var(--panel) 50%); }
+.bw-card.beyond { border-top: 3px solid var(--orange); }
+.bw-card.found { border-top: 3px solid var(--gold); }
+.bw-card.retreat { border-top: 3px solid var(--teal); }
+.bw-card.mgp { border-top: 3px solid var(--purple); }
+.bw-card.indiana { border-top: 3px solid var(--blue); }
+.bw-tag { font-family: var(--mono); font-size: 8px; color: var(--mute); letter-spacing: 1.5px; text-transform: uppercase; }
+.bw-name { font-size: 16px; font-weight: 700; color: #fff; margin-top: 4px; }
+.bw-row { margin-top: 10px; display: grid; grid-template-columns: 90px 1fr; gap: 8px; font-family: var(--mono); font-size: 10px; }
+.bw-row .lbl { color: var(--mute); letter-spacing: .5px; text-transform: uppercase; font-size: 8.5px; padding-top: 2px; }
+.bw-row .val { color: #ddd; line-height: 1.5; }
+.bw-row .val em { color: var(--orange); font-style: normal; }
+
+/* ═══════════════════════════════════════════════
+   SUB-CC OVERVIEW — V6
+═══════════════════════════════════════════════ */
+.subcc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.subcc-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+.subcc-card .h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.subcc-card h3 { font-size: 14px; color: #fff; }
+.subcc-card p { font-size: 11px; color: #aaa; line-height: 1.55; margin-bottom: 10px; }
+.subcc-card .modlist { display: flex; flex-wrap: wrap; gap: 5px; }
+.subcc-card .mod { font-family: var(--mono); font-size: 9px; color: #ccc; padding: 3px 7px; background: #0e0e0e; border: 1px solid var(--border2); border-radius: 3px; }
+.subcc-card.sales { border-left: 3px solid var(--green); }
+.subcc-card.ops { border-left: 3px solid var(--purple); }
+.subcc-card.v2r { border-left: 3px solid var(--blue); }
+.subcc-card.foundation { border-left: 3px solid var(--rose); }
+.subcc-card.retreat { border-left: 3px solid var(--teal); }
+.subcc-card.lgr-instance { border-left: 3px solid #888; }
+
+/* ═══════════════════════════════════════════════
+   BUILD SEQUENCE — V7
+═══════════════════════════════════════════════ */
+.seq-track { display: flex; flex-direction: column; gap: 0; position: relative; padding-left: 28px; }
+.seq-track::before { content: ""; position: absolute; left: 9px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(180deg, var(--orange) 0%, var(--gold) 50%, var(--mute) 100%); border-radius: 1px; }
+.seq-step { position: relative; padding: 14px 0; }
+.seq-step::before {
+  content: ""; position: absolute; left: -25px; top: 18px;
+  width: 14px; height: 14px; border-radius: 50%; border: 2px solid #0d0d0d;
+  background: var(--orange);
+}
+.seq-step.now::before { background: var(--orange); box-shadow: 0 0 10px var(--orange); }
+.seq-step.next::before { background: var(--gold); }
+.seq-step.later::before { background: var(--mute); }
+.seq-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+}
+.seq-step.now .seq-card { border-color: var(--orange-border); background: linear-gradient(135deg, #1a1208 0%, var(--panel) 60%); }
+.seq-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; }
+.seq-num { font-family: var(--mono); font-size: 9px; color: var(--mute); letter-spacing: 1.5px; }
+.seq-step h4 { font-size: 14px; color: #fff; }
+.seq-step p { font-size: 11px; color: #aaa; line-height: 1.55; margin-top: 4px; }
+.seq-step .deliverables { margin-top: 8px; display: flex; gap: 5px; flex-wrap: wrap; }
+
+/* ═══════════════════════════════════════════════
+   GENERIC BLOCKS
+═══════════════════════════════════════════════ */
+.callout {
+  background: linear-gradient(90deg, var(--orange-dim) 0%, transparent 100%);
+  border-left: 3px solid var(--orange);
+  border-radius: 0 4px 4px 0;
+  padding: 11px 14px;
+  font-size: 11.5px;
+  color: #ddd;
+  line-height: 1.55;
+  margin: 14px 0;
+}
+.callout b { color: var(--orange); }
+.callout-blue { background: linear-gradient(90deg, var(--blue-dim) 0%, transparent 100%); border-left-color: var(--blue); }
+.callout-blue b { color: var(--blue); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+/* doc map */
+.docmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.docmap-item {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 11px 13px;
+}
+.docmap-item .ftag { font-family: var(--mono); font-size: 8px; color: var(--orange); letter-spacing: 1.5px; text-transform: uppercase; }
+.docmap-item h4 { font-size: 12px; color: #fff; margin-top: 3px; line-height: 1.25; }
+.docmap-item p { font-family: var(--mono); font-size: 9px; color: #888; margin-top: 5px; line-height: 1.5; }
+
+/* ═══════════════════════════════════════════════
+   V3 MARKETING CC · PRODUCTION FLOW + LIVE STATUS
+═══════════════════════════════════════════════ */
+
+/* Status pills — match the actual SITE_MAP.md taxonomy */
+.st {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 7.5px;
+  padding: 1px 6px;
+  border-radius: 2px;
+  letter-spacing: .8px;
+  vertical-align: middle;
+  margin-left: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.st-live { background: #0a1f0a; color: var(--green); border: 1px solid #2a4a1a; }
+.st-partial { background: #1e1408; color: var(--gold); border: 1px solid #3a2a10; }
+.st-stub { background: #2a1a08; color: #d68b3a; border: 1px solid #4a2a10; }
+.st-broken { background: #200a12; color: var(--rose); border: 1px solid #4a1a28; }
+
+/* Production flow diagram */
+.prod-flow {
+  background: linear-gradient(180deg, #0e0e0e 0%, var(--bg) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px;
+  margin: 8px 0 18px;
+}
+.prod-stage {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  position: relative;
+}
+.prod-stage + .prod-stage { margin-top: 30px; }
+.prod-stage::before {
+  content: "▼";
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--orange);
+  font-size: 12px;
+  text-shadow: 0 0 6px rgba(255,107,0,.4);
+}
+.prod-stage:first-child::before { content: ""; display: none; }
+
+.prod-stage-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.prod-stage-num {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--orange);
+  background: var(--orange-dim);
+  border: 1px solid var(--orange-border);
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: 1.2px;
+  font-weight: 600;
+}
+.prod-stage-title { font-size: 14px; font-weight: 700; color: #fff; }
+.prod-stage-sub { font-family: var(--mono); font-size: 9.5px; color: var(--mute); margin-left: auto; letter-spacing: .3px; }
+
+.prod-stage.strategy { border-left: 3px solid var(--blue); }
+.prod-stage.longform { border-left: 3px solid var(--orange); }
+.prod-stage.slicer { border-left: 3px solid var(--purple); }
+.prod-stage.studios { border-left: 3px solid var(--gold); }
+.prod-stage.calendar { border-left: 3px solid var(--green); }
+.prod-stage.attribution { border-left: 3px solid var(--rose); }
+
+.prod-stage.strategy .prod-stage-num { color: var(--blue); background: var(--blue-dim); border-color: var(--blue-border); }
+.prod-stage.longform .prod-stage-num { color: var(--orange); background: var(--orange-dim); border-color: var(--orange-border); }
+.prod-stage.slicer .prod-stage-num { color: var(--purple); background: var(--purple-dim); border-color: var(--purple-border); }
+.prod-stage.studios .prod-stage-num { color: var(--gold); background: var(--gold-dim); border-color: var(--gold-border); }
+.prod-stage.calendar .prod-stage-num { color: var(--green); background: var(--green-dim); border-color: var(--green-border); }
+.prod-stage.attribution .prod-stage-num { color: var(--rose); background: var(--rose-dim); border-color: var(--rose-border); }
+
+.prod-stage-body {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #bbb;
+  line-height: 1.6;
+  letter-spacing: .2px;
+}
+.prod-stage-body b { color: #fff; }
+
+/* V-tab pipeline display */
+.vtabs-strip {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.vtab {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 4px 8px;
+  background: #0e0e0e;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  color: #bbb;
+  letter-spacing: .3px;
+  white-space: nowrap;
+}
+.vtab b { color: var(--orange); margin-right: 4px; font-weight: 700; }
+.vtab.fmt-extra { background: #161208; border-color: var(--gold-border); }
+.vtab.fmt-extra b { color: var(--gold); }
+.vtab.podcast { background: #160e16; border-color: #3a1e3a; }
+.vtab.podcast b { color: #b46ed4; }
+
+/* External integrations strip */
+.ext-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+.ext-card {
+  background: #0e0e0e;
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 8px 10px;
+}
+.ext-card .ext-name { font-size: 10.5px; font-weight: 600; color: #fff; }
+.ext-card .ext-desc { font-family: var(--mono); font-size: 8.5px; color: #888; margin-top: 2px; line-height: 1.5; }
+
+/* Persistence/state strip */
+.state-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-top: 8px;
+}
+.state-pill {
+  background: #0a0a0a;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  padding: 5px 8px;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: #aaa;
+  text-align: center;
+  letter-spacing: .2px;
+}
+.state-pill b { color: var(--green); display: block; font-size: 7.5px; letter-spacing: 1px; margin-bottom: 1px; }
+
+/* ═══════════════════════════════════════════════
+   V8 SALES CC · FUNNEL VISUALIZATION + DEAL FACTORY
+═══════════════════════════════════════════════ */
+
+/* Bridge banner — Marketing↔Sales overlap */
+.bridge-banner {
+  background: linear-gradient(90deg, var(--orange-dim) 0%, #0e0e0e 50%, var(--green-dim) 100%);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-right: 3px solid var(--green);
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: center;
+}
+.bridge-side { font-family: var(--mono); font-size: 10px; line-height: 1.5; }
+.bridge-side.left { text-align: left; color: #e8a040; }
+.bridge-side.right { text-align: right; color: var(--green); }
+.bridge-side b { display: block; font-size: 11.5px; color: #fff; letter-spacing: .5px; margin-bottom: 4px; }
+.bridge-side .nums { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 1px; margin-top: 4px; }
+.bridge-arrow {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--orange);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px rgba(255,107,0,.4);
+  white-space: nowrap;
+}
+
+/* Funnel selector strip */
+.funnel-strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  margin: 10px 0 14px;
+}
+.funnel-tab {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--mute);
+  border-radius: 5px;
+  padding: 9px 10px;
+  cursor: pointer;
+  transition: all .15s;
+  text-align: left;
+}
+.funnel-tab:hover { transform: translateY(-1px); border-top-color: var(--green); }
+.funnel-tab.reference { border-top-color: var(--green); background: linear-gradient(180deg, var(--green-dim) 0%, var(--panel) 70%); }
+.funnel-tab .ftab-key { font-family: var(--mono); font-size: 7.5px; color: var(--mute); letter-spacing: 1.4px; }
+.funnel-tab.reference .ftab-key { color: var(--green); }
+.funnel-tab .ftab-name { font-size: 11px; font-weight: 700; color: #fff; margin-top: 3px; line-height: 1.2; }
+.funnel-tab .ftab-meta { font-family: var(--mono); font-size: 8.5px; color: #888; margin-top: 4px; }
+
+/* The reference funnel diagram (Audit) */
+.funnel-board {
+  background: linear-gradient(180deg, #0e0e0e 0%, var(--bg) 100%);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--green);
+  border-radius: 8px;
+  padding: 18px;
+  margin: 6px 0 18px;
+}
+.funnel-stage {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  position: relative;
+  display: grid;
+  grid-template-columns: 60px 1fr 220px 140px;
+  gap: 14px;
+  align-items: center;
+}
+.funnel-stage + .funnel-stage { margin-top: 24px; }
+.funnel-stage::before {
+  content: "▼";
+  position: absolute;
+  top: -19px;
+  left: 30px;
+  color: var(--green);
+  font-size: 11px;
+  text-shadow: 0 0 6px rgba(95,170,58,.4);
+}
+.funnel-stage:first-child::before { display: none; }
+.fstg-num {
+  font-family: var(--mono);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green);
+  text-align: center;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+.fstg-num small { display: block; font-size: 7.5px; color: var(--mute); letter-spacing: 1.5px; margin-top: 3px; font-weight: 400; }
+.fstg-body .fstg-title { font-size: 13px; font-weight: 700; color: #fff; }
+.fstg-body .fstg-sub { font-family: var(--mono); font-size: 9.5px; color: #aaa; margin-top: 4px; line-height: 1.55; }
+
+/* Yes/No gate */
+.yn-gate {
+  background: #0a0a0a;
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 7px 9px;
+  font-family: var(--mono);
+}
+.yn-gate-lbl {
+  font-size: 7.5px;
+  color: var(--mute);
+  letter-spacing: 1.5px;
+  margin-bottom: 5px;
+}
+.yn-row {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  font-size: 9.5px;
+  margin: 2px 0;
+}
+.yn-row .yn-q { color: #ccc; flex: 1; }
+.yn-pill {
+  font-size: 7.5px;
+  padding: 1px 6px;
+  border-radius: 2px;
+  letter-spacing: .8px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.yn-pill.yes { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+.yn-pill.no { background: var(--rose-dim); color: var(--rose); border: 1px solid var(--rose-border); }
+
+/* Stage metrics */
+.fstg-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  font-family: var(--mono);
+}
+.fstg-metric {
+  background: rgba(0,0,0,.3);
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  padding: 4px 6px;
+  text-align: center;
+}
+.fstg-metric .lbl { font-size: 7px; color: var(--mute); letter-spacing: 1.2px; text-transform: uppercase; }
+.fstg-metric .val { font-size: 13px; color: #fff; font-weight: 700; margin-top: 1px; line-height: 1; letter-spacing: -.3px; }
+.fstg-metric .val.green { color: var(--green); }
+.fstg-metric .val.rose { color: var(--rose); }
+.fstg-metric .val.gold { color: var(--gold); }
+
+.funnel-stage.win { border-left: 3px solid var(--green); background: linear-gradient(90deg, var(--green-dim) 0%, var(--panel) 60%); }
+.funnel-stage.win .fstg-num { color: var(--green); font-size: 28px; }
+
+/* Person profile preview */
+.profile-preview {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 0;
+  margin: 6px 0 14px;
+}
+.profile-card {
+  background: linear-gradient(180deg, #161616 0%, #0e0e0e 100%);
+  border-right: 1px solid var(--border);
+  border-radius: 8px 0 0 8px;
+  padding: 14px;
+}
+.profile-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--orange) 0%, var(--gold) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 700; color: #000;
+  font-family: var(--mono); margin-bottom: 10px;
+  letter-spacing: -1px;
+}
+.profile-name { font-size: 14px; font-weight: 700; color: #fff; }
+.profile-co { font-family: var(--mono); font-size: 9.5px; color: #aaa; margin-top: 2px; }
+.profile-stage-pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 8px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  background: var(--green-dim);
+  border: 1px solid var(--green-border);
+  color: var(--green);
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+.profile-meta {
+  margin-top: 12px; padding-top: 10px;
+  border-top: 1px solid var(--border2);
+  font-family: var(--mono); font-size: 9px; color: #aaa;
+  line-height: 1.7;
+}
+.profile-meta b { color: #fff; }
+.profile-touch-warn {
+  margin-top: 8px;
+  padding: 6px 8px;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--gold);
+}
+
+.profile-body {
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.profile-block { }
+.profile-block-h {
+  font-family: var(--mono); font-size: 8.5px; color: var(--mute);
+  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+.profile-block-h::before {
+  content: ""; width: 4px; height: 4px; border-radius: 50%;
+  background: var(--orange);
+}
+.profile-events {
+  font-family: var(--mono); font-size: 9.5px; color: #ccc;
+  line-height: 1.7;
+}
+.profile-events .ev { display: flex; gap: 8px; padding: 3px 0; }
+.profile-events .ev .when { color: var(--mute); width: 70px; flex-shrink: 0; font-size: 9px; }
+.profile-events .ev .what { flex: 1; }
+.profile-events .ev .what b { color: #fff; }
+
+.ai-rec {
+  background: linear-gradient(135deg, #1a0f04 0%, var(--panel) 70%);
+  border: 1px solid var(--orange-border);
+  border-radius: 5px;
+  padding: 10px 12px;
+}
+.ai-rec-h {
+  font-family: var(--mono); font-size: 8px; color: var(--orange);
+  letter-spacing: 1.8px; margin-bottom: 5px;
+}
+.ai-rec-action {
+  font-size: 11px; color: #fff; font-weight: 600; line-height: 1.4;
+}
+.ai-rec-asset {
+  margin-top: 8px; padding: 6px 8px;
+  background: rgba(0,0,0,.4);
+  border: 1px dashed var(--orange-border);
+  border-radius: 3px;
+  font-family: var(--mono); font-size: 9px; color: #ccc;
+}
+.ai-rec-asset b { color: var(--orange); }
+.ai-rec-actions { margin-top: 8px; display: flex; gap: 5px; }
+
+/* Funnel master dashboard */
+.master-dash {
+  background: linear-gradient(180deg, #0e0e0e 0%, var(--bg) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  margin: 8px 0 14px;
+}
+.master-row {
+  display: grid;
+  grid-template-columns: 140px repeat(7, 1fr) 100px;
+  gap: 4px;
+  font-family: var(--mono);
+  align-items: center;
+  padding: 7px 0;
+}
+.master-row.h {
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+  font-size: 7.5px;
+  color: var(--mute);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.master-row .funnel-name-cell { color: #fff; font-weight: 600; font-size: 10.5px; padding-left: 2px; }
+.master-cell {
+  background: rgba(0,0,0,.3);
+  border-radius: 3px;
+  padding: 5px 7px;
+  font-size: 10px;
+  color: #ddd;
+  text-align: center;
+  font-weight: 600;
+}
+.master-cell.zero { color: var(--mute); background: transparent; font-weight: 400; }
+.master-cell.win { color: var(--green); }
+.master-cell.dollars { color: var(--gold); font-weight: 700; }
+
+/* Funnel sidebar mini */
+.funnel-mini-list {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px;
+}
+.funnel-mini-list h4 { font-size: 11px; color: #ddd; margin-bottom: 6px; }
+.funnel-mini-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 6px;
+  font-family: var(--mono); font-size: 9.5px;
+  border-radius: 3px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+}
+.funnel-mini-row:hover { background: #1a1a1a; }
+.funnel-mini-row.active { border-left-color: var(--green); background: var(--green-dim); color: var(--green); }
+.funnel-mini-row .fmr-name { flex: 1; }
+.funnel-mini-row .fmr-count {
+  font-size: 8.5px; color: var(--mute);
+  background: #0a0a0a; padding: 1px 5px; border-radius: 2px;
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ══════════════════════════════════
+     TOP MODE BAR
+══════════════════════════════════ -->
+<div class="modebar">
+  <div class="modebar-brand"><span>FOSM·LIVE</span> · The Plan To Heal The World <em>— System Map</em></div>
+  <span class="modebar-sep">|</span>
+  <span class="modebar-pill pill-orange">wireframe v0.1</span>
+  <span class="modebar-pill pill-blue">↔ multi-tenant ready</span>
+  <span class="modebar-pill pill-gold">God's Economy OS</span>
+  <div class="modebar-tabs">
+    <button class="mtab active" data-view="v1">V1 · Ecosystem</button>
+    <button class="mtab" data-view="v2">V2 · FOSM·LIVE Brain</button>
+    <button class="mtab" data-view="v3">V3 · Marketing CC</button>
+    <button class="mtab" data-view="v8">V8 · Sales CC</button>
+    <button class="mtab" data-view="v4">V4 · Executive CC</button>
+    <button class="mtab" data-view="v5">V5 · Brand Worlds</button>
+    <button class="mtab" data-view="v6">V6 · Sub-CCs</button>
+    <button class="mtab" data-view="v7">V7 · Build Order</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SIDEBAR
+══════════════════════════════════ -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-badge">PTHTW · MAP</div>
+    <div class="sb-title">The Plan To<br>Heal The World</div>
+    <div class="sb-sub">system map · god's economy</div>
+  </div>
+  <div class="sb-brand">
+    <div class="sb-brand-lbl">View Layer</div>
+    <div class="sb-brand-sel">
+      <span><span class="brand-dot"></span>Whole Ecosystem</span>
+      <span style="color:#555;font-size:10px">▾</span>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="nav-sec">🌐 The Big Picture</div>
+    <div class="nav-item active" data-view="v1"><i class="nav-ic">⊞</i>Ecosystem Map</div>
+    <div class="nav-item" data-view="v7"><i class="nav-ic">🛤</i>Build Order</div>
+
+    <div class="nav-sec">🧠 The Brain · 3 Chambers</div>
+    <div class="nav-item acc-blue" data-view="v2"><i class="nav-ic">◉</i>FOSM·LIVE Master</div>
+
+    <div class="nav-sec">🟠 Layer 3 · For-Profit</div>
+    <div class="nav-item active" data-view="v3" style="border-left-color:var(--orange);color:var(--orange)"><i class="nav-ic">📣</i>Marketing CC <span style="margin-left:auto;font-size:8px;color:var(--orange)">●LIVE</span></div>
+    <div class="nav-item acc-green" data-view="v8"><i class="nav-ic">💵</i>Sales CC <span style="margin-left:auto;font-size:8px;color:var(--green)">●NEXT</span></div>
+    <div class="nav-item acc-purple" data-view="v6"><i class="nav-ic">⚙</i>Operations CC</div>
+    <div class="nav-item acc-blue" data-view="v6"><i class="nav-ic">🌟</i>Vision-to-Reality</div>
+    <div class="nav-item acc-gold" data-view="v4"><i class="nav-ic">📊</i>Executive CC · FP</div>
+    <div class="nav-item" data-view="v6" style="padding-left:28px"><i class="nav-ic">↳</i>LGR flagship</div>
+
+    <div class="nav-sec">🌹 Layer 4 · Non-Profit</div>
+    <div class="nav-item acc-rose" data-view="v6"><i class="nav-ic">🤲</i>Foundation flagship</div>
+    <div class="nav-item acc-rose" data-view="v4"><i class="nav-ic">📊</i>Executive CC · NP</div>
+
+    <div class="nav-sec">🌿 Layer 5 · Retreat</div>
+    <div class="nav-item acc-teal" data-view="v6"><i class="nav-ic">🌱</i>Retreat flagship</div>
+    <div class="nav-item acc-teal" data-view="v4"><i class="nav-ic">📊</i>Executive CC · RT</div>
+
+    <div class="nav-sec">🏷 Brand Doorways</div>
+    <div class="nav-item" data-view="v5"><i class="nav-ic">●</i>Learn And Grow Rich</div>
+    <div class="nav-item" data-view="v5" style="padding-left:28px"><i class="nav-ic">↳</i>MBA Program <span style="font-size:8px;margin-left:auto;color:#555">project</span></div>
+    <div class="nav-item" data-view="v5" style="padding-left:28px"><i class="nav-ic">↳</i>Beyond The Money</div>
+    <div class="nav-item acc-rose" data-view="v5" style="padding-left:28px"><i class="nav-ic">↳</i>The Foundation</div>
+    <div class="nav-item acc-teal" data-view="v5" style="padding-left:28px"><i class="nav-ic">↳</i>The Retreat</div>
+    <div class="nav-item acc-purple" data-view="v5"><i class="nav-ic">○</i>Money·God·Politics</div>
+    <div class="nav-item acc-blue" data-view="v5"><i class="nav-ic">○</i>Indiana Oehlman</div>
+
+    <div class="nav-sec">📜 Source Documents</div>
+    <div class="nav-item"><i class="nav-ic">📄</i>Brand Voice Guide</div>
+    <div class="nav-item"><i class="nav-ic">📄</i>FOSM Planner</div>
+    <div class="nav-item"><i class="nav-ic">📄</i>Strategic Plan</div>
+    <div class="nav-item"><i class="nav-ic">📄</i>ICP Reference</div>
+    <div class="nav-item"><i class="nav-ic">📄</i>Plan to Heal World</div>
+    <div class="nav-item"><i class="nav-ic">📄</i>YouTube Calendar</div>
+    <div class="nav-item"><i class="nav-ic">🎙</i>Meditations</div>
+
+    <div class="nav-sec">⚙ Settings</div>
+    <div class="nav-item"><i class="nav-ic">🔌</i>Integrations</div>
+    <div class="nav-item"><i class="nav-ic">🔐</i>Permissions</div>
+  </nav>
+</aside>
+
+<!-- ══════════════════════════════════
+     MAIN AREA
+══════════════════════════════════ -->
+<div class="main">
+<!-- ════════════════════════════════════════
+     V1 — ECOSYSTEM MAP (default)
+════════════════════════════════════════ -->
+<div class="view active" id="v1">
+  <div class="topbar">
+    <div class="topbar-title">Ecosystem Map <span class="topbar-sub">— how every piece serves God's Economy</span></div>
+    <div class="topbar-right">
+      <span class="tag tag-orange">3 layers</span>
+      <span class="tag tag-blue">8 command centers</span>
+      <span class="tag tag-gold">6 brand doorways</span>
+      <button class="btn">export PNG</button>
+    </div>
+  </div>
+  <div class="canvas">
+
+    <div class="callout">
+      <b>Read this top-to-bottom.</b> The Vision sits above everything. The 6 Brands are different doors people walk through to reach the same message. The Command Centers are the software layer that runs every brand and every client business — all feeding into FOSM·LIVE, the brain.
+    </div>
+
+    <div class="ecosystem-canvas">
+
+      <!-- LAYER 1: VISION -->
+      <div class="eco-layer-lbl">Layer 1 · The Vision</div>
+      <div class="vision-halo">
+        <div class="vision-card">
+          <div class="vision-card-tag">★ THE NORTH STAR ★</div>
+          <div class="vision-card-title">The Plan To Heal The World</div>
+          <div class="vision-card-sub">God's Economy · Light · Peace + Prosperity For All</div>
+          <div class="vision-card-tagline">"The path is walked, not handed out."</div>
+        </div>
+      </div>
+
+      <!-- LAYER 2: BRANDS -->
+      <div class="eco-layer-lbl">Layer 2 · The Brand Doorways <span style="font-family:var(--mono);font-size:8.5px;color:var(--mute);letter-spacing:.5px;text-transform:none">— 6 doors, 1 message</span></div>
+      <div class="eco-brand-grid">
+        <div class="eco-brand parent">
+          <div class="eco-brand-tag">PARENT BRAND</div>
+          <div class="eco-brand-name">Learn And Grow Rich</div>
+          <div class="eco-brand-role">the warm teacher · framework-driven · numbers-confident</div>
+          <div class="eco-brand-children">
+            <span class="eco-brand-child proj">↳ MBA Program (project)</span>
+            <span class="eco-brand-child proj">↳ Beyond The Money</span>
+            <span class="eco-brand-child sub-found">↳ The Foundation (sub-brand)</span>
+            <span class="eco-brand-child sub-retreat">↳ The Retreat (sub-brand)</span>
+          </div>
+        </div>
+        <div class="eco-brand foundation">
+          <div class="eco-brand-tag">SUB · OWN SOCIAL</div>
+          <div class="eco-brand-name">The Foundation by LGR</div>
+          <div class="eco-brand-role">the steward · transparent · receipts</div>
+        </div>
+        <div class="eco-brand retreat">
+          <div class="eco-brand-tag">SUB · OWN SOCIAL</div>
+          <div class="eco-brand-name">The Retreat by LGR</div>
+          <div class="eco-brand-role">the guide · calm · invites the healed</div>
+        </div>
+        <div class="eco-brand mgp">
+          <div class="eco-brand-tag">PARALLEL BRAND</div>
+          <div class="eco-brand-name">Money·God·Politics</div>
+          <div class="eco-brand-role">the humble student · inquiry · "what if?"</div>
+        </div>
+        <div class="eco-brand indiana">
+          <div class="eco-brand-tag">PERSONAL</div>
+          <div class="eco-brand-name">Indiana Oehlman</div>
+          <div class="eco-brand-role">the friend on the road · proof of life</div>
+        </div>
+      </div>
+
+      <!-- THE BRAIN — shared across all 3 software layers below -->
+      <div class="eco-layer-lbl">The Brain · shared across all three software layers</div>
+      <div class="brain-shared-wrap">
+        <div class="brain-shared-header">
+          <div class="brain-shared-tag">★ THE BRAIN ★</div>
+          <div class="brain-shared-name">FOSM·LIVE Master</div>
+          <div class="brain-shared-sub">AI · frameworks · intelligence layer · 1 mind · 3 chambers · 4 input streams</div>
+        </div>
+
+        <div class="brain-inputs">
+          <div class="brain-inputs-header">↑ continuously fed by 4 streams ↑</div>
+
+          <div class="zach-card-prominent">
+            <div class="zach-tag">★ HUMAN INTELLIGENCE · IRREPLACEABLE ★</div>
+            <div class="zach-name-bold">ZACH OEHLMAN</div>
+            <div class="zach-feeds-list">vision · meditations · masterminds · frameworks · brand voice · the why</div>
+          </div>
+
+          <div class="brain-inputs-divider">━━━ + ━━━</div>
+
+          <div class="data-feeds-row">
+            <div class="feed-card client">
+              <div class="feed-tag">DATA · CLIENT</div>
+              <div class="feed-name">Client Data</div>
+              <div class="feed-items">FOSM KPIs · financials · vision boards · L10 outcomes · audit results · attribution chains · what's working in the field</div>
+            </div>
+            <div class="feed-card industry">
+              <div class="feed-tag">DATA · INDUSTRY</div>
+              <div class="feed-name">Industry Data</div>
+              <div class="feed-items">sector trends · benchmarks · competitor moves · vertical-specific KPIs · trade research · best practices</div>
+            </div>
+            <div class="feed-card economic">
+              <div class="feed-tag">DATA · ECONOMIC</div>
+              <div class="feed-name">Economic Data</div>
+              <div class="feed-items">macro indicators · interest rates · capital markets · cycles · regulatory shifts · tax policy</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="brain-chambers">
+          <div class="chamber fp">
+            <div class="chamber-letters">F · O · S · M</div>
+            <div class="chamber-name">For-Profit Chamber</div>
+            <div class="chamber-sub">Companies scaling · L·I·V·E human side · standard FOSM playbooks</div>
+          </div>
+          <div class="chamber np">
+            <div class="chamber-letters">F · O · S · M</div>
+            <div class="chamber-name">Non-Profit Chamber</div>
+            <div class="chamber-sub">Foundations as businesses · S = Stewardship · fund accounting · 990s · L·I·V·E intact</div>
+          </div>
+          <div class="chamber rt">
+            <div class="chamber-letters">F · O · S · M</div>
+            <div class="chamber-name">Retreat Chamber</div>
+            <div class="chamber-sub">Healing centers · candidate &amp; cohort tracking · integration outcomes · technical detail TBD</div>
+          </div>
+        </div>
+
+        <div class="brain-shared-footer">↓ each chamber pushes its playbook to instances in the matching layer below ↓</div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           LAYER 3 · FOR-PROFIT SOFTWARE
+      ═══════════════════════════════════════ -->
+      <div class="software-layer">
+        <div class="eco-layer-lbl">Layer 3 · For-Profit Software · FOSM·LIVE for Companies</div>
+
+        <div class="layer3-apex">
+          <div class="apex-tag">★ APEX · ZACH'S FOR-PROFIT PORTFOLIO ★</div>
+          <div class="apex-name">EXECUTIVE CC · FOR-PROFIT</div>
+          <div class="apex-sub">all for-profit FOSM·LIVE instances roll up · "I manage $▢▢▢M across ▢▢ companies"</div>
+        </div>
+
+        <div class="layer3-flow-up">▲ ▲ ▲ &nbsp;rolls up to apex&nbsp; ▲ ▲ ▲</div>
+
+        <div class="instances-only l3">
+          <div class="instances-header">
+            FOSM·LIVE instances · for-profit
+            <span class="ihint">— one per company · all draw from the For-Profit chamber of the Brain</span>
+          </div>
+          <div class="instances-grid">
+
+            <div class="instance-card flagship">
+              <div class="instance-tag">★ YOUR FLAGSHIP</div>
+              <div class="instance-name">LGR · Learn And Grow Rich</div>
+              <div class="instance-modules">
+                <b class="fosm">M</b><b class="fosm">S</b><b class="fosm">O</b>
+                <span class="dot">·</span>
+                <b class="live">L</b><b class="live">I</b><b class="live">V</b><b class="live">E</b>
+              </div>
+            </div>
+
+            <div class="instance-card">
+              <div class="instance-tag">CLIENT · ICP 1</div>
+              <div class="instance-name">Service Co.</div>
+              <div class="instance-modules">
+                <b class="fosm">M</b><b class="fosm">S</b><b class="fosm">O</b>
+                <span class="dot">·</span>
+                <b class="live">L</b><b class="live">I</b><b class="live">V</b><b class="live">E</b>
+              </div>
+            </div>
+
+            <div class="instance-card">
+              <div class="instance-tag">CLIENT · ICP 2</div>
+              <div class="instance-name">RE Holdings</div>
+              <div class="instance-modules">
+                <b class="fosm">M</b><b class="fosm">S</b><b class="fosm">O</b>
+                <span class="dot">·</span>
+                <b class="live">L</b><b class="live">I</b><b class="live">V</b><b class="live">E</b>
+              </div>
+            </div>
+
+            <div class="instance-card">
+              <div class="instance-tag">CLIENT · ICP 3</div>
+              <div class="instance-name">Exit-Driven Co.</div>
+              <div class="instance-modules">
+                <b class="fosm">M</b><b class="fosm">S</b><b class="fosm">O</b>
+                <span class="dot">·</span>
+                <b class="live">L</b><b class="live">I</b><b class="live">V</b><b class="live">E</b>
+              </div>
+            </div>
+
+            <div class="instance-card more">
+              <div class="instance-tag">SCALE TARGET</div>
+              <div class="instance-name">+ 17 more</div>
+              <div class="instance-modules" style="color:var(--mute)">target: 20+ companies</div>
+            </div>
+
+          </div>
+          <div class="instances-foot">
+            Each instance contains <b style="color:#ddd">M · S · O</b> (Marketing · Sales · Operations) + <b style="color:#ddd">L · I · V · E</b> modules. The For-Profit chamber pushes the standard FOSM playbooks; the Apex sees them all in one grid.
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           LAYER 4 · NON-PROFIT SOFTWARE
+      ═══════════════════════════════════════ -->
+      <div class="software-layer">
+        <div class="eco-layer-lbl l4">Layer 4 · Non-Profit Software · FOSM·LIVE for Foundations</div>
+
+        <div class="layer3-apex l4">
+          <div class="apex-tag">★ APEX · ZACH'S NON-PROFIT PORTFOLIO ★</div>
+          <div class="apex-name">EXECUTIVE CC · NON-PROFIT</div>
+          <div class="apex-sub">all foundation FOSM·LIVE instances roll up · grants, restricted funds, 990s, donor totals</div>
+        </div>
+
+        <div class="layer3-flow-up l4">▲ ▲ ▲ &nbsp;rolls up to apex&nbsp; ▲ ▲ ▲</div>
+
+        <div class="instances-only l4">
+          <div class="instances-header l4">
+            FOSM·LIVE instances · non-profit
+            <span class="ihint">— one per foundation · all draw from the Non-Profit chamber of the Brain</span>
+          </div>
+          <div class="instances-grid">
+
+            <div class="instance-card l4 flagship">
+              <div class="instance-tag">★ YOUR FLAGSHIP</div>
+              <div class="instance-name">Foundation by LGR</div>
+              <div class="instance-modules">
+                <b class="fosm">M</b><b class="fosm">S</b><b class="fosm">O</b>
+                <span class="dot">·</span>
+                <b class="live">L</b><b class="live">I</b><b class="live">V</b><b class="live">E</b>
+              </div>
+            </div>
+
+            <div class="instance-card l4">
+              <div class="instance-tag">CLIENT · FAMILY</div>
+              <div class="instance-name">Family Foundation A</div>
+              <div class="instance-modules">
+                <b class="fosm">M</b><b class="fosm">S</b><b class="fosm">O</b>
+                <span class="dot">·</span>
+                <b class="live">L</b><b class="live">I</b><b class="live">V</b><b class="live">E</b>
+              </div>
+            </div>
+
+            <div class="instance-card l4">
+              <div class="instance-tag">CLIENT · COMMUNITY</div>
+              <div class="instance-name">Community Foundation</div>
+              <div class="instance-modules">
+                <b class="fosm">M</b><b class="fosm">S</b><b class="fosm">O</b>
+                <span class="dot">·</span>
+                <b class="live">L</b><b class="live">I</b><b class="live">V</b><b class="live">E</b>
+              </div>
+            </div>
+
+            <div class="instance-card l4">
+              <div class="instance-tag">CLIENT · CAUSE</div>
+              <div class="instance-name">Cause-Based Found.</div>
+              <div class="instance-modules">
+                <b class="fosm">M</b><b class="fosm">S</b><b class="fosm">O</b>
+                <span class="dot">·</span>
+                <b class="live">L</b><b class="live">I</b><b class="live">V</b><b class="live">E</b>
+              </div>
+            </div>
+
+            <div class="instance-card l4 more">
+              <div class="instance-tag">SCALE TARGET</div>
+              <div class="instance-name">+ many more</div>
+              <div class="instance-modules" style="color:var(--mute)">teach foundations to run like businesses</div>
+            </div>
+
+          </div>
+          <div class="instances-foot">
+            Same M·S·O + L·I·V·E pattern — but the "S" pillar runs <b style="color:var(--rose)">Stewardship</b> (donor cultivation, grants, major gifts), the "F" pillar runs <b style="color:var(--rose)">fund accounting</b> (restricted/unrestricted, 990s), and "M" runs <b style="color:var(--rose)">cause marketing</b> (impact storytelling, transparency-as-marketing).
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           LAYER 5 · RETREAT SOFTWARE
+      ═══════════════════════════════════════ -->
+      <div class="software-layer">
+        <div class="eco-layer-lbl l5">Layer 5 · Retreat Software · FOSM·LIVE for Healing Centers</div>
+
+        <div class="layer3-apex l5">
+          <div class="apex-tag">★ APEX · ZACH'S RETREAT PORTFOLIO ★</div>
+          <div class="apex-name">EXECUTIVE CC · RETREAT</div>
+          <div class="apex-sub">all retreat locations roll up · candidates · cohorts · integration outcomes · medical + spiritual KPIs</div>
+        </div>
+
+        <div class="layer3-flow-up l5">▲ ▲ ▲ &nbsp;rolls up to apex&nbsp; ▲ ▲ ▲</div>
+
+        <div class="instances-only l5">
+          <div class="instances-header l5">
+            FOSM·LIVE instances · retreat
+            <span class="ihint">— one per location · candidates &amp; cohorts tracked inside</span>
+          </div>
+          <div class="instances-grid">
+
+            <div class="instance-card l5 flagship">
+              <div class="instance-tag">★ YOUR FLAGSHIP</div>
+              <div class="instance-name">Retreat by LGR · The Farm · Colombia</div>
+              <div class="instance-modules">
+                <b class="fosm">M</b><b class="fosm">S</b><b class="fosm">O</b>
+                <span class="dot">·</span>
+                <b class="live">L</b><b class="live">I</b><b class="live">V</b><b class="live">E</b>
+              </div>
+            </div>
+
+            <div class="instance-card l5">
+              <div class="instance-tag">FUTURE · LOC 2</div>
+              <div class="instance-name">Future Location</div>
+              <div class="instance-modules">
+                <b class="fosm">M</b><b class="fosm">S</b><b class="fosm">O</b>
+                <span class="dot">·</span>
+                <b class="live">L</b><b class="live">I</b><b class="live">V</b><b class="live">E</b>
+              </div>
+            </div>
+
+            <div class="instance-card l5">
+              <div class="instance-tag">FUTURE · LOC 3</div>
+              <div class="instance-name">Future Location</div>
+              <div class="instance-modules">
+                <b class="fosm">M</b><b class="fosm">S</b><b class="fosm">O</b>
+                <span class="dot">·</span>
+                <b class="live">L</b><b class="live">I</b><b class="live">V</b><b class="live">E</b>
+              </div>
+            </div>
+
+            <div class="instance-card l5 more">
+              <div class="instance-tag">SCALE TARGET</div>
+              <div class="instance-name">+ many more</div>
+              <div class="instance-modules" style="color:var(--mute)">expansion as the model proves</div>
+            </div>
+
+          </div>
+          <div class="instances-foot">
+            Same FOSM·LIVE shell — but each instance also tracks <b style="color:var(--teal)">candidates</b> (intake, vetting, pre-medicine medical/psych, ceremony schedule, post-medicine integration, alumni follow-up) and <b style="color:var(--teal)">cohorts</b> (group dynamics, modality use, outcome metrics). The added detail lives inside each location's "O" (Operations) pillar — exact module map TBD.
+          </div>
+        </div>
+
+        <div class="callout" style="border-left-color:var(--teal);background:linear-gradient(90deg,var(--teal-dim) 0%,transparent 100%);margin-top:12px">
+          <b style="color:var(--teal)">From your Vision Mastermind note:</b> "More people in this layer — we want to check how candidates are doing. Detail might be different." Captured. Architecture is locked (Apex → Brain chamber → Instances) so this layer slots into the same pattern. The module list per retreat instance — especially candidate tracking and integration — is the open design question we'll answer when we build the Retreat CC.
+        </div>
+      </div>
+    </div>
+
+    <!-- DATA FLOW EXPLAINER -->
+    <div class="sec-h"><span class="sec-title">How the data flows</span><span class="sec-sub">— Zach feeds the Brain · chambers feed their layer · instances roll up to their layer's Apex</span><span class="sec-line"></span></div>
+    <div class="three-col">
+      <div class="callout callout-blue">
+        <b>↑ 4 streams → Brain.</b> Zach feeds frameworks &amp; vision (the irreplaceable human intelligence). Client data feeds FOSM KPIs, financials, and what's working in the field. Industry data feeds sector trends and benchmarks. Economic data feeds macro context. The Brain triangulates all four — it's not "Zach's voice," it's an intelligence platform that gets smarter with every client added.
+      </div>
+      <div class="callout">
+        <b>→ Chambers → Instances.</b> The For-Profit chamber pushes to every for-profit instance. Non-Profit pushes to every foundation. Retreat pushes to every retreat location. Same architecture, three flavors of playbook — each instance always running the latest.
+      </div>
+      <div class="callout" style="border-left-color:var(--gold);background:linear-gradient(90deg,var(--gold-dim) 0%,transparent 100%)">
+        <b style="color:var(--gold)">▲ Instances → 3 Apex CCs.</b> For-profit instances roll up to the For-Profit Executive CC. Foundations roll up to the Non-Profit Executive CC. Retreat locations roll up to the Retreat Executive CC. Each apex shows the same RYG grid pattern — different content, same view of "is everything healthy?"
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     V2 — FOSM·LIVE MASTER (the brain)
+════════════════════════════════════════ -->
+<div class="view" id="v2">
+  <div class="topbar">
+    <div class="topbar-title">FOSM·LIVE Master <span class="topbar-sub">— the BRAIN · AI · framework intelligence · pushes to every instance</span></div>
+    <div class="topbar-right">
+      <span class="tag tag-orange">★ fed by Zach</span>
+      <span class="tag tag-blue">↔ feeds every FOSM·LIVE CC instance</span>
+    </div>
+  </div>
+  <div class="canvas">
+
+    <div class="callout">
+      <b>This is the intelligence layer, not an instance.</b> The Brain holds the frameworks, the voice, the playbooks, the proven moves — across <b style="color:var(--orange)">three chambers</b> (For-Profit, Non-Profit, Retreat) and continuously fed by <b style="color:var(--orange)">four input streams</b> (Zach, Client Data, Industry Data, Economic Data). Sharpen a framework here, and every relevant instance gets smarter at once. Add a new client, and the Brain learns from their data — every other instance benefits.
+    </div>
+
+    <div class="callout callout-blue">
+      <b>FOSM·LIVE = the business engine + the human engine.</b> Most frameworks stop at F.O.S.M. (the company). LIVE adds what runs the human running the company. Both halves apply to companies, foundations, and retreat centers — the chambers just translate the vocabulary. Below: the four input streams that feed the Brain, then what every chamber holds for each pillar.
+    </div>
+
+    <!-- BRAIN INPUTS — 4 streams -->
+    <div class="sec-h">
+      <span class="sec-title">What feeds the Brain</span>
+      <span class="sec-sub">— four streams · one mind</span>
+      <span class="sec-line"></span>
+      <span class="tag tag-orange">inputs</span>
+    </div>
+    <div class="pillar-grid">
+      <div class="pillar-card f" style="border-top-color:var(--orange)">
+        <div class="pillar-letter" style="font-size:28px">★</div>
+        <div class="pillar-name">Zach Oehlman</div>
+        <div class="pillar-tag">human intelligence · irreplaceable</div>
+        <div class="pillar-feeds">
+          <div class="pillar-feeds-lbl">Streams in</div>
+          <div class="pillar-feed"><b>Vision</b> · the why · The Plan To Heal The World</div>
+          <div class="pillar-feed"><b>Meditations</b> · spiritual download · captured audio</div>
+          <div class="pillar-feed"><b>Masterminds</b> · live decisions · session transcripts</div>
+          <div class="pillar-feed"><b>Frameworks</b> · F·O·S·M · L·I·V·E · Wilson's Law</div>
+          <div class="pillar-feed"><b>Brand voice</b> · 7-point check · signature language</div>
+        </div>
+      </div>
+      <div class="pillar-card l" style="border-top-color:var(--blue)">
+        <div class="pillar-letter" style="font-size:28px">⌬</div>
+        <div class="pillar-name">Client Data</div>
+        <div class="pillar-tag">field reality · what's working</div>
+        <div class="pillar-feeds">
+          <div class="pillar-feeds-lbl">Streams in</div>
+          <div class="pillar-feed"><b>FOSM KPIs</b> · F·O·S·M·L·I·V·E pillar trends per instance</div>
+          <div class="pillar-feed"><b>Financials</b> · revenue, margin, cash, valuation</div>
+          <div class="pillar-feed"><b>Vision boards</b> · what each client is reaching for</div>
+          <div class="pillar-feed"><b>L10 outcomes</b> · weekly meeting decisions &amp; rocks</div>
+          <div class="pillar-feed"><b>Audit results</b> · before/after diagnostics</div>
+          <div class="pillar-feed"><b>Attribution chains</b> · marketing → sale provenance</div>
+        </div>
+      </div>
+      <div class="pillar-card o" style="border-top-color:var(--purple)">
+        <div class="pillar-letter" style="font-size:28px">◭</div>
+        <div class="pillar-name">Industry Data</div>
+        <div class="pillar-tag">sector context · benchmarks</div>
+        <div class="pillar-feeds">
+          <div class="pillar-feeds-lbl">Streams in</div>
+          <div class="pillar-feed"><b>Sector trends</b> · what's growing · what's dying</div>
+          <div class="pillar-feed"><b>Benchmarks</b> · vertical-specific KPI standards</div>
+          <div class="pillar-feed"><b>Competitor moves</b> · positioning shifts</div>
+          <div class="pillar-feed"><b>Best practices</b> · proven plays per industry</div>
+          <div class="pillar-feed"><b>Trade research</b> · reports, salary data, M&amp;A activity</div>
+        </div>
+      </div>
+      <div class="pillar-card s" style="border-top-color:var(--green)">
+        <div class="pillar-letter" style="font-size:28px">⊕</div>
+        <div class="pillar-name">Economic Data</div>
+        <div class="pillar-tag">macro context · the weather</div>
+        <div class="pillar-feeds">
+          <div class="pillar-feeds-lbl">Streams in</div>
+          <div class="pillar-feed"><b>Macro indicators</b> · GDP, employment, inflation</div>
+          <div class="pillar-feed"><b>Interest rates</b> · Fed posture · capital cost</div>
+          <div class="pillar-feed"><b>Capital markets</b> · valuations, multiples, IPO/M&amp;A</div>
+          <div class="pillar-feed"><b>Regulatory</b> · tax policy, compliance shifts</div>
+          <div class="pillar-feed"><b>Cycles</b> · where in the cycle each industry sits</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:14px;border-left-color:var(--gold);background:linear-gradient(90deg,var(--gold-dim) 0%,transparent 100%)">
+      <b style="color:var(--gold)">The compounding effect.</b> Each new client adds another field-data signal to the Brain. Each macro shift (rates, cycles) updates the playbooks the Brain pushes back out. Each new framework Zach teaches the Brain refines how it interprets everything. The system <em>learns</em>. Three years in, the Brain is qualitatively smarter than it was on day one — and every instance benefits from that learning automatically.
+    </div>
+
+    <!-- F.O.S.M. row -->
+    <div class="sec-h">
+      <span class="sec-title">F·O·S·M</span>
+      <span class="sec-sub">— the business engine · scales the math</span>
+      <span class="sec-line"></span>
+      <span class="tag tag-orange">company side</span>
+    </div>
+    <div class="pillar-grid">
+      <div class="pillar-card f">
+        <div class="pillar-letter">F</div>
+        <div class="pillar-name">Finance</div>
+        <div class="pillar-tag">money brick · cash · margin</div>
+        <div class="pillar-feeds">
+          <div class="pillar-feeds-lbl">Feeds from</div>
+          <div class="pillar-feed"><b>QuickBooks</b> · books, AP/AR, payroll</div>
+          <div class="pillar-feed"><b>Marketing CC</b> · CAC, ROAS, LTV</div>
+          <div class="pillar-feed"><b>Sales CC</b> · pipeline, closes, AOV</div>
+          <div class="pillar-feed"><b>Ops CC</b> · COGS, delivery cost</div>
+        </div>
+      </div>
+      <div class="pillar-card o">
+        <div class="pillar-letter">O</div>
+        <div class="pillar-name">Operations</div>
+        <div class="pillar-tag">SOPs · throughput · quality</div>
+        <div class="pillar-feeds">
+          <div class="pillar-feeds-lbl">Feeds from</div>
+          <div class="pillar-feed"><b>ClickUp</b> · tasks, owners, status</div>
+          <div class="pillar-feed"><b>Slack</b> · team comms</div>
+          <div class="pillar-feed"><b>Ops CC</b> · SOP library, audits</div>
+        </div>
+      </div>
+      <div class="pillar-card s">
+        <div class="pillar-letter">S</div>
+        <div class="pillar-name">Sales</div>
+        <div class="pillar-tag">qualify · close · retain</div>
+        <div class="pillar-feeds">
+          <div class="pillar-feeds-lbl">Feeds from</div>
+          <div class="pillar-feed"><b>GHL</b> · CRM, calls, deals</div>
+          <div class="pillar-feed"><b>Webinars</b> · attendance, conversion</div>
+          <div class="pillar-feed"><b>Sales CC</b> · scripts, scorecard, audit intake</div>
+        </div>
+      </div>
+      <div class="pillar-card m">
+        <div class="pillar-letter">M</div>
+        <div class="pillar-name">Marketing</div>
+        <div class="pillar-tag">brand · content · attribution</div>
+        <div class="pillar-feeds">
+          <div class="pillar-feeds-lbl">Feeds from</div>
+          <div class="pillar-feed"><b>Marketing CC</b> · all channels, calendar</div>
+          <div class="pillar-feed"><b>Attribution Engine</b> · what got the client</div>
+          <div class="pillar-feed"><b>Forum Engine</b> · authority signals</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- L.I.V.E. row -->
+    <div class="sec-h">
+      <span class="sec-title">L·I·V·E</span>
+      <span class="sec-sub">— the human engine · scales the leader</span>
+      <span class="sec-line"></span>
+      <span class="tag tag-blue">human side</span>
+    </div>
+    <div class="pillar-grid">
+      <div class="pillar-card l">
+        <div class="pillar-letter">L</div>
+        <div class="pillar-name">Leadership</div>
+        <div class="pillar-tag">inspire · align · empower</div>
+        <div class="pillar-feeds">
+          <div class="pillar-feeds-lbl">Tracks</div>
+          <div class="pillar-feed"><b>Team alignment</b> · L10 outcomes</div>
+          <div class="pillar-feed"><b>Decision logs</b> · what · why · result</div>
+          <div class="pillar-feed"><b>Delegation map</b> · A+ team coverage</div>
+        </div>
+      </div>
+      <div class="pillar-card i">
+        <div class="pillar-letter">I</div>
+        <div class="pillar-name">Integrity</div>
+        <div class="pillar-tag">alignment to chosen destination</div>
+        <div class="pillar-feeds">
+          <div class="pillar-feeds-lbl">Tracks</div>
+          <div class="pillar-feed"><b>Promise vs. delivery</b> · word kept ratio</div>
+          <div class="pillar-feed"><b>Values audit</b> · actions vs stated values</div>
+          <div class="pillar-feed"><b>Brand-voice integrity</b> · content checks</div>
+        </div>
+      </div>
+      <div class="pillar-card v">
+        <div class="pillar-letter">V</div>
+        <div class="pillar-name">Vision</div>
+        <div class="pillar-tag">where we're going · why it matters</div>
+        <div class="pillar-feeds">
+          <div class="pillar-feeds-lbl">Feeds from</div>
+          <div class="pillar-feed"><b>Vision-to-Reality CC</b> · dream day, numbers</div>
+          <div class="pillar-feed"><b>Annual planning</b> · goals, rocks</div>
+          <div class="pillar-feed"><b>Plan To Heal World</b> · the why</div>
+        </div>
+      </div>
+      <div class="pillar-card e">
+        <div class="pillar-letter">E</div>
+        <div class="pillar-name">Emotional Intel.</div>
+        <div class="pillar-tag">where does pissed off live?</div>
+        <div class="pillar-feeds">
+          <div class="pillar-feeds-lbl">Tracks</div>
+          <div class="pillar-feed"><b>Self-state journal</b> · daily check-in</div>
+          <div class="pillar-feed"><b>Trigger map</b> · pattern, response, learning</div>
+          <div class="pillar-feed"><b>Retreat integration</b> · post-medicine work</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-blue">
+      <b>Each pillar carries frameworks, KPI definitions, and a RYG schema.</b> When the Brain is updated, every FOSM·LIVE instance inherits the change. Each instance's RYG roll-up = average of 8 pillars. A green company with a red leader is a yellow business — it'll regress to the mean. The system flags this before the numbers do.
+    </div>
+
+  </div>
+</div>
+<!-- ════════════════════════════════════════
+     V3 — MARKETING COMMAND CENTER (the focus)
+════════════════════════════════════════ -->
+<div class="view" id="v3">
+  <div class="topbar">
+    <div class="topbar-title">Marketing Command Center <span class="topbar-sub">— LIVE PLATFORM · synced from SITE_MAP.md · 2026-05-06</span></div>
+    <div class="topbar-right">
+      <span class="tag tag-green"><span class="status-dot live"></span>shipped</span>
+      <span class="tag tag-orange">production-grade</span>
+      <span class="tag tag-blue">↔ syncs to FOSM·LIVE</span>
+    </div>
+  </div>
+  <div class="canvas">
+
+    <div class="callout">
+      <b>This is the actual built platform — not the wireframe.</b> Zach took the original Marketing CC sitemap and shipped it. What you see below is synced from <code style="background:#000;padding:1px 5px;border-radius:2px;color:var(--orange);font-size:11px">SITE_MAP.md</code> in the live deploy. The platform is a <em>content-production factory</em>: one topic enters, gets developed into a slide deck, gets recorded as longform, gets sliced into 20+ derivatives, each becomes a tracked design job, then schedules onto a master calendar. The platform is the strategy &amp; production tracking; downstream tools (Descript, claude.ai/design, GoHighLevel) are the actual production.
+    </div>
+
+    <div class="callout callout-blue">
+      <b>Status legend (matches SITE_MAP.md):</b>&nbsp;&nbsp;
+      <span class="st st-live">LIVE</span> shipped &amp; working &nbsp;·&nbsp;
+      <span class="st st-partial">PARTIAL</span> works with known gaps &nbsp;·&nbsp;
+      <span class="st st-stub">STUB</span> UI exists, no real functionality &nbsp;·&nbsp;
+      <span class="st st-broken">BROKEN</span> known bugs
+    </div>
+
+    <!-- ════════ THE PRODUCTION FLOW ════════ -->
+    <div class="sec-h"><span class="sec-title">The production flow</span><span class="sec-sub">— one topic in · 20+ pieces out</span><span class="sec-line"></span></div>
+    <div class="prod-flow">
+
+      <!-- 1. STRATEGY LIBRARIES -->
+      <div class="prod-stage strategy">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num">STAGE 01</span>
+          <span class="prod-stage-title">Strategy Libraries</span>
+          <span class="prod-stage-sub">data sources · feed every prompt</span>
+        </div>
+        <div class="prod-stage-body">
+          Eight reference stores that every downstream prompt pulls from. Brand voice, ICP context, and AI Expert lenses are layered into every AI call at every step.
+          <div class="sm-modules" style="margin-top:10px">
+            <div class="sm-mod"><div class="sm-mod-title">Brand &amp; Voice Library<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">6 brands · canonical store · 8-tab workbench (Identity / Who / Voice / Tone / Focus / Avoids / CTAs / Hooks)</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Brand Center<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">Operational config · 8 tabs · Identity / Voice / Visual / Type / Palette / Drive folders</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">ICP Library<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">5 ICPs · 12 fields · ✨ AI suggest fills empty fields · 38 read sites synced</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Offer Library<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">11 offers · 11-tab workbench · checkoutUrl in AI prompts · ✨ AI suggest</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Funnel Stage Map<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">📚 reference catalog · 4-stage funnel + parallel mission track · read-only by design</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Campaign Type Catalog<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">📚 reference · 10 campaign types · 5 shapes · Campaign Builder narrows by type</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Channels Manager<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">📚 reference · 21 channels in 7 families · Campaign Builder narrows by channel</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">AI Experts Library<span class="st st-partial">V1-V3</span></div><div class="sm-mod-sub">V1-V3 work · V4 Active Sessions (Phase 2) + V5 Performance (Phase 3) intentional stubs</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. LONGFORM STUDIO -->
+      <div class="prod-stage longform">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num">STAGE 02</span>
+          <span class="prod-stage-title">Longform Studio &nbsp;<span style="color:var(--mute);font-size:10px;font-weight:400;font-family:var(--mono)">internal: yts</span></span>
+          <span class="prod-stage-sub">3 doorways · same module · the recording-prep pipeline</span>
+        </div>
+        <div class="prod-stage-body">
+          One module powering 3 sidebar doorways: <b>🎤 Longform / 🎙 Webinar / 🎧 Podcast</b> — format-aware tabs unlock based on the format chosen in V1. Output: a slide deck Zach speaks against in Descript.
+          <div style="font-family:var(--mono);font-size:9px;color:var(--mute);margin-top:10px;letter-spacing:1.2px">CORE V-TABS · always visible</div>
+          <div class="vtabs-strip">
+            <span class="vtab"><b>V1</b>Setup<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V2</b>Brief · 3 modes<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V3</b>Mastermind · streaming<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V4</b>Outline · regen-by-section<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V5</b>Slide Spec<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V6</b>Assets · cross-longform<span class="st st-live">LIVE</span></span>
+          </div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--mute);margin-top:10px;letter-spacing:1.2px">WEBINAR FORMAT EXTRAS</div>
+          <div class="vtabs-strip">
+            <span class="vtab fmt-extra"><b>V7</b>Reg Page · GHL JSON<span class="st st-live">LIVE</span></span>
+            <span class="vtab fmt-extra"><b>V8</b>Replay Email · GHL JSON<span class="st st-live">LIVE</span></span>
+            <span class="vtab fmt-extra"><b>V9</b>Follow-up Sequence<span class="st st-live">LIVE</span></span>
+            <span class="vtab fmt-extra"><b>V10</b>Reminders · pre-event<span class="st st-live">LIVE</span></span>
+          </div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--mute);margin-top:10px;letter-spacing:1.2px">PODCAST FORMAT EXTRAS</div>
+          <div class="vtabs-strip">
+            <span class="vtab podcast"><b>V7</b>Show Notes · MD/HTML<span class="st st-live">LIVE</span></span>
+            <span class="vtab podcast"><b>V8</b>RSS Metadata · RSS-XML<span class="st st-live">LIVE</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2.5 PDF STUDIO (parallel input track) -->
+      <div class="prod-stage longform" style="border-left-color:var(--teal)">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num" style="color:var(--teal);background:var(--teal-dim);border-color:var(--teal-border)">STAGE 02b</span>
+          <span class="prod-stage-title">PDF Studio &nbsp;<span style="color:var(--mute);font-size:10px;font-weight:400;font-family:var(--mono)">internal: pdf</span></span>
+          <span class="prod-stage-sub">parallel input · lead-magnet creator</span>
+        </div>
+        <div class="prod-stage-body">
+          Same V-tab spine as Longform but for read artifacts (pages) instead of spoken artifacts (slides). Every saved PDF becomes a slicing source — a 30-page manifesto can spawn 30+ derivative pieces.
+          <div class="vtabs-strip" style="margin-top:8px">
+            <span class="vtab"><b>V1</b>Setup · shape + page count<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V2</b>Brief · 3 modes<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V3</b>Mastermind · shape-aware<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V4</b>Page Map · drag-reorder<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V5</b>Page Spec · per-page AI fill<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V6</b>Prompts · paste to claude.ai/design<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V7</b>Library · saved PDFs<span class="st st-live">LIVE</span></span>
+          </div>
+          <div style="font-family:var(--mono);font-size:9px;color:#aaa;margin-top:12px;line-height:1.6">
+            <b style="color:#fff">10 shapes</b>: manifesto · prospectus · list · worksheet · case-study · industry-report · how-to · swipe-file · framework-reference · founder-letter
+            <br><b style="color:#fff">30+ page types</b>: cover · TOC · prose-chapter · framework-diagram · numbered-step · scorecard · pricing · CTA-page · pull-quote · executive-summary · the-problem · the-solution · …
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. SLICER -->
+      <div class="prod-stage slicer">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num">STAGE 03</span>
+          <span class="prod-stage-title">Slicer &nbsp;<span style="color:var(--mute);font-size:10px;font-weight:400;font-family:var(--mono)">internal: slc</span></span>
+          <span class="prod-stage-sub">the multiplication engine · 1 source → 20+ pieces</span>
+        </div>
+        <div class="prod-stage-body">
+          Source = saved longform · saved PDF · or pasted transcript. Generates derivatives across 11 formats. PDFs slice to written formats only (no transcript = no video clips).
+          <div class="vtabs-strip" style="margin-top:8px">
+            <span class="vtab"><b>V1</b>Source · pick / paste<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V2</b>Slice Plan · counts per format<span class="st st-live">LIVE</span></span>
+            <span class="vtab"><b>V3</b>Slice Library · review &amp; route<span class="st st-live">LIVE</span></span>
+          </div>
+          <div style="font-family:var(--mono);font-size:9.5px;color:#aaa;margin-top:12px;line-height:1.7">
+            <b style="color:#fff">7 written formats:</b> li-post · tw-thread · short-script · email · fb-post · ig-caption · quote-graphic
+            <br><b style="color:#fff">4 video formats</b> (transcript-timestamp aware): video-clip 30-90s · video-clip-medium 1-3min · podcast-audio 8-30min · b-roll-quotable 5-15s
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. STUDIOS -->
+      <div class="prod-stage studios">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num">STAGE 04</span>
+          <span class="prod-stage-title">Visual Studios</span>
+          <span class="prod-stage-sub">Queue → Workbench → Library · all 4 follow same pattern</span>
+        </div>
+        <div class="prod-stage-body">
+          Slices route to designer queues. Each studio job carries a status lifecycle: <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">queued → in_progress → delivered → (revisions ↔ delivered) → approved</code>. Drive convention locked: <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">2026-05-05_LGR_DECK_Map-Was-Wrong_SJ010.pptx</code>
+          <div class="sm-modules" style="margin-top:10px">
+            <div class="sm-mod"><div class="sm-mod-title">Image Studio<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">Designer queue · brand-aligned briefs · claude.ai/design path · Library tab honest stub</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Video Studio<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">Production tracker (not brief composer) · cut-sheet pane for Descript · Library groups by source longform</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Presentation Studio<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">Deck briefs from Longform V5 storyboard · Queue · Workbench · Library</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Thumbnail Studio<span class="st st-partial">PARTIAL</span></div><div class="sm-mod-sub">Queue · Workbench · Library (YouTube-grid sim) · ⚠ prompt never verified end-to-end on claude.ai/design</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. CAMPAIGN BUILDER + CALENDAR -->
+      <div class="prod-stage calendar">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num">STAGE 05</span>
+          <span class="prod-stage-title">Plan &amp; Schedule</span>
+          <span class="prod-stage-sub">approved → pipeline → calendar</span>
+        </div>
+        <div class="prod-stage-body">
+          <div class="sm-modules" style="margin-top:4px">
+            <div class="sm-mod"><div class="sm-mod-title">Campaign Builder<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">Triangle of Death · 9-step wizard · pipeline output · Generate posts · Save to pipeline · Open in calendar</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Master Calendar<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">4 view types (week / month / list / by-brand) · drag-and-drop · brand filter · reads CB_PIPELINE + STUDIO_JOBS</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. ATTRIBUTION + SALES HANDOFF -->
+      <div class="prod-stage attribution">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num">STAGE 06</span>
+          <span class="prod-stage-title">Attribution &amp; Sales Handoff</span>
+          <span class="prod-stage-sub">post-publish · feedback loop</span>
+        </div>
+        <div class="prod-stage-body">
+          <div class="sm-modules" style="margin-top:4px">
+            <div class="sm-mod"><div class="sm-mod-title">Attribution Engine<span class="st st-partial">PARTIAL</span></div><div class="sm-mod-sub">UTM generator fully functional · 5 UTM tags per piece · numbers placeholder until Phase 4 backend (GA / GHL / channel APIs)</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Sales Handoff<span class="st st-live">LIVE</span></div><div class="sm-mod-sub">4 view types · reads CB_PIPELINE · the bridge into the upcoming Sales CC build</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ════════ EXTERNAL INTEGRATIONS ════════ -->
+    <div class="sec-h"><span class="sec-title">External integrations</span><span class="sec-sub">— what the platform talks to</span><span class="sec-line"></span></div>
+    <div class="ext-strip">
+      <div class="ext-card"><div class="ext-name">Anthropic API <span class="st st-live">LIVE</span></div><div class="ext-desc">All AI generation via /api/ai-proxy Netlify edge function · mastermind, slicing, format extras</div></div>
+      <div class="ext-card"><div class="ext-name">claude.ai/design <span class="st st-live">LIVE</span></div><div class="ext-desc">Operator copy-pastes generated prompts · Image Studio / Thumbnail / Deck production</div></div>
+      <div class="ext-card"><div class="ext-name">Descript <span class="st st-live">LIVE</span></div><div class="ext-desc">Recording &amp; cutting · platform produces cut sheets for the operator</div></div>
+      <div class="ext-card"><div class="ext-name">GoHighLevel <span class="st st-partial">PARTIAL</span></div><div class="ext-desc">Email + landing delivery · JSON shapes defined · end-to-end import not yet tested</div></div>
+      <div class="ext-card"><div class="ext-name">Google Drive <span class="st st-live">LIVE</span></div><div class="ext-desc">File storage convention · per-brand folder URLs · suggested filenames</div></div>
+      <div class="ext-card"><div class="ext-name">Replicate <span class="st st-stub">NOT YET</span></div><div class="ext-desc">Flux for image gen fallback · API key not set yet</div></div>
+    </div>
+
+    <!-- ════════ STATE & PERSISTENCE ════════ -->
+    <div class="sec-h"><span class="sec-title">State &amp; persistence</span><span class="sec-sub">— 16 localStorage keys · all <code style="font-size:10px;background:#000;padding:1px 4px;border-radius:2px">fosm_*_v1</code> · backup safety net shipped</span><span class="sec-line"></span></div>
+    <div class="state-strip">
+      <div class="state-pill"><b>BRAND</b>brand_center · brand_library</div>
+      <div class="state-pill"><b>STRATEGY</b>icp_library · offer_library</div>
+      <div class="state-pill"><b>LONGFORM</b>lf_state · longform_library</div>
+      <div class="state-pill"><b>PDF</b>pdf_state · pdf_library</div>
+      <div class="state-pill"><b>SLICER</b>slc_state · slice_library</div>
+      <div class="state-pill"><b>STUDIOS</b>studio_jobs (all 4)</div>
+      <div class="state-pill"><b>PIPELINE</b>cc_pipeline · brand_filter</div>
+      <div class="state-pill"><b>BACKUP</b>backup_last_at · cc_links_lib</div>
+    </div>
+    <div class="callout" style="margin-top:12px">
+      <b>Backup safety net shipped (Phase 1).</b> System Map → Backup tab. Export-all bundles every fosm_*_v1 key into one versioned JSON. Import-all parses, previews, confirms before applying. Overdue warning badge on sidebar if 7+ days since last export. Schema version-tagged (v1) so future Phase 4 (Supabase) migrations can map old fields cleanly.
+    </div>
+
+    <!-- ════════ THE ROAD FROM HERE ════════ -->
+    <div class="sec-h"><span class="sec-title">The road from here</span><span class="sec-sub">— phases as documented in SITE_MAP.md</span><span class="sec-line"></span></div>
+    <div class="three-col">
+      <div class="callout" style="border-left-color:var(--green);background:linear-gradient(90deg,var(--green-dim) 0%,transparent 100%)">
+        <b style="color:var(--green)">✅ Shipped</b> — Phase 1 Backup safety net · Phase 2 Brand &amp; Voice clarification · Phase 3 Button audit fixes · Phase 5 Operator self-diagnostics (System Map → 🩺 Diagnostics tab · 6 self-tests)
+      </div>
+      <div class="callout">
+        <b>Phase 4 · Real backend</b> — when team comes in (1-3 months). Supabase or similar. Phase 1 export/import shape maps to DB tables. Canonical entities (ICP_LIBRARY, OFFER_LIBRARY, BRAND_CENTER) become foreign keys. Multi-device sync. Multi-user write.
+      </div>
+      <div class="callout callout-blue">
+        <b>↗ Sales CC build · NEXT</b> — the Sales Handoff module is already in this platform as the bridge. The Sales CC will be the receiver: SQLs arrive with full attribution chain, ICP match score, channel of origin, all content consumed, brand voice they responded to. Sales gets a brief, not a name.
+      </div>
+    </div>
+
+    <!-- conventions footer -->
+    <div class="callout" style="margin-top:16px;border-left-color:var(--mute);background:linear-gradient(90deg,#1a1a1a 0%,transparent 100%)">
+      <b style="color:#ccc">Conventions &amp; contracts (locked):</b> internal module keys (yts/slc/cb) vs. display names · localStorage prefixed <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">fosm_</code> suffixed <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">_v1</code> for migration · studio job lifecycle <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">queued → in_progress → delivered → (revisions ↔) → approved</code> · all brand-voice prompts MUST go through <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">buildBrandContextBlock()</code> · format-extra view IDs <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">yts-vN-{slug}</code>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     V8 — SALES COMMAND CENTER (the deal factory)
+════════════════════════════════════════ -->
+<div class="view" id="v8">
+  <div class="topbar">
+    <div class="topbar-title">Sales Command Center <span class="topbar-sub">— the deal factory · 6 funnels · every yes/no measured · GHL-backed</span></div>
+    <div class="topbar-right">
+      <span class="tag tag-green">●  next build</span>
+      <span class="tag tag-orange">↑ from Marketing CC</span>
+      <span class="tag tag-blue">↗ to Operations CC</span>
+    </div>
+  </div>
+  <div class="canvas">
+
+    <div class="callout">
+      <b>The Sales CC is to deal-progression what the Marketing CC is to content-production.</b> One human enters at the top (handed off from Marketing), gets routed to the right funnel, every yes/no gate is measured, every touch is logged, every artifact accumulates in their Person Profile. The system surfaces who needs you next and what to send them. <b>GoHighLevel is the backbone</b> (email, SMS, calendar, landing pages, websites). The Sales CC is the strategy layer on top.
+    </div>
+
+    <!-- ════════ MARKETING ↔ SALES BRIDGE ════════ -->
+    <div class="sec-h"><span class="sec-title">Top of funnel · the Marketing→Sales bridge</span><span class="sec-sub">— same view from both sides · Sales sees Marketing's pipeline read-only</span><span class="sec-line"></span></div>
+    <div class="bridge-banner">
+      <div class="bridge-side left">
+        <b>↑ MARKETING CC · UPLINE</b>
+        Sales-Handoff module reads from <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:9.5px">CB_PIPELINE</code>
+        <div class="nums">▢▢ ready</div>
+        <div style="font-size:9px;color:#888">scheduled · published · awaiting attribution</div>
+      </div>
+      <div class="bridge-arrow">→ HANDOFF →</div>
+      <div class="bridge-side right">
+        <b>SALES CC · DOWNLINE ↓</b>
+        Inherits ICP match · channel of origin · content consumed · CTA clicked
+        <div class="nums">▢▢ active deals</div>
+        <div style="font-size:9px;color:#888">sitting in funnels A–F</div>
+      </div>
+    </div>
+    <div class="callout callout-blue" style="margin-top:8px">
+      <b>Read-only mirror, Phase 1.</b> Sales reads from Marketing's <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">CB_PIPELINE</code> — never writes to it. This protects clean dependency direction. Phase 2 (when both CCs are mature) opens a back-channel for Sales to flag "this lead loved the Tax webinar — make more" into Marketing's Recommendation Loop.
+    </div>
+
+    <!-- ════════ THE 6 FUNNELS ════════ -->
+    <div class="sec-h"><span class="sec-title">The 6 starter funnels</span><span class="sec-sub">— hybrid: pre-built from a shared template · fully editable · add Funnel G in 30 seconds</span><span class="sec-line"></span></div>
+    <div class="funnel-strip">
+      <div class="funnel-tab reference">
+        <div class="ftab-key">FUNNEL · A</div>
+        <div class="ftab-name">Audit</div>
+        <div class="ftab-meta">★ reference build · signature offer</div>
+      </div>
+      <div class="funnel-tab">
+        <div class="ftab-key">FUNNEL · B</div>
+        <div class="ftab-name">Tax Strategy</div>
+        <div class="ftab-meta">specific offer · book call</div>
+      </div>
+      <div class="funnel-tab">
+        <div class="ftab-key">FUNNEL · C</div>
+        <div class="ftab-name">CFO / Fractional</div>
+        <div class="ftab-meta">specific offer · book call</div>
+      </div>
+      <div class="funnel-tab">
+        <div class="ftab-key">FUNNEL · D</div>
+        <div class="ftab-name">Exit Program</div>
+        <div class="ftab-meta">"want to sell" · book call</div>
+      </div>
+      <div class="funnel-tab">
+        <div class="ftab-key">FUNNEL · E</div>
+        <div class="ftab-name">Family Office</div>
+        <div class="ftab-meta">vetting-heavy · book call</div>
+      </div>
+      <div class="funnel-tab">
+        <div class="ftab-key">FUNNEL · F</div>
+        <div class="ftab-name">Direct / Referral</div>
+        <div class="ftab-meta">fast-path · skip webinar</div>
+      </div>
+    </div>
+    <div class="callout">
+      <b>FUNNEL_TEMPLATE_REGISTRY</b> — same registry pattern as <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">PDF_SHAPES</code> in the Marketing CC. Each funnel declares: <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">stages[]</code>, <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">qualifiers[]</code>, <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">defaultDuration</code>, <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">handoff</code>. Adding Funnel G ("Foundation Consulting" or "Board Advisory") = one registry entry; the UI re-renders automatically.
+    </div>
+
+    <!-- ════════ THE AUDIT FUNNEL · REFERENCE BUILD ════════ -->
+    <div class="sec-h"><span class="sec-title">Funnel A · Audit <span class="st st-live" style="margin-left:8px">REFERENCE BUILD</span></span><span class="sec-sub">— most defined process · biggest signature offer · sets the pattern</span><span class="sec-line"></span></div>
+    <div class="funnel-board">
+
+      <div class="funnel-stage">
+        <div class="fstg-num">01<small>HANDOFF</small></div>
+        <div class="fstg-body">
+          <div class="fstg-title">From Marketing</div>
+          <div class="fstg-sub">SQL arrives with full context: ICP match score · channel of origin · content consumed · brand voice they responded to · webinar(s) attended · CTA clicked. Auto-creates Person Profile.</div>
+        </div>
+        <div class="yn-gate">
+          <div class="yn-gate-lbl">QUALIFIERS</div>
+          <div class="yn-row"><span class="yn-q">ICP match ≥ threshold?</span><span class="yn-pill yes">Y/N</span></div>
+          <div class="yn-row"><span class="yn-q">Right offer for stage?</span><span class="yn-pill yes">Y/N</span></div>
+        </div>
+        <div class="fstg-metrics">
+          <div class="fstg-metric"><div class="lbl">Inbound</div><div class="val">▢</div></div>
+          <div class="fstg-metric"><div class="lbl">Routed</div><div class="val green">▢</div></div>
+        </div>
+      </div>
+
+      <div class="funnel-stage">
+        <div class="fstg-num">02<small>WEBINAR</small></div>
+        <div class="fstg-body">
+          <div class="fstg-title">Watch the Webinar</div>
+          <div class="fstg-sub">Marketing-hosted webinar (Finance Dept · Exit Program · Family Office · Tax). They watched live or replay. Webinar has a CTA: "Book a free audit call."</div>
+        </div>
+        <div class="yn-gate">
+          <div class="yn-gate-lbl">YES/NO GATE</div>
+          <div class="yn-row"><span class="yn-q">Registered?</span><span class="yn-pill yes">Y/N</span></div>
+          <div class="yn-row"><span class="yn-q">Watched ≥ 50%?</span><span class="yn-pill yes">Y/N</span></div>
+          <div class="yn-row"><span class="yn-q">Clicked CTA?</span><span class="yn-pill yes">Y/N</span></div>
+        </div>
+        <div class="fstg-metrics">
+          <div class="fstg-metric"><div class="lbl">Reg</div><div class="val">▢</div></div>
+          <div class="fstg-metric"><div class="lbl">Show</div><div class="val green">▢%</div></div>
+        </div>
+      </div>
+
+      <div class="funnel-stage">
+        <div class="fstg-num">03<small>BOOK</small></div>
+        <div class="fstg-body">
+          <div class="fstg-title">Book the 15-Min Qualifier Call</div>
+          <div class="fstg-sub">GHL calendar widget. Auto-confirmation + reminders. Pre-call form pulls extra context (revenue stage, biggest pain). Profile updates with answers.</div>
+        </div>
+        <div class="yn-gate">
+          <div class="yn-gate-lbl">YES/NO GATE</div>
+          <div class="yn-row"><span class="yn-q">Booked?</span><span class="yn-pill yes">Y/N</span></div>
+          <div class="yn-row"><span class="yn-q">Form completed?</span><span class="yn-pill yes">Y/N</span></div>
+        </div>
+        <div class="fstg-metrics">
+          <div class="fstg-metric"><div class="lbl">CTA→Book</div><div class="val gold">▢%</div></div>
+          <div class="fstg-metric"><div class="lbl">Form rate</div><div class="val green">▢%</div></div>
+        </div>
+      </div>
+
+      <div class="funnel-stage">
+        <div class="fstg-num">04<small>15-MIN</small></div>
+        <div class="fstg-body">
+          <div class="fstg-title">15-Minute Qualifier Call</div>
+          <div class="fstg-sub">Recorded · auto-transcribed (Descript or built-in) · stored on profile. Goal: confirm ICP fit and emotional readiness for the audit work. Zach's gut-check + scoring rubric.</div>
+        </div>
+        <div class="yn-gate">
+          <div class="yn-gate-lbl">YES/NO GATE</div>
+          <div class="yn-row"><span class="yn-q">Showed up?</span><span class="yn-pill yes">Y/N</span></div>
+          <div class="yn-row"><span class="yn-q">ICP fit confirmed?</span><span class="yn-pill yes">Y/N</span></div>
+          <div class="yn-row"><span class="yn-q">Ready for the work?</span><span class="yn-pill yes">Y/N</span></div>
+          <div class="yn-row"><span class="yn-q"><b style="color:#fff">→ Approve audit?</b></span><span class="yn-pill yes">Y/N</span></div>
+        </div>
+        <div class="fstg-metrics">
+          <div class="fstg-metric"><div class="lbl">Show</div><div class="val">▢%</div></div>
+          <div class="fstg-metric"><div class="lbl">Approve</div><div class="val gold">▢%</div></div>
+        </div>
+      </div>
+
+      <div class="funnel-stage">
+        <div class="fstg-num">05<small>AUDIT</small></div>
+        <div class="fstg-body">
+          <div class="fstg-title">Audit Process · 1-2 Hour Interview</div>
+          <div class="fstg-sub">If approved: schedule the deep audit. The audit form is the input · the FOSM·LIVE Master Brain output is the audit deliverable (executive summary, RYG by pillar, rocks, risks). Recordings + transcripts + outputs all stored on profile.</div>
+        </div>
+        <div class="yn-gate">
+          <div class="yn-gate-lbl">YES/NO GATE</div>
+          <div class="yn-row"><span class="yn-q">Audit completed?</span><span class="yn-pill yes">Y/N</span></div>
+          <div class="yn-row"><span class="yn-q">Deliverable shipped?</span><span class="yn-pill yes">Y/N</span></div>
+          <div class="yn-row"><span class="yn-q">Wants to engage?</span><span class="yn-pill yes">Y/N</span></div>
+        </div>
+        <div class="fstg-metrics">
+          <div class="fstg-metric"><div class="lbl">Complete</div><div class="val">▢%</div></div>
+          <div class="fstg-metric"><div class="lbl">Engage</div><div class="val gold">▢%</div></div>
+        </div>
+      </div>
+
+      <div class="funnel-stage">
+        <div class="fstg-num">06<small>PROPOSAL</small></div>
+        <div class="fstg-body">
+          <div class="fstg-title">Proposal &amp; Close</div>
+          <div class="fstg-sub">Custom proposal generated from audit findings. Pricing tiers from the Offer Library. GHL-hosted checkout. Contract via GHL doc-sign or external. Profile records the proposal version and any negotiation.</div>
+        </div>
+        <div class="yn-gate">
+          <div class="yn-gate-lbl">YES/NO GATE</div>
+          <div class="yn-row"><span class="yn-q">Proposal sent?</span><span class="yn-pill yes">Y/N</span></div>
+          <div class="yn-row"><span class="yn-q">Bought?</span><span class="yn-pill yes">Y/N</span></div>
+        </div>
+        <div class="fstg-metrics">
+          <div class="fstg-metric"><div class="lbl">Sent</div><div class="val">▢</div></div>
+          <div class="fstg-metric"><div class="lbl">Closed</div><div class="val green">▢</div></div>
+        </div>
+      </div>
+
+      <div class="funnel-stage win">
+        <div class="fstg-num">07<small>WIN ↗</small></div>
+        <div class="fstg-body">
+          <div class="fstg-title">Handoff to Operations CC</div>
+          <div class="fstg-sub">Closed-won. Auto-creates the new client's <b>FOSM·LIVE instance</b> in the Executive CC grid. Operations CC takes over for onboarding. Marketing's attribution chain is now closed-loop: which content got this client?</div>
+        </div>
+        <div class="yn-gate">
+          <div class="yn-gate-lbl">YES/NO GATE</div>
+          <div class="yn-row"><span class="yn-q">Onboarded on time?</span><span class="yn-pill yes">Y/N</span></div>
+          <div class="yn-row"><span class="yn-q">Kickoff scheduled?</span><span class="yn-pill yes">Y/N</span></div>
+        </div>
+        <div class="fstg-metrics">
+          <div class="fstg-metric"><div class="lbl">$</div><div class="val gold">$▢</div></div>
+          <div class="fstg-metric"><div class="lbl">LTV est</div><div class="val gold">$▢</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ════════ MASTER FUNNEL DASHBOARD ════════ -->
+    <div class="sec-h"><span class="sec-title">Master funnel dashboard</span><span class="sec-sub">— all 6 funnels in one view · every stage · dollars in funnel</span><span class="sec-line"></span></div>
+    <div class="master-dash">
+      <div class="master-row h">
+        <span>FUNNEL</span>
+        <span>HANDOFF</span><span>WEBINAR</span><span>BOOK</span><span>15-MIN</span><span>QUALIFY</span><span>PROPOSAL</span><span>CLOSED</span>
+        <span style="text-align:right">$ IN FUNNEL</span>
+      </div>
+      <div class="master-row">
+        <span class="funnel-name-cell">A · Audit ★</span>
+        <span class="master-cell">▢▢</span><span class="master-cell">▢▢</span><span class="master-cell">▢▢</span><span class="master-cell">▢▢</span><span class="master-cell">▢▢</span><span class="master-cell">▢▢</span><span class="master-cell win">▢</span>
+        <span class="master-cell dollars">$▢▢▢K</span>
+      </div>
+      <div class="master-row">
+        <span class="funnel-name-cell">B · Tax Strategy</span>
+        <span class="master-cell">▢▢</span><span class="master-cell zero">—</span><span class="master-cell">▢▢</span><span class="master-cell">▢▢</span><span class="master-cell">▢</span><span class="master-cell">▢</span><span class="master-cell win">▢</span>
+        <span class="master-cell dollars">$▢▢K</span>
+      </div>
+      <div class="master-row">
+        <span class="funnel-name-cell">C · CFO / Fractional</span>
+        <span class="master-cell">▢▢</span><span class="master-cell zero">—</span><span class="master-cell">▢▢</span><span class="master-cell">▢▢</span><span class="master-cell">▢</span><span class="master-cell">▢</span><span class="master-cell win">▢</span>
+        <span class="master-cell dollars">$▢▢K</span>
+      </div>
+      <div class="master-row">
+        <span class="funnel-name-cell">D · Exit Program</span>
+        <span class="master-cell">▢▢</span><span class="master-cell zero">—</span><span class="master-cell">▢▢</span><span class="master-cell">▢</span><span class="master-cell">▢</span><span class="master-cell">▢</span><span class="master-cell win">▢</span>
+        <span class="master-cell dollars">$▢▢▢K</span>
+      </div>
+      <div class="master-row">
+        <span class="funnel-name-cell">E · Family Office</span>
+        <span class="master-cell">▢</span><span class="master-cell zero">—</span><span class="master-cell">▢</span><span class="master-cell">▢</span><span class="master-cell">▢</span><span class="master-cell">▢</span><span class="master-cell win">▢</span>
+        <span class="master-cell dollars">$▢▢▢K</span>
+      </div>
+      <div class="master-row">
+        <span class="funnel-name-cell">F · Direct / Referral</span>
+        <span class="master-cell">▢</span><span class="master-cell zero">—</span><span class="master-cell">▢</span><span class="master-cell">▢</span><span class="master-cell">▢</span><span class="master-cell">▢</span><span class="master-cell win">▢</span>
+        <span class="master-cell dollars">$▢▢K</span>
+      </div>
+    </div>
+    <div class="callout callout-blue">
+      <b>Each cell is clickable.</b> Drill into any cell → see the list of people sitting in that stage of that funnel. Click any person → opens their Person Profile. The dashboard is the entrance to everything else in the Sales CC.
+    </div>
+
+    <!-- ════════ PERSON PROFILE ════════ -->
+    <div class="sec-h"><span class="sec-title">Person Profile · the heart of the Sales CC</span><span class="sec-sub">— full context · auto-aggregated · AI-recommended next touch</span><span class="sec-line"></span></div>
+    <div class="profile-preview">
+      <div class="profile-card">
+        <div class="profile-avatar">JD</div>
+        <div class="profile-name">Jane Doe</div>
+        <div class="profile-co">CFO · Acme Services Co.</div>
+        <div class="profile-stage-pill">FUNNEL A · STG 04</div>
+        <div class="profile-meta">
+          <b>ICP match</b> · 92 (CPA fit)<br>
+          <b>Origin</b> · LinkedIn → Tax webinar<br>
+          <b>Last touch</b> · 6 days ago<br>
+          <b>Lifetime $</b> · $0 (prospect)<br>
+          <b>Est deal $</b> · $48K
+        </div>
+        <div class="profile-touch-warn">
+          ⚠ overdue · 4d past threshold
+        </div>
+      </div>
+      <div class="profile-body">
+
+        <div class="profile-block">
+          <div class="profile-block-h">Timeline · auto-aggregated</div>
+          <div class="profile-events">
+            <div class="ev"><span class="when">Apr 28</span><span class="what"><b>Marketing</b> — clicked LI carousel "5 hidden tax leaks"</span></div>
+            <div class="ev"><span class="when">Apr 30</span><span class="what"><b>Marketing</b> — registered for Tax webinar</span></div>
+            <div class="ev"><span class="when">May 1</span><span class="what"><b>Marketing</b> — watched 78% · clicked CTA</span></div>
+            <div class="ev"><span class="when">May 1</span><span class="what"><b>Sales</b> — booked 15-min · GHL form</span></div>
+            <div class="ev"><span class="when">May 3</span><span class="what"><b>Sales</b> — 15-min call · recording + transcript</span></div>
+            <div class="ev"><span class="when">May 9</span><span class="what" style="color:var(--gold)"><b>NOW</b> — overdue follow-up · AI flagged</span></div>
+          </div>
+        </div>
+
+        <div class="profile-block">
+          <div class="profile-block-h">AI · next recommended touch</div>
+          <div class="ai-rec">
+            <div class="ai-rec-h">★ AUTO-RECOMMENDED · THRESHOLD CROSSED</div>
+            <div class="ai-rec-action">Send personal video Loom + a tax-leak diagnostic PDF, then propose audit slot.</div>
+            <div class="ai-rec-asset">
+              <b>📄 Asset suggested:</b> "5 Hidden Tax Leaks · Self-Diagnostic" (PDF Studio · matches her stated pain point from May 3 call · synthesized from transcript)
+            </div>
+            <div class="ai-rec-actions">
+              <button class="btn btn-primary">draft message</button>
+              <button class="btn">change asset</button>
+              <button class="btn">snooze 3d</button>
+            </div>
+          </div>
+
+          <div class="profile-block-h" style="margin-top:14px">Auto-context inputs</div>
+          <div class="profile-events">
+            <div class="ev"><span class="when">📧 Email</span><span class="what">3 threads · 2 unread on her side</span></div>
+            <div class="ev"><span class="when">📞 Calls</span><span class="what">1 recording · auto-transcript · 12 highlights extracted</span></div>
+            <div class="ev"><span class="when">💬 Slack</span><span class="what">— (not yet client)</span></div>
+            <div class="ev"><span class="when">✅ ClickUp</span><span class="what">— (not yet client)</span></div>
+            <div class="ev"><span class="when">📊 GHL</span><span class="what">all calendar/SMS/email logged</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ════════ MODULE CATALOG ════════ -->
+    <div class="sec-h"><span class="sec-title">Module catalog</span><span class="sec-sub">— what to build · same status taxonomy as Marketing CC</span><span class="sec-line"></span></div>
+    <div class="prod-flow">
+
+      <div class="prod-stage strategy">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num">01</span>
+          <span class="prod-stage-title">Strategy Libraries</span>
+          <span class="prod-stage-sub">data sources · feed every prompt &amp; recommendation</span>
+        </div>
+        <div class="prod-stage-body">
+          Sales-side reference stores. Most are <b>shared with Marketing CC</b> via the Brain — single source of truth.
+          <div class="sm-modules" style="margin-top:10px">
+            <div class="sm-mod"><div class="sm-mod-title">Funnel Template Registry<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">6 starter funnels · stages · qualifiers · gates · same pattern as PDF_SHAPES</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Offer Library<span class="st st-live">SHARED</span></div><div class="sm-mod-sub">Pulls from Marketing CC's canonical store · checkoutUrl surfaces in proposals</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">ICP Library<span class="st st-live">SHARED</span></div><div class="sm-mod-sub">Pulls from Marketing CC · ICP match scoring uses these definitions</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Brand &amp; Voice<span class="st st-live">SHARED</span></div><div class="sm-mod-sub">All AI-drafted touches use buildBrandContextBlock() — same as Marketing</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Qualifier Rubric<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Triangle of Death scoring · ICP fit · emotional readiness · authority · timeline</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Touch Threshold Rules<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Per-funnel-stage SLAs · 24hr / 3d / 7d · drives the AI overdue flagger</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-stage longform">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num">02</span>
+          <span class="prod-stage-title">Funnel Workbench</span>
+          <span class="prod-stage-sub">build &amp; edit funnels · same pattern as PDF Studio</span>
+        </div>
+        <div class="prod-stage-body">
+          Each funnel = an editable record. V-tab spine for the build experience.
+          <div class="vtabs-strip" style="margin-top:8px">
+            <span class="vtab"><b>V1</b>Setup · brand · ICP · offer · default touch SLAs<span class="st st-stub">PLAN</span></span>
+            <span class="vtab"><b>V2</b>Stages · drag-reorder · add/remove<span class="st st-stub">PLAN</span></span>
+            <span class="vtab"><b>V3</b>Qualifiers · per-stage yes/no gates<span class="st st-stub">PLAN</span></span>
+            <span class="vtab"><b>V4</b>Touch playbook · what to send when<span class="st st-stub">PLAN</span></span>
+            <span class="vtab"><b>V5</b>GHL Sync · pipeline · automations · forms<span class="st st-stub">PLAN</span></span>
+            <span class="vtab"><b>V6</b>Live · activate · monitor<span class="st st-stub">PLAN</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-stage slicer">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num">03</span>
+          <span class="prod-stage-title">Person Profile · Multi-View</span>
+          <span class="prod-stage-sub">the heart · accumulates everything · drives recommendations</span>
+        </div>
+        <div class="prod-stage-body">
+          Every human in any funnel has one profile. Aggregates from GHL · email · calls · Slack · ClickUp · Marketing CC attribution chain. AI Recommender runs on a daily heartbeat.
+          <div class="sm-modules" style="margin-top:10px">
+            <div class="sm-mod"><div class="sm-mod-title">Profile View<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Identity · stage · ICP score · timeline · est. deal $ · LTV</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Recording Vault<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">All call recordings · auto-transcripts · highlight extraction · searchable</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Email/SMS Thread<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">GHL inbox view · per-person · color-coded sender</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">★ AI Next-Touch<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Auto-recommend touch type + asset on threshold cross · approve/edit/snooze</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Asset Library Match<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Searches Marketing CC's content library + PDF Studio for the right "free give"</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Custom Offer Builder<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">From profile context · drafts proposal · pulls Offer Library · sends via GHL</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-stage studios">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num">04</span>
+          <span class="prod-stage-title">Pipeline &amp; Scorecard</span>
+          <span class="prod-stage-sub">visibility · forecasting · setter performance</span>
+        </div>
+        <div class="prod-stage-body">
+          <div class="sm-modules" style="margin-top:4px">
+            <div class="sm-mod"><div class="sm-mod-title">Master Pipeline Dashboard<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">All 6 funnels · stage by stage · dollars · click-to-drill</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Per-Funnel Detail<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">One funnel · live stage view · person list per stage</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Forecaster<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Weighted by stage probability · this month / quarter / year</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Setter Scorecard<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Calls per day · show rate · qualify rate · close rate · per-rep ranking</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Cohort Analysis<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">By month · by ICP · by source channel · what's converting</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Loss Reason Library<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Tagged loss reasons · feeds Brain → marketing tweaks · sales script tweaks</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-stage calendar">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num">05</span>
+          <span class="prod-stage-title">Today &amp; Daily Operations</span>
+          <span class="prod-stage-sub">what to do right now</span>
+        </div>
+        <div class="prod-stage-body">
+          <div class="sm-modules" style="margin-top:4px">
+            <div class="sm-mod"><div class="sm-mod-title">★ Today View<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Calls scheduled · overdue follow-ups · AI-recommended touches awaiting approval</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Approval Queue<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">AI-drafted touches → approve/edit/deny pattern (mirrors Marketing's reply drafter)</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Call Prep<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Pre-call brief auto-generated from profile · what to ask · what to avoid</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Post-Call Capture<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Quick yes/no gate updates · notes · next stage routing</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-stage attribution">
+        <div class="prod-stage-h">
+          <span class="prod-stage-num">06</span>
+          <span class="prod-stage-title">Handoff to Operations CC</span>
+          <span class="prod-stage-sub">closed-won → new client onboarding</span>
+        </div>
+        <div class="prod-stage-body">
+          <div class="sm-modules" style="margin-top:4px">
+            <div class="sm-mod"><div class="sm-mod-title">Closed-Won Trigger<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Auto-creates new FOSM·LIVE instance in Executive CC · seeds with audit findings</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Onboarding Brief<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Profile + audit + proposal → onboarding doc auto-generated for Ops CC</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Closed-Lost Loop<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Loss reason captured · added to nurture sequence · feeds Brain learning</div></div>
+            <div class="sm-mod"><div class="sm-mod-title">Attribution Closure<span class="st st-stub">PLAN</span></div><div class="sm-mod-sub">Pushes "this content got this $" back to Marketing CC's Recommendation Loop</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ════════ EXTERNAL INTEGRATIONS ════════ -->
+    <div class="sec-h"><span class="sec-title">External integrations</span><span class="sec-sub">— GoHighLevel is the backbone</span><span class="sec-line"></span></div>
+    <div class="ext-strip">
+      <div class="ext-card"><div class="ext-name">GoHighLevel <span class="st st-stub">PLAN</span></div><div class="ext-desc">★ Backbone · email · SMS · calendar · landing pages · pipelines · websites · forms · automations</div></div>
+      <div class="ext-card"><div class="ext-name">Anthropic API <span class="st st-live">SHARED</span></div><div class="ext-desc">Same /api/ai-proxy as Marketing · drafts touches · qualifies leads · scores ICP fit</div></div>
+      <div class="ext-card"><div class="ext-name">Descript <span class="st st-stub">PLAN</span></div><div class="ext-desc">Call recording transcription · auto-import to profile · highlight extraction</div></div>
+      <div class="ext-card"><div class="ext-name">Slack <span class="st st-stub">PLAN</span></div><div class="ext-desc">Per-deal channels for active clients · post-close handoff to Ops CC</div></div>
+      <div class="ext-card"><div class="ext-name">ClickUp <span class="st st-stub">PLAN</span></div><div class="ext-desc">Post-close · onboarding tasks generated from profile · syncs to Ops CC</div></div>
+      <div class="ext-card"><div class="ext-name">Google Drive <span class="st st-stub">PLAN</span></div><div class="ext-desc">Per-client folder convention · proposals · contracts · audit deliverables</div></div>
+    </div>
+
+    <!-- ════════ STATE & PERSISTENCE ════════ -->
+    <div class="sec-h"><span class="sec-title">State &amp; persistence</span><span class="sec-sub">— Phase 1 localStorage with versioned schema · Phase 4 backend hookup</span><span class="sec-line"></span></div>
+    <div class="state-strip">
+      <div class="state-pill"><b>FUNNELS</b>funnel_registry · funnel_states</div>
+      <div class="state-pill"><b>PEOPLE</b>person_profiles · person_index</div>
+      <div class="state-pill"><b>RECORDINGS</b>recording_index · transcripts</div>
+      <div class="state-pill"><b>TOUCHES</b>touch_log · ai_recommendations</div>
+      <div class="state-pill"><b>QUALIFIERS</b>qualifier_responses · scoring</div>
+      <div class="state-pill"><b>PIPELINE</b>sales_pipeline · stage_states</div>
+      <div class="state-pill"><b>DEALS</b>proposals · contracts · won/lost</div>
+      <div class="state-pill"><b>SHARED</b>brand · icp · offer (read-thru to Mktg)</div>
+    </div>
+    <div class="callout" style="margin-top:12px">
+      <b>Same <code style="background:#000;padding:1px 4px;border-radius:2px;font-size:10px">fosm_*_v1</code> naming convention as Marketing CC.</b> Same backup safety net (export-all/import-all from System Map). Same versioned schema for Phase 4 backend migration. The Sales CC and Marketing CC share Brand · ICP · Offer libraries via cross-module reads — single source of truth, never duplicated.
+    </div>
+
+    <!-- ════════ BUILD ORDER ════════ -->
+    <div class="sec-h"><span class="sec-title">Recommended build order</span><span class="sec-sub">— ship the spine first · then the ornaments</span><span class="sec-line"></span></div>
+    <div class="three-col">
+      <div class="callout">
+        <b>Phase 1 · Spine</b><br>
+        Funnel Template Registry · Audit funnel hard-coded · Person Profile basic view · Master Dashboard with placeholder numbers · Marketing-Sales Bridge read-only mirror.
+      </div>
+      <div class="callout" style="border-left-color:var(--blue);background:linear-gradient(90deg,var(--blue-dim) 0%,transparent 100%)">
+        <b style="color:var(--blue)">Phase 2 · Wiring</b><br>
+        GHL integration · email/SMS sync · calendar booking · call recording import · auto-transcript · profile timeline auto-population · ICP scoring · qualifier rubric.
+      </div>
+      <div class="callout" style="border-left-color:var(--gold);background:linear-gradient(90deg,var(--gold-dim) 0%,transparent 100%)">
+        <b style="color:var(--gold)">Phase 3 · Intelligence</b><br>
+        AI Next-Touch recommender · asset library matcher · custom offer builder · forecaster · setter scorecard · closed-lost loop · attribution closure to Marketing.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     V4 — EXECUTIVE / ADMINISTRATIVE CC (multi-tenant)
+════════════════════════════════════════ -->
+<div class="view" id="v4">
+  <div class="topbar">
+    <div class="topbar-title">Executive Command Center <span class="topbar-sub">— multi-tenant from day 1 · your portfolio + future licensees</span></div>
+    <div class="topbar-right">
+      <span class="tag tag-gold">portfolio view</span>
+      <span class="tag tag-blue">multi-tenant</span>
+      <button class="btn">hide private details ▾</button>
+    </div>
+  </div>
+  <div class="canvas">
+
+    <div class="callout">
+      <b>There are now THREE Executive CCs — one per software layer.</b> Same architecture, different content: For-Profit Executive CC manages company instances; Non-Profit Executive CC manages foundations; Retreat Executive CC manages retreat locations. The example below shows the For-Profit version. The Non-Profit and Retreat versions follow the same pattern with their layer's vocabulary (donor totals · impact metrics; candidates · cohorts · integration outcomes).
+    </div>
+
+    <div class="callout">
+      <b>Three tenant types from day 1.</b> The architecture treats your LGR portfolio, future PE/family-office licensees, and agency/holdco licensees as the same primitive — a "principal" with N "managed entities" beneath them. This protects you from rebuilding when you sell the platform — and the same primitives extend to foundation networks (Layer 4 licensees) and retreat operators (Layer 5 licensees) once those exist as products.
+    </div>
+
+    <div class="sec-h"><span class="sec-title">Tenant model</span><span class="sec-sub">— who buys this product · what they see</span><span class="sec-line"></span></div>
+    <div class="tenant-grid">
+      <div class="tenant-card">
+        <h4>Tenant Type A · You (LGR)</h4>
+        <span class="tag tag-gold">live · day 1</span>
+        <p>Your portfolio of LGR client engagements. Each client = one managed entity. Drill from the master grid into a single client's full FOSM·LIVE.</p>
+      </div>
+      <div class="tenant-card">
+        <h4>Tenant Type B · PE / Family Office</h4>
+        <span class="tag">licensee · day 1 architecture</span>
+        <p>A PE firm's portfolio of operating companies, or a family office's holdings. They get the same grid + drilldown. Their entities never see each other.</p>
+      </div>
+      <div class="tenant-card">
+        <h4>Tenant Type C · Agency / Holdco</h4>
+        <span class="tag">licensee · day 1 architecture</span>
+        <p>A consulting firm or holdco running multiple operating brands. Same primitives. Same isolation. Their tenant admin manages permissions.</p>
+      </div>
+    </div>
+
+    <div class="sec-h"><span class="sec-title">The portfolio grid</span><span class="sec-sub">— what you see when you log in</span><span class="sec-line"></span></div>
+    <div class="portfolio-table">
+      <div class="pt-h">
+        <span>Client / Entity</span>
+        <span>F</span><span>O</span><span>S</span><span>M</span>
+        <span>L</span><span>I</span><span>V</span><span>E</span>
+        <span style="text-align:right">Status</span>
+      </div>
+      <div class="pt-row">
+        <span class="pt-name">Client Alpha</span>
+        <span><span class="ryg g"></span></span><span><span class="ryg y"></span></span><span><span class="ryg g"></span></span><span><span class="ryg g"></span></span>
+        <span><span class="ryg g"></span></span><span><span class="ryg g"></span></span><span><span class="ryg y"></span></span><span><span class="ryg y"></span></span>
+        <span style="text-align:right;color:var(--green)">on track</span>
+      </div>
+      <div class="pt-row">
+        <span class="pt-name">Client Bravo</span>
+        <span><span class="ryg y"></span></span><span><span class="ryg r"></span></span><span><span class="ryg y"></span></span><span><span class="ryg g"></span></span>
+        <span><span class="ryg g"></span></span><span><span class="ryg y"></span></span><span><span class="ryg g"></span></span><span><span class="ryg g"></span></span>
+        <span style="text-align:right;color:var(--rose)">ops red</span>
+      </div>
+      <div class="pt-row">
+        <span class="pt-name">Client Charlie</span>
+        <span><span class="ryg g"></span></span><span><span class="ryg g"></span></span><span><span class="ryg g"></span></span><span><span class="ryg g"></span></span>
+        <span><span class="ryg g"></span></span><span><span class="ryg g"></span></span><span><span class="ryg g"></span></span><span><span class="ryg g"></span></span>
+        <span style="text-align:right;color:var(--green)">all green</span>
+      </div>
+      <div class="pt-row">
+        <span class="pt-name">Client Delta</span>
+        <span><span class="ryg g"></span></span><span><span class="ryg y"></span></span><span><span class="ryg r"></span></span><span><span class="ryg y"></span></span>
+        <span><span class="ryg y"></span></span><span><span class="ryg r"></span></span><span><span class="ryg g"></span></span><span><span class="ryg r"></span></span>
+        <span style="text-align:right;color:var(--rose)">leader struggling</span>
+      </div>
+      <div class="pt-row">
+        <span class="pt-name">Client Echo</span>
+        <span><span class="ryg g"></span></span><span><span class="ryg g"></span></span><span><span class="ryg y"></span></span><span><span class="ryg g"></span></span>
+        <span><span class="ryg g"></span></span><span><span class="ryg g"></span></span><span><span class="ryg g"></span></span><span><span class="ryg g"></span></span>
+        <span style="text-align:right;color:var(--gold)">sales tweak</span>
+      </div>
+      <div class="pt-totals">
+        <span><b>Gross Revenue</b> · $▢▢.▢M</span>
+        <span><b>Gross Profit</b> · $▢▢.▢M</span>
+        <span><b>Net Income</b> · $▢.▢M</span>
+        <span><b>Assets</b> · $▢▢.▢M</span>
+        <span><b>Liabilities</b> · $▢.▢M</span>
+        <span><b>Cash Flow</b> · $▢.▢M</span>
+        <span style="margin-left:auto;color:#aaa">↑ rolled up across all entities · "I manage $▢▢▢M"</span>
+      </div>
+    </div>
+
+    <div class="sec-h"><span class="sec-title">Click an entity → executive summary</span><span class="sec-line"></span></div>
+    <div class="two-col">
+      <div class="callout callout-blue">
+        <b>The summary screen contains:</b> the entity's mission/vision/values · top 3 wins · top 3 risks · what to listen for in the next call · pillar trends (▲▼ on each F·O·S·M·L·I·V·E) · open rocks · cash position · last week's marketing/sales delta · a button to deep-link into their full FOSM·LIVE.
+      </div>
+      <div class="callout">
+        <b>"Hide private details" toggle.</b> One-tap removes client names, replaces with "Client A · Client B…" but keeps all numbers and statuses. Lets you screen-share with prospects to demonstrate the platform without compromising any client confidentiality.
+      </div>
+    </div>
+
+    <div class="sec-h"><span class="sec-title">Architecture notes for the back-end</span><span class="sec-sub">— so we build it right the first time</span><span class="sec-line"></span></div>
+    <div class="three-col">
+      <div class="callout callout-blue">
+        <b>Tenant isolation by design.</b> Row-level security on every table. A query for Tenant A can never return a row tagged Tenant B. Verified at the DB layer, not the app layer.
+      </div>
+      <div class="callout callout-blue">
+        <b>Shared schema, separate data.</b> All tenants use the same FOSM·LIVE schema (so one upgrade benefits everyone). Their data lives in their tenant partition.
+      </div>
+      <div class="callout callout-blue">
+        <b>Roles &amp; principals.</b> Tenant admin · entity owner · entity contributor · read-only viewer. Permissions are inherited down the entity tree.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     V5 — BRAND WORLDS
+════════════════════════════════════════ -->
+<div class="view" id="v5">
+  <div class="topbar">
+    <div class="topbar-title">Brand Worlds <span class="topbar-sub">— 6 doorways, 1 message · pulled from your Brand Voice Guide</span></div>
+    <div class="topbar-right">
+      <span class="tag tag-orange">source · 01_Brand_Voice_Messaging_Guide.docx</span>
+    </div>
+  </div>
+  <div class="canvas">
+
+    <div class="callout">
+      <b>Same philosophy, different doorways.</b> Each brand has a subtle voice shift based on who's walking through. The Marketing CC switches voice automatically when you switch brand context. The Brand Voice Sentinel runs a 7-point check on everything before it ships.
+    </div>
+
+    <div class="bw-grid">
+
+      <div class="bw-card parent">
+        <div class="bw-tag">PARENT BRAND</div>
+        <div class="bw-name">Learn And Grow Rich</div>
+        <div class="bw-row"><div class="lbl">Audience</div><div class="val">Entrepreneurs scaling to and past $1M.</div></div>
+        <div class="bw-row"><div class="lbl">Voice</div><div class="val">The warm teacher. Tactical · framework-driven · numbers-confident.</div></div>
+        <div class="bw-row"><div class="lbl">Tone marker</div><div class="val"><em>"Here's exactly how to do this."</em></div></div>
+        <div class="bw-row"><div class="lbl">Default CTA</div><div class="val">Free F.O.S.M. Planner → Finance Department → Beyond The Money.</div></div>
+        <div class="bw-row"><div class="lbl">Houses</div><div class="val">MBA Program (project) · Beyond The Money (program)</div></div>
+      </div>
+
+      <div class="bw-card beyond">
+        <div class="bw-tag">PROGRAM UNDER LGR</div>
+        <div class="bw-name">Beyond The Money</div>
+        <div class="bw-row"><div class="lbl">Audience</div><div class="val">Founders who have the money but not the fulfillment.</div></div>
+        <div class="bw-row"><div class="lbl">Voice</div><div class="val">The peer who's been there. Reflective · vulnerable · philosophical.</div></div>
+        <div class="bw-row"><div class="lbl">Tone marker</div><div class="val"><em>"I had everything and still didn't have peace. Here's what I found."</em></div></div>
+        <div class="bw-row"><div class="lbl">Default CTA</div><div class="val">Beyond The Money → Inner Circle → The Retreat.</div></div>
+      </div>
+
+      <div class="bw-card found">
+        <div class="bw-tag">SUB-BRAND · OWN CHANNELS</div>
+        <div class="bw-name">The Foundation by LGR</div>
+        <div class="bw-row"><div class="lbl">Audience</div><div class="val">Givers · donors · the inspired.</div></div>
+        <div class="bw-row"><div class="lbl">Voice</div><div class="val">The steward. Grateful · transparent · numbers-driven.</div></div>
+        <div class="bw-row"><div class="lbl">Tone marker</div><div class="val"><em>"100% of this reached the mission. Here's the receipt."</em></div></div>
+        <div class="bw-row"><div class="lbl">Default CTA</div><div class="val">Donate → follow progress → MBA Program (so they can give more).</div></div>
+      </div>
+
+      <div class="bw-card retreat">
+        <div class="bw-tag">SUB-BRAND · OWN CHANNELS</div>
+        <div class="bw-name">The Retreat by LGR</div>
+        <div class="bw-row"><div class="lbl">Audience</div><div class="val">High-functioning entrepreneurs ready for inner work.</div></div>
+        <div class="bw-row"><div class="lbl">Voice</div><div class="val">The guide who's walked it. Calm · knowing · inviting.</div></div>
+        <div class="bw-row"><div class="lbl">Tone marker</div><div class="val"><em>"I searched 15 years for this. Here's what actually works."</em></div></div>
+        <div class="bw-row"><div class="lbl">Default CTA</div><div class="val">Application → Beyond The Money pre-req → The Farm.</div></div>
+      </div>
+
+      <div class="bw-card mgp">
+        <div class="bw-tag">PARALLEL BRAND</div>
+        <div class="bw-name">Money · God · Politics — Let's Talk</div>
+        <div class="bw-row"><div class="lbl">Audience</div><div class="val">Truth-seekers exhausted by polarization.</div></div>
+        <div class="bw-row"><div class="lbl">Voice</div><div class="val">The humble student. Inquiring · curious · "I don't know for sure."</div></div>
+        <div class="bw-row"><div class="lbl">Tone marker</div><div class="val"><em>"Let's explore this together — what if…?"</em></div></div>
+        <div class="bw-row"><div class="lbl">Default CTA</div><div class="val">Subscribe podcast · Substack · LGR for the frameworks behind.</div></div>
+      </div>
+
+      <div class="bw-card indiana">
+        <div class="bw-tag">PERSONAL BRAND</div>
+        <div class="bw-name">Indiana Oehlman</div>
+        <div class="bw-row"><div class="lbl">Audience</div><div class="val">Everyone — the friend-level audience.</div></div>
+        <div class="bw-row"><div class="lbl">Voice</div><div class="val">The friend on the road. Present-tense · adventurous · grounded.</div></div>
+        <div class="bw-row"><div class="lbl">Tone marker</div><div class="val"><em>"Today I'm in [place] and this is wild."</em></div></div>
+        <div class="bw-row"><div class="lbl">Default CTA</div><div class="val">Usually none. "Follow along." Other brands surface organically.</div></div>
+      </div>
+
+    </div>
+
+    <div class="sec-h"><span class="sec-title">The voice check (7 questions, every post)</span><span class="sec-line"></span></div>
+    <div class="callout">
+      Sounds like <em>you</em>, not a generic marketer? · Inquiry-led, not declaration-led? · Avoids moralizing? · Gives value before asking? · Names something concrete (story, framework, number, question)? · If God/faith mentioned, would an atheist still want to read it? · Does the CTA match brand + funnel stage?
+      <br><br>
+      <b>If any answer is wrong, it doesn't ship.</b>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     V6 — SUB-COMMAND-CENTERS overview
+════════════════════════════════════════ -->
+<div class="view" id="v6">
+  <div class="topbar">
+    <div class="topbar-title">Sub-Command-Centers <span class="topbar-sub">— what each one does · what's planned · how they connect</span></div>
+    <div class="topbar-right">
+      <span class="tag">all planned</span>
+      <span class="tag tag-blue">all plug into FOSM·LIVE</span>
+    </div>
+  </div>
+  <div class="canvas">
+
+    <div class="callout">
+      <b>Three categories below.</b> <em>Modules</em> live inside every FOSM·LIVE instance across all three layers (Marketing CC, Sales CC, Operations CC, Vision-to-Reality). <em>Flagships</em> are your own instances — LGR (Layer 3), Foundation by LGR (Layer 4), Retreat by LGR (Layer 5). Each flagship is the proof-of-concept and reference instance for its hierarchy.
+    </div>
+
+    <div class="subcc-grid">
+
+      <div class="subcc-card sales">
+        <div class="h"><h3>Sales / Stewardship CC <span style="font-family:var(--mono);font-size:9px;color:var(--mute);font-weight:400;margin-left:4px">— module · all layers</span></h3><span class="tag tag-green"><span class="status-dot plan"></span>planned</span></div>
+        <p>Lives inside every FOSM·LIVE instance regardless of layer. <b>For-Profit:</b> sales pipeline · qualifier → interview → audit → close. <b>Non-Profit:</b> stewardship pipeline · cultivation → ask → close → steward. <b>Retreat:</b> candidate pipeline · application → vetting → admit → onboard. Same shape, different vocabulary — the chamber tells the module which language to use.</p>
+        <div class="modlist">
+          <span class="mod">Pipeline</span><span class="mod">Webinar A/B</span><span class="mod">15-min Qualifier</span><span class="mod">Interview Workflow</span><span class="mod">Audit Intake</span><span class="mod">Proposal / Ask Builder</span><span class="mod">Triangle of Death Score</span><span class="mod">Script Library</span><span class="mod">Setter Scorecard</span><span class="mod">Close Forecaster</span><span class="mod">Stewardship Sequences</span><span class="mod">Candidate Vetting</span>
+        </div>
+      </div>
+
+      <div class="subcc-card ops">
+        <div class="h"><h3>Operations CC <span style="font-family:var(--mono);font-size:9px;color:var(--mute);font-weight:400;margin-left:4px">— module · all layers</span></h3><span class="tag tag-purple"><span class="status-dot plan"></span>planned</span></div>
+        <p>Lives inside every FOSM·LIVE instance. Anchored on ClickUp. SOPs, delegation maps, RACI, weekly L10, owner scorecards. For Retreat instances, this is also where candidate intake, ceremony scheduling, and integration tracking live as extended modules — the technical detail TBD per your note.</p>
+        <div class="modlist">
+          <span class="mod">SOP Library</span><span class="mod">RACI / Owners</span><span class="mod">L10 Tracker</span><span class="mod">Owner Scorecards</span><span class="mod">Capacity Planner</span><span class="mod">Quality Audits</span><span class="mod">Onboarding Workflow</span><span class="mod">ClickUp Sync</span><span class="mod">Slack Sync</span><span class="mod">Program Delivery (NP)</span><span class="mod">Candidate Tracking (RT)</span>
+        </div>
+      </div>
+
+      <div class="subcc-card v2r">
+        <div class="h"><h3>Vision-to-Reality <span style="font-family:var(--mono);font-size:9px;color:var(--mute);font-weight:400;margin-left:4px">— module · LIVE · V · all layers</span></h3><span class="tag tag-blue"><span class="status-dot plan"></span>planned</span></div>
+        <p>The vision-board system inside the LIVE pillar of every instance. Source of truth for Vision. Dream Day · Adventure List · Dream Life Number · annual/quarterly/monthly cascade. Same tool, different applications — companies set revenue goals, foundations set impact goals, retreats set transformation goals.</p>
+        <div class="modlist">
+          <span class="mod">Vision Board</span><span class="mod">Dream Day Builder</span><span class="mod">Adventure List</span><span class="mod">Dream Life / Impact Number</span><span class="mod">Annual → Quarterly → Monthly</span><span class="mod">Belief Audits</span><span class="mod">Wilson's Law Tracker</span>
+        </div>
+      </div>
+
+      <div class="subcc-card lgr-instance">
+        <div class="h"><h3>LGR FOSM·LIVE <span style="font-family:var(--mono);font-size:9px;color:var(--orange);font-weight:400;margin-left:4px">— flagship · Layer 3</span></h3><span class="tag tag-green"><span class="status-dot live"></span>live</span></div>
+        <p>Your flagship For-Profit instance. Same architecture as every Layer-3 client instance — Marketing · Sales · Ops + L·I·V·E modules — and it appears in your For-Profit Executive CC alongside the client instances. The proof-of-concept and reference instance for the for-profit playbook: when something works here, it gets templated in the For-Profit chamber and rolled out everywhere.</p>
+        <div class="modlist">
+          <span class="mod">Already Built</span><span class="mod">Reference Instance</span><span class="mod">Source of LGR Truth</span><span class="mod">First Row · For-Profit Exec Grid</span>
+        </div>
+      </div>
+
+      <div class="subcc-card foundation">
+        <div class="h"><h3>Foundation by LGR <span style="font-family:var(--mono);font-size:9px;color:var(--rose);font-weight:400;margin-left:4px">— flagship · Layer 4</span></h3><span class="tag tag-rose"><span class="status-dot plan"></span>planned</span></div>
+        <p>Your flagship Non-Profit instance. Same FOSM·LIVE architecture but the Non-Profit chamber adapts the vocabulary — Stewardship pipelines, fund accounting, 990s, cause marketing, donor community. The flagship for "teach foundations to run like businesses" — when it works here, it gets templated in the Non-Profit chamber and offered to every foundation client.</p>
+        <div class="modlist">
+          <span class="mod">100% Pass-Through Ledger</span><span class="mod">Donor Portal</span><span class="mod">Impact Stories</span><span class="mod">Transparency Reports</span><span class="mod">Operator Updates</span><span class="mod">Donor Community</span><span class="mod">Auto-Receipts</span><span class="mod">Schools / Kids Tracker</span><span class="mod">Grant Lifecycle</span><span class="mod">Board Governance</span>
+        </div>
+      </div>
+
+      <div class="subcc-card retreat">
+        <div class="h"><h3>Retreat by LGR · The Farm <span style="font-family:var(--mono);font-size:9px;color:var(--teal);font-weight:400;margin-left:4px">— flagship · Layer 5</span></h3><span class="tag tag-teal"><span class="status-dot plan"></span>planned</span></div>
+        <p>Your flagship Retreat instance — The Farm in Colombia. Same FOSM·LIVE shell with extended modules for candidate tracking, ceremony scheduling, integration sessions, and alumni follow-up. The reference instance for the Retreat chamber as expansion locations come online. Module list still being designed because, as you said, "more people, more detail."</p>
+        <div class="modlist">
+          <span class="mod">Application</span><span class="mod">Vetting</span><span class="mod">Pre-Medicine Intake</span><span class="mod">Logistics &amp; Travel</span><span class="mod">Ceremony Schedule</span><span class="mod">Post-Medicine Integration</span><span class="mod">Alumni Community</span><span class="mod">Modality Tracker</span><span class="mod">Practitioner Roster</span><span class="mod">Cohort Outcomes</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     V7 — BUILD ORDER
+════════════════════════════════════════ -->
+<div class="view" id="v7">
+  <div class="topbar">
+    <div class="topbar-title">Build Order <span class="topbar-sub">— recommended sequence so each piece accelerates the next</span></div>
+    <div class="topbar-right">
+      <span class="tag tag-orange">recommendation</span>
+      <span class="tag">we can re-order</span>
+    </div>
+  </div>
+  <div class="canvas">
+
+    <div class="callout">
+      <b>This sequence is engineered for maximum compounding.</b> Each step makes the next one faster to build and more valuable when it ships. We can re-order if something becomes urgent — but here's why this order works.
+    </div>
+
+    <div class="seq-track">
+
+      <div class="seq-step now">
+        <div class="seq-card">
+          <div class="seq-meta"><span class="seq-num">STEP 01 · NOW</span><span class="tag tag-orange">building</span></div>
+          <h4>Marketing Command Center (back-end architecture + front-end polish)</h4>
+          <p>You've drawn the front-end. Next: the back-end data model that holds brands, campaigns, content pieces, channels, attribution chains, and the FOSM·LIVE sync interface. Get this right and everything downstream is plug-and-play.</p>
+          <div class="deliverables"><span class="tag">DB schema</span><span class="tag">Multi-tenant ready</span><span class="tag">Voice Sentinel</span><span class="tag">Attribution engine</span><span class="tag">Calendar sync</span></div>
+        </div>
+      </div>
+
+      <div class="seq-step next">
+        <div class="seq-card">
+          <div class="seq-meta"><span class="seq-num">STEP 02 · NEXT</span><span class="tag tag-gold">queued</span></div>
+          <h4>Sales Command Center</h4>
+          <p>Marketing without Sales is leaking. Build Sales next so the handoff is closed-loop and you can attribute marketing to actual closes, not just MQLs. The audit intake here also feeds FOSM·LIVE for new clients.</p>
+          <div class="deliverables"><span class="tag">Pipeline</span><span class="tag">Audit intake</span><span class="tag">Webinar funnels</span><span class="tag">Triangle of Death</span></div>
+        </div>
+      </div>
+
+      <div class="seq-step next">
+        <div class="seq-card">
+          <div class="seq-meta"><span class="seq-num">STEP 03</span><span class="tag tag-gold">queued</span></div>
+          <h4>Operations Command Center</h4>
+          <p>Once leads are closing, the bottleneck moves to delivery. Ops CC anchored on ClickUp standardizes delivery so you can scale without dropping balls. Also unlocks the multi-tenant licensee story — agencies and PE firms care most about Ops.</p>
+          <div class="deliverables"><span class="tag">SOP library</span><span class="tag">L10</span><span class="tag">Owner scorecards</span><span class="tag">ClickUp sync</span></div>
+        </div>
+      </div>
+
+      <div class="seq-step later">
+        <div class="seq-card">
+          <div class="seq-meta"><span class="seq-num">STEP 04</span><span class="tag">later</span></div>
+          <h4>Vision-to-Reality CC</h4>
+          <p>With the company side (F·O·S·M) done, build the human side. V2R is the highest-leverage of the LIVE pillars because it sets every goal that cascades through everything else.</p>
+        </div>
+      </div>
+
+      <div class="seq-step later">
+        <div class="seq-card">
+          <div class="seq-meta"><span class="seq-num">STEP 05</span><span class="tag">later</span></div>
+          <h4>Executive / Administrative CC (multi-tenant launch)</h4>
+          <p>Once Marketing + Sales + Ops + V2R are stable for ONE tenant (you), expose the Executive layer for additional tenants. This is where the licensable product appears.</p>
+        </div>
+      </div>
+
+      <div class="seq-step later">
+        <div class="seq-card">
+          <div class="seq-meta"><span class="seq-num">STEP 06</span><span class="tag">later</span></div>
+          <h4>Foundation CC</h4>
+          <p>By the time the for-profit machine is running, the Foundation has revenue to track. Build the 100% pass-through ledger and donor community when there's something real to publish.</p>
+        </div>
+      </div>
+
+      <div class="seq-step later">
+        <div class="seq-card">
+          <div class="seq-meta"><span class="seq-num">STEP 07</span><span class="tag">later</span></div>
+          <h4>Retreat CC</h4>
+          <p>Last because it requires the hardest content (medical intake, integration protocols, practitioner network). Build when the retreat program itself is ready to host applicants — not before.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sec-h"><span class="sec-title">Open architecture decisions</span><span class="sec-sub">— things to choose once for the whole system</span><span class="sec-line"></span></div>
+    <div class="three-col">
+      <div class="callout">
+        <b>Stack.</b> What's the back-end? (Node/Postgres? Python? Supabase?) This affects every CC. Decide once, locks scaling decisions for years.
+      </div>
+      <div class="callout">
+        <b>Auth &amp; tenancy.</b> SSO? Per-tenant subdomains vs. shared with workspace switcher? RBAC granularity?
+      </div>
+      <div class="callout">
+        <b>AI provider strategy.</b> Anthropic/OpenAI/local? One provider per task or model-routed? Affects the Expert Library.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+</div><!-- /shell -->
+
+<script>
+// Tab switching
+document.querySelectorAll('.mtab, .nav-item[data-view]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const view = btn.dataset.view;
+    if (!view) return;
+    document.querySelectorAll('.mtab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
+    document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === view));
+    document.querySelector('.canvas')?.scrollTo?.(0, 0);
+    const main = document.querySelector('.main');
+    if (main) main.querySelector('.canvas')?.scrollTo?.({top:0});
+  });
+});
+</script>
+</body>
+</html>
