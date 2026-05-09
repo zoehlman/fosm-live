@@ -1,8 +1,15 @@
 # The Brain · Prompt Library · Design Note
 
-**Status:** v0.3 · all five original open questions resolved · ready for spec drafting
-**Date:** 2026-05-08
-**Next:** Full spec drafted at `docs/brain-spec.md` (no timeline — when ready)
+**Status:** v0.4 · spec drafted and locked at v1.0 · this note is now historical
+**Date:** 2026-05-09
+**Successor:** [`docs/brain-spec.md`](brain-spec.md) v1.0 — the canonical contract
+
+This note's purpose is now historical. v0.1-v0.3 captured the design
+conversation that produced the spec. v0.4 marks the transition: the spec
+is locked, the architecture is committed to. **For all questions about
+brain architecture, refer to `docs/brain-spec.md`.** This note is preserved
+so future readers can see the *evolution* of the design — how decisions
+were made, what was considered, what was deferred.
 
 This is a bridge document. It captures tonight's design conversation about
 the prompt library so the spec sprint doesn't have to reconstruct context
@@ -593,36 +600,15 @@ based on this note plus a fresh design pass.
 
 ## Last updated
 
-2026-05-08 by Zach Oehlman + Claude. v0.1 captured during initial late-night
-design sprint. v0.2 incorporated upgrades from a structured end-to-end
-read-through:
+2026-05-09 by Zach Oehlman + Claude.
 
-- Folder taxonomy resolved — CC-organized with `shared/` for cross-cutting
-  prompts (Zach's design)
-- Demo prompts go under `fosm-live-cc/` (organize by output, not function)
-- PR template direction set — structured form with required fields,
-  more-rather-than-less
-- Fetch-and-cache resolved — 5–15 minute cache with manual refresh button
-- Migration sequence resolved — per-CC two-step (audit, then migrate), in
-  System Map rollout order
-- Out-of-scope list expanded with client-side editing UI and future team
-  member write access
+- v0.1 captured during initial late-night design sprint (2026-05-08).
+- v0.2 incorporated upgrades from a structured end-to-end read-through.
+- v0.3 resolved the final two architectural questions (auth, cache).
+- **v0.4 marks the transition: spec drafted at `docs/brain-spec.md` v1.0.**
 
-v0.3 resolves the final two architectural questions:
+This note is now **historical**. The canonical contract for the brain
+lives in [`brain-spec.md`](brain-spec.md). This note remains in the repo
+so future readers can trace the *evolution* of the design.
 
-- **Auth mechanism:** Per-session token authentication via Auth0 (Option B,
-  not the simpler shared-secret approach). Built for the team-future, not
-  the solo-present. Phase 2 build cost expands to ~5-6 hours; cost
-  acknowledged and accepted.
-- **Cache specifics:** 10-minute default with per-folder TTL overrides
-  (1hr for shared/voice + framework + meta, 30min for shared/icp, 10min
-  for active CCs, 30min for vision-cc + fosm-live-personal). Time-based
-  invalidation in v1; push invalidation deferred to v2. Per-prompt cache
-  override deferred to v1.1.
-
-**All five original open questions are now resolved.** The vision is locked.
-The architecture is fully sketched. The full spec (`docs/brain-spec.md`)
-can be drafted whenever ready — no fixed timeline. Building includes all
-the thinking.
-
-— Cheers and have a blessed day.
+— *Cheers and have a blessed day.*
