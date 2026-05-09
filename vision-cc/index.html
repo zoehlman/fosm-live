@@ -3064,6 +3064,8 @@ function openMovieGenerator(kind, id) {
 
   if (photos.length < 3) {
     summaryHtml += `<div class="mv-pre-warn">Need at least 3 photos to make a movie. Add a few more first.</div>`;
+  } else if (kind === 'lifetime' && photos.length < 12) {
+    summaryHtml += `<div class="mv-pre-warn">Heads up: a Lifetime trailer with ${photos.length} photos will be short and a bit thin. Try a domain or project trailer first to see how it feels — it's faster to render too. The Lifetime cut shines when you have 25+ photos across all your spaces.</div>`;
   } else if (photos.length < 8 && kind === 'lifetime') {
     summaryHtml += `<div class="mv-pre-warn">A Lifetime trailer is more powerful with 30+ photos across your domains. You can still generate now — just shorter.</div>`;
   }
@@ -3342,11 +3344,19 @@ async function startMovieRender() {
     setRenderStage('Composing the cut', 18, 'Picking the order, pacing the photos, placing your vision text.');
     const sequence = composeSequence(loadedImages, visions, mvCurrentSource);
 
-    setRenderStage('Rendering frames', 22, 'Each frame is painted onto a canvas with smooth panning and crossfades. This takes a moment.');
+    setRenderStage('Rendering frames', 22, 'Painting each frame onto canvas with smooth pans and crossfades. This takes about as long as the movie itself — your CPU is doing the work.');
     const result = await renderToVideo(sequence, music, (frameProgress) => {
       // 22% to 92% during frame rendering
       const pct = 22 + frameProgress * 70;
       updateRenderProgress(pct);
+      // Update detail message at milestones so user knows it's progressing
+      if (frameProgress > 0.05 && frameProgress < 0.10) {
+        document.getElementById('mvRenderDetail').textContent = 'Engine running. Hold tight — about as long as the movie itself.';
+      } else if (frameProgress > 0.45 && frameProgress < 0.50) {
+        document.getElementById('mvRenderDetail').textContent = 'Halfway. The hardest CPU work is behind us.';
+      } else if (frameProgress > 0.90) {
+        document.getElementById('mvRenderDetail').textContent = 'Almost there — finalizing the encode.';
+      }
     });
     if (mvRenderCancelled) return;
 
@@ -3500,7 +3510,13 @@ async function renderToVideo(sequence, music, onProgress) {
   recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
 
   return new Promise(async (resolve, reject) => {
+    let stopped = false;
+    let safetyTimer = null;
+
     recorder.onstop = () => {
+      if (stopped) return;
+      stopped = true;
+      if (safetyTimer) clearTimeout(safetyTimer);
       const blob = new Blob(chunks, { type: mimeType });
       try { audioCtx.close(); } catch(e){}
       resolve({ blob, duration: sequence.totalDuration, mimeType });
@@ -3510,46 +3526,63 @@ async function renderToVideo(sequence, music, onProgress) {
     recorder.start();
     transport.start();
 
-    // Render every frame in real time
+    // Render with frame-count exit instead of clock-based exit.
+    // This is reliable across CPU pressure, tab throttling, and clock drift.
     const totalFrames = Math.ceil(sequence.totalDuration * FPS);
-    const startTime = performance.now();
-    let prevShotIdx = -1;
-    let shotStartTime = 0;
+    const frameMs = 1000 / FPS;
     const CROSSFADE = sequence.crossfade;
-
-    // Build shot timing array
-    const shotStarts = [];
-    let t = 0;
-    sequence.shots.forEach((s, i) => {
-      shotStarts.push(t);
-      t += s.duration - (i < sequence.shots.length - 1 ? CROSSFADE * 0.5 : 0);
-    });
     const totalDur = sequence.totalDuration;
 
-    function findCurrentShot(time) {
-      for (let i = sequence.shots.length - 1; i >= 0; i--) {
-        if (time >= shotStarts[i]) return i;
-      }
-      return 0;
-    }
+    let frameIdx = 0;
+    let renderStartMs = performance.now();
+    let lastFrameMs = renderStartMs;
 
-    function frameLoop() {
-      if (mvRenderCancelled) {
-        try { recorder.stop(); } catch(e){}
+    // Hard safety net: if rendering takes more than 1.8x expected duration,
+    // abort gracefully. (90s movie should never take more than 162s to render.)
+    const safetyTimeoutMs = Math.max(45000, totalDur * 1800);
+    safetyTimer = setTimeout(() => {
+      if (stopped) return;
+      console.warn('[Movie] Render safety timeout hit at frame', frameIdx, 'of', totalFrames);
+      try { recorder.stop(); } catch(e){}
+      // recorder.onstop will resolve the promise with whatever frames are recorded
+    }, safetyTimeoutMs);
+
+    function renderNextFrame() {
+      if (stopped || mvRenderCancelled) {
+        if (!stopped) { try { recorder.stop(); } catch(e){} }
         return;
       }
-      const elapsed = (performance.now() - startTime) / 1000;
-      if (elapsed >= totalDur) {
-        // Render final frame and stop
-        renderFrameAt(ctx, sequence, totalDur - 0.01, W, H, CROSSFADE);
-        setTimeout(() => { try { recorder.stop(); } catch(e){} }, 100);
+
+      // Reached the end → finalize
+      if (frameIdx >= totalFrames) {
+        // Paint the final frame
+        const finalTime = Math.max(0, totalDur - 0.001);
+        renderFrameAt(ctx, sequence, finalTime, W, H, CROSSFADE);
+        onProgress(1);
+        // Give MediaRecorder a beat to flush, then stop
+        setTimeout(() => { if (!stopped) { try { recorder.stop(); } catch(e){} } }, 200);
         return;
       }
-      renderFrameAt(ctx, sequence, elapsed, W, H, CROSSFADE);
-      onProgress(elapsed / totalDur);
-      requestAnimationFrame(frameLoop);
+
+      // Time at this frame, computed from frame index (not wall clock)
+      const frameTime = frameIdx / FPS;
+      renderFrameAt(ctx, sequence, frameTime, W, H, CROSSFADE);
+      onProgress(frameTime / totalDur);
+      frameIdx++;
+
+      // Pace ourselves: schedule next frame so we render at roughly real time.
+      // This keeps the audio in sync with the video.
+      const nowMs = performance.now();
+      const targetNextMs = renderStartMs + frameIdx * frameMs;
+      const waitMs = Math.max(0, targetNextMs - nowMs);
+      if (waitMs < 4) {
+        // Still on schedule — use rAF for smoothness
+        requestAnimationFrame(renderNextFrame);
+      } else {
+        setTimeout(renderNextFrame, waitMs);
+      }
     }
-    frameLoop();
+    renderNextFrame();
   });
 }
 
