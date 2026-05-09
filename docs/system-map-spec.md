@@ -1,16 +1,33 @@
 # System Map Canonical Spec
 
-**Version:** 1.0 · **Date:** 2026-05-08 · **Status:** Locked — all design decisions resolved
+**Version:** 1.1 · **Date:** 2026-05-08 · **Status:** Locked — all design decisions resolved (v1.1 incorporates upgrades from late-night read-through with Zach)
 
 This spec defines the **System Map Contract** that every Command Center in the
 FOSM·LIVE ecosystem MUST honor. It is the single source of truth for how a CC
 introduces itself to the operator, declares its data, manages its backups, and
 shows where it fits in the larger ecosystem.
 
-> **The principle:** same logic, same structure, different details.
-> Each CC implements the contract its own way (Marketing CC's data needs differ
-> from Vision CC's), but every CC honors the same five views and the same
-> declarative schema. That is what makes the system scale.
+> **Four foundational principles** that govern every architectural decision
+> in this spec:
+>
+> 1. **Same logic, same structure, different details** — every CC honors the
+>    same five views and the same declarative schema. The data inside is
+>    CC-specific; the chrome is identical. That is what makes the system scale.
+>
+> 2. **Hub topology, not peer-to-peer** — expansion CCs connect to FOSM·LIVE
+>    (the hub), not to each other directly. Data flows through the hub.
+>    `n` coupling instead of `n²` coupling.
+>
+> 3. **Spec leads code, never the other way around** — when implementation
+>    reveals something the spec didn't account for, we stop, update the
+>    spec, then build. We don't write code that contradicts the spec.
+>
+> 4. **Single source of truth, references everywhere** — any value, logic,
+>    or piece of state appears in exactly one place. Everything else
+>    references it. When the source changes, references update automatically.
+>    When references diverge from the source, the system flags it. This
+>    applies to prompts, math, P&L numbers, dashboards, store keys —
+>    everywhere.
 
 ---
 
@@ -133,7 +150,10 @@ Required behaviors:
 - **Last backup tracking** — `fosm_backup_last_at_v1` stores ISO timestamp of
   most recent export
 - **Overdue warning** — sidebar nav shows ⚠ badge when last backup > 7 days ago
-- **Master backup** — *not in v1*. Phase 1.x ships per-CC only.
+- **Master backup** — *v1.1.* The System Map CC will host a master backup
+  feature that bundles every CC's `fosm_*_v1` keys into a single ecosystem-
+  wide JSON. Reminder badge appears in the System Map sidebar when last
+  master backup > 7 days ago. Auto-scheduled backup deferred to v2.
 
 **Render contract:** identical to Marketing CC's current implementation. Single
 column. Export button on top, import below, list of stores being managed
@@ -141,24 +161,45 @@ displayed inline.
 
 ### View 5 · Diagnostics
 
-**Self-tests for the canonical store wiring.**
+**End-to-end self-tests for the canonical data flows.**
 
-Sales CC's pattern is the reference. Every CC declares a list of test cases
-that walk through its in-CC operations:
+Diagnostics don't just verify "the button is clickable." They trace each
+piece of data from button-click through every system that should receive it,
+all the way to the end of the chain. If the entry doesn't reach every
+declared destination, the test fails and reports exactly where the chain broke.
 
-- Click each `+Add` button, verify entry appears in canonical store
-- Click each `Delete` button, verify entry removed from canonical store
-- Each test reports pass/fail inline with the entry ID created/deleted
+**v1 scope: end-to-end within a CC.** Walk a piece of data from button click
+to final destination across every page in this CC. For example, +Add ICP in
+Marketing CC must:
 
-**Cross-CC tests deferred to v1.1.** Cross-CC read tests (verifying e.g. that
-Sales CC can see Marketing CC's pipeline data) require a "test mode" flag to
-isolate test runs from real operator data. Building that isolation properly
-is its own piece of work. Ship v1 with in-CC tests only; add cross-CC tests
-in v1.1 once the test mode infrastructure is designed.
+1. Append entry to `fosm_icp_library_v1` (canonical store)
+2. Appear in Campaign Builder's ICP dropdown
+3. Be available to Longform Studio's AI prompt context
+4. Show by name in any Calendar campaigns referencing it
+
+If step 3 fails, the test report says: *"+Add ICP works in steps 1-2 but the
+new entry isn't reaching Longform Studio's AI context. Likely cause: Longform
+Studio is reading from an old store name. Check `mod-lf` line in Page
+Registry."*
+
+**v1.1 scope: end-to-end across CCs at the localStorage layer.** Same approach
+extended to cross-CC flows (e.g., Marketing CC pipeline → Sales CC pipeline
+ingestion). Requires "test mode" infrastructure (entries flagged
+`__test_only: true`, invisible to real operator workflows, cleaned up after).
+
+**v2 scope: end-to-end through the hub topology.** Once Phase 4 backend ships,
+diagnostics walk data through the FOSM·LIVE hub. Phase 4 dependency.
+
+**The data flow contract.** End-to-end testing requires every page to declare
+not just `reads` and `writes` (what stores it touches) but also `derives_from`
+and `derives_into` (what other UI surfaces or pages the data flows into). See
+the Schema section below for full declaration syntax. The diagnostic walks
+each `derives_into` target and verifies the data arrived.
 
 **Render contract:** vertical list of named tests. Each test has a "Run" button.
-Pass = green checkmark + ID confirmation. Fail = red X + error message + link
-to the failing line of code.
+Pass = green checkmark + ID confirmation + chain trace ("✅ stored → ✅ shown
+in dropdown → ✅ available to AI"). Fail = red X + error message + the exact
+hop in the chain that broke.
 
 ---
 
@@ -180,6 +221,7 @@ window.SYSTEM_MAP_DECLARATION = {
     owner: "Learn And Grow Rich",
     pillar: "M",
     distribution: "discretionary",
+    last_audited_at: "2026-05-08T00:00:00Z",  // v1.1 — when was this CC last reviewed for impeccability
   },
 
   pages: [
@@ -190,6 +232,17 @@ window.SYSTEM_MAP_DECLARATION = {
       reads: ["fosm_icp_library_v1", "fosm_offer_library_v1", "fosm_brand_library_v1"],
       writes: ["fosm_cc_pipeline_v1"],
       cross_cc: false,
+      // v1 — declarations needed for end-to-end diagnostics
+      derives_from: [
+        // when source data changes, these UI surfaces must reflect it
+        { source: "fosm_icp_library_v1", target_ui: "icp_dropdown", purpose: "Show all ICPs in selector" },
+      ],
+      derives_into: [
+        // when this page produces data, these destinations must receive it
+        { target_page: "mod-lf", purpose: "Longform Studio receives campaign brief" },
+        { target_page: "mod-cal", purpose: "Calendar shows the new campaign" },
+        { target_page: "mod-attr", purpose: "Attribution starts tracking" },
+      ],
     },
     // ... every page in this CC
   ],
@@ -220,9 +273,9 @@ window.SYSTEM_MAP_DECLARATION = {
 
   diagnostics: [
     {
-      id: "test-icp-add",
-      name: "+Add ICP creates canonical entry",
-      run: () => { /* test logic here */ },
+      id: "test-icp-add-end-to-end",
+      name: "+Add ICP — full data flow from button to all destinations",
+      run: () => { /* walks every derives_into target, verifies each */ },
     },
     // ... every test
   ],
@@ -412,18 +465,31 @@ day one.
 
 ## Locked Decisions
 
-Five decisions that were on the table during the spec sprint, now resolved
-and folded into the spec body above. Recorded here so the reasoning is
-preserved for future reference.
+Eight decisions made during the spec sprint, now resolved and folded into
+the spec body above. Recorded here so the reasoning is preserved for future
+reference. Decisions 1–5 from initial spec sprint; decisions 6–8 from
+late-night read-through with Zach.
 
-### 1 · Diagnostic test depth
+### 1 · Diagnostic test depth — end-to-end within a CC in v1
 
-**Decision:** v1 ships with in-CC tests only (verify +Add and Delete work
-against canonical stores). Cross-CC read tests deferred to v1.1.
+**Decision:** v1 ships with end-to-end testing *within* each CC. Every data
+flow is traced from button click through every destination it should reach.
+Cross-CC end-to-end testing deferred to v1.1; hub-topology end-to-end deferred
+to v2.
 
-**Reason:** Cross-CC tests need a "test mode" flag to isolate test runs from
-real operator data, and building that isolation properly is its own piece of
-work. Defer to avoid polluting real localStorage with test entries.
+**Reason:** "Click button works" testing catches obvious failures but misses
+the failures that actually hurt operators — data silently lost between
+systems because two pages disagree about a store name, or a downstream page
+forgot to subscribe to a store update. End-to-end testing within a CC is
+buildable today with the current localStorage architecture. Cross-CC
+end-to-end requires a "test mode" flag (entries flagged `__test_only: true`
+to isolate from real data) which is its own piece of work.
+
+**This is the upgrade Zach requested during the read-through:** "Check not
+just that the button works, but that it actually goes to where it's supposed
+to go. Follow that process all the way through to make sure it goes all the
+way to the end. The idea is we're going to source every piece of truth all
+the way to the end so there's no disconnection between anything."
 
 ### 2 · Diagram aesthetics — SVG everywhere
 
@@ -469,6 +535,55 @@ predictable, debuggable, and bonus: enables deep-linking. Onboarding emails
 can include URLs like `/system-map/?from=marketing-cc` to land users on the
 ecosystem view focused on a specific CC.
 
+### 6 · Master backup — v1.1 with reminder-badge cadence
+
+**Decision:** Master backup (single bundle of every CC's data) ships in v1.1,
+hosted in the System Map CC. Reminder badge appears in the System Map
+sidebar when last master backup > 7 days ago. Auto-scheduled backup deferred
+to v2.
+
+**Reason:** Per-CC backup ships in v1 to validate the pattern under real
+operator use. Master backup adds complexity (one CC must know how to read
+every other CC's data) that's better validated after per-CC works. Weekly
+cadence matches operator behavior — most people would realistically run a
+master backup before each weekend, not daily.
+
+**This is a Zach decision from the read-through:** initial spec said "master
+backup not in v1." Zach upgraded it to "v1.1 with weekly reminder cadence,
+because security, backup, and integrity matter."
+
+### 7 · Single source of truth — fourth foundational rule
+
+**Decision:** "Single source of truth, references everywhere" added as the
+fourth foundational principle alongside same-structure-different-details,
+hub topology, and spec-leads-code.
+
+**Reason:** Zach observed during the read-through that the no-drift rule
+isn't unique to System Maps — it applies equally to prompts, math, P&L
+numbers, dashboards, and store keys. Any value or logic appearing in
+multiple places is a future drift risk. Naming this as a foundational
+principle ensures it gets applied consistently across all future
+architectural work, including the Brain spec.
+
+**This is a Zach contribution from the read-through:** "This is a big math
+formula, so we should actually get tighter in that drift if we're checking
+everything across all of these prompts, all of this math and the P&L files,
+the dashboards."
+
+### 8 · `last_audited_at` field in identity schema
+
+**Decision:** Every CC declares `last_audited_at` (ISO timestamp) in its
+identity block, recording when the CC was last reviewed for impeccability
+(spec compliance, prompt accuracy, data integrity, voice alignment).
+
+**Reason:** The audit cadence is the operational expression of the no-drift
+principle. Without a tracked last-audit-at, drift accumulates silently. With
+it, the System Map can surface CCs that haven't been audited recently, the
+same way Backup surfaces CCs that haven't been backed up recently.
+
+This is v1.1 work — the field gets declared in v1, and the surfacing UI
+(stale-audit warnings) ships in v1.1.
+
 ---
 
 ## What this spec is and isn't
@@ -493,7 +608,11 @@ The discipline is that *the spec leads the code*, never the other way around.
 
 ## Last updated
 
-2026-05-08 by Zach Oehlman + Claude. Late-night spec sprint. All design
-decisions locked. Implementation begins Saturday morning.
+2026-05-08 by Zach Oehlman + Claude. v1.0 locked during initial late-night
+spec sprint. v1.1 incorporates upgrades from a structured read-through:
+end-to-end diagnostics with `derives_from`/`derives_into` declarations,
+master backup at v1.1 with reminder-badge cadence, single source of truth
+as fourth foundational rule, and `last_audited_at` field in the identity
+schema. Implementation begins Saturday morning.
 
 — Cheers and have a blessed day.
