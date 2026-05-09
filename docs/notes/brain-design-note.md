@@ -17,14 +17,34 @@ and serves as the foundation for the full spec.
 > tooling. They're me. Captured, formalized, made replicable. Every audit
 > prompt is me doing an audit. Every voice prompt is me speaking."
 
-The CCs are **delivery mechanisms** for the prompts. The prompts are the
-**product**.
+**FOSM·LIVE CC is the product Zach sells to clients today.** It incorporates
+Finance (via QuickBooks/Stripe integration) and serves as the dashboard the
+client sees and operates.
+
+**The expansion CCs (Marketing, Sales, Operations, Leadership, Integrity,
+Vision, Emotional Intelligence) are internal tools.** Zach and his team use
+these to do the work that ultimately produces results inside the client's
+FOSM·LIVE CC dashboard. The client doesn't operate Marketing CC themselves —
+they see the *work product* of Marketing CC's prompts flowing into their
+dashboard.
+
+**The prompts inside the expansion CCs encode Zach's thinking.** That
+thinking is what clients are ultimately paying for, even though they never
+operate those CCs directly. The prompts are the product; the expansion CCs
+are the workshop where Zach uses them to serve clients.
+
+*Future state may include selling expansion CCs as standalone products
+("buy Marketing CC for your in-house marketing team"), but that's not the
+v1 model. Spec for the brain must serve the current model first; future
+sellable-CC scenarios are forward-looking concerns.*
 
 Implications:
-- Prompt versioning matters more than CC versioning (an old version of a CC's
-  UI is fine; an old version of an audit prompt could give a client wrong analysis)
-- The prompt library is the moat — the thing competitors can't replicate
-  even if they reverse-engineer the CCs
+- Prompt versioning matters more than CC versioning (an old version of a
+  CC's UI is fine; an old version of an audit prompt could give a client
+  wrong analysis embedded in their dashboard)
+- The prompt library is the moat — even if competitors reverse-engineer the
+  FOSM·LIVE CC dashboard a client sees, they can't replicate the expansion
+  CCs and their prompts that produce the dashboard's content
 - Prompts deserve more infrastructure care than the CCs themselves
 
 ---
