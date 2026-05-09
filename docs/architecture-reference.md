@@ -90,6 +90,25 @@ vast to live inside a dashboard — they're separate apps that feed dashboards.
 | **V** · Vision | Human | Vision CC | ✅ live (gifted to all) |
 | **E** · Emotional Intelligence | Human | Emotional Intelligence CC | ⏳ planned |
 
+### Meta-CCs · independent of the eight pillars
+
+In addition to the eight pillar-based expansion CCs, two **meta-CCs** sit
+outside the F·O·S·M·L·I·V·E framework. They don't deliver work in any one
+pillar; they protect and verify *all* of them. Their role is to keep the
+ecosystem honest, secure, and aligned with the operator's vision.
+
+| Meta-CC | Role | Status |
+|---|---|---|
+| **Security CC** | Third-party security team — "Delta Force / SEAL Team Six / Army Rangers of online cybersecurity, working for FOSM·LIVE." Continuous threat monitoring, penetration testing, incident response, defense-in-depth review across the ecosystem. | ⏳ planned |
+| **Audit CC** | Third-party auditor team. Continuous integrity review across every CC: prompt accuracy, voice alignment, math accuracy in P&L flows, dashboard truth, output traceability. The operational expression of the no-drift principle. | ⏳ planned |
+
+Meta-CCs run as **third-party-style services** on top of the rest of the
+system. They don't share localStorage with the pillar CCs the way pillar CCs
+share data with each other; they read across all of them and produce *audit
+output* that gets reviewed and acted upon. Architecturally similar to having
+an external accounting firm review the books — they have access to look at
+everything, but they don't operate inside the books.
+
 ### Distribution model (current state · v1)
 
 Every expansion CC is architecturally identical. What differs is *role*:
@@ -109,6 +128,11 @@ Every expansion CC is architecturally identical. What differs is *role*:
   the work product flowing into their dashboard. These CCs may ship as
   standalone products in a future phase if/when there's demand, but that's
   not the v1 model.
+- **Meta-CCs (third-party-style)** — Security CC, Audit CC. Independent of
+  the eight pillars, these review and protect the entire ecosystem. Run as
+  third-party-style services that have read access across all CCs and
+  produce audit output. Not sold; their value is internal protection of the
+  product LGR sells (FOSM·LIVE CC) and the operators who run it.
 
 Distribution is a strategic choice, not an architectural one. The codebase
 doesn't enforce "free" vs "paid" vs "internal" categories. Any CC can be
@@ -263,8 +287,10 @@ Updated 2026-05-08 to reflect actual deployment status.
 8. ⏳ **Leadership CC** — team alignment, decision logs, A+ team coverage
 9. ⏳ **Integrity CC** — promise vs delivery tracking, values audit
 10. ⏳ **Emotional Intelligence CC** — self-state journal, trigger maps, retreat integration
+11. ⏳ **Security CC** — third-party security team for ecosystem-wide threat monitoring + defense-in-depth review
+12. ⏳ **Audit CC** — third-party auditor team for ecosystem-wide integrity review
 
-After all 10 are live: Phase 4 backend, multi-tenant Executive CC for licensees,
+After all 12 are live: Phase 4 backend, multi-tenant Executive CC for licensees,
 Foundation CC and Retreat CC flagships.
 
 ---
