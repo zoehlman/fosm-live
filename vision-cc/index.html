@@ -674,6 +674,23 @@
   @media (max-width:520px){.mv-music-auto{grid-column:span 1}}
   .mv-music-auto.active{border-style:solid;border-color:var(--gold);background:rgba(212,165,116,.1)}
 
+  /* Look picker — visual preset cards with color-graded preview swatches */
+  .mv-look-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
+  @media (max-width:720px){.mv-look-grid{grid-template-columns:repeat(2,1fr)}}
+  .mv-look-card{background:var(--bg-0);border:1px solid var(--line);border-radius:10px;
+    padding:10px;cursor:pointer;transition:all .18s;font-family:inherit;text-align:center;overflow:hidden;position:relative}
+  .mv-look-card:hover{border-color:var(--gold-dim)}
+  .mv-look-card.active{border-color:var(--gold);background:rgba(212,165,116,.06)}
+  .mv-look-swatch{width:100%;aspect-ratio:16/9;border-radius:6px;margin-bottom:8px;
+    position:relative;overflow:hidden;background:#222}
+  .mv-look-swatch::before{content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,var(--c1) 0%,var(--c2) 50%,var(--c3) 100%)}
+  .mv-look-swatch::after{content:'';position:absolute;inset:0;
+    background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.6) 100%)}
+  .mv-look-card-name{font-family:'Fraunces',serif;font-size:13px;font-style:italic;color:var(--text-0)}
+  .mv-look-card.active .mv-look-card-name{color:var(--gold)}
+  .mv-look-card-mood{font-size:9.5px;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-top:2px}
+
   /* Render overlay (full screen during render) */
   .mv-render-overlay{position:fixed;inset:0;background:rgba(10,9,8,.96);backdrop-filter:blur(20px);
     z-index:5000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center}
@@ -1273,6 +1290,11 @@
     <div class="modal-sub" id="mvModalSub">A cinematic montage of your photos, vision text, and music. Renders in your browser — no upload, no signup, no cost.</div>
 
     <div class="mv-pre-summary" id="mvSummary"></div>
+
+    <div class="modal-field">
+      <label class="modal-label">Look</label>
+      <div class="mv-look-grid" id="mvLookGrid"></div>
+    </div>
 
     <div class="modal-field">
       <label class="modal-label">Music</label>
@@ -3225,9 +3247,84 @@ function autoPickMusic(source) {
   return MV_MUSIC[0];
 }
 
+// =================== CINEMATIC LOOKS ===================
+// Each look is a recipe of color grading + grain + letterbox + light leak intensity.
+// Applied per-frame at render time using canvas color matrix and overlays.
+// Swatch colors are visual hints in the picker UI.
+const MV_LOOKS = [
+  {
+    id: 'documentary',
+    name: 'Documentary',
+    mood: 'Real · True · Honest',
+    swatch: { c1: '#8a7a5e', c2: '#5e564a', c3: '#2a2620' }, // Warm earth tones
+    // Color grading: gentle warmth, mild contrast lift, slight desaturation
+    grade: { contrast: 1.06, saturation: 0.94, warmth: 1.04, blacks: 0.98 },
+    grainAmount: 0.06,
+    letterbox: 0,        // No letterbox — feels real, not staged
+    lightLeak: 0.0,
+    vignette: 0.45
+  },
+  {
+    id: 'cinematic',
+    name: 'Cinematic',
+    mood: 'Hollywood · Teal & Orange',
+    swatch: { c1: '#d97a3c', c2: '#3c5e6b', c3: '#1a2630' }, // Teal/orange
+    // The Hollywood look — orange highlights, teal shadows, strong contrast
+    grade: { contrast: 1.18, saturation: 1.08, warmth: 1.10, blacks: 0.90, teal: 0.12 },
+    grainAmount: 0.08,
+    letterbox: 0.105,    // 2.39:1 letterbox bars
+    lightLeak: 0.35,
+    vignette: 0.65
+  },
+  {
+    id: 'dream',
+    name: 'Dream',
+    mood: 'Soft · Ethereal · Golden',
+    swatch: { c1: '#e8c08a', c2: '#c9a87a', c3: '#7a5a40' }, // Golden hour
+    // Soft glow, warm everything, lower contrast, dreamy
+    grade: { contrast: 0.94, saturation: 0.92, warmth: 1.18, blacks: 1.06, glow: 0.12 },
+    grainAmount: 0.05,
+    letterbox: 0.075,
+    lightLeak: 0.55,
+    vignette: 0.55
+  },
+  {
+    id: 'night',
+    name: 'Night',
+    mood: 'Cold · Steel · Quiet',
+    swatch: { c1: '#5a6e80', c2: '#2a3540', c3: '#0e1318' }, // Cool blue-grey
+    // Cool shadows, desaturated, moody
+    grade: { contrast: 1.12, saturation: 0.85, warmth: 0.92, blacks: 0.88, teal: 0.18 },
+    grainAmount: 0.10,
+    letterbox: 0.105,
+    lightLeak: 0.15,
+    vignette: 0.75
+  }
+];
+
+// Auto-pick a look based on the music mood / source kind
+function autoPickLook(source, music) {
+  if (source.kind === 'lifetime') return MV_LOOKS.find(l => l.id === 'cinematic');
+  // Match look to music id
+  if (music) {
+    const map = {
+      reverent: 'dream',
+      open: 'documentary',
+      tender: 'dream',
+      determined: 'cinematic',
+      cinematic: 'cinematic',
+      still: 'night'
+    };
+    const id = map[music.id] || 'cinematic';
+    return MV_LOOKS.find(l => l.id === id);
+  }
+  return MV_LOOKS[1]; // cinematic default
+}
+
 // =================== MOVIE STATE ===================
 let mvCurrentSource = null;        // { kind, id, obj }
 let mvSelectedMusicId = null;      // 'auto' or a music id
+let mvSelectedLookId = null;       // 'auto' or a look id
 let mvIsRendering = false;
 let mvRenderCancelled = false;
 let mvCurrentMovie = null;         // currently playing movie metadata
@@ -3285,6 +3382,10 @@ function openMovieGenerator(kind, id) {
   }
 
   summary.innerHTML = summaryHtml;
+
+  // Render look grid (cinematic preset picker)
+  mvSelectedLookId = 'auto';
+  renderLookGrid();
 
   // Render music grid
   mvSelectedMusicId = 'auto';
@@ -3345,6 +3446,30 @@ function selectMusic(id) {
   mvSelectedMusicId = id;
   stopMusicPreview();
   renderMusicGrid();
+}
+
+// Render the cinematic look picker
+function renderLookGrid() {
+  const grid = document.getElementById('mvLookGrid');
+  if (!grid) return;
+  let html = `<button class="mv-look-card ${mvSelectedLookId === 'auto' ? 'active' : ''}" onclick="selectLook('auto')" style="--c1:#d4a574;--c2:#8a6b48;--c3:#3a342d">
+    <div class="mv-look-swatch"></div>
+    <div class="mv-look-card-name">Auto</div>
+    <div class="mv-look-card-mood">Match the music</div>
+  </button>`;
+  html += MV_LOOKS.map(l => `
+    <button class="mv-look-card ${mvSelectedLookId === l.id ? 'active' : ''}" onclick="selectLook('${l.id}')" style="--c1:${l.swatch.c1};--c2:${l.swatch.c2};--c3:${l.swatch.c3}">
+      <div class="mv-look-swatch"></div>
+      <div class="mv-look-card-name">${l.name}</div>
+      <div class="mv-look-card-mood">${l.mood}</div>
+    </button>
+  `).join('');
+  grid.innerHTML = html;
+}
+
+function selectLook(id) {
+  mvSelectedLookId = id;
+  renderLookGrid();
 }
 
 // =================== MUSIC PREVIEW ===================
@@ -3550,6 +3675,11 @@ async function startMovieRender() {
       ? autoPickMusic(mvCurrentSource)
       : MV_MUSIC.find(m => m.id === mvSelectedMusicId);
 
+    // Pick look (cinematic preset)
+    const look = (mvSelectedLookId === 'auto' || !mvSelectedLookId)
+      ? autoPickLook(mvCurrentSource, music)
+      : MV_LOOKS.find(l => l.id === mvSelectedLookId);
+
     setRenderStage('Loading photos', 8, 'Fetching each image and decoding it. CORS images are skipped automatically.');
     const loadedImages = await loadImagesForRender(photos);
     if (mvRenderCancelled) return;
@@ -3557,8 +3687,9 @@ async function startMovieRender() {
 
     setRenderStage('Composing the cut', 18, 'Picking the order, pacing the photos, placing your vision text.');
     const sequence = composeSequence(loadedImages, visions, mvCurrentSource);
+    sequence.look = look;
 
-    setRenderStage('Rendering frames', 22, 'Painting each frame onto canvas with smooth pans and crossfades. This takes about as long as the movie itself — your CPU is doing the work.');
+    setRenderStage('Rendering frames', 22, `Applying the ${look.name} look · color grading, film grain, light leaks, and motion. This takes about as long as the movie itself.`);
     const result = await renderToVideo(sequence, music, (frameProgress) => {
       // 22% to 92% during frame rendering
       const pct = 22 + frameProgress * 70;
@@ -3661,7 +3792,7 @@ function composeSequence(loadedImages, visions, source) {
   // Insert a mid-arc title card if we have 2+ visions and 6+ photos
   const midPoint = Math.floor(picked.length / 2);
   picked.forEach((p, i) => {
-    shots.push({ type: 'photo', img: p.img, photo: p.photo, duration: PHOTO_HOLD, kenBurns: pickKenBurns(i) });
+    shots.push({ type: 'photo', img: p.img, photo: p.photo, duration: PHOTO_HOLD, kenBurns: pickKenBurns(i), _leakSeed: i * 0.37 });
     if (i === midPoint - 1 && visions.length > 1) {
       shots.push({ type: 'title', text: visions[1].text, label: visions[1].label, duration: TITLE_HOLD });
     }
@@ -3909,16 +4040,18 @@ function renderFrameAt(ctx, sequence, time, W, H, CROSSFADE) {
   // Draw previous shot fading out
   if (prevIdx >= 0) {
     ctx.globalAlpha = 1 - fadeInPct;
-    drawShot(ctx, sequence.shots[prevIdx], 1, W, H);
+    drawShot(ctx, sequence.shots[prevIdx], 1, W, H, sequence);
     ctx.globalAlpha = 1;
   }
   // Draw current shot fading in (or fully)
   ctx.globalAlpha = (prevIdx >= 0) ? fadeInPct : 1;
-  drawShot(ctx, sequence.shots[currentIdx], currentT, W, H);
+  drawShot(ctx, sequence.shots[currentIdx], currentT, W, H, sequence);
   ctx.globalAlpha = 1;
 }
 
-function drawShot(ctx, shot, t, W, H) {
+function drawShot(ctx, shot, t, W, H, sequence) {
+  // Attach sequence reference so drawPhoto/drawTitle can access look
+  shot._sequence = sequence;
   if (shot.type === 'photo') {
     drawPhoto(ctx, shot, t, W, H);
   } else if (shot.type === 'title') {
@@ -3929,6 +4062,8 @@ function drawShot(ctx, shot, t, W, H) {
 function drawPhoto(ctx, shot, t, W, H) {
   const img = shot.img;
   const kb = shot.kenBurns;
+  const look = (shot._look) || (shot._sequence && shot._sequence.look) || MV_LOOKS[1];
+
   // Interpolate scale and pan
   const scale = kb.startScale + (kb.endScale - kb.startScale) * t;
   const offX = (kb.startX + (kb.endX - kb.startX) * t) * W;
@@ -3948,22 +4083,140 @@ function drawPhoto(ctx, shot, t, W, H) {
   const x = (W - finalW) / 2 + offX;
   const y = (H - finalH) / 2 + offY;
 
+  // -- Apply color grading via canvas filter --
+  // Build a CSS-filter string from the look's grade params
+  ctx.filter = buildLookFilter(look);
   ctx.drawImage(img, x, y, finalW, finalH);
+  ctx.filter = 'none';
 
-  // Subtle vignette
-  const grad = ctx.createRadialGradient(W/2, H/2, Math.min(W,H) * 0.4, W/2, H/2, Math.max(W,H) * 0.7);
-  grad.addColorStop(0, 'rgba(0,0,0,0)');
-  grad.addColorStop(1, 'rgba(0,0,0,0.5)');
+  // -- Color overlay for teal/orange or warmth tinting that filter() can't do --
+  if (look.grade.teal) {
+    // Subtle teal tint in shadows (multiply blend)
+    ctx.globalCompositeOperation = 'multiply';
+    ctx.fillStyle = `rgba(60, 110, 130, ${look.grade.teal})`;
+    ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+  if (look.grade.glow) {
+    // Soft warm glow on highlights
+    ctx.globalCompositeOperation = 'screen';
+    ctx.fillStyle = `rgba(232, 192, 138, ${look.grade.glow})`;
+    ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  // -- Vignette (radial darkening at edges) --
+  if (look.vignette > 0) {
+    const grad = ctx.createRadialGradient(W/2, H/2, Math.min(W,H) * 0.35, W/2, H/2, Math.max(W,H) * 0.75);
+    grad.addColorStop(0, 'rgba(0,0,0,0)');
+    grad.addColorStop(1, `rgba(0,0,0,${look.vignette})`);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+  }
+
+  // -- Light leak (warm gold radial gradient, drifts across photo over time) --
+  if (look.lightLeak > 0) {
+    drawLightLeak(ctx, t, W, H, look.lightLeak, shot._leakSeed || 0);
+  }
+
+  // -- Film grain (animated noise) --
+  if (look.grainAmount > 0) {
+    drawGrain(ctx, W, H, look.grainAmount);
+  }
+
+  // -- Letterbox bars --
+  if (look.letterbox > 0) {
+    const barH = H * look.letterbox;
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, W, barH);
+    ctx.fillRect(0, H - barH, W, barH);
+  }
+}
+
+// Build a CSS filter string for the look's color grading
+function buildLookFilter(look) {
+  const g = look.grade;
+  const filters = [];
+  if (g.contrast && g.contrast !== 1) filters.push(`contrast(${g.contrast})`);
+  if (g.saturation && g.saturation !== 1) filters.push(`saturate(${g.saturation})`);
+  if (g.warmth && g.warmth !== 1) {
+    // Warmth via sepia + saturation: small sepia adds warmth
+    if (g.warmth > 1) {
+      const sepia = Math.min(0.2, (g.warmth - 1) * 1.2);
+      filters.push(`sepia(${sepia})`);
+    } else {
+      // Cool: hue-rotate slightly toward blue
+      filters.push(`hue-rotate(${(g.warmth - 1) * 30}deg)`);
+    }
+  }
+  if (g.blacks && g.blacks !== 1) filters.push(`brightness(${g.blacks})`);
+  return filters.join(' ') || 'none';
+}
+
+// Draw an animated light leak across the canvas
+function drawLightLeak(ctx, t, W, H, intensity, seed) {
+  // Position drifts based on time and a per-photo seed
+  const phase = (t + seed) % 1;
+  const cx = W * (0.2 + phase * 0.8);
+  const cy = H * (0.3 + Math.sin((t + seed) * 4) * 0.15);
+  const r = Math.max(W, H) * (0.5 + Math.sin(t * 2 + seed) * 0.15);
+
+  ctx.globalCompositeOperation = 'screen';
+  const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+  grad.addColorStop(0, `rgba(255, 200, 130, ${intensity * 0.55})`);
+  grad.addColorStop(0.4, `rgba(232, 165, 100, ${intensity * 0.25})`);
+  grad.addColorStop(1, 'rgba(232, 165, 100, 0)');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, H);
+  ctx.globalCompositeOperation = 'source-over';
+}
+
+// Draw film grain via a tiled small noise canvas (cached for perf)
+let _grainCanvas = null;
+function drawGrain(ctx, W, H, amount) {
+  if (!_grainCanvas) {
+    // Create a 200x200 noise canvas once, then tile and rotate over time
+    const gc = document.createElement('canvas');
+    gc.width = 200; gc.height = 200;
+    const gctx = gc.getContext('2d');
+    const imgData = gctx.createImageData(200, 200);
+    const d = imgData.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const v = (Math.random() * 255) | 0;
+      d[i] = v; d[i+1] = v; d[i+2] = v; d[i+3] = 255;
+    }
+    gctx.putImageData(imgData, 0, 0);
+    _grainCanvas = gc;
+  }
+  // Stamp grain across the canvas with random offset each frame for animation
+  ctx.save();
+  ctx.globalCompositeOperation = 'overlay';
+  ctx.globalAlpha = amount;
+  const ox = (Math.random() * 200) | 0;
+  const oy = (Math.random() * 200) | 0;
+  for (let y = -oy; y < H; y += 200) {
+    for (let x = -ox; x < W; x += 200) {
+      ctx.drawImage(_grainCanvas, x, y);
+    }
+  }
+  ctx.restore();
 }
 
 function drawTitle(ctx, shot, t, W, H) {
+  const look = (shot._sequence && shot._sequence.look) || MV_LOOKS[1];
+
   // Black backdrop with subtle gradient
   const grad = ctx.createLinearGradient(0, 0, 0, H);
   grad.addColorStop(0, '#14110f');
   grad.addColorStop(1, '#0a0908');
   ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  // Subtle warm radial glow center (cinematic feel)
+  const cgrad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, Math.max(W, H) * 0.6);
+  cgrad.addColorStop(0, 'rgba(212, 165, 116, 0.05)');
+  cgrad.addColorStop(1, 'rgba(212, 165, 116, 0)');
+  ctx.fillStyle = cgrad;
   ctx.fillRect(0, 0, W, H);
 
   // Title text fades in/out
@@ -3972,23 +4225,30 @@ function drawTitle(ctx, shot, t, W, H) {
   else if (t > 0.85) alpha = (1 - t) / 0.15;
   ctx.globalAlpha = alpha;
 
-  // Eyebrow label (gold, small)
+  // Eyebrow label (gold, small) — with subtle glow halo
   if (shot.label) {
     ctx.fillStyle = '#d4a574';
     ctx.font = '600 18px Inter, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     const label = shot.label.toUpperCase().split('').join('\u00A0').replace(/·/g, '·');
+    // Halo
+    ctx.shadowColor = 'rgba(212, 165, 116, 0.6)';
+    ctx.shadowBlur = 18;
     ctx.fillText(label, W/2, H/2 - 80);
+    ctx.shadowBlur = 0;
   }
 
-  // Main title (Fraunces serif italic, large)
+  // Main title (Fraunces serif italic, large) — with text shadow for depth
   ctx.fillStyle = '#f5efe6';
   ctx.font = 'italic 300 56px Fraunces, Georgia, serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetY = 2;
 
-  // Wrap text at ~50 chars per line
+  // Wrap text at ~36 chars per line
   const text = shot.text;
   const words = text.split(' ');
   const lines = [];
@@ -4010,7 +4270,22 @@ function drawTitle(ctx, shot, t, W, H) {
     ctx.fillText(line, W/2, startY + i * lineHeight);
   });
 
+  ctx.shadowBlur = 0;
+  ctx.shadowOffsetY = 0;
   ctx.globalAlpha = 1;
+
+  // Apply look's grain for consistency with photos
+  if (look.grainAmount > 0) {
+    drawGrain(ctx, W, H, look.grainAmount * 0.6); // Lighter grain on title cards
+  }
+
+  // Letterbox bars on title cards too (cinematic continuity)
+  if (look.letterbox > 0) {
+    const barH = H * look.letterbox;
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, W, barH);
+    ctx.fillRect(0, H - barH, W, barH);
+  }
 }
 
 // =================== SAVE & LIBRARY ===================
@@ -4033,6 +4308,8 @@ async function saveMovie(result, source, music, sequence) {
     sourceId: typeof source.id === 'object' ? JSON.stringify(source.id) : source.id,
     music: music.id,
     musicName: music.name,
+    look: sequence.look ? sequence.look.id : 'cinematic',
+    lookName: sequence.look ? sequence.look.name : 'Cinematic',
     duration: Math.round(result.duration),
     photoCount: sequence.shots.filter(s => s.type === 'photo').length,
     createdAt: Date.now(),
@@ -4179,7 +4456,7 @@ function renderMovieCard(m) {
     <div class="mv-card-meta">
       <div class="mv-card-name"><em>${escape(m.title)}</em></div>
       <div class="mv-card-foot">
-        <span>${m.musicName} · ${m.photoCount} photos</span>
+        <span>${m.lookName ? m.lookName + ' · ' : ''}${m.musicName} · ${m.photoCount} photos</span>
         <span>${dateStr}</span>
       </div>
       ${!playable ? `<div style="font-size:10px;color:var(--gold-dim);margin-top:6px;font-style:italic">Click to regenerate · video data is session-only</div>` : ''}
@@ -4204,7 +4481,7 @@ function playMovie(movie) {
   video.src = movie.blobUrl;
   video.play().catch(() => {});
   document.getElementById('mvPlayerTitle').innerHTML = `<em>${escape(movie.title)}</em>`;
-  document.getElementById('mvPlayerMeta').textContent = `${movie.duration}s · ${movie.musicName} · ${movie.photoCount} photos · ${movie.sizeMB} MB`;
+  document.getElementById('mvPlayerMeta').textContent = `${movie.duration}s · ${movie.lookName ? movie.lookName + ' · ' : ''}${movie.musicName} · ${movie.photoCount} photos · ${movie.sizeMB} MB`;
   document.getElementById('mvPlayerOverlay').classList.add('show');
 }
 function closePlayer() {
