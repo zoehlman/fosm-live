@@ -1,6 +1,6 @@
 # System Map Canonical Spec
 
-**Version:** 1.0 · **Date:** 2026-05-08 · **Status:** Draft pending review
+**Version:** 1.0 · **Date:** 2026-05-08 · **Status:** Locked — all design decisions resolved
 
 This spec defines the **System Map Contract** that every Command Center in the
 FOSM·LIVE ecosystem MUST honor. It is the single source of truth for how a CC
@@ -66,10 +66,11 @@ small meta strip with serves / pillar / distribution. No interactive elements.
 
 Three sub-sections, in this order:
 
-**2a · Data flow diagram** — visual rendering of how data moves through this
-CC. Boxes are pages or modules; arrows are reads/writes. ASCII-art style
-acceptable for v1; SVG for v2. The diagram shows *where data enters this CC*,
-*how it transforms*, and *where it exits*.
+**2a · Data flow diagram** — SVG rendering of how data moves through this
+CC. Boxes are pages or modules; arrows are reads/writes. The diagram shows
+*where data enters this CC*, *how it transforms*, and *where it exits*.
+Same SVG visual language as the cross-ecosystem view — consistency across
+all diagrammatic surfaces.
 
 **2b · Page Registry** — table form, every page in this CC declares:
 
@@ -110,9 +111,11 @@ Below the mini-diagram, a list:
 - **Hub-ready:** [list of stores this CC declares as available for FOSM·LIVE
   hub sync — relevant in Phase 4]
 
-**Render contract:** SVG mini-diagram, max 5 neighbors visible at once. If a
-CC has more than 5 connections, "see all in ecosystem map →" link to
-`/system-map/`'s ecosystem view.
+**Render contract:** SVG mini-diagram (polished, scalable, print-clean — same
+visual language used in the cross-ecosystem view). Max 5 neighbors visible at
+once. If a CC has more than 5 connections, "see all in ecosystem map →" link
+to `/system-map/`'s ecosystem view (deep-linked via query string — see
+"You-are-here indicator" below).
 
 ### View 4 · Backup
 
@@ -141,11 +144,17 @@ displayed inline.
 **Self-tests for the canonical store wiring.**
 
 Sales CC's pattern is the reference. Every CC declares a list of test cases
-that walk through:
+that walk through its in-CC operations:
+
 - Click each `+Add` button, verify entry appears in canonical store
 - Click each `Delete` button, verify entry removed from canonical store
-- Click each cross-CC read, verify data appears
 - Each test reports pass/fail inline with the entry ID created/deleted
+
+**Cross-CC tests deferred to v1.1.** Cross-CC read tests (verifying e.g. that
+Sales CC can see Marketing CC's pipeline data) require a "test mode" flag to
+isolate test runs from real operator data. Building that isolation properly
+is its own piece of work. Ship v1 with in-CC tests only; add cross-CC tests
+in v1.1 once the test mode infrastructure is designed.
 
 **Render contract:** vertical list of named tests. Each test has a "Run" button.
 Pass = green checkmark + ID confirmation. Fail = red X + error message + link
@@ -283,9 +292,17 @@ status indicators on each, "you are here" highlight (when accessed from
 inside another CC's "see full ecosystem map →" link).
 
 Two display modes:
-- **Default** — dark theme, technical, matches everything else
-- **Presentation mode** — toggle in top-right, switches to a cleaner
-  diagram-first view suitable for sales calls and prospect demos
+
+- **Default** — dark theme, technical, matches everything else (background `#0d0d0d`, IBM Plex fonts, orange accent, technical labels visible including localStorage key names)
+
+- **Presentation mode** — toggle in top-right, switches three things simultaneously:
+  1. **Background lightens** from `#0d0d0d` to `#fafafa` (better for projectors and screen-shares with people who haven't seen dark UI before)
+  2. **Technical labels hide** — localStorage key names disappear, replaced by descriptive labels (e.g. "Pipeline data" instead of `fosm_cc_pipeline_v1`)
+  3. **Fonts get larger** — 14px → 18px base, easier to read from across a conference room
+
+  Structure stays the same (boxes, arrows, connections) so toggling doesn't
+  disorient the operator — it just dresses up the same picture for a
+  different audience.
 
 The Ecosystem view reads from a master registry:
 
@@ -393,35 +410,64 @@ day one.
 
 ---
 
-## Open Questions · for tomorrow's design pass
+## Locked Decisions
 
-Things this spec doesn't decide. Capture now, decide tomorrow:
+Five decisions that were on the table during the spec sprint, now resolved
+and folded into the spec body above. Recorded here so the reasoning is
+preserved for future reference.
 
-1. **Diagnostic test depth.** v1 tests check "+Add creates entry, Delete removes
-   entry." Should v2 test cross-CC reads too? (Probably yes, but designing the
-   pattern is its own piece.)
+### 1 · Diagnostic test depth
 
-2. **Diagram aesthetics.** v1 ASCII-art is honest and simple. v2 SVG is
-   polished. Which do we ship first? My instinct: ASCII for the in-CC mini-
-   diagrams, SVG for the cross-ecosystem view. Confirm tomorrow.
+**Decision:** v1 ships with in-CC tests only (verify +Add and Delete work
+against canonical stores). Cross-CC read tests deferred to v1.1.
 
-3. **The presentation mode toggle.** What exactly changes when toggled? My
-   draft assumes: lighter background, larger fonts, hide technical labels
-   (localStorage keys), keep the visual structure. Worth a 15-minute design
-   conversation tomorrow.
+**Reason:** Cross-CC tests need a "test mode" flag to isolate test runs from
+real operator data, and building that isolation properly is its own piece of
+work. Defer to avoid polluting real localStorage with test entries.
 
-4. **Rollback story.** If we roll out the shared module to Marketing CC and
-   it breaks something, what's the path back? My draft assumes git revert.
-   Worth confirming whether we want a more graceful fallback (e.g., legacy
-   System Map module hidden behind a flag).
+### 2 · Diagram aesthetics — SVG everywhere
 
-5. **Ecosystem view "you are here" indicator.** When opened from inside a CC,
-   the view should highlight that CC. How does it know? Two options: query
-   string parameter, or referrer header. Probably query string. Confirm
-   tomorrow.
+**Decision:** All diagrams are SVG from v1. No ASCII intermediate.
 
-These do not block tonight's commit. We commit the spec, sleep, and resolve
-each open question Saturday morning before any code gets written.
+**Reason:** The diagrams do double-duty as marketing material (sales calls,
+prospect demos, screen-shares, printed handouts). The polish is worth the
+extra build effort. Consistency between in-CC mini-diagrams and the
+cross-ecosystem view is also valuable — operators learn one visual language,
+not two.
+
+### 3 · Presentation mode toggle behavior
+
+**Decision:** Three simultaneous changes when toggled:
+1. Background `#0d0d0d` → `#fafafa`
+2. Technical labels (localStorage key names) hide, replaced by descriptive labels
+3. Base font 14px → 18px
+
+Structure (boxes, arrows, connections) stays identical so toggling doesn't
+disorient.
+
+**Reason:** Minimum changes that turn a developer-facing tool into an
+audience-facing one without rebuilding twice.
+
+### 4 · Rollback story
+
+**Decision:** Git revert is the primary recovery path. No fallback flag.
+
+**Reason:** Building a fallback flag (option to use legacy System Map if
+shared module fails) doubles the maintenance burden — every change has to
+be tested in both modes. The benefit doesn't justify it for a one-person
+shop. Safety is provided instead by the rollout order: lowest-stakes CC
+first (Vision), highest-stakes last (Marketing). By the time we touch
+Marketing CC's data, the shared module has been validated in 5 other CCs.
+
+### 5 · "You are here" indicator
+
+**Decision:** Query string parameter — `?from=<cc-slug>`.
+
+**Reason:** Referrer headers are unreliable (browsers strip them in some
+configurations, they break for bookmarked URLs). Query string is explicit,
+predictable, debuggable, and bonus: enables deep-linking. Onboarding emails
+can include URLs like `/system-map/?from=marketing-cc` to land users on the
+ecosystem view focused on a specific CC.
 
 ---
 
@@ -439,15 +485,15 @@ templates. The implementation comes Saturday. This document is the
 in the repo. Every change to the contract is a commit, with a reason.
 
 **It isn't:** a one-time document. The spec evolves as we learn. Version 1.1
-when we resolve the open questions. Version 2.0 when Phase 4 lands. Version
-3.0 when something we haven't thought of forces a rewrite. The discipline is
-that *the spec leads the code*, never the other way around.
+when implementation reveals something the spec missed. Version 2.0 when Phase
+4 lands. Version 3.0 when something we haven't thought of forces a rewrite.
+The discipline is that *the spec leads the code*, never the other way around.
 
 ---
 
 ## Last updated
 
-2026-05-08 by Zach Oehlman + Claude. Late-night spec sprint. Reviewed
-tomorrow morning, implemented Saturday.
+2026-05-08 by Zach Oehlman + Claude. Late-night spec sprint. All design
+decisions locked. Implementation begins Saturday morning.
 
 — Cheers and have a blessed day.
