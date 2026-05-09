@@ -34,6 +34,14 @@ Future CCs (planned, in build order):
 | `leadership-cc/` | Leadership CC — team alignment, decision logs | ⏳ planned |
 | `integrity-cc/` | Integrity CC — promise vs delivery, values audit | ⏳ planned |
 | `emotional-intelligence-cc/` | Emotional Intelligence CC — self-state journal, trigger maps | ⏳ planned |
+| `security-cc/` | Security CC — third-party-style security/cybersecurity team protecting the ecosystem | ⏳ planned |
+| `audit-cc/` | Audit CC — third-party-style integrity auditor team verifying every CC | ⏳ planned |
+
+The eight pillar CCs (Marketing, Sales, Operations, Vision, Leadership,
+Integrity, Emotional Intelligence) each map to one F·O·S·M·L·I·V·E pillar.
+**Security CC and Audit CC are meta-CCs** — they sit independent of the eight
+pillars and protect/verify the whole ecosystem. See `docs/architecture-reference.md`
+for the full distribution model.
 
 ---
 
@@ -105,7 +113,7 @@ Claude fetches the current version, edits it, returns the new code. You commit.
         │ (business)     │                       │ (individual)      │
         └───────▲────────┘                       └─────────▲─────────┘
                 │                                          │
-                │       8 expansion CCs feed both          │
+                │       8 pillar expansion CCs feed both   │
                 └──────────────────┬───────────────────────┘
                                    │
               ┌────────────────────┼────────────────────┐
@@ -113,6 +121,10 @@ Claude fetches the current version, edits it, returns the new code. You commit.
          Marketing CC ✅       Vision CC ✅       Operations CC ⏳
          Sales CC ✅           Leadership CC ⏳   Integrity CC ⏳
                                Emotional Intelligence CC ⏳
+
+         ─────────────── Meta-CCs (independent) ───────────────
+                          Security CC ⏳   Audit CC ⏳
+                  (third-party teams protecting the ecosystem)
 ```
 
 Six brand doorways feed into this: Learn And Grow Rich (parent), Beyond The Money
@@ -127,15 +139,20 @@ Deployment guide: [`DEPLOYMENT.md`](DEPLOYMENT.md)
 
 ## Distribution model
 
-Every expansion CC is architecturally identical. What differs is who gets it:
+Every expansion CC is architecturally identical. What differs is *role*:
 
+- **Sold to clients** — **FOSM·LIVE CC only.** This is the dashboard product
+  clients receive, operate, and see.
 - **Gifted to everyone** — Vision CC, FOSM·LIVE Personal. Free. Brand-alignment
   with "give everything away, only help those who qualify."
-- **Sold or gifted at discretion** — Marketing CC, Sales CC, future Operations,
-  Leadership, Integrity, Emotional Intelligence. Per-relationship decision.
+- **Internal tools (not sold today)** — Marketing CC, Sales CC, future Operations,
+  Leadership, Integrity, Emotional Intelligence. Used by Zach and team to do
+  the work that produces results in client FOSM·LIVE CC dashboards.
+- **Meta-CCs (third-party-style)** — Security CC, Audit CC. Independent of
+  the eight pillars; protect and verify the entire ecosystem.
 
-Distribution is a marketing/strategy choice, not an architectural one. Any CC
-can be moved between distribution tiers without code changes.
+Distribution is a strategic choice, not an architectural one. Any CC can be
+moved between roles without code changes. Full details in [`docs/architecture-reference.md`](docs/architecture-reference.md).
 
 ---
 
