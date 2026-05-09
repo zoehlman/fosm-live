@@ -1,0 +1,78 @@
+# ─────────────────────────────────────────────────────────────────
+# FOSM·LIVE · Netlify configuration
+# ─────────────────────────────────────────────────────────────────
+# One Netlify site serves the whole ecosystem:
+#   /                  → landing page (root index.html)
+#   /system-map/       → master architectural wireframe
+#   /marketing-cc/     → Marketing Command Center
+#   /sales-cc/         → Sales Command Center
+#   /fosm-live-cc/     → FOSM·LIVE deployable command center
+#   /api/ai-proxy      → Anthropic streaming proxy (used by Marketing + FOSM·LIVE CCs)
+#   /api/image-gen     → Replicate image generation (used by Marketing CC)
+#   /api/image-status  → Replicate poll endpoint (used by Marketing CC)
+#
+# Why one site (not four): Sales CC reads `fosm_cc_pipeline_v1` from
+# localStorage — that's a same-origin handoff. Splitting CCs across
+# subdomains breaks the bridge.
+# ─────────────────────────────────────────────────────────────────
+
+[build]
+  publish = "."
+  # No build step. Every CC is a self-contained index.html.
+  command = "echo 'No build step — static HTML deploy.'"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# ── Pretty URLs ──────────────────────────────────────────────────
+# Netlify auto-resolves /marketing-cc → /marketing-cc/index.html
+# but we add explicit redirects for safety + force trailing slashes
+# so relative asset paths inside each CC always resolve correctly.
+
+[[redirects]]
+  from = "/marketing-cc"
+  to = "/marketing-cc/"
+  status = 301
+
+[[redirects]]
+  from = "/sales-cc"
+  to = "/sales-cc/"
+  status = 301
+
+[[redirects]]
+  from = "/fosm-live-cc"
+  to = "/fosm-live-cc/"
+  status = 301
+
+[[redirects]]
+  from = "/system-map"
+  to = "/system-map/"
+  status = 301
+
+# ── API headers ──────────────────────────────────────────────────
+# Same-origin in production, but explicit headers help with `netlify dev`
+# and any future cross-origin embedding.
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "content-type"
+
+# ── Static asset caching ─────────────────────────────────────────
+# Each CC index.html is the deliverable. Don't cache it long — they
+# update frequently. Future static assets (images, fonts) can be
+# cached aggressively.
+
+[[headers]]
+  for = "/*/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOSM·LIVE · Command Center Ecosystem</title>
+<meta name="description" content="The Plan To Heal The World — God's Economy as an operating system. Three software layers, six brand doorways, one mission.">
+<meta name="author" content="Zach Oehlman · Learn And Grow Rich">
+<meta name="theme-color" content="#FF6B00">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d0d0d'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23FF6B00'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23FF6B00' stroke-width='1' opacity='0.4'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --panel: #161616;
+    --panel2: #1a1a1a;
+    --border: #242424;
+    --ink: #e8e8e8;
+    --mute: #888;
+    --mute2: #555;
+    --orange: #FF6B00;
+    --orange-dim: #2a1a08;
+    --orange-border: #4a2e10;
+    --green: #5faa3a;
+    --green-dim: #0a1f0a;
+    --gold: #c49a52;
+    --rose: #cc4466;
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.55;
+    min-height: 100vh;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 0%, rgba(255, 107, 0, 0.08) 0%, transparent 70%),
+      var(--bg);
+  }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 64px 32px 96px;
+  }
+
+  /* ── Header ───────────────────────────────────── */
+  header {
+    margin-bottom: 56px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--bg);
+    border: 1px solid var(--orange-border);
+    display: grid;
+    place-items: center;
+    position: relative;
+  }
+  .brand-mark::before {
+    content: '';
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--orange);
+    box-shadow: 0 0 24px rgba(255, 107, 0, 0.6);
+  }
+  .brand-mark::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    border: 1px solid var(--orange);
+    opacity: 0.35;
+  }
+
+  .brand-text {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+
+  h1 {
+    font-size: 44px;
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+    max-width: 720px;
+  }
+  h1 .accent {
+    color: var(--orange);
+  }
+
+  .lede {
+    font-size: 17px;
+    color: var(--mute);
+    line-height: 1.6;
+    max-width: 680px;
+  }
+  .lede em {
+    color: var(--ink);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 28px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--mute2);
+    letter-spacing: 0.04em;
+  }
+  .meta-row .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .meta-row .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--orange);
+    box-shadow: 0 0 8px var(--orange);
+  }
+
+  /* ── Section heads ──────────────────────────────── */
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin: 56px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sec-head h2 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+  }
+  .sec-head .sec-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--orange);
+    font-weight: 500;
+  }
+  .sec-head .sec-tag {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--mute2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── CC card grid ───────────────────────────────── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 760px) {
+    .grid { grid-template-columns: 1fr; }
+    .wrap { padding: 32px 20px 64px; }
+    h1 { font-size: 32px; }
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+    transition: border-color 0.15s, transform 0.15s, background 0.15s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+    overflow: hidden;
+  }
+  .card.live {
+    cursor: pointer;
+  }
+  .card.live:hover {
+    border-color: var(--orange-border);
+    background: var(--panel2);
+    transform: translateY(-1px);
+  }
+  .card.live:hover .card-arrow {
+    transform: translate(2px, -2px);
+    color: var(--orange);
+  }
+  .card.queued {
+    opacity: 0.62;
+  }
+
+  .card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .card-icon {
+    font-size: 22px;
+    line-height: 1;
+  }
+  .card-arrow {
+    color: var(--mute);
+    font-size: 14px;
+    transition: transform 0.15s, color 0.15s;
+  }
+
+  .card-name {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    letter-spacing: -0.005em;
+  }
+  .card-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--orange);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .card-desc {
+    font-size: 13px;
+    color: var(--mute);
+    line-height: 1.55;
+    margin-bottom: 14px;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--mute2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex: 0 0 6px;
+  }
+  .status.live::before { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .status.building::before { background: var(--gold); }
+  .status.queued::before { background: var(--mute2); }
+
+  /* ── Footer ─────────────────────────────────────── */
+  footer {
+    margin-top: 72px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--mute2);
+    letter-spacing: 0.04em;
+  }
+  footer a {
+    color: var(--mute);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--mute2);
+    transition: color 0.15s, border-color 0.15s;
+  }
+  footer a:hover {
+    color: var(--orange);
+    border-bottom-color: var(--orange);
+  }
+
+  /* ── Reveal on load ─────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: reveal 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  .reveal:nth-child(1) { animation-delay: 0.04s; }
+  .reveal:nth-child(2) { animation-delay: 0.08s; }
+  .reveal:nth-child(3) { animation-delay: 0.12s; }
+  .reveal:nth-child(4) { animation-delay: 0.16s; }
+  @keyframes reveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="brand-mark"></div>
+        <div class="brand-text">FOSM·LIVE · The Plan To Heal The World</div>
+      </div>
+
+      <h1>God's Economy <span class="accent">as an operating system</span> for peace + prosperity.</h1>
+
+      <p class="lede">
+        Three software layers — <em>For-Profit</em>, <em>Non-Profit</em>, <em>Retreat</em> — feeding one Brain with three chambers and four input streams. Six brand doorways. One mission: a world that works for all.
+      </p>
+
+      <div class="meta-row">
+        <span class="pill"><span class="dot"></span>BUILD ORDER · V1–V8 IN REPO</span>
+        <span class="pill">v0.7.5</span>
+      </div>
+    </header>
+
+    <div class="sec-head">
+      <span class="sec-num">①</span>
+      <h2>Command Centers</h2>
+      <span class="sec-tag">FOUR ENTRY POINTS · ONE DOMAIN</span>
+    </div>
+
+    <div class="grid">
+      <a class="card live reveal" href="/system-map/">
+        <div class="card-head">
+          <span class="card-icon">🗺</span>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-name">System Map</div>
+        <div class="card-tag">V1 · ARCHITECTURE</div>
+        <div class="card-desc">Master architectural reference — V1–V8 ecosystem wireframe. The canonical visual model for the entire FOSM·LIVE platform.</div>
+        <div class="card-meta">
+          <span class="status live">LIVE</span>
+          <span>STATIC · NO API</span>
+        </div>
+      </a>
+
+      <a class="card live reveal" href="/marketing-cc/">
+        <div class="card-head">
+          <span class="card-icon">📣</span>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-name">Marketing CC</div>
+        <div class="card-tag">V3 · CAMPAIGN FACTORY</div>
+        <div class="card-desc">The content production engine. Strategy → Longform → Slicer → Studios → Calendar → Attribution. Brand voice + ICP context layered into every prompt.</div>
+        <div class="card-meta">
+          <span class="status live">LIVE</span>
+          <span>NEEDS · /api/ai-proxy · /api/image-gen</span>
+        </div>
+      </a>
+
+      <a class="card live reveal" href="/sales-cc/">
+        <div class="card-head">
+          <span class="card-icon">🎯</span>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-name">Sales CC</div>
+        <div class="card-tag">V8 · PIPELINE + AUDIT</div>
+        <div class="card-desc">Six funnels, seven stages. Reads from Marketing CC's pipeline. Person profiles, touch logs, artifacts, prompt workshop. Drive-mode for client files.</div>
+        <div class="card-meta">
+          <span class="status live">LIVE</span>
+          <span>STATIC · API IN PHASE 1.11</span>
+        </div>
+      </a>
+
+      <a class="card live reveal" href="/fosm-live-cc/">
+        <div class="card-head">
+          <span class="card-icon">⚡</span>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-name">FOSM·LIVE CC</div>
+        <div class="card-tag">V3 · DEPLOYABLE COMMAND CENTER</div>
+        <div class="card-desc">The personalized output handed to each prospect. F·O·S·M pillars · audit findings · 8 AI specialists · Dream Life math · Strategic Plan.</div>
+        <div class="card-meta">
+          <span class="status live">LIVE</span>
+          <span>NEEDS · /api/ai-proxy</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="sec-head">
+      <span class="sec-num">②</span>
+      <h2>Build queue</h2>
+      <span class="sec-tag">ENGINEERED FOR COMPOUNDING</span>
+    </div>
+
+    <div class="grid">
+      <div class="card queued">
+        <div class="card-head">
+          <span class="card-icon">⚙️</span>
+        </div>
+        <div class="card-name">Operations CC</div>
+        <div class="card-tag">V6 · MODULE</div>
+        <div class="card-desc">Anchored on ClickUp. SOPs, delegation, RACI, weekly L10, owner scorecards. Unlocks the multi-tenant licensee story.</div>
+        <div class="card-meta"><span class="status queued">QUEUED</span></div>
+      </div>
+
+      <div class="card queued">
+        <div class="card-head">
+          <span class="card-icon">🌅</span>
+        </div>
+        <div class="card-name">Vision-to-Reality CC</div>
+        <div class="card-tag">V6 · MODULE</div>
+        <div class="card-desc">Vision-board system inside the LIVE pillar of every instance. Dream Life Number, annual→quarterly→monthly cascade, Wilson's Law tracker.</div>
+        <div class="card-meta"><span class="status queued">QUEUED</span></div>
+      </div>
+
+      <div class="card queued">
+        <div class="card-head">
+          <span class="card-icon">🏛</span>
+        </div>
+        <div class="card-name">Executive CC</div>
+        <div class="card-tag">V4 · MULTI-TENANT</div>
+        <div class="card-desc">Three apexes — For-Profit, Non-Profit, Retreat — each rolling up its layer. Multi-tenant from day one (you, PE/Family Office, Agency/Holdco).</div>
+        <div class="card-meta"><span class="status queued">QUEUED</span></div>
+      </div>
+
+      <div class="card queued">
+        <div class="card-head">
+          <span class="card-icon">🌿</span>
+        </div>
+        <div class="card-name">Foundation + Retreat CCs</div>
+        <div class="card-tag">L4 · L5 · FLAGSHIPS</div>
+        <div class="card-desc">100% pass-through ledger, donor portal, impact stories — and candidate intake, ceremony scheduling, integration outcomes for The Farm.</div>
+        <div class="card-meta"><span class="status queued">QUEUED</span></div>
+      </div>
+    </div>
+
+    <footer>
+      <span>BUILT BY ZACH OEHLMAN · WITH CLAUDE</span>
+      <span>
+        <a href="https://github.com/zoehlman/fosm-live">github.com/zoehlman/fosm-live</a>
+        <span style="margin: 0 12px; color: var(--mute2);">·</span>
+        <a href="/system-map/">architecture</a>
+      </span>
+    </footer>
+  </div>
+</body>
+</html>
