@@ -1,15 +1,16 @@
 # The Brain · Prompt Library · Design Note
 
-**Status:** v0.2 · context capture with read-through upgrades · NOT yet a spec
+**Status:** v0.3 · all five original open questions resolved · ready for spec drafting
 **Date:** 2026-05-08
-**Next:** Full spec drafted Saturday morning at `docs/brain-spec.md`
+**Next:** Full spec drafted at `docs/brain-spec.md` (no timeline — when ready)
 
 This is a bridge document. It captures tonight's design conversation about
-the prompt library so tomorrow morning's spec sprint doesn't have to
-reconstruct context from memory. v0.1 captured the initial design sprint;
-v0.2 incorporates upgrades from a structured end-to-end read-through with
-Zach. Every decision recorded here is **locked** and serves as the foundation
-for the full spec.
+the prompt library so the spec sprint doesn't have to reconstruct context
+from memory. v0.1 captured the initial design sprint; v0.2 incorporated
+upgrades from a structured end-to-end read-through; v0.3 resolves the final
+two architectural questions (auth mechanism, cache specifics). All five
+original open questions are now resolved. Every decision recorded here is
+**locked** and serves as the foundation for the full spec.
 
 ---
 
@@ -205,12 +206,12 @@ if there's no reason to upgrade. The brain is opt-in, per-CC, per-prompt.
 
 ---
 
-## Open questions for tomorrow's spec
+## Open questions for the spec — ALL RESOLVED in read-through
 
-These are the architectural decisions that need real thought tomorrow before
-the spec can be drafted. Question 1 (folder taxonomy) was resolved during
-the read-through and is captured here for reference. Questions 2–5 require
-fresh-head thinking tomorrow morning.
+All five original architectural questions were resolved during the structured
+read-through. The full spec (`docs/brain-spec.md`) translates these locked
+decisions into implementation contracts. Each question's resolution is
+captured below for reference, with reasoning preserved.
 
 ### 1 · Folder taxonomy — RESOLVED in read-through
 
@@ -280,16 +281,69 @@ actually used in practice — making lookup intuitive ("where's the
 campaign-builder prompt? marketing-cc/campaign-builder/, obviously") and
 making cross-cutting prompts explicit (`shared/`).
 
-### 2 · The auth mechanism for the gated endpoint
+### 2 · The auth mechanism for the gated endpoint — RESOLVED in read-through
 
-Two reasonable options:
-- **Shared secret + origin pinning:** the CC bundle embeds a token, the
-  endpoint validates the token AND that the request originated from
-  `fosmlive.netlify.app`. Simple, fast.
-- **Per-session token:** the operator signs in once, gets a token, the CC
-  uses it for the session. More secure, more complex, requires login UI.
+**Decision: Per-session token authentication via Auth0.**
 
-v1 likely shared secret + origin pinning. v2 may upgrade.
+Every request to the brain endpoint requires a valid, non-expired session
+token. Tokens are issued by Auth0 after successful login. The brain endpoint
+validates tokens server-side before returning any prompt content.
+
+**Why per-session token instead of shared secret:**
+
+This is built for the team-future, not the solo-present. As Zach hires team
+members, each will need their own credentials, their own audit trail, and
+their own access scopes. Shared-secret architectures collapse the moment
+you have more than one operator. Per-session token is the architecture
+that scales without a rewrite.
+
+**Why Auth0 specifically:**
+
+- Industry-standard authentication infrastructure
+- Free tier covers 7,500 active users (vastly more than needed)
+- Handles login, MFA, password reset, social login — all the edge cases
+- Stable, well-documented, used by major companies
+- Battle-tested for security (which matters for IP-grade infrastructure)
+
+**Architecture flow:**
+
+```
+1. Operator visits any CC at fosmlive.netlify.app/<cc-slug>/
+2. CC checks for valid session token in cookie/storage
+3. If missing/expired → redirect to Auth0 hosted login page
+4. Operator logs in (email + password, possibly MFA)
+5. Auth0 redirects back to fosmlive.netlify.app with auth code
+6. CC exchanges auth code for session token via Netlify Function
+7. Session token stored in httpOnly cookie (secure default)
+8. Subsequent brain fetches include token in Authorization header
+9. Brain endpoint validates token via Auth0, returns prompt if valid
+10. Token expires after 8 hours (configurable); refresh logic extends sessions
+```
+
+**Edge cases handled:**
+
+- **Token expired mid-session** → CC catches 401, prompts re-login, resumes
+- **Sign-out** → invalidates token server-side immediately
+- **Multiple devices** → each device gets its own token (independent sessions)
+- **Compromised token** → operator can sign out of all sessions from Auth0 dashboard
+
+**This is a Zach decision from the read-through:** initial spec recommended
+shared secret + origin pinning (simpler, faster to build). Zach upgraded to
+Option B reasoning *"there's going to be other people working in here, and
+I want this to be audited, and I just really want to do it right."* The
+right architecture for a team-future, even before the team exists.
+
+**Build cost honesty:** This expands Phase 2 of the brain build from ~2
+hours to ~5-6 hours. The Phase 2 work breaks down as:
+- Auth0 account setup + tenant configuration
+- Configure Auth0 application + scopes
+- Build login flow (Auth0 hosted page + redirect)
+- Build token validation in brain endpoint Netlify Function
+- Wire CCs to handle login/token/refresh
+- End-to-end testing
+
+This cost is acknowledged and accepted. The right architecture justifies
+the build effort.
 
 ### 3 · The PR template format — DIRECTION SET in read-through
 
@@ -326,35 +380,71 @@ markdown template file, document the workflow.
 
 ### 4 · The fetch-and-cache pattern — RESOLVED in read-through
 
-**Decision: cache for 5–15 minutes, with a "Force refresh prompts" button
-visible in each CC's settings.**
+**Decision: Cache for 10 minutes (default), with per-folder TTL overrides and
+a "Force refresh prompts" button visible in each CC's settings.**
 
 When a CC fetches a prompt, the response is cached in localStorage with a
 timestamp. Subsequent requests within the cache window return the cached
 copy. Requests after the window expire fetch fresh from the brain.
 
 **Why this balance:**
-- *Always-fetch* (no cache) — every operation takes an extra network hop.
-  Annoying. Adds latency on every prompt-using interaction.
-- *Cache forever* — operators get prompt updates only when they manually
-  refresh. They forget. Stale prompts run for weeks unnoticed.
-- *Cache 5–15 minutes* — operations feel instant. Maximum staleness window
-  is short. Operator can manually trigger immediate refresh when they know
-  Zach just pushed a change.
+- *Always-fetch* (no cache) — every operation pays a network round-trip.
+  Annoying. Adds latency to every prompt-using interaction.
+- *Cache forever* — operators get prompt updates only on manual refresh.
+  Stale prompts run unnoticed for weeks.
+- *Cache 10 minutes default* — operations feel instant during a work
+  session. Maximum staleness window is 10 minutes. Operator can manually
+  trigger immediate refresh when they know a prompt change just shipped.
 
-**The manual refresh button:** prominent enough to find when needed, not so
-prominent it gets clicked accidentally. Probably under each CC's Settings
-or Resources nav, labeled something like "🔄 Refresh prompt cache."
+**Per-folder TTL defaults** (cache durations vary by prompt category based
+on how often that category changes):
 
-**Open implementation questions** (resolved in spec tomorrow):
-- Exact cache duration — 5? 10? 15 minutes? Probably operator-configurable.
-- Cache invalidation strategy — does updating a prompt in the brain push
-  invalidation events to active CCs, or do we rely purely on time-based
-  expiration? Push invalidation requires WebSockets or polling; time-based
-  is simpler.
-- Per-prompt cache override — some prompts (e.g., voice rules) might have
-  longer caches because they change rarely. Some (e.g., active campaign
-  prompts) might want shorter caches.
+| Folder | TTL | Reason |
+|---|---|---|
+| `shared/voice/` | 1 hour | Voice rules change rarely; voice updates should propagate within a session |
+| `shared/framework/` | 1 hour | F.O.S.M., L.I.V.E., 12 Domains change rarely |
+| `shared/icp/` | 30 minutes | ICP definitions change occasionally |
+| `shared/meta/` | 1 hour | Prompts about prompts change rarely |
+| `fosm-live-cc/*` | 10 minutes | High iteration during client work |
+| `marketing-cc/*` | 10 minutes | High iteration during content production |
+| `sales-cc/*` | 10 minutes | High iteration during pipeline work |
+| `vision-cc/*` | 30 minutes | Lower iteration cadence |
+| `fosm-live-personal/*` | 30 minutes | Lower iteration cadence |
+
+These are starting numbers. Adjust after observation.
+
+**Per-prompt overrides — v1.1.** v1 ships with per-folder defaults only
+(simpler to reason about, covers 90% of cases). v1.1 adds per-prompt
+override via YAML frontmatter:
+
+```yaml
+---
+prompt_id: brand-voice-lgr
+cache_ttl_minutes: 1440  # override: 24 hours
+---
+```
+
+Defer until per-folder approach is proven in production.
+
+**Cache invalidation strategy: time-based for v1, push invalidation deferred
+to v2.**
+
+When a prompt changes, active CCs find out via two mechanisms:
+1. **Time-based expiration** — caches expire on their per-folder TTL
+2. **Manual force refresh** — operator-initiated, "🔄 Refresh prompt cache"
+   button in each CC's settings. Worst-case staleness is the cache TTL;
+   operator can always force-update immediately.
+
+**Push invalidation** (webhook-driven, real-time updates to active CCs)
+deferred to v2 because: (a) real engineering project — WebSocket or polling
+infrastructure; (b) the manual refresh button is the operator's escape
+hatch and works fine for a single-operator phase; (c) when the team grows,
+push invalidation becomes worth the engineering work.
+
+**The manual refresh button** sits in each CC's Settings or Resources nav.
+Prominent enough to find when needed; not so prominent it gets clicked
+accidentally. Probably labeled "🔄 Refresh prompt cache" or similar. Triggers
+a fresh fetch of all prompts this CC uses, ignoring cache.
 
 ### 5 · The migration sequence — RESOLVED in read-through
 
@@ -425,33 +515,44 @@ To keep the spec from sprawling:
 
 ## Build order (placeholder — refined in tomorrow's spec)
 
-**Phase 1 · Brain repo creation** (Saturday morning, ~30 min)
-- Create `zoehlman/fosm-brain-private`
-- Set up folder taxonomy
+**Phase 1 · Brain repo creation (~30-45 min)**
+- Create `zoehlman/fosm-brain-private` (or final name)
+- Set up CC-organized folder taxonomy (with `shared/` for cross-cutting prompts)
 - Write the README explaining the brain's purpose, structure, and rules
-- Migrate first set of prompts manually (the audit prompts Zach mentioned tonight)
-- Establish the PR template
+- Migrate first set of prompts manually (the audit prompts mentioned tonight)
+- Establish the PR template (markdown form, required structured fields)
 
-**Phase 2 · The gated endpoint** (Saturday afternoon, ~2 hours)
-- Build `/api/brain/<prompt-id>` Netlify Function
-- Auth via shared secret + origin pinning
-- Reads from private repo using GitHub PAT
-- Returns prompt content with version metadata
-- Test from Postman / curl before any CC integration
+**Phase 2 · The gated endpoint with full auth (~5-6 hours)**
+- **Auth0 setup:** create tenant, configure application, identify scopes
+- **Build login flow:** Auth0 hosted login page + redirect handler
+- **Build `/api/brain/<prompt-id>` Netlify Function:** validates session
+  token via Auth0, reads from private repo using GitHub PAT, returns prompt
+  content with version metadata
+- **Build token refresh logic:** 8-hour session lifetime with refresh
+- **Build sign-out endpoint:** server-side token invalidation
+- **Wire CCs to handle auth:** check for token on load, redirect to login
+  if missing, handle 401 by re-prompting login, include token on brain
+  requests
+- **End-to-end testing:** login works, valid tokens succeed, expired tokens
+  refresh, sign-out invalidates
+- Test from Postman/curl AND from a real CC before any prompt migration
 
-**Phase 3 · First CC integration** (Sunday morning, ~1 hour)
-- Pick lowest-stakes CC (likely Vision CC)
+**Phase 3 · First CC integration (~1 hour)**
+- Pick lowest-stakes CC (Vision CC, per System Map rollout order)
 - Migrate ONE prompt from hardcoded to brain-fetched
 - Verify behavior unchanged
+- Verify auth flow works end-to-end (login → fetch → display)
 - Ship
 
-**Phase 4 · Roll out across all CCs** (Sunday afternoon + following week, as needed)
+**Phase 4 · Roll out across all CCs (incremental)**
 - Same order as System Map rollout
-- Per-CC, per-prompt, deliberate
-- No forced migration
+- Per-CC two-step (audit, then migrate)
+- No forced migration — happens organically as CCs get touched for real work
+- No fixed timeline — completes when complete
 
-Phases 1 and 2 are the blocking work. Phase 3+ is incremental and can spread
-across days/weeks without urgency.
+Phases 1 and 2 are the blocking work. Phase 3 validates the architecture
+end-to-end. Phase 4 spreads across days/weeks without urgency, integrated
+into normal client work.
 
 ---
 
@@ -477,7 +578,7 @@ based on this note plus a fresh design pass.
 ## Last updated
 
 2026-05-08 by Zach Oehlman + Claude. v0.1 captured during initial late-night
-design sprint. v0.2 incorporates upgrades from a structured end-to-end
+design sprint. v0.2 incorporated upgrades from a structured end-to-end
 read-through:
 
 - Folder taxonomy resolved — CC-organized with `shared/` for cross-cutting
@@ -491,9 +592,21 @@ read-through:
 - Out-of-scope list expanded with client-side editing UI and future team
   member write access
 
-The vision is locked. The architecture is sketched. Three of five open
-questions are now resolved. Two remain (auth mechanism, exact cache
-durations) for tomorrow's spec sprint. The full spec (`docs/brain-spec.md`)
-lands Saturday.
+v0.3 resolves the final two architectural questions:
+
+- **Auth mechanism:** Per-session token authentication via Auth0 (Option B,
+  not the simpler shared-secret approach). Built for the team-future, not
+  the solo-present. Phase 2 build cost expands to ~5-6 hours; cost
+  acknowledged and accepted.
+- **Cache specifics:** 10-minute default with per-folder TTL overrides
+  (1hr for shared/voice + framework + meta, 30min for shared/icp, 10min
+  for active CCs, 30min for vision-cc + fosm-live-personal). Time-based
+  invalidation in v1; push invalidation deferred to v2. Per-prompt cache
+  override deferred to v1.1.
+
+**All five original open questions are now resolved.** The vision is locked.
+The architecture is fully sketched. The full spec (`docs/brain-spec.md`)
+can be drafted whenever ready — no fixed timeline. Building includes all
+the thinking.
 
 — Cheers and have a blessed day.
