@@ -2,23 +2,26 @@
 # FOSM·LIVE · Netlify configuration
 # ─────────────────────────────────────────────────────────────────
 # One Netlify site serves the whole ecosystem:
-#   /                  → landing page (root index.html)
-#   /system-map/       → master architectural wireframe
-#   /marketing-cc/     → Marketing Command Center
-#   /sales-cc/         → Sales Command Center
-#   /fosm-live-cc/     → FOSM·LIVE deployable command center
-#   /api/ai-proxy      → Anthropic streaming proxy (used by Marketing + FOSM·LIVE CCs)
-#   /api/image-gen     → Replicate image generation (used by Marketing CC)
-#   /api/image-status  → Replicate poll endpoint (used by Marketing CC)
+#   /                          → landing page (root index.html)
+#   /system-map/               → master architectural wireframe
+#   /marketing-cc/             → Marketing Command Center
+#   /sales-cc/                 → Sales Command Center
+#   /fosm-live-cc/             → FOSM·LIVE deployable command center (business)
+#   /fosm-live-personal/       → FOSM·LIVE Personal (personal-finance variant)
+#   /vision-cc/                → Vision-to-Reality Command Center
+#   /api/ai-proxy              → Anthropic streaming proxy (Marketing + FOSM·LIVE CCs)
+#   /api/image-gen             → Replicate image generation (Marketing CC)
+#   /api/image-status          → Replicate poll endpoint (Marketing CC)
+#   /api/anthropic-proxy-personal → Anthropic proxy for FOSM·LIVE Personal
+#                                  (separate env var: ANTHROPIC_API_KEY_PERSONAL)
 #
-# Why one site (not four): Sales CC reads `fosm_cc_pipeline_v1` from
-# localStorage — that's a same-origin handoff. Splitting CCs across
-# subdomains breaks the bridge.
+# Why one site (not many): the cross-CC handoff between Marketing CC and
+# Sales CC reads localStorage, which is same-origin only. Splitting CCs
+# across subdomains breaks the bridge.
 # ─────────────────────────────────────────────────────────────────
 
 [build]
   publish = "."
-  # No build step. Every CC is a self-contained index.html.
   command = "echo 'No build step — static HTML deploy.'"
 
 [functions]
@@ -26,9 +29,7 @@
   node_bundler = "esbuild"
 
 # ── Pretty URLs ──────────────────────────────────────────────────
-# Netlify auto-resolves /marketing-cc → /marketing-cc/index.html
-# but we add explicit redirects for safety + force trailing slashes
-# so relative asset paths inside each CC always resolve correctly.
+# Force trailing slashes so relative asset paths inside each CC resolve.
 
 [[redirects]]
   from = "/marketing-cc"
@@ -46,13 +47,21 @@
   status = 301
 
 [[redirects]]
+  from = "/fosm-live-personal"
+  to = "/fosm-live-personal/"
+  status = 301
+
+[[redirects]]
+  from = "/vision-cc"
+  to = "/vision-cc/"
+  status = 301
+
+[[redirects]]
   from = "/system-map"
   to = "/system-map/"
   status = 301
 
-# ── API headers ──────────────────────────────────────────────────
-# Same-origin in production, but explicit headers help with `netlify dev`
-# and any future cross-origin embedding.
+# ── API headers (all functions) ──────────────────────────────────
 
 [[headers]]
   for = "/api/*"
@@ -63,9 +72,6 @@
     Access-Control-Allow-Headers = "content-type"
 
 # ── Static asset caching ─────────────────────────────────────────
-# Each CC index.html is the deliverable. Don't cache it long — they
-# update frequently. Future static assets (images, fonts) can be
-# cached aggressively.
 
 [[headers]]
   for = "/*/index.html"
@@ -76,3 +82,34 @@
   for = "/index.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# ─────────────────────────────────────────────────────────────────
+# FOSM·LIVE Personal · strict security headers
+# ─────────────────────────────────────────────────────────────────
+# These headers are scoped to /fosm-live-personal/* only, NOT applied
+# globally. Reasons:
+#   - The personal app handles real OAuth tokens for Google Sheets and
+#     deserves the strictest hardening (CSP locks scripts to inline +
+#     Google's auth/sheets endpoints; HSTS forces HTTPS for a year;
+#     X-Frame-Options + frame-ancestors prevent clickjacking).
+#   - The other CCs use Google Fonts (fonts.googleapis.com / fonts.gstatic.com)
+#     which would be blocked by this CSP. Scoping the strict headers to
+#     /fosm-live-personal/* keeps the other CCs working unchanged.
+#
+# CSP allowlist explained:
+#   script-src    'self' + Google Identity Services (gsi/client) + Google APIs JS lib
+#   connect-src   'self' + Sheets API + general googleapis + OAuth2 + accounts.google.com + docs.google.com (CSV publish)
+#   frame-src     accounts.google.com (sign-in popup) + content.googleapis.com (Drive Picker · v1.2)
+#   frame-ancestors 'none'  ← cannot be embedded in any iframe
+#   object-src    'none'    ← no plugins
+# ─────────────────────────────────────────────────────────────────
+
+[[headers]]
+  for = "/fosm-live-personal/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=15552000; includeSubDomains"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), accelerometer=(), gyroscope=(), magnetometer=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://accounts.google.com https://apis.google.com; connect-src 'self' https://sheets.googleapis.com https://www.googleapis.com https://oauth2.googleapis.com https://accounts.google.com https://docs.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; frame-src https://accounts.google.com https://content.googleapis.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
