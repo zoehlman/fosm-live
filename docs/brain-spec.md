@@ -225,7 +225,8 @@ fails the PR.
 ### Repo structure
 
 The brain lives in a separate private GitHub repo, working name
-`zoehlman/fosm-brain-private` (final name to be confirmed at repo creation).
+`learn-and-grow-rich/fosm-brain-private` (created on Team plan for branch
+protection enforcement on private repos).
 Folder structure is **CC-organized with `shared/` for cross-cutting
 prompts**:
 
@@ -558,9 +559,16 @@ PRs that don't satisfy these are blocked from merge.
 
 - **Zach is the only approver** in v1. No other operators have merge
   rights.
-- **Self-approval is permitted** — Zach can approve PRs he authored. The
-  template forces him to fill out the structured fields, which is the
-  real discipline. Self-approval doesn't bypass the template.
+- **Self-approval is implemented as `Required approvals: 0`** in the GitHub
+  ruleset. GitHub's platform doesn't allow PR authors to formally "Approve"
+  their own PRs through the review UI — that option is greyed out for
+  authors. The functional equivalent for a solo operator is requiring zero
+  separate approvals while still requiring the PR pathway. The template
+  forces Zach to fill out the structured fields, which is the real
+  discipline. The merge action by Zach IS the signature. The audit trail
+  records authorship + merge timestamp + structured PR body. When LGR
+  grows beyond a single operator, bump `Required approvals` to 1 (or
+  more) — the architecture is reversible.
 - **Claude cannot approve.** Claude drafts; Zach merges.
 
 ### Audit trail
@@ -762,8 +770,11 @@ Architecture must protect it.
 
 ### 2 · Storage — Separate private GitHub repo
 
-**Decision:** Working name `zoehlman/fosm-brain-private`. Final name
-confirmed at repo creation.
+**Decision:** Repo at `learn-and-grow-rich/fosm-brain-private`. Created
+under the `learn-and-grow-rich` GitHub Team organization (not personal
+account) for: (a) brand alignment, (b) branch protection enforcement on
+private repos (free tier doesn't enforce on private personal repos),
+(c) future team support.
 
 **Reason:** Six benefits compound:
 - Git versioning is the audit trail
@@ -800,8 +811,11 @@ audit was generated with v1.0; running it again with v1.2 should be a
 ### 5 · Approval protocol — Heavy
 
 **Decision:** Every prompt change is a formal PR with structured
-template. Required fields enforce the protocol. Zach is the only
-approver. Merge = approval = live.
+template. Required fields enforce the protocol. Zach is the sole
+operator in v1; "self-approval" is implemented as `Required approvals: 0`
+in the ruleset (since GitHub blocks self-approval through the review UI).
+The merge action by Zach IS the signature. When LGR grows beyond solo
+operation, bump approvals to 1+.
 
 **Reason:** The 60-second-per-change overhead is the price of the audit
 trail. Worth it for IP that defines the brand. Compound across hundreds
@@ -900,8 +914,8 @@ code throughout.
 
 ### Phase 1 · Brain repo creation (~30-45 min)
 
-- Create `zoehlman/fosm-brain-private` (final name confirmed at this
-  step)
+- Create `learn-and-grow-rich/fosm-brain-private` (private repo under the
+  Team-plan org for branch protection enforcement)
 - Set up CC-organized folder taxonomy (per the architecture section
   above)
 - Write the README explaining the brain's purpose, structure, and rules
@@ -1000,7 +1014,25 @@ code*, never the other way around.
 2026-05-09 by Zach Oehlman + Claude. v1.0 locked. Translates Brain
 Design Note v0.3 (resolved 2026-05-08) into a buildable specification.
 Includes Security CC + Audit CC additions from 2026-05-09 morning. Ten
-locked decisions captured with reasoning. Build plan ready for execution
-when ready.
+locked decisions captured with reasoning.
+
+**Phase 1 build status: COMPLETE.** Repo created at
+`learn-and-grow-rich/fosm-brain-private`. Branch protection enforcing.
+PR template auto-loading. First canonical prompt (`shared/voice/lgr-master/v1.0.0.md`)
+merged via PR #1 on 2026-05-09. All Phase 1 architectural decisions
+validated through real implementation.
+
+**Minor revisions during Phase 1 build:**
+- Decision 2 updated to reflect Team-plan org (`learn-and-grow-rich`) — discovered during build that branch protection on private repos requires Team plan
+- Decision 5 (approval protocol) refined to capture that GitHub blocks self-approval through the review UI; "self-approval" is implemented as `Required approvals: 0` in the ruleset
+
+These are clarifications to match implementation reality, not changes to
+the architectural intent. Spec body and footer kept in sync.
 
 — *Cheers and have a blessed day.*
+
+## Brand Voice source
+
+- **Brand Voice Messaging Guide** (`01_Brand_Voice_Messaging_Guide.docx`)
+  — source content for the now-live `shared/voice/lgr-master/v1.0.0.md`
+  brain prompt
