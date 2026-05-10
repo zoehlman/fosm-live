@@ -14,6 +14,7 @@
 #   /api/image-status          → Replicate poll endpoint (Marketing CC)
 #   /api/anthropic-proxy-personal → Anthropic proxy for FOSM·LIVE Personal
 #                                  (separate env var: ANTHROPIC_API_KEY_PERSONAL)
+#   /auth/callback             → FOSM·LIVE Brain · Google OAuth callback (Phase 2C)
 #
 # Why one site (not many): the cross-CC handoff between Marketing CC and
 # Sales CC reads localStorage, which is same-origin only. Splitting CCs
@@ -60,6 +61,19 @@
   from = "/system-map"
   to = "/system-map/"
   status = 301
+
+# ── Brain auth callback (Phase 2C) ───────────────────────────────
+# Google's OAuth client is registered with redirect URI
+#   https://fosmlive.netlify.app/auth/callback
+# Netlify Functions live at /.netlify/functions/<name> by default,
+# so we rewrite /auth/callback → the function. status=200 is a rewrite
+# (URL stays as /auth/callback in the browser), not a 301 redirect.
+# Spec ref: docs/brain-spec.md v1.1 §11 Phase 2C.
+
+[[redirects]]
+  from = "/auth/callback"
+  to = "/.netlify/functions/auth-callback"
+  status = 200
 
 # ── API headers (all functions) ──────────────────────────────────
 
