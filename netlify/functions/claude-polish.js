@@ -42,10 +42,17 @@ exports.handler = async function (event) {
   const aspect = body.aspect || '9:16';
   const duration = body.duration || 6;
   const audio = body.audio !== false;
+  // v4.3 — physical descriptions of people who should appear in the clip
+  const peopleDescriptors = Array.isArray(body.peopleDescriptors) ? body.peopleDescriptors : [];
 
   if (!userPrompt) {
     return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Prompt required' }) };
   }
+
+  const peopleBlock = peopleDescriptors.length
+    ? `\n\nFEATURED PEOPLE — weave these physical descriptions into the prompt naturally as descriptive phrases (NOT by name; Veo cannot use names). Reference them by appearance:\n`
+      + peopleDescriptors.map(p => `- ${p.name}: ${p.descriptors}`).join('\n')
+    : '';
 
   const systemPrompt = `You are a cinematic video director writing prompts for Google's Veo video generation model.
 
@@ -57,12 +64,12 @@ GUIDELINES:
 - Specify lighting (golden hour, overcast, candlelit, neon, etc.)
 - Specify mood/atmosphere
 - Specify color palette if relevant
-- Keep the prompt under 400 characters — Veo handles concise descriptive prompts best
+- Keep the prompt under 500 characters — Veo handles concise descriptive prompts best
 - Write in cinematic present tense, declarative
 - Don't reference brand names or copyrighted IP
-- Don't reference specific real people by name; use descriptive terms ("a man in his 40s, weathered hands")
+- Don't reference specific real people by name; use descriptive terms (e.g. "a man in his 40s, weathered hands")
 - This is a personal vision board — clips should feel intimate, hopeful, real
-- ${audio ? 'Include 1 line about ambient sound at the end (e.g., "Ambient: distant ocean, soft wind").' : 'No audio cues.'}
+- ${audio ? 'Include 1 line about ambient sound at the end (e.g., "Ambient: distant ocean, soft wind").' : 'No audio cues.'}${peopleBlock}
 
 OUTPUT FORMAT:
 Return ONLY the polished prompt. No preamble, no explanation, no quotes. Just the prompt itself.`;
