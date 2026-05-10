@@ -1,6 +1,6 @@
 # Brain Spec · The Canonical Contract for Prompt Governance
 
-**Version:** 1.0 · **Date:** 2026-05-09 · **Status:** Locked — translates Brain Design Note v0.3 into a buildable spec
+**Version:** 1.1 · **Date:** 2026-05-09 · **Status:** Locked — v1.1 reflects post-Phase-1 build learnings and the auth architecture pivot
 
 This spec defines the **Brain Contract** that every Command Center in the
 FOSM·LIVE ecosystem MUST honor when fetching, using, or proposing changes
@@ -391,78 +391,114 @@ updated and want to bypass the cache.
 
 ## The Auth Model
 
-**Decision: Per-session token authentication via Auth0.**
+**Decision: Google Workspace OAuth via the existing `learnandgrowrich.net` Workspace.**
 
-This is built for the team-future, not the solo-present. Locked from
-Brain Note v0.3.
+The brain endpoint is operator-only infrastructure. End users (clients,
+affiliates) never authenticate to the brain — their browsers talk to
+Netlify Functions controlled by LGR, and those Functions authenticate to
+the brain on their behalf using operator credentials. This means brain
+auth needs to handle a small trusted team (Zach + 5-10 LGR staff over
+1-2 years), not thousands of end users.
 
-### Why Auth0 specifically
+Google Workspace OAuth is purpose-built for this scale. **Decision pivoted
+from Auth0 → Google Workspace OAuth on 2026-05-09 evening** — see
+`docs/notes/auth-pivot-2026-05-09.md` for the full pivot rationale.
 
-- Industry-standard authentication infrastructure
-- Free tier covers 7,500 active users (vastly more than needed)
-- Handles login, MFA, password reset, social login, all edge cases
-- Stable, well-documented, used by major companies
-- Battle-tested for security (matters for IP-grade infrastructure)
+### Why Google Workspace OAuth specifically
+
+- **Already configured** for `learnandgrowrich.net` — zero new vendor
+- **Already paid for** as part of Workspace seats LGR pays for regardless
+- **MFA already enforced** at the Google account level — no separate
+  configuration needed
+- **Centralized identity management** — when an operator leaves LGR,
+  suspending their Workspace account suspends ALL access (email, Drive,
+  brain, every CC) at one chokepoint
+- **Standard OAuth** — portable, less vendor lock-in than proprietary
+  identity platforms
+- **Familiar pattern** — FOSM·LIVE Personal already uses Google OAuth;
+  patterns reusable for the brain
+- **Domain-restricted by design** — the OAuth allowlist is by email
+  domain; only `@learnandgrowrich.net` accounts can authenticate
 
 ### Auth flow (full sequence)
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ 1. Operator visits any CC at fosmlive.netlify.app/<cc>/     │
-│ 2. CC checks for valid session token in httpOnly cookie     │
-│ 3. If missing/expired → redirect to Auth0 hosted login      │
-│ 4. Operator logs in (email + password, possibly MFA)        │
-│ 5. Auth0 redirects back to fosmlive.netlify.app/auth/callback│
-│ 6. Callback function exchanges auth code for session token  │
-│ 7. Token stored in httpOnly secure cookie                   │
-│ 8. Subsequent brain fetches include token in Authorization  │
-│ 9. Brain endpoint validates token via Auth0 JWKS, returns   │
-│    prompt if valid                                          │
-│ 10. Token expires after 8 hours (configurable)              │
-│ 11. Refresh logic extends sessions silently when active     │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│ 1. Operator visits any CC at fosmlive.netlify.app/<cc>/          │
+│ 2. CC checks for valid Google ID token in httpOnly cookie        │
+│ 3. If missing/expired → render "Sign in with Google" button      │
+│ 4. Operator clicks Sign in → Google Identity Services popup      │
+│ 5. Operator selects/confirms Google account (MFA via Google)     │
+│ 6. Google returns ID token to CC's frontend                      │
+│ 7. CC sends ID token to /auth/callback Netlify Function          │
+│ 8. Callback validates ID token via Google's tokeninfo endpoint   │
+│    AND verifies email domain is @learnandgrowrich.net            │
+│    AND verifies email is in the operator allowlist               │
+│ 9. Callback issues a session token (signed JWT, httpOnly cookie) │
+│ 10. Subsequent brain fetches include session token               │
+│ 11. Brain endpoint validates session token, returns prompt       │
+│ 12. ID token expires per Google default (1 hour); silent reauth  │
+│     extends transparently when operator is active                │
+│ 13. Session cookie expires after 8 hours of activity             │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
 ### Edge cases (all handled in v1)
 
 | Scenario | Behavior |
 |---|---|
-| Token expired mid-session | CC catches 401, redirects to Auth0 login, returns to original URL after auth |
-| Sign-out | Server-side token invalidation immediate; cookie cleared |
-| Multiple devices | Each device has its own token (independent sessions) |
-| Compromised token | Operator can sign out of all sessions from Auth0 dashboard |
-| Auth0 outage | CCs fall back to last-known-good cached prompts (read-only mode) |
+| Session expired mid-session | CC catches 401, prompts Sign in with Google again, returns to original URL |
+| Sign-out | Session cookie cleared; Google session retained (don't sign out of all Google services) |
+| Multiple devices | Each device has its own session token (independent) |
+| Compromised session | Operator can revoke from `myaccount.google.com/permissions` (revokes app access) OR sign out of Google entirely |
+| Non-LGR Google account | 403 Forbidden — only `@learnandgrowrich.net` accounts authenticate |
+| Email not in allowlist | 403 Forbidden — even valid Workspace email must be on the operator allowlist |
+| Google outage | CCs fall back to last-known-good cached prompts (read-only mode); same fallback as previous design |
 
-### Auth0 configuration (locked at setup)
+### Google Cloud configuration (locked at setup)
 
-- **Tenant:** dedicated LGR tenant (separate from any test/dev tenants)
-- **Application type:** Single Page Application
-- **Allowed callback URLs:** `https://fosmlive.netlify.app/auth/callback`
-- **Allowed logout URLs:** `https://fosmlive.netlify.app/`
-- **Allowed web origins:** `https://fosmlive.netlify.app`
-- **Token expiry:** 8 hours (access token), 30 days (refresh token)
-- **MFA:** required for all operator accounts (enforced at Auth0)
-- **Connections:** username/password (initial), email+passwordless option
-  (v1.1 if useful)
+- **Project:** new dedicated project `fosm-brain-oauth` (separate from
+  Personal app's project for isolation)
+- **OAuth consent screen:** Internal type (only Workspace org accounts
+  can sign in — single-domain enforcement at the platform level)
+- **Authorized JavaScript origins:** `https://fosmlive.netlify.app`
+- **Authorized redirect URIs:** `https://fosmlive.netlify.app/auth/callback`
+- **Scopes:** `openid email profile` (no Sheets or Drive scopes — brain
+  doesn't need them)
+- **MFA:** enforced at Google Workspace level (already configured for
+  `learnandgrowrich.net`)
+- **Operator allowlist:** maintained as a server-side env var
+  `BRAIN_OPERATOR_ALLOWLIST` containing comma-separated operator emails;
+  starts as just `zach@learnandgrowrich.net`; team members added by
+  updating this env var
 
-### Roles (v1 → Phase 4)
+### Authorization model (v1 → Phase 4)
 
-In v1, two roles exist:
+In v1, the access model is a single boolean:
+- **Authenticated `@learnandgrowrich.net` operator on the allowlist** →
+  full read access to all prompts in the brain
+- **Anyone else** → 403 Forbidden
 
-- **`operator`** — full read access to all prompts. Zach has this role.
-- *(no other roles)*
+This is a simple gate, intentional for the solo-and-small-team phase.
+Granular roles (operator/team/auditor) are deferred to Phase 4 when
+multi-tenant client-overrides require finer-grained access. The gate
+expands by adding role-checking middleware in front of the existing
+endpoint logic — no rewrite needed.
 
-In Phase 4, multi-tenant adds:
-
+In Phase 4, the access model expands to:
+- **`operator`** — full read access (current v1 behavior)
+- **`team`** — operator-equivalent for trusted hires
+- **`auditor`** — read-only access for future Audit CC reviewers
 - **`client`** — limited read access to specific prompts (their own
-  brand voice, their own framework instances)
-- **`team`** — operator-equivalent access for trusted hires
-- **`auditor`** — read-only access for the future Audit CC's third-party
-  reviewers
+  brand voice, their own framework instances) — likely via a separate
+  client-facing auth flow rather than expanding this one
 
-Phase 4 is out of scope for v1. The role schema just leaves room.
+Phase 4 is explicitly out of scope for v1. The current Workspace OAuth
+gate handles the operator-only era cleanly; client-facing auth is its
+own architectural decision when that time comes.
 
 ---
+
 
 ## The Governance Protocol — Heavy
 
@@ -842,17 +878,49 @@ the prompt lives."
 (no abstract category-hunting). Cross-cutting prompts are explicit (in
 `shared/`). Future CCs slot in naturally (their own folder).
 
-### 8 · Auth mechanism — Auth0 per-session token
+### 8 · Auth mechanism — Google Workspace OAuth
 
-**Decision:** Per-session token authentication via Auth0. Every brain
-fetch requires a valid, non-expired token. Tokens issued after Auth0
-login. Token validation server-side.
+**Decision:** Authentication via Google Workspace OAuth using the existing
+`learnandgrowrich.net` Workspace. Operators sign in with Google; the
+brain endpoint validates the ID token, verifies the email domain is
+`@learnandgrowrich.net`, AND verifies the email is on the operator
+allowlist. Authorized requests get prompts; unauthorized requests get
+401/403.
 
-**Reason:** Built for team-future, not solo-present. Shared-secret
-architectures collapse the moment there are multiple operators.
-Per-session token is the architecture that scales without a rewrite.
-Phase 2 build cost expanded from ~2 hours to ~5-6 hours; cost
-acknowledged and accepted.
+**Reason:** The brain endpoint is operator-only infrastructure. Clients
+never authenticate to the brain — their browsers talk to LGR-controlled
+Netlify Functions, which talk to the brain on their behalf using
+operator credentials. This means brain auth needs to handle a small
+trusted team (5-10 LGR staff over 1-2 years), not thousands of end users.
+Google Workspace OAuth is purpose-built for this scale, costs $0
+additional (Workspace seats are paid for regardless), enforces MFA at
+the account level (already configured), and uses standard OAuth (less
+vendor lock-in than proprietary identity platforms). Phase 2 build cost
+revised down from ~5-6 hours (Auth0 estimate) to ~3-4 hours.
+
+### 8.1 · Pivot rationale — Auth0 considered then rejected
+
+**Initial decision (2026-05-08):** Auth0 per-session tokens. Selected for
+team-future scalability and professional auth platform.
+
+**Pivot trigger (2026-05-09 evening, mid-build):** Three discoveries
+during Phase 2 setup made the Auth0 path materially worse than expected:
+
+1. **MFA in Auth0 requires Pro tier** ($23/mo). Free tier provides NO
+   MFA. The brain spec required MFA enforcement.
+2. **The brain endpoint serves operators only** — clients never directly
+   authenticate to it. Auth0's enterprise features (granular roles at
+   scale, custom domains, sophisticated end-user flows) don't earn their
+   cost when the user pool is a small trusted team.
+3. **Google Workspace OAuth was already configured** (FOSM·LIVE Personal
+   uses it). MFA already enforced at account level. Familiar setup
+   pattern, zero new cost.
+
+**Pivot decision (2026-05-09 evening):** Switched to Google Workspace
+OAuth. See `docs/notes/auth-pivot-2026-05-09.md` for the full reasoning
+captured at decision time. Revisit if/when Phase 4 multi-tenant brings
+end-user authentication into scope (current architecture suggests it
+won't — clients consume outputs, not brain access directly).
 
 ### 9 · Cache pattern — 10 min default, per-folder TTLs, time-based invalidation
 
@@ -904,6 +972,12 @@ To keep the spec from sprawling:
 - **Side-by-side diff UI.** The data model supports it (every output
   records which prompt version generated it), but the UI ships with
   Audit CC, not in v1 of the brain itself.
+- **Dedicated auth platforms (Auth0, Clerk, Okta, etc.).** Initially
+  considered Auth0 (Decision 8 / pivot rationale captured in Decision
+  8.1). Rejected when brain's operator-only use case made the cost
+  unjustifiable. Revisit if/when end-user authentication enters scope
+  (current architecture — clients consume outputs, not brain access
+  directly — suggests it won't, but the spec leaves room).
 
 ---
 
@@ -926,22 +1000,42 @@ code throughout.
 - Migrate first set of prompts manually (the audit prompts for testing
   the workflow)
 
-### Phase 2 · Auth0 + gated endpoint (~5-6 hours)
+### Phase 2 · Google OAuth + gated endpoint (~3-4 hours)
 
-- Set up Auth0 tenant for LGR
-- Configure Auth0 application (SPA, callback URLs, MFA required)
-- Build Auth0 login flow (hosted page + redirect handler at
-  `/auth/callback`)
-- Build session token issuance + cookie storage
-- Build token refresh logic (8-hour access token, 30-day refresh token)
-- Build sign-out endpoint (server-side invalidation)
+- Create dedicated Google Cloud project `fosm-brain-oauth` (separate
+  from Personal app's project for isolation)
+- Enable Google Identity Services + relevant APIs in the new project
+- Configure OAuth consent screen:
+  - **Type:** Internal (only `@learnandgrowrich.net` accounts can sign in)
+  - **App name:** `FOSM·LIVE Brain`
+  - **Authorized JavaScript origins:** `https://fosmlive.netlify.app`
+  - **Authorized redirect URIs:** `https://fosmlive.netlify.app/auth/callback`
+  - **Scopes:** `openid email profile` (no Drive/Sheets — brain doesn't need them)
+- Generate OAuth Client ID + Client Secret; add to Netlify env vars:
+  - `BRAIN_GOOGLE_OAUTH_CLIENT_ID` (public — embedded in CC frontends)
+  - `BRAIN_GOOGLE_OAUTH_CLIENT_SECRET` (server-only — never in code)
+  - `BRAIN_OPERATOR_ALLOWLIST` (comma-separated: `zach@learnandgrowrich.net`)
+  - `BRAIN_SESSION_SECRET` (random 32-byte hex string for signing session JWTs)
+  - `BRAIN_GITHUB_PAT` (read-only PAT for `learn-and-grow-rich/fosm-brain-private`)
+- Build "Sign in with Google" button + Google Identity Services flow on
+  any CC that needs brain access (initially: a single test page)
+- Build `/auth/callback` Netlify Function:
+  - Receives Google ID token from frontend
+  - Validates ID token via Google's tokeninfo endpoint
+  - Verifies `email_verified === true`
+  - Verifies email domain is `@learnandgrowrich.net`
+  - Verifies email is in `BRAIN_OPERATOR_ALLOWLIST`
+  - Issues signed session JWT (8-hour expiry); stores in httpOnly cookie
 - Build `/api/brain/<prompt_id>` Netlify Function:
-  - Validates Auth0 token via JWKS
-  - Reads prompt from private repo via GitHub PAT
+  - Validates session JWT from cookie (rejects with 401 if missing/invalid/expired)
+  - Re-checks email allowlist (defense in depth — if allowlist changes,
+    expired-but-valid sessions still get caught)
+  - Reads prompt from private brain repo via GitHub PAT
   - Returns prompt content with version metadata
   - Honors `?version=` parameter
-  - Sets `Cache-Control` header per cache TTL
-- Build error handling for all defined error responses
+  - Sets `Cache-Control: private, max-age=<ttl>` header
+- Build error handling for all defined error responses (401/403/404/410/429/500)
+- Build sign-out endpoint (clears session cookie)
 - Test from Postman/curl AND from a real CC before any prompt migration
 
 ### Phase 3 · First CC integration (~1 hour)
@@ -1028,6 +1122,27 @@ validated through real implementation.
 
 These are clarifications to match implementation reality, not changes to
 the architectural intent. Spec body and footer kept in sync.
+
+**v1.1 revision (2026-05-09 evening) — Auth architecture pivot:**
+
+Mid-Phase-2 build, three discoveries triggered an architectural pivot:
+1. Auth0 MFA is a Pro-tier feature ($23/mo); free tier provides no MFA
+2. The brain endpoint serves operators only — clients never authenticate to it (their browsers talk to LGR-controlled Netlify Functions, which talk to the brain on their behalf)
+3. Google Workspace OAuth was already configured for `learnandgrowrich.net` with MFA enforced at the account level
+
+Pivoted from Auth0 → Google Workspace OAuth. Section 7 (Auth Model) fully
+rewritten. Decision 8 rewritten with new rationale; Decision 8.1 added
+preserving the Auth0-considered-then-rejected reasoning. Phase 2 build
+estimate revised down from 5-6 hours to 3-4 hours. Auth0 added to
+"NOT in scope for v1" with revisit-trigger noted.
+
+Full pivot rationale captured at decision time in
+`docs/notes/auth-pivot-2026-05-09.md`.
+
+This pivot is in integrity with the spec's foundational principle "Spec
+leads code, never the other way around" — implementation revealed
+something the spec didn't account for, so we stopped, updated the spec,
+then resumed building.
 
 — *Cheers and have a blessed day.*
 
