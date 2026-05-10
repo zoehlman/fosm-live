@@ -423,6 +423,84 @@
   #dropOverlay{position:fixed;inset:0;background:rgba(212,165,116,.15);backdrop-filter:blur(20px);
     z-index:2000;display:none;align-items:center;justify-content:center;
     border:3px dashed var(--gold);pointer-events:none}
+
+  /* v4.3 — PEOPLE PAGE */
+  .ppl-shell{padding:60px 48px 100px;max-width:1180px;margin:0 auto}
+  .ppl-eyebrow{font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;font-weight:600;margin-bottom:14px}
+  .ppl-title{font-family:'Fraunces',serif;font-size:52px;font-weight:300;color:var(--text-0);line-height:1.05;margin:0 0 18px;letter-spacing:-.5px}
+  .ppl-title em{font-style:italic;color:var(--gold);font-weight:400}
+  .ppl-sub{font-size:14px;color:var(--text-2);max-width:640px;line-height:1.7;margin:0 0 48px}
+  .ppl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;margin-bottom:18px}
+  .ppl-card{background:var(--bg-1);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;
+    transition:all .18s;position:relative}
+  .ppl-card:hover{border-color:var(--gold-dim);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+  .ppl-card-photo{aspect-ratio:1;background:var(--bg-2);background-size:cover;background-position:center;position:relative}
+  .ppl-card-photo.empty{display:flex;align-items:center;justify-content:center;color:var(--text-3);font-size:11px}
+  .ppl-card-photo-count{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.65);color:var(--text-0);
+    font-size:10px;padding:4px 8px;border-radius:30px;letter-spacing:.5px}
+  .ppl-card-body{padding:14px 16px}
+  .ppl-card-name{font-family:'Fraunces',serif;font-size:18px;color:var(--text-0);margin:0 0 4px;font-weight:400}
+  .ppl-card-role{font-size:10px;color:var(--text-3);letter-spacing:2px;text-transform:uppercase;font-weight:500}
+  .ppl-card-desc{font-size:11.5px;color:var(--text-2);line-height:1.5;margin-top:8px;max-height:36px;overflow:hidden;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-style:italic;font-family:'Fraunces',serif}
+  .ppl-add-card{background:transparent;border:1.5px dashed var(--line);border-radius:14px;padding:34px 18px;
+    cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--text-2);
+    font-family:'Inter',sans-serif;width:100%;transition:all .18s;font-size:13px}
+  .ppl-add-card:hover{border-color:var(--gold);color:var(--gold)}
+  .ppl-add-circle{width:42px;height:42px;border-radius:50%;border:1.5px solid currentColor;
+    display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:300;line-height:1}
+  .ppl-add-label{font-size:13px;letter-spacing:.3px}
+
+  /* Person editor */
+  .ppl-form-row{margin-bottom:22px}
+  .ppl-label{font-size:10px;letter-spacing:2px;color:var(--text-3);text-transform:uppercase;font-weight:600;display:block;margin-bottom:8px}
+  .ppl-label-hint{font-size:10px;letter-spacing:.5px;text-transform:none;color:var(--text-3);font-weight:400;font-style:italic;margin-left:4px}
+  .ppl-input{width:100%;background:var(--bg-0);border:1px solid var(--line);color:var(--text-0);
+    padding:10px 14px;border-radius:8px;font-size:13px;outline:none;font-family:inherit}
+  .ppl-input:focus{border-color:var(--gold)}
+  select.ppl-input{cursor:pointer}
+  .ppl-textarea{width:100%;background:var(--bg-0);border:1px solid var(--line);color:var(--text-0);
+    padding:12px 14px;border-radius:8px;font-size:13px;outline:none;min-height:100px;resize:vertical;
+    line-height:1.6;font-family:'Fraunces',serif;font-style:italic}
+  .ppl-textarea:focus{border-color:var(--gold)}
+  .ppl-char-count{font-size:10px;color:var(--text-3);text-align:right;margin-top:4px;letter-spacing:.5px}
+  .ppl-photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-bottom:10px}
+  .ppl-photo-thumb{aspect-ratio:1;background-size:cover;background-position:center;border-radius:8px;
+    position:relative;border:1px solid var(--line);cursor:pointer;transition:all .15s}
+  .ppl-photo-thumb:hover{border-color:var(--gold-dim)}
+  .ppl-photo-thumb.primary{border:2px solid var(--gold);box-shadow:0 0 0 2px rgba(212,165,116,.2)}
+  .ppl-photo-thumb-actions{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;
+    transition:opacity .15s;border-radius:8px;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:6px;font-size:10px}
+  .ppl-photo-thumb:hover .ppl-photo-thumb-actions{opacity:1}
+  .ppl-photo-thumb-actions button{background:rgba(255,255,255,.15);color:var(--text-0);border:none;
+    padding:5px 10px;border-radius:30px;font-size:10px;cursor:pointer;letter-spacing:.5px}
+  .ppl-photo-thumb-actions button:hover{background:rgba(255,255,255,.3)}
+  .ppl-photo-primary-badge{position:absolute;top:4px;left:4px;background:var(--gold);color:var(--bg-0);
+    font-size:9px;padding:2px 7px;border-radius:30px;font-weight:600;letter-spacing:.5px}
+  .ppl-photo-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .ppl-photo-hint{font-size:11px;color:var(--text-3);font-style:italic}
+  .ppl-autocheck-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px}
+  .ppl-autocheck-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--bg-0);
+    border:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:12px;color:var(--text-1);
+    transition:all .12s;user-select:none}
+  .ppl-autocheck-item:hover{border-color:var(--gold-dim);color:var(--text-0)}
+  .ppl-autocheck-item.checked{background:rgba(212,165,116,.08);border-color:var(--gold);color:var(--gold)}
+  .ppl-autocheck-checkbox{width:14px;height:14px;border:1.5px solid var(--text-3);border-radius:3px;
+    flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1}
+  .ppl-autocheck-item.checked .ppl-autocheck-checkbox{background:var(--gold);border-color:var(--gold);color:var(--bg-0)}
+
+  /* AI video Featuring picker */
+  .aiv-featuring-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .aiv-featuring-chip{display:flex;align-items:center;gap:6px;padding:6px 12px 6px 6px;
+    background:var(--bg-0);border:1px solid var(--line);border-radius:30px;cursor:pointer;
+    font-size:11px;color:var(--text-2);transition:all .12s;font-family:inherit}
+  .aiv-featuring-chip:hover{border-color:var(--gold-dim);color:var(--text-1)}
+  .aiv-featuring-chip.checked{background:rgba(212,165,116,.1);border-color:var(--gold);color:var(--gold)}
+  .aiv-featuring-avatar{width:22px;height:22px;border-radius:50%;background-size:cover;background-position:center;
+    background-color:var(--bg-2);display:flex;align-items:center;justify-content:center;
+    font-size:10px;color:var(--text-3);font-weight:600}
+  .aiv-featuring-hint{font-size:10.5px;color:var(--text-3);font-style:italic;margin-top:6px}
   #dropOverlay.show{display:flex}
   .drop-msg{font-family:'Fraunces',serif;font-size:32px;color:var(--gold);font-style:italic;text-align:center}
 
@@ -709,6 +787,17 @@
   .aiv-pick-cost{display:block;font-size:9.5px;color:var(--text-3);margin-top:2px;font-weight:400;letter-spacing:.3px}
   .aiv-pick.active .aiv-pick-cost{color:var(--gold-dim)}
 
+  /* Provider chips (top-level video gen provider) */
+  .aiv-provider-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .aiv-provider-chip{background:var(--bg-0);border:1px solid var(--line);color:var(--text-2);
+    padding:7px 14px;border-radius:30px;font-size:11px;font-weight:500;font-family:inherit;
+    cursor:pointer;transition:all .15s;letter-spacing:.2px}
+  .aiv-provider-chip:hover{border-color:var(--gold-dim);color:var(--text-1)}
+  .aiv-provider-chip.active{background:var(--gold);border-color:var(--gold);color:var(--bg-0);font-weight:600}
+  .aiv-provider-chip.locked{opacity:.55;cursor:help;color:var(--text-3)}
+  .aiv-provider-chip.locked:hover{opacity:.85;border-color:var(--line)}
+  .aiv-model-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:6px}
+
   .aiv-toggle-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text-1)}
   .aiv-toggle{position:relative;width:36px;height:20px;background:var(--bg-2);border-radius:30px;
     cursor:pointer;transition:all .2s;border:1px solid var(--line)}
@@ -929,6 +1018,10 @@
     <div class="nav-item" data-page="dreamer">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
       The Dreamer
+    </div>
+    <div class="nav-item" data-page="people">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      People
     </div>
 
     <div class="nav-section-label">The 12 Domains</div>
@@ -1180,7 +1273,75 @@
     </div>
   </div>
 
+  <!-- v4.3 — People page -->
+  <div class="page" id="page-people">
+    <div class="ppl-shell">
+      <div class="ppl-head">
+        <div class="ppl-eyebrow">YOUR PEOPLE</div>
+        <h1 class="ppl-title">The faces of <em>your dream</em></h1>
+        <p class="ppl-sub">Add the people who matter — you, your partner, family, friends, the team. Their photos and stories help AI video generations look like the people you actually love, not strangers.</p>
+      </div>
+      <div class="ppl-grid" id="pplGrid"></div>
+      <button class="ppl-add-card" id="pplAddBtn" onclick="openPersonEditor(null)">
+        <div class="ppl-add-circle">+</div>
+        <div class="ppl-add-label">Add a person</div>
+      </button>
+    </div>
+  </div>
+
 </main>
+
+<!-- v4.3 — Person editor modal -->
+<div class="modal-overlay" id="personModal" onclick="closePersonModalIfBg(event)">
+  <div class="modal modal-large" onclick="event.stopPropagation()">
+    <div class="modal-head" id="personEditorTitle" style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px">
+      <div>
+        <div style="font-size:10px;letter-spacing:2px;color:var(--gold);font-weight:600;margin-bottom:6px" id="personEditorEyebrow">NEW PERSON</div>
+        <span id="personEditorTitleText">Add a <em>person</em></span>
+      </div>
+      <button class="top-btn" onclick="closePersonModal()" style="padding:4px 12px;font-size:18px;line-height:1">×</button>
+    </div>
+    <div style="margin-bottom:8px"></div>
+    <div class="ppl-form-row">
+      <label class="ppl-label">Name</label>
+      <input type="text" class="ppl-input" id="personName" placeholder="e.g. Sumary" maxlength="60">
+    </div>
+    <div class="ppl-form-row">
+      <label class="ppl-label">Role <span class="ppl-label-hint">— how they relate to you</span></label>
+      <select class="ppl-input" id="personRole">
+        <option value="you">That's me</option>
+        <option value="partner">Partner / spouse</option>
+        <option value="family">Family</option>
+        <option value="team">Team / collaborator</option>
+        <option value="friend">Friend</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+    <div class="ppl-form-row">
+      <label class="ppl-label">Reference photos <span class="ppl-label-hint">— 5–10 work best, varied angles &amp; lighting</span></label>
+      <div class="ppl-photo-grid" id="personPhotos"></div>
+      <div class="ppl-photo-actions">
+        <input type="file" id="personPhotoFile" accept="image/*" multiple style="display:none" onchange="handlePersonPhotoUpload(event)">
+        <button class="top-btn primary" onclick="document.getElementById('personPhotoFile').click()">+ Upload photos</button>
+        <span class="ppl-photo-hint">Stored locally on your device. Resized to 768px to save space.</span>
+      </div>
+    </div>
+    <div class="ppl-form-row">
+      <label class="ppl-label">Identity descriptors <span class="ppl-label-hint">— a paragraph that describes them physically</span></label>
+      <textarea class="ppl-textarea" id="personDescriptors" placeholder="Sumary is in her 30s, dark hair past the shoulders, warm brown eyes, soft full smile. Calm presence. Often in earth tones — moss greens, terracotta, cream linens. Comfortable in nature, barefoot, unhurried." maxlength="1200"></textarea>
+      <div class="ppl-char-count" id="personDescCount">0 / 1200</div>
+    </div>
+    <div class="ppl-form-row">
+      <label class="ppl-label">Auto-feature in <span class="ppl-label-hint">— check this person automatically when generating in these areas</span></label>
+      <div class="ppl-autocheck-grid" id="personAutoCheck"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="top-btn" id="personDeleteBtn" onclick="confirmDeletePerson()" style="margin-right:auto;color:var(--red);display:none">Delete person</button>
+      <button class="top-btn" onclick="closePersonModal()">Cancel</button>
+      <button class="top-btn primary" onclick="savePersonFromEditor()">Save</button>
+    </div>
+  </div>
+</div>
 
 <button class="dreamer-fab" id="dreamerFab" onclick="goPage('dreamer')">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6L12 2z"/></svg>
@@ -1287,11 +1448,15 @@
             </div>
 
             <div>
-              <div class="aiv-label">Quality</div>
-              <div class="aiv-pickrow" id="aivQualityRow">
-                <button class="aiv-pick active" data-aiv-quality="veo-3.1-lite-generate-preview">Lite<span class="aiv-pick-cost">$0.075/sec</span></button>
-                <button class="aiv-pick" data-aiv-quality="veo-3.1-fast-generate-preview">Fast<span class="aiv-pick-cost">$0.15/sec</span></button>
-                <button class="aiv-pick" data-aiv-quality="veo-3.1-generate-preview">Premium<span class="aiv-pick-cost">$0.40/sec</span></button>
+              <div class="aiv-label">Featuring <span style="text-transform:none;font-weight:400;color:var(--text-3);font-style:italic;letter-spacing:.5px;font-size:10px">— who should appear in this clip</span></div>
+              <div class="aiv-featuring-row" id="aivFeaturingRow"></div>
+              <div class="aiv-featuring-hint" id="aivFeaturingHint"></div>
+            </div>
+
+            <div>
+              <div class="aiv-label">Provider &amp; Model</div>
+              <div id="aivProviderPicker">
+                <div style="font-size:11px;color:var(--text-3);font-style:italic;padding:14px">Loading providers…</div>
               </div>
             </div>
 
@@ -1315,7 +1480,7 @@
 
             <div class="aiv-toggle-row">
               <div class="aiv-toggle on" id="aivAudioToggle" onclick="aivToggleAudio()"></div>
-              <span><b>Audio</b> — Veo generates ambient sound &amp; foley. ON for standalone clips, consider OFF if you'll layer music in the trailer.</span>
+              <span><b>Audio</b> — Veo 3 generates ambient sound &amp; foley natively. Leave on for standalone clips. (Audio is delivered by the model itself; this toggle only affects how the clip is described.)</span>
             </div>
 
             <div class="aiv-cost-summary" id="aivCostSummary">
@@ -1599,7 +1764,9 @@ const SK = {
   dreamer: STORAGE_PREFIX + 'dreamer',
   unsplashKey: STORAGE_PREFIX + 'apikey:unsplash',
   domain: (id) => STORAGE_PREFIX + 'domain:' + id,
-  project: (id) => STORAGE_PREFIX + 'project:' + id
+  project: (id) => STORAGE_PREFIX + 'project:' + id,
+  person: (id) => STORAGE_PREFIX + 'person:' + id,
+  peopleIndex: STORAGE_PREFIX + 'people-index'
 };
 
 const DOMAINS_DEF = [
@@ -1695,6 +1862,7 @@ let state = {
   user: { name: 'Zach Oehlman', initial: 'Z' },
   domains: {},
   projects: {},
+  people: {},   // v4.3 People system — keyed by person id
   dreamer: { responses: {}, currentIdx: 0 }
 };
 let currentDomainId = null;
@@ -1703,6 +1871,8 @@ let currentSubsectionId = null;
 let currentLightboxPhotoId = null;
 let editingStoryId = null;
 let editingSubsectionId = null;
+let currentPersonId = null;
+let editingPersonId = null;
 
 // =================== STORAGE ===================
 function loadState() {
@@ -1736,6 +1906,26 @@ function loadState() {
         state.projects[def.id] = createBlankProject(def);
       }
     });
+    // v4.3 — load people from index + per-person keys
+    state.people = {};
+    const idxRaw = localStorage.getItem(SK.peopleIndex);
+    if (idxRaw) {
+      try {
+        const idx = JSON.parse(idxRaw);
+        if (Array.isArray(idx)) {
+          idx.forEach(personId => {
+            const raw = localStorage.getItem(SK.person(personId));
+            if (raw) {
+              try { state.people[personId] = JSON.parse(raw); } catch (e) {}
+            }
+          });
+        }
+      } catch (e) { console.error('People index load failed', e); }
+    }
+    // First-run seeding: create You + Sumary if no people exist yet
+    if (Object.keys(state.people).length === 0) {
+      seedDefaultPeople();
+    }
   } catch (e) { console.error('Load failed', e); }
 }
 function createBlankDomain(def) {
@@ -1763,11 +1953,58 @@ function createBlankSubsection(def) {
     horizons: { lifetime: '', tenYear: '', threeYear: '', oneYear: '', twelveWeek: '' }
   };
 }
+// v4.3 — Person model
+function createBlankPerson(name, role) {
+  return {
+    id: 'pn_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+    name: name || '',
+    role: role || '',           // "you" | "partner" | "family" | "team" | other
+    descriptors: '',            // paragraph used by Claude polish
+    photos: [],                 // array of { id, dataUrl, addedAt }
+    primaryPhotoId: null,       // which photo to use as the seed reference
+    autoFeatureIn: [],          // domain/project ids where this person auto-features
+    addedAt: Date.now()
+  };
+}
+// First-run seeding for the People system. Creates a placeholder "You" and
+// "Sumary" so the smart defaults have something to default to.
+function seedDefaultPeople() {
+  const you = createBlankPerson(state.user?.name || 'You', 'you');
+  you.autoFeatureIn = ['body','spirit','mind','heart','character','marriage','family','tribe','money','mission','legacy','lifestyle'];
+  state.people[you.id] = you;
+  const sumary = createBlankPerson('Sumary', 'partner');
+  sumary.autoFeatureIn = ['marriage','family','lifestyle'];
+  state.people[sumary.id] = sumary;
+  savePeopleIndex();
+  savePerson(you.id);
+  savePerson(sumary.id);
+}
 let saveTimer = null;
 function saveDomain(id) { localStorage.setItem(SK.domain(id), JSON.stringify(state.domains[id])); flashSaved(); }
 function saveProject(id) { localStorage.setItem(SK.project(id), JSON.stringify(state.projects[id])); flashSaved(); }
 function saveUser() { localStorage.setItem(SK.user, JSON.stringify(state.user)); flashSaved(); }
 function saveDreamer() { localStorage.setItem(SK.dreamer, JSON.stringify(state.dreamer)); flashSaved(); }
+function savePerson(id) {
+  if (!state.people[id]) return;
+  try {
+    localStorage.setItem(SK.person(id), JSON.stringify(state.people[id]));
+    savePeopleIndex();
+    flashSaved();
+  } catch (e) {
+    console.error('Person save failed', e);
+    toast('Storage full — try removing some photos', 'error');
+  }
+}
+function savePeopleIndex() {
+  const idx = Object.keys(state.people);
+  localStorage.setItem(SK.peopleIndex, JSON.stringify(idx));
+}
+function deletePerson(id) {
+  delete state.people[id];
+  localStorage.removeItem(SK.person(id));
+  savePeopleIndex();
+  flashSaved();
+}
 function debouncedSave(fn) {
   setSaving();
   clearTimeout(saveTimer);
@@ -1905,12 +2142,14 @@ function goPage(page) {
   const trails = {
     home:    '<b>Command Center</b>',
     movies:  '<span>Command Center</span> · <b>Vision Movies</b>',
-    dreamer: '<b>The Dreamer</b> <span style="color:var(--text-3);font-size:10px">· session in progress</span>'
+    dreamer: '<b>The Dreamer</b> <span style="color:var(--text-3);font-size:10px">· session in progress</span>',
+    people:  '<span>Command Center</span> · <b>People</b>'
   };
   document.getElementById('topTrail').innerHTML = trails[page] || '<b>Command Center</b>';
   document.getElementById('main').scrollTo({ top: 0, behavior: 'instant' });
   if (page === 'dreamer') paintDreamer();
   if (page === 'movies') { try { renderMovieLibrary(); } catch(e){} }
+  if (page === 'people') { try { renderPeopleGrid(); } catch(e){ console.error(e); } }
   if (page === 'home') {
     clearAllContext();
     renderDomainsGrid();
@@ -3020,11 +3259,29 @@ function importJSON(event) {
           saveProject(id);
         });
       }
+      // v4.3 — also import people if present
+      if (data.people && typeof data.people === 'object') {
+        const incomingIds = new Set(Object.keys(data.people));
+        Object.keys(state.people).forEach(id => {
+          if (!incomingIds.has(id)) {
+            delete state.people[id];
+            try { localStorage.removeItem(SK.person(id)); } catch(e) {}
+          }
+        });
+        Object.keys(data.people).forEach(id => {
+          state.people[id] = data.people[id];
+          try { savePerson(id); } catch(e) {}
+        });
+        savePeopleIndex();
+      }
       document.getElementById('whoName').textContent = state.user.name;
       document.getElementById('whoAv').textContent = state.user.initial;
       renderDomainsGrid();
       renderProjectsGrid();
       renderProjectsNav();
+      if (typeof renderPeopleGrid === 'function') {
+        try { renderPeopleGrid(); } catch(e) {}
+      }
       toast('Imported · welcome back');
     } catch (err) {
       toast('Invalid file');
@@ -3369,30 +3626,302 @@ async function psHandleUpload(event) {
   event.target.value = '';
 }
 
-// =================== AI VIDEO ===================
-// Calls our Netlify functions (gemini-proxy, claude-polish) to generate video
-// clips that drop into the user's mood board as a new photo type.
+// =================== v4.3 — PEOPLE SYSTEM ===================
+// Reference identities for AI video generation. Photos + descriptors per
+// person. Provider-agnostic — Veo accepts a single seed image; future
+// Higgsfield Soul ID will accept multiple photos for character training.
+// Resize all uploaded photos to MAX_PERSON_PHOTO_PX before storing.
 
-const AIV_QUALITY_COSTS = {
-  'veo-3.1-lite-generate-preview':  0.075,
-  'veo-3.1-fast-generate-preview':  0.15,
-  'veo-3.1-generate-preview':       0.40
+const MAX_PERSON_PHOTO_PX = 768;
+const PERSON_PHOTO_QUALITY = 0.7;
+const ROLE_LABELS = {
+  you: "That's me", partner: "Partner", family: "Family",
+  team: "Team", friend: "Friend", other: "Other"
 };
-const AIV_QUALITY_LABELS = {
-  'veo-3.1-lite-generate-preview':  'Veo 3.1 Lite',
-  'veo-3.1-fast-generate-preview':  'Veo 3.1 Fast',
-  'veo-3.1-generate-preview':       'Veo 3.1 Premium'
-};
-const AIV_PROXY_URL = '/.netlify/functions/gemini-proxy';
+
+function renderPeopleGrid() {
+  const grid = document.getElementById('pplGrid');
+  if (!grid) return;
+  const peopleArr = Object.values(state.people).sort((a, b) => {
+    const order = { you: 0, partner: 1, family: 2, friend: 3, team: 4, other: 5 };
+    if ((order[a.role] ?? 9) !== (order[b.role] ?? 9)) return (order[a.role] ?? 9) - (order[b.role] ?? 9);
+    return (a.addedAt || 0) - (b.addedAt || 0);
+  });
+  grid.innerHTML = peopleArr.map(p => {
+    const photoCount = (p.photos || []).length;
+    const primary = (p.photos || []).find(ph => ph.id === p.primaryPhotoId) || (p.photos || [])[0];
+    const photoStyle = primary
+      ? `background-image:url('${primary.dataUrl}')`
+      : '';
+    const desc = (p.descriptors || '').trim();
+    return `
+      <div class="ppl-card" onclick="openPersonEditor('${p.id}')">
+        <div class="ppl-card-photo${primary ? '' : ' empty'}" style="${photoStyle}">
+          ${primary ? '' : '<div>No photos yet</div>'}
+          ${photoCount > 1 ? `<div class="ppl-card-photo-count">${photoCount} photos</div>` : ''}
+          ${primary && photoCount === 1 ? '<div class="ppl-card-photo-count">1 photo</div>' : ''}
+        </div>
+        <div class="ppl-card-body">
+          <h3 class="ppl-card-name">${escape(p.name || 'Unnamed')}</h3>
+          <div class="ppl-card-role">${escape(ROLE_LABELS[p.role] || p.role || '')}</div>
+          ${desc ? `<div class="ppl-card-desc">${escape(desc)}</div>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openPersonEditor(personId) {
+  editingPersonId = personId;
+  const isNew = !personId;
+  const p = isNew ? createBlankPerson() : state.people[personId];
+  if (!p) return;
+
+  document.getElementById('personEditorEyebrow').textContent = isNew ? 'NEW PERSON' : 'EDIT PERSON';
+  document.getElementById('personEditorTitleText').innerHTML = isNew
+    ? 'Add a <em>person</em>'
+    : `Edit <em>${escape(p.name || 'person')}</em>`;
+  document.getElementById('personName').value = p.name || '';
+  document.getElementById('personRole').value = p.role || 'partner';
+  document.getElementById('personDescriptors').value = p.descriptors || '';
+  updatePersonDescCount();
+  document.getElementById('personDeleteBtn').style.display = isNew ? 'none' : 'inline-block';
+  // Stash a working copy on the editor so changes don't mutate state until save
+  document.getElementById('personModal')._draft = JSON.parse(JSON.stringify(p));
+  renderPersonPhotosInEditor();
+  renderPersonAutoCheckInEditor();
+  document.getElementById('personModal').classList.add('show');
+}
+
+function closePersonModal() {
+  document.getElementById('personModal').classList.remove('show');
+  document.getElementById('personModal')._draft = null;
+  editingPersonId = null;
+}
+function closePersonModalIfBg(e) {
+  if (e.target.id === 'personModal') closePersonModal();
+}
+
+function updatePersonDescCount() {
+  const ta = document.getElementById('personDescriptors');
+  const cnt = document.getElementById('personDescCount');
+  if (ta && cnt) cnt.textContent = `${ta.value.length} / 1200`;
+}
+
+function renderPersonPhotosInEditor() {
+  const draft = document.getElementById('personModal')._draft;
+  if (!draft) return;
+  const grid = document.getElementById('personPhotos');
+  if (!(draft.photos || []).length) {
+    grid.innerHTML = '<div style="color:var(--text-3);font-size:11px;font-style:italic;padding:14px 0">No photos yet — upload some to start.</div>';
+    return;
+  }
+  grid.innerHTML = draft.photos.map(ph => {
+    const isPrimary = ph.id === draft.primaryPhotoId;
+    return `
+      <div class="ppl-photo-thumb${isPrimary ? ' primary' : ''}" style="background-image:url('${ph.dataUrl}')">
+        ${isPrimary ? '<div class="ppl-photo-primary-badge">PRIMARY</div>' : ''}
+        <div class="ppl-photo-thumb-actions">
+          ${isPrimary ? '' : `<button onclick="event.stopPropagation();setPersonPrimaryPhoto('${ph.id}')">Set primary</button>`}
+          <button onclick="event.stopPropagation();removePersonPhoto('${ph.id}')">Remove</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function setPersonPrimaryPhoto(photoId) {
+  const draft = document.getElementById('personModal')._draft;
+  if (!draft) return;
+  draft.primaryPhotoId = photoId;
+  renderPersonPhotosInEditor();
+}
+
+function removePersonPhoto(photoId) {
+  const draft = document.getElementById('personModal')._draft;
+  if (!draft) return;
+  draft.photos = (draft.photos || []).filter(p => p.id !== photoId);
+  if (draft.primaryPhotoId === photoId) {
+    draft.primaryPhotoId = draft.photos[0]?.id || null;
+  }
+  renderPersonPhotosInEditor();
+}
+
+async function handlePersonPhotoUpload(event) {
+  const files = Array.from(event.target.files || []).filter(f => f.type.startsWith('image/'));
+  event.target.value = '';
+  if (!files.length) return;
+  const draft = document.getElementById('personModal')._draft;
+  if (!draft) return;
+  if ((draft.photos || []).length + files.length > 20) {
+    toast('Maximum 20 photos per person', 'warn');
+    return;
+  }
+  toast(`Resizing ${files.length} photo${files.length > 1 ? 's' : ''}…`, 'info');
+  for (const f of files) {
+    try {
+      const dataUrl = await resizeImageFile(f, MAX_PERSON_PHOTO_PX, PERSON_PHOTO_QUALITY);
+      const photo = {
+        id: 'pp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+        dataUrl,
+        addedAt: Date.now()
+      };
+      draft.photos = draft.photos || [];
+      draft.photos.push(photo);
+      if (!draft.primaryPhotoId) draft.primaryPhotoId = photo.id;
+    } catch (e) {
+      console.error('Photo resize failed', e);
+    }
+  }
+  renderPersonPhotosInEditor();
+  toast(`${files.length} photo${files.length > 1 ? 's' : ''} added`, 'success');
+}
+
+// Resize a File to fit within max pixel size (longest edge), JPEG-compressed
+function resizeImageFile(file, maxPx, quality) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if (w > h && w > maxPx) { h = h * (maxPx / w); w = maxPx; }
+        else if (h > maxPx) { w = w * (maxPx / h); h = maxPx; }
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(w);
+        canvas.height = Math.round(h);
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = () => reject(new Error('Image decode failed'));
+      img.src = e.target.result;
+    };
+    reader.onerror = () => reject(new Error('File read failed'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderPersonAutoCheckInEditor() {
+  const draft = document.getElementById('personModal')._draft;
+  if (!draft) return;
+  const targets = [
+    ...DOMAINS_DEF.map(d => ({ id: d.id, label: d.name, group: 'Domains' })),
+    ...PROJECTS_DEF.map(p => ({ id: p.id, label: p.name, group: 'Projects' }))
+  ];
+  const checked = new Set(draft.autoFeatureIn || []);
+  const grid = document.getElementById('personAutoCheck');
+  grid.innerHTML = targets.map(t => {
+    const isChecked = checked.has(t.id);
+    return `
+      <div class="ppl-autocheck-item${isChecked ? ' checked' : ''}" onclick="togglePersonAutoCheck('${t.id}')">
+        <div class="ppl-autocheck-checkbox">${isChecked ? '✓' : ''}</div>
+        <span>${escape(t.label)}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function togglePersonAutoCheck(targetId) {
+  const draft = document.getElementById('personModal')._draft;
+  if (!draft) return;
+  draft.autoFeatureIn = draft.autoFeatureIn || [];
+  const i = draft.autoFeatureIn.indexOf(targetId);
+  if (i >= 0) draft.autoFeatureIn.splice(i, 1);
+  else draft.autoFeatureIn.push(targetId);
+  renderPersonAutoCheckInEditor();
+}
+
+function savePersonFromEditor() {
+  const draft = document.getElementById('personModal')._draft;
+  if (!draft) return;
+  draft.name = document.getElementById('personName').value.trim() || 'Unnamed';
+  draft.role = document.getElementById('personRole').value;
+  draft.descriptors = document.getElementById('personDescriptors').value.trim();
+  state.people[draft.id] = draft;
+  savePerson(draft.id);
+  closePersonModal();
+  renderPeopleGrid();
+  toast(`${draft.name} saved`, 'success');
+}
+
+function confirmDeletePerson() {
+  const draft = document.getElementById('personModal')._draft;
+  if (!draft || !state.people[draft.id]) return;
+  if (!confirm(`Remove ${draft.name || 'this person'} and their reference photos? This can't be undone.`)) return;
+  deletePerson(draft.id);
+  closePersonModal();
+  renderPeopleGrid();
+  toast('Person removed', 'info');
+}
+
+// Wire descriptor counter on input
+document.addEventListener('DOMContentLoaded', () => {
+  const ta = document.getElementById('personDescriptors');
+  if (ta) ta.addEventListener('input', updatePersonDescCount);
+});
+
+// Helper: get the array of people who should auto-feature for a given target
+function peopleAutoFeatureFor(targetId) {
+  if (!targetId) return [];
+  return Object.values(state.people).filter(p =>
+    Array.isArray(p.autoFeatureIn) && p.autoFeatureIn.includes(targetId)
+  );
+}
+
+// Helper: build descriptor block for Claude polish, given a list of person ids
+function buildPersonDescriptorBlock(personIds) {
+  if (!personIds || !personIds.length) return '';
+  const lines = personIds.map(id => {
+    const p = state.people[id];
+    if (!p) return null;
+    const desc = (p.descriptors || '').trim();
+    if (!desc) return `${p.name}: (no descriptor provided)`;
+    return `${p.name}: ${desc}`;
+  }).filter(Boolean);
+  if (!lines.length) return '';
+  return '\n\nFEATURED PEOPLE:\n' + lines.join('\n');
+}
+
+// Helper: build referenceImages payload for the proxy
+function buildPersonReferencePayload(personIds) {
+  if (!personIds || !personIds.length) return [];
+  const refs = [];
+  for (const id of personIds) {
+    const p = state.people[id];
+    if (!p) continue;
+    const primary = (p.photos || []).find(ph => ph.id === p.primaryPhotoId) || (p.photos || [])[0];
+    if (!primary) continue;
+    refs.push({
+      personId: p.id,
+      personName: p.name,
+      dataUrl: primary.dataUrl
+    });
+  }
+  return refs;
+}
+
+// =================== AI VIDEO ===================
+// Provider-agnostic. The proxy returns a list of providers; we render dynamically.
+// Adding Higgsfield, Sora, Runway later requires no front-end changes — they
+// appear automatically when their env vars are set on the server.
+
+const AIV_PROXY_URL = '/.netlify/functions/video-gen-proxy';
 const AIV_POLISH_URL = '/.netlify/functions/claude-polish';
 const AIV_SOFT_CAP = 50;
 const AIV_HARD_CAP = 100;
 
-// Persistent state — password kept session-only for safety
-let aivQuality = 'veo-3.1-lite-generate-preview';
+// Loaded dynamically on first tab open via list_providers
+let AIV_PROVIDERS = [];
+let aivProvidersLoaded = false;
+
+// Persistent state
+let aivProvider = 'veo';
+let aivModel = 'veo-3.1-lite-generate-preview';
 let aivDuration = 6;
 let aivAspect = '9:16';
 let aivAudio = true;
+let aivFeaturing = []; // array of person ids checked in the Featuring picker
 let aivPolling = false;
 let aivPollTimer = null;
 let aivStartTime = 0;
@@ -3418,13 +3947,9 @@ function aivAddSpend(amount) {
 
 // Wire pickers
 function aivWirePickers() {
-  document.querySelectorAll('[data-aiv-quality]').forEach(b => {
-    b.addEventListener('click', () => {
-      aivQuality = b.dataset.aivQuality;
-      document.querySelectorAll('[data-aiv-quality]').forEach(x => x.classList.toggle('active', x.dataset.aivQuality === aivQuality));
-      aivUpdateCost();
-    });
-  });
+  // Provider+Model and the static pickers (duration, aspect) are wired
+  // dynamically when the tab opens (after providers load from the proxy).
+  // Static fallback wiring for duration/aspect:
   document.querySelectorAll('[data-aiv-duration]').forEach(b => {
     b.addEventListener('click', () => {
       aivDuration = parseInt(b.dataset.aivDuration);
@@ -3447,14 +3972,23 @@ function aivToggleAudio() {
   aivUpdateCost();
 }
 
+// Look up current model object from provider registry
+function aivCurrentModel() {
+  const p = AIV_PROVIDERS.find(x => x.id === aivProvider);
+  if (!p) return null;
+  return p.models.find(m => m.id === aivModel) || p.models[0] || null;
+}
+
 function aivUpdateCost() {
-  const perSec = AIV_QUALITY_COSTS[aivQuality];
+  const m = aivCurrentModel();
+  const perSec = m ? m.costPerSec : 0.075;
+  const modelLabel = m ? m.label : 'Veo Lite';
   const cost = aivDuration * perSec;
   const main = document.getElementById('aivCostMain');
   const sub = document.getElementById('aivCostSub');
   if (!main) return;
   main.textContent = '$' + cost.toFixed(2);
-  sub.textContent = `${aivDuration} seconds · ${AIV_QUALITY_LABELS[aivQuality]} · ${aivAspect}${aivAudio ? ' with audio' : ''}`;
+  sub.textContent = `${aivDuration} seconds · ${modelLabel} · ${aivAspect}${aivAudio ? ' with audio' : ''}`;
 
   const monthSpend = aivGetMonthSpend();
   const mtdEl = document.getElementById('aivCostMtd');
@@ -3474,15 +4008,162 @@ function aivUpdateCost() {
   }
 }
 
-// Call this whenever the AI video tab opens (refreshes month spend display)
-function aivOnTabOpen() {
+// Load providers from the proxy (one-time, cached for the session)
+async function aivLoadProviders() {
+  if (aivProvidersLoaded) return AIV_PROVIDERS;
+  try {
+    const res = await fetch(AIV_PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'list_providers' })
+    });
+    const data = await res.json();
+    if (data.providers) {
+      AIV_PROVIDERS = data.providers;
+      aivProvidersLoaded = true;
+    }
+  } catch (e) {
+    console.error('[aiv] failed to load providers', e);
+    // Fallback: hardcoded Veo so the UI works even if proxy is unreachable
+    AIV_PROVIDERS = [{
+      id: 'veo', label: 'Google Veo', enabled: true, locked: false,
+      models: [
+        { id: 'veo-3.1-lite-generate-preview', label: 'Veo 3.1 Lite', costPerSec: 0.075 },
+        { id: 'veo-3.1-fast-generate-preview', label: 'Veo 3.1 Fast', costPerSec: 0.15 },
+        { id: 'veo-3.1-generate-preview', label: 'Veo 3.1 Premium', costPerSec: 0.40 }
+      ]
+    }];
+  }
+  return AIV_PROVIDERS;
+}
+
+// Render the provider+model picker dynamically
+function aivRenderProviderPicker() {
+  const container = document.getElementById('aivProviderPicker');
+  if (!container) return;
+  if (!AIV_PROVIDERS.length) {
+    container.innerHTML = '<div style="font-size:11px;color:var(--text-3);font-style:italic;padding:14px">Loading providers…</div>';
+    return;
+  }
+  // Provider chips row
+  let html = '<div class="aiv-provider-chips">';
+  AIV_PROVIDERS.forEach(p => {
+    const isActive = p.id === aivProvider;
+    const lockedCls = p.locked ? ' locked' : '';
+    const activeCls = isActive ? ' active' : '';
+    const onClick = p.locked
+      ? `onclick="aivShowLockedReason('${p.id}')"`
+      : `onclick="aivSelectProvider('${p.id}')"`;
+    html += `<button class="aiv-provider-chip${activeCls}${lockedCls}" ${onClick} title="${escape(p.description || '')}">
+      ${p.locked ? '🔒 ' : ''}${escape(p.label)}
+    </button>`;
+  });
+  html += '</div>';
+
+  // Model picker for the current provider
+  const currentP = AIV_PROVIDERS.find(p => p.id === aivProvider);
+  if (currentP && currentP.models && currentP.models.length) {
+    html += '<div class="aiv-model-row">';
+    currentP.models.forEach(m => {
+      const isActive = m.id === aivModel;
+      html += `<button class="aiv-pick${isActive ? ' active' : ''}" onclick="aivSelectModel('${m.id}')">
+        ${escape(m.label)}<span class="aiv-pick-cost">$${m.costPerSec.toFixed(3).replace(/0+$/, '0')}/sec</span>
+      </button>`;
+    });
+    html += '</div>';
+  }
+
+  container.innerHTML = html;
+}
+
+function aivSelectProvider(id) {
+  const p = AIV_PROVIDERS.find(x => x.id === id);
+  if (!p || p.locked) return;
+  aivProvider = id;
+  // Default to first model of new provider
+  if (p.models && p.models[0]) aivModel = p.models[0].id;
+  aivRenderProviderPicker();
   aivUpdateCost();
-  // Pre-seed prompt with vision text if empty
+}
+function aivSelectModel(id) {
+  aivModel = id;
+  aivRenderProviderPicker();
+  aivUpdateCost();
+}
+function aivShowLockedReason(id) {
+  const p = AIV_PROVIDERS.find(x => x.id === id);
+  if (!p) return;
+  toast(p.lockedReason || `${p.label} is locked`, 'warn');
+}
+
+// Call this whenever the AI video tab opens (refreshes month spend display)
+async function aivOnTabOpen() {
+  await aivLoadProviders();
+  aivRenderProviderPicker();
+  aivUpdateCost();
+  // v4.3 — apply smart defaults for the Featuring picker. Auto-check people
+  // whose autoFeatureIn includes the current target id.
   const t = T();
+  const targetId = t?.obj?.id || null;
+  const auto = peopleAutoFeatureFor(targetId);
+  aivFeaturing = auto.map(p => p.id);
+  aivRenderFeaturingPicker();
+  // Pre-seed prompt with vision text if empty
   const promptEl = document.getElementById('aivPrompt');
   if (t && promptEl && !promptEl.value.trim() && t.obj.vision) {
     promptEl.placeholder = t.obj.vision.slice(0, 200) + (t.obj.vision.length > 200 ? '…' : '');
   }
+}
+
+// Render the Featuring chips. Default-checked = people who auto-feature in
+// the current target. Other people appear unchecked. "Add a person" link
+// at end opens the People page.
+function aivRenderFeaturingPicker() {
+  const row = document.getElementById('aivFeaturingRow');
+  const hint = document.getElementById('aivFeaturingHint');
+  if (!row) return;
+  const peopleArr = Object.values(state.people).sort((a, b) => {
+    const order = { you: 0, partner: 1, family: 2, friend: 3, team: 4, other: 5 };
+    return (order[a.role] ?? 9) - (order[b.role] ?? 9);
+  });
+  if (!peopleArr.length) {
+    row.innerHTML = '<button type="button" class="aiv-featuring-chip" onclick="goPage(\'people\')">+ Add people first</button>';
+    if (hint) hint.textContent = 'Set up People in the sidebar to feature you and Sumary in your clips.';
+    return;
+  }
+  const checkedSet = new Set(aivFeaturing);
+  row.innerHTML = peopleArr.map(p => {
+    const isChecked = checkedSet.has(p.id);
+    const primary = (p.photos || []).find(ph => ph.id === p.primaryPhotoId) || (p.photos || [])[0];
+    const avatar = primary
+      ? `<div class="aiv-featuring-avatar" style="background-image:url('${primary.dataUrl}')"></div>`
+      : `<div class="aiv-featuring-avatar">${escape((p.name || '?')[0].toUpperCase())}</div>`;
+    return `
+      <button type="button" class="aiv-featuring-chip${isChecked ? ' checked' : ''}" onclick="aivToggleFeaturing('${p.id}')">
+        ${avatar}<span>${escape(p.name || 'Unnamed')}</span>
+      </button>
+    `;
+  }).join('') + '<button type="button" class="aiv-featuring-chip" onclick="goPage(\'people\')" style="opacity:.7">+ Manage people</button>';
+
+  // Smart hint about auto-defaults
+  const t = T();
+  const targetId = t?.obj?.id || null;
+  const autoIds = peopleAutoFeatureFor(targetId).map(p => p.id);
+  const autoNames = autoIds.map(id => state.people[id]?.name).filter(Boolean);
+  if (hint) {
+    if (autoNames.length) {
+      hint.textContent = `Tip: this is your ${t?.label || 'page'} — ${autoNames.join(' and ')} ${autoNames.length > 1 ? 'are' : 'is'} pre-selected. Uncheck if you want a different cast.`;
+    } else {
+      hint.textContent = 'Pick who should appear in this clip. Their reference photos help the model match their look.';
+    }
+  }
+}
+
+function aivToggleFeaturing(personId) {
+  const i = aivFeaturing.indexOf(personId);
+  if (i >= 0) aivFeaturing.splice(i, 1);
+  else aivFeaturing.push(personId);
+  aivRenderFeaturingPicker();
 }
 
 // =================== POLISH ===================
@@ -3503,6 +4184,12 @@ async function aivPolishPrompt() {
   const t = T();
   const domainContext = t ? (t.obj.vision || '').trim() : '';
   const domainName = t ? t.label : '';
+  // v4.3 — pass descriptors of featured people so Claude polish can weave
+  // their physical descriptions into the cinematic prompt naturally.
+  const peopleDescriptors = aivFeaturing
+    .map(id => state.people[id])
+    .filter(p => p && (p.descriptors || '').trim())
+    .map(p => ({ name: p.name, descriptors: p.descriptors }));
 
   try {
     const res = await fetch(AIV_POLISH_URL, {
@@ -3510,7 +4197,8 @@ async function aivPolishPrompt() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         password, prompt: raw, domainContext, domainName,
-        aspect: aivAspect, duration: aivDuration, audio: aivAudio
+        aspect: aivAspect, duration: aivDuration, audio: aivAudio,
+        peopleDescriptors
       })
     });
     const data = await res.json();
@@ -3565,9 +4253,12 @@ async function aivGenerate() {
   const prompt = promptEl.value.trim();
   if (!prompt) { toast('Describe the moment first', 'warn'); return; }
 
+  const m = aivCurrentModel();
+  if (!m) { toast('Pick a model first', 'warn'); return; }
+
   // Spend cap check
   const monthSpend = aivGetMonthSpend();
-  const cost = aivDuration * AIV_QUALITY_COSTS[aivQuality];
+  const cost = aivDuration * m.costPerSec;
   if (monthSpend + cost > AIV_HARD_CAP) {
     toast(`Would push you past the $${AIV_HARD_CAP} hard cap. Wait until next month or raise the cap.`, 'error');
     return;
@@ -3583,9 +4274,11 @@ async function aivGenerate() {
   document.getElementById('aivForm').style.display = 'none';
   const statusEl = document.getElementById('aivStatus');
   statusEl.classList.add('show');
-  document.getElementById('aivStatusStage').textContent = 'Sending prompt to Veo';
+  const providerObj = AIV_PROVIDERS.find(p => p.id === aivProvider);
+  const providerLabel = providerObj ? providerObj.label : aivProvider;
+  document.getElementById('aivStatusStage').textContent = `Sending prompt to ${providerLabel}`;
   document.getElementById('aivStatusTitle').textContent = 'Starting your clip…';
-  document.getElementById('aivStatusDetail').textContent = 'Veo is queuing the generation. Should take 60-90 seconds for the lite model.';
+  document.getElementById('aivStatusDetail').textContent = `${providerLabel} is queuing the generation. Should take 60-90 seconds for lower-quality models.`;
 
   aivStartTime = Date.now();
   aivElapsedTimer = setInterval(() => {
@@ -3595,12 +4288,16 @@ async function aivGenerate() {
 
   try {
     // 1. START
+    // v4.3 — attach reference photos for any featured people so providers
+    // can use image-to-video / identity-locked generation.
+    const referenceImages = buildPersonReferencePayload(aivFeaturing);
     const startRes = await fetch(AIV_PROXY_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        action: 'start', password,
-        prompt, model: aivQuality, duration: aivDuration, aspect: aivAspect, audio: aivAudio
+        action: 'start', password, provider: aivProvider,
+        prompt, model: aivModel, duration: aivDuration, aspect: aivAspect, audio: aivAudio,
+        referenceImages
       })
     });
     const startData = await startRes.json();
@@ -3623,7 +4320,7 @@ async function aivGenerate() {
     const fetchRes = await fetch(AIV_PROXY_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'fetch_video', password, videoUri: result.videoUri })
+      body: JSON.stringify({ action: 'fetch_video', password, provider: aivProvider, videoUri: result.videoUri })
     });
     const fetchData = await fetchRes.json();
     if (!fetchRes.ok) throw new Error(fetchData.error || 'Failed to download generated video');
@@ -3663,14 +4360,19 @@ async function aivGenerate() {
       addedAt: Date.now(),
       source: {
         prompt,
-        model: aivQuality,
-        modelLabel: AIV_QUALITY_LABELS[aivQuality],
+        provider: aivProvider,
+        providerLabel: providerLabel,
+        model: aivModel,
+        modelLabel: m.label,
         duration: aivDuration,
         aspect: aivAspect,
         audio: aivAudio,
         sizeMB: sizeMB.toFixed(2),
         cost: cost.toFixed(4),
-        contentType: fetchData.contentType || 'video/mp4'
+        contentType: fetchData.contentType || 'video/mp4',
+        // v4.3 — record which people were featured so we can filter later
+        featuringIds: aivFeaturing.slice(),
+        featuringNames: aivFeaturing.map(id => state.people[id]?.name).filter(Boolean)
       }
     };
 
@@ -3734,7 +4436,7 @@ async function aivPollUntilDone(password, operationName) {
     const res = await fetch(AIV_PROXY_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'poll', password, operationName })
+      body: JSON.stringify({ action: 'poll', password, provider: aivProvider, operationName })
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Poll failed');
@@ -4437,10 +5139,20 @@ async function loadImagesForRender(photos) {
   const loaded = [];
   for (const p of photos) {
     try {
-      const img = await loadImage(p.url || p.dataUrl);
-      loaded.push({ photo: p, img });
+      if (p.type === 'ai_video') {
+        // Load as a video element + extract a poster frame
+        const videoSrc = await aivResolveVideoSrc(p);
+        if (!videoSrc) continue;
+        const video = await loadVideoElement(videoSrc);
+        // Use the existing thumbnail (poster) as the placeholder image for fallback
+        const posterImg = p.dataUrl ? await loadImage(p.dataUrl).catch(() => null) : null;
+        loaded.push({ photo: p, isVideo: true, video, img: posterImg });
+      } else {
+        const img = await loadImage(p.url || p.dataUrl);
+        loaded.push({ photo: p, isVideo: false, img });
+      }
     } catch (e) {
-      // Skip CORS-blocked or failed images
+      console.warn('[movie] skipped photo', p.id, e.message);
     }
   }
   return loaded;
@@ -4449,10 +5161,54 @@ async function loadImagesForRender(photos) {
 function loadImage(src) {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.crossOrigin = 'anonymous'; // Required for canvas reads. Unsplash supports this.
+    img.crossOrigin = 'anonymous';
     img.onload = () => resolve(img);
     img.onerror = () => reject(new Error('Image failed'));
     img.src = src;
+  });
+}
+
+// Resolve the playable video source for an ai_video photo.
+// Order: persisted dataUrl → runtime blob → session blob URL → null
+function aivResolveVideoSrc(photo) {
+  return new Promise(resolve => {
+    if (photo.videoDataUrl) { resolve(photo.videoDataUrl); return; }
+    if (photo.runtimeBlobKey && typeof aivRuntimeBlobs !== 'undefined' && aivRuntimeBlobs.has(photo.runtimeBlobKey)) {
+      resolve(URL.createObjectURL(aivRuntimeBlobs.get(photo.runtimeBlobKey)));
+      return;
+    }
+    if (photo.videoBlobUrlSession) { resolve(photo.videoBlobUrlSession); return; }
+    resolve(null);
+  });
+}
+
+// Load a video element to a state where it can be drawn onto canvas.
+// Sets it muted and seekable. Returns the video element.
+function loadVideoElement(src) {
+  return new Promise((resolve, reject) => {
+    const v = document.createElement('video');
+    v.muted = true;
+    v.playsInline = true;
+    v.crossOrigin = 'anonymous';
+    v.preload = 'auto';
+    let resolved = false;
+    const done = () => {
+      if (resolved) return;
+      resolved = true;
+      // Pause and set to first frame so draws are predictable
+      v.pause();
+      v.currentTime = 0;
+      resolve(v);
+    };
+    v.addEventListener('canplaythrough', done, { once: true });
+    v.addEventListener('loadeddata', () => {
+      // Some browsers don't fire canplaythrough reliably for blob URLs
+      setTimeout(done, 200);
+    });
+    v.addEventListener('error', () => { if (!resolved) { resolved = true; reject(new Error('Video load failed')); } });
+    setTimeout(() => { if (!resolved) { resolved = true; reject(new Error('Video load timeout')); } }, 12000);
+    v.src = src;
+    v.load();
   });
 }
 
@@ -4485,7 +5241,19 @@ function composeSequence(loadedImages, visions, source) {
   // Insert a mid-arc title card if we have 2+ visions and 6+ photos
   const midPoint = Math.floor(picked.length / 2);
   picked.forEach((p, i) => {
-    shots.push({ type: 'photo', img: p.img, photo: p.photo, duration: PHOTO_HOLD, kenBurns: pickKenBurns(i), _leakSeed: i * 0.37 });
+    if (p.isVideo && p.video) {
+      // AI video clip — hold for its native duration (or 6s default), play through
+      const videoDur = p.photo?.source?.duration || (isFinite(p.video.duration) && p.video.duration > 0 ? p.video.duration : 6);
+      shots.push({
+        type: 'video',
+        video: p.video,
+        photo: p.photo,
+        duration: Math.max(3, Math.min(8, videoDur)),
+        _leakSeed: i * 0.37
+      });
+    } else {
+      shots.push({ type: 'photo', img: p.img, photo: p.photo, duration: PHOTO_HOLD, kenBurns: pickKenBurns(i), _leakSeed: i * 0.37 });
+    }
     if (i === midPoint - 1 && visions.length > 1) {
       shots.push({ type: 'title', text: visions[1].text, label: visions[1].label, duration: TITLE_HOLD });
     }
@@ -4743,12 +5511,105 @@ function renderFrameAt(ctx, sequence, time, W, H, CROSSFADE) {
 }
 
 function drawShot(ctx, shot, t, W, H, sequence) {
-  // Attach sequence reference so drawPhoto/drawTitle can access look
+  // Attach sequence reference so drawPhoto/drawTitle/drawVideo can access look
   shot._sequence = sequence;
   if (shot.type === 'photo') {
     drawPhoto(ctx, shot, t, W, H);
   } else if (shot.type === 'title') {
     drawTitle(ctx, shot, t, W, H);
+  } else if (shot.type === 'video') {
+    drawVideo(ctx, shot, t, W, H);
+  }
+}
+
+// Render an AI video clip onto the canvas. The video element plays through
+// natively; we just sample its current frame each render frame.
+// `t` is 0..1 within this shot.
+function drawVideo(ctx, shot, t, W, H) {
+  const video = shot.video;
+  const look = (shot._sequence && shot._sequence.look) || MV_LOOKS[1];
+  if (!video || video.readyState < 2) {
+    // Fallback: solid black if video isn't ready
+    ctx.fillStyle = '#0a0908';
+    ctx.fillRect(0, 0, W, H);
+    return;
+  }
+
+  // Drive video playback in sync with timeline.
+  // We compute target playhead from shot.duration * t
+  const targetTime = shot.duration * t;
+  // Only seek when drift is significant — avoids seek thrash
+  const drift = Math.abs(video.currentTime - targetTime);
+  if (drift > 0.3 && video.paused) {
+    try { video.currentTime = Math.min(targetTime, video.duration - 0.05); } catch (e) {}
+  }
+  // Start playback if not playing — let it run naturally
+  if (video.paused && t > 0.01 && t < 0.95) {
+    video.play().catch(() => {});
+  }
+  if (t > 0.97 && !video.paused) {
+    try { video.pause(); } catch (e) {}
+  }
+
+  // Cover-fit the video to the canvas
+  const vw = video.videoWidth || 720;
+  const vh = video.videoHeight || 1280;
+  const videoRatio = vw / vh;
+  const canvasRatio = W / H;
+  let drawW, drawH;
+  if (videoRatio > canvasRatio) {
+    drawH = H; drawW = H * videoRatio;
+  } else {
+    drawW = W; drawH = W / videoRatio;
+  }
+  const x = (W - drawW) / 2;
+  const y = (H - drawH) / 2;
+
+  // Apply look's color grading via canvas filter
+  ctx.filter = buildLookFilter(look);
+  try {
+    ctx.drawImage(video, x, y, drawW, drawH);
+  } catch (e) {
+    // CORS/security — fall back to poster image if available
+    if (shot.photo?.dataUrl) {
+      const tmpImg = new Image();
+      tmpImg.src = shot.photo.dataUrl;
+      ctx.drawImage(tmpImg, x, y, drawW, drawH);
+    }
+  }
+  ctx.filter = 'none';
+
+  // Layer the look's effects (same as drawPhoto for consistency)
+  if (look.grade.teal) {
+    ctx.globalCompositeOperation = 'multiply';
+    ctx.fillStyle = `rgba(60, 110, 130, ${look.grade.teal})`;
+    ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+  if (look.grade.glow) {
+    ctx.globalCompositeOperation = 'screen';
+    ctx.fillStyle = `rgba(232, 192, 138, ${look.grade.glow})`;
+    ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  if (look.vignette > 0) {
+    const grad = ctx.createRadialGradient(W/2, H/2, Math.min(W,H) * 0.35, W/2, H/2, Math.max(W,H) * 0.75);
+    grad.addColorStop(0, 'rgba(0,0,0,0)');
+    grad.addColorStop(1, `rgba(0,0,0,${look.vignette * 0.7})`); // slightly less vignette on video
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+  }
+
+  if (look.grainAmount > 0) {
+    drawGrain(ctx, W, H, look.grainAmount * 0.5); // lighter grain on video — already has natural noise
+  }
+
+  if (look.letterbox > 0) {
+    const barH = H * look.letterbox;
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, W, barH);
+    ctx.fillRect(0, H - barH, W, barH);
   }
 }
 
@@ -5269,19 +6130,20 @@ let bkRestoreSourceLabel = '';       // 'auto-backup' or 'file'
 // movie metadata (those have their own session lifecycle).
 function bkBuildSnapshot() {
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     capturedAt: Date.now(),
     user: state.user,
     dreamer: state.dreamer,
     domains: state.domains,
-    projects: state.projects
+    projects: state.projects,
+    people: state.people  // v4.3 — include people data in backups
   };
 }
 
 // Compute summary stats for a snapshot — used for previews.
 function bkSummarize(snapshot) {
   if (!snapshot) return null;
-  let photoCount = 0, storyCount = 0, visionWords = 0, dreamerAnswers = 0, subsectionCount = 0;
+  let photoCount = 0, storyCount = 0, visionWords = 0, dreamerAnswers = 0, subsectionCount = 0, peopleCount = 0;
   Object.values(snapshot.domains || {}).forEach(d => {
     photoCount += (d.photos || []).length;
     storyCount += (d.stories || []).length;
@@ -5299,7 +6161,9 @@ function bkSummarize(snapshot) {
     });
   });
   Object.values(snapshot.dreamer?.responses || {}).forEach(r => { if ((r || '').trim()) dreamerAnswers++; });
-  return { photoCount, storyCount, visionWords, dreamerAnswers, subsectionCount };
+  // v4.3 — count people in snapshot
+  peopleCount = Object.keys(snapshot.people || {}).length;
+  return { photoCount, storyCount, visionWords, dreamerAnswers, subsectionCount, peopleCount };
 }
 
 // Index of all backups stored in localStorage. Format: array of {id, capturedAt, summary}
@@ -5320,7 +6184,7 @@ function bkAutoSnapshot(force) {
   const snap = bkBuildSnapshot();
   const summary = bkSummarize(snap);
   // Don't snapshot truly empty state
-  if (!force && summary.photoCount === 0 && summary.storyCount === 0 && summary.visionWords === 0 && summary.dreamerAnswers === 0) return;
+  if (!force && summary.photoCount === 0 && summary.storyCount === 0 && summary.visionWords === 0 && summary.dreamerAnswers === 0 && (summary.peopleCount || 0) === 0) return;
 
   const id = 'bk_' + now + '_' + Math.random().toString(36).slice(2, 6);
   const key = BK_PREFIX + id;
@@ -5450,6 +6314,7 @@ function renderStats(s) {
     <div class="restore-stat"><b class="gold">${s.visionWords}</b>vision word${s.visionWords===1?'':'s'}</div>
     <div class="restore-stat"><b class="gold">${s.subsectionCount}</b>subsection${s.subsectionCount===1?'':'s'}</div>
     <div class="restore-stat"><b class="gold">${s.dreamerAnswers}</b>dreamer answer${s.dreamerAnswers===1?'':'s'}</div>
+    ${(s.peopleCount || 0) > 0 ? `<div class="restore-stat"><b class="gold">${s.peopleCount}</b>${s.peopleCount===1?'person':'people'}</div>` : ''}
   `;
 }
 
@@ -5568,6 +6433,24 @@ function confirmRestore() {
   if (data.projects) {
     Object.keys(data.projects).forEach(id => { state.projects[id] = data.projects[id]; saveProject(id); });
   }
+  // v4.3 — restore people. Schema v2+ snapshots include people; older
+  // snapshots leave existing people untouched.
+  if (data.people && typeof data.people === 'object') {
+    // Remove any people not in the snapshot (clean replace, not merge)
+    const incomingIds = new Set(Object.keys(data.people));
+    Object.keys(state.people).forEach(id => {
+      if (!incomingIds.has(id)) {
+        delete state.people[id];
+        try { localStorage.removeItem(SK.person(id)); } catch(e) {}
+      }
+    });
+    // Apply the snapshot's people
+    Object.keys(data.people).forEach(id => {
+      state.people[id] = data.people[id];
+      try { savePerson(id); } catch(e) {}
+    });
+    savePeopleIndex();
+  }
 
   // Re-render the visible UI
   document.getElementById('whoName').textContent = state.user.name;
@@ -5575,6 +6458,9 @@ function confirmRestore() {
   renderDomainsGrid();
   renderProjectsGrid();
   renderProjectsNav();
+  if (typeof renderPeopleGrid === 'function') {
+    try { renderPeopleGrid(); } catch(e) {}
+  }
   updateBackupPill();
   updateStorageMeter();
 
