@@ -1,18 +1,21 @@
 # The Brain · Prompt Library · Design Note
 
-**Status:** v0.5 · spec drafted, locked, and Phase 1 of build complete · this note is now historical
+**Status:** v0.6 · spec drafted, locked, Phase 1 of build complete, auth pivot logged · this note is now historical
 **Date:** 2026-05-09
-**Successor:** [`docs/brain-spec.md`](brain-spec.md) v1.0 — the canonical contract
+**Successor:** [`docs/brain-spec.md`](brain-spec.md) v1.1 — the canonical contract
 
 This note's purpose is now historical. v0.1-v0.3 captured the design
 conversation that produced the spec. v0.4 marked the spec lock. v0.5
-marks **Phase 1 build completion** — the brain repo exists at
-`learn-and-grow-rich/fosm-brain-private` with branch protection enforcing,
-PR template auto-loading, and the first canonical prompt
-(`shared/voice/lgr-master/v1.0.0.md`) merged via PR #1. **For all questions
-about brain architecture, refer to `docs/brain-spec.md`.** This note is
-preserved so future readers can see the *evolution* of the design — how
-decisions were made, what was considered, what was deferred.
+marked Phase 1 build completion. v0.6 marks the **auth architecture
+pivot** captured at decision time — the brain repo exists at
+`learn-and-grow-rich/fosm-brain-private` with branch protection
+enforcing, PR template auto-loading, the first canonical prompt
+(`shared/voice/lgr-master/v1.0.0.md`) merged via PR #1, and the
+auth model has been pivoted from Auth0 → Google Workspace OAuth (per
+[`auth-pivot-2026-05-09.md`](auth-pivot-2026-05-09.md)). **For all
+questions about brain architecture, refer to `docs/brain-spec.md` v1.1.**
+This note is preserved so future readers can see the *evolution* of the
+design — how decisions were made, what was considered, what was deferred.
 
 This is a bridge document. It captures tonight's design conversation about
 the prompt library so the spec sprint doesn't have to reconstruct context
@@ -610,10 +613,20 @@ based on this note plus a fresh design pass.
 - v0.2 incorporated upgrades from a structured end-to-end read-through.
 - v0.3 resolved the final two architectural questions (auth, cache).
 - v0.4 marked the transition: spec drafted at `docs/brain-spec.md` v1.0.
-- **v0.5 marks Phase 1 build completion** — repo at `learn-and-grow-rich/fosm-brain-private`,
+- v0.5 marked Phase 1 build completion — repo at `learn-and-grow-rich/fosm-brain-private`,
   branch protection enforcing, PR template installed, first prompt
   (`shared/voice/lgr-master/v1.0.0.md`) merged via PR #1. All architectural
   decisions validated end-to-end through real implementation.
+- **v0.6 marks the auth architecture pivot (2026-05-09 evening)** —
+  during Phase 2 build, discovered Auth0 MFA was a paid-tier feature,
+  re-read the spec to confirm brain serves operators only (not clients),
+  recognized Google Workspace OAuth was already configured with MFA
+  enforced at account level. Pivoted from Auth0 → Google Workspace
+  OAuth. Brain spec bumped to v1.1. Full pivot reasoning captured in
+  [`auth-pivot-2026-05-09.md`](auth-pivot-2026-05-09.md). The pivot
+  exemplifies the spec's "spec leads code" principle: implementation
+  revealed something the spec didn't account for, so we stopped,
+  updated the spec, then resumed building.
 
 This note is now **historical**. The canonical contract for the brain
 lives in [`brain-spec.md`](brain-spec.md). This note remains in the repo
