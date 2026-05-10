@@ -1,7 +1,7 @@
 # Security Checklist
 
-**Status:** v0.1 · foundation document · living checklist
-**Date:** 2026-05-09
+**Status:** v0.2 · foundation document · living checklist
+**Date:** 2026-05-09 (auth pivot revision)
 **Owner:** Zach Oehlman
 **Related:** future Security CC, future Audit CC, `docs/architecture-reference.md`
 
@@ -49,7 +49,7 @@ What protections are currently in place across the ecosystem.
 - ✅ **Google OAuth** on FOSM·LIVE Personal (gates Google Sheets data access)
 - ✅ **GitHub repo permissions** — `zoehlman/fosm-live` is public (intentional, MIT licensed)
 - 🟡 **MFA on critical accounts** — to be verified per account (Netlify, GitHub, Google, domain registrar, password manager)
-- ⏳ **Auth0 per-session tokens** — planned for Brain repo gated endpoint (Phase 2 of brain build)
+- ⏳ **Google Workspace OAuth for brain endpoint** — planned for Phase 2 of brain build. Operators sign in via Sign in with Google (`@learnandgrowrich.net` accounts only). MFA enforced at the Google account level. Replaces the originally-planned Auth0 architecture per the auth pivot (see `docs/notes/auth-pivot-2026-05-09.md`).
 
 ### 1b · Secrets & environment variables
 
@@ -57,7 +57,7 @@ What protections are currently in place across the ecosystem.
 - ✅ **`ANTHROPIC_API_KEY_PERSONAL`** stored as Netlify env var (not in code)
 - ✅ **Google OAuth client ID + secret** stored as Netlify env vars
 - ⏳ **GitHub Personal Access Token** for Brain repo — to be created and stored as Netlify env var when brain ships
-- ⏳ **Auth0 credentials** — to be stored as Netlify env vars when brain ships
+- ⏳ **Google OAuth credentials for brain endpoint** — `BRAIN_GOOGLE_OAUTH_CLIENT_ID`, `BRAIN_GOOGLE_OAUTH_CLIENT_SECRET`, `BRAIN_OPERATOR_ALLOWLIST`, `BRAIN_SESSION_SECRET` — to be stored as Netlify env vars when brain Phase 2 ships
 
 ### 1c · Code & data
 
@@ -102,7 +102,7 @@ Priority rough-ordered by risk × ease of fix.
   - [ ] Anthropic console
 - [ ] **Audit `learnandgrowrich.net` email security** — verify SPF, DKIM, DMARC records exist and are correctly configured
 - [ ] **API rate limiting** on `/api/*` endpoints — currently unlimited; could be abused if endpoint URLs leak
-- [ ] **Secret rotation policy** — define cadence for rotating API keys, OAuth secrets, Auth0 secrets (suggested: every 90 days)
+- [ ] **Secret rotation policy** — define cadence for rotating API keys, OAuth secrets, Google OAuth Client Secret, GitHub PAT, BRAIN_SESSION_SECRET (suggested: every 90 days)
 
 ### 2b · Medium-priority gaps (this quarter)
 
@@ -120,6 +120,7 @@ Priority rough-ordered by risk × ease of fix.
 - [ ] **Encryption in transit** — already present via HTTPS, but verify cipher strength
 - [ ] **Penetration testing** — formal pen-test before multi-tenant launch
 - [ ] **SOC 2 / ISO 27001 considerations** — when selling to enterprise clients
+- [ ] **Evaluate dedicated auth platform (Auth0, Clerk, Okta, etc.)** — only revisit when end-user authentication enters scope (Phase 4 multi-tenant client overrides). Current architecture (Google Workspace OAuth for operators, separate client-facing auth flow if needed) handles operator-only era cleanly. See `docs/notes/auth-pivot-2026-05-09.md` for the reasoning behind initially considering then rejecting Auth0 for v1.
 
 ---
 
@@ -149,7 +150,7 @@ Without a tracked review schedule, security debt accumulates silently.
 ### 3d · Quarterly
 
 - Full review of this checklist
-- Rotate API keys, OAuth secrets, Auth0 secrets
+- Rotate API keys, OAuth secrets, Google OAuth Client Secret, GitHub PAT, BRAIN_SESSION_SECRET
 - Audit MFA coverage on all critical accounts
 - Review backup integrity (try a restore from Master Backup)
 
@@ -229,14 +230,22 @@ This document is version-controlled. Material changes warrant a version bump:
 | Version | Date | What changed |
 |---|---|---|
 | v0.1 | 2026-05-09 | Initial creation. Foundation structure: definition, current posture, gaps, cadence, incident response, Security CC forward-look. |
+| v0.2 | 2026-05-09 (evening) | Auth pivot — Auth0 references migrated to Google Workspace OAuth in section 1a/1b/2a/3d. Long-horizon entry added for evaluating dedicated auth platforms when end-user auth enters scope. |
 
 ---
 
 ## Last updated
 
-2026-05-09 by Zach Oehlman + Claude. Created during the post-presentation
-hygiene pass, alongside the addition of Security CC and Audit CC to the
-expansion lineup. The checklist becomes the canonical reference for
-ecosystem security and the foundation for the future Security CC.
+2026-05-09 by Zach Oehlman + Claude.
+
+- v0.1 created during the post-presentation hygiene pass, alongside the
+  addition of Security CC and Audit CC to the expansion lineup. The
+  checklist becomes the canonical reference for ecosystem security and
+  the foundation for the future Security CC.
+- v0.2 (evening) — auth architecture pivot logged. Auth0 references
+  migrated to Google Workspace OAuth across sections 1a, 1b, 2a, and 3d.
+  New long-horizon entry added (2c) for evaluating dedicated auth
+  platforms if end-user authentication ever enters scope. Full pivot
+  rationale captured in `docs/notes/auth-pivot-2026-05-09.md`.
 
 — *Cheers and have a blessed day.*
