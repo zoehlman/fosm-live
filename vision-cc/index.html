@@ -501,6 +501,41 @@
     background-color:var(--bg-2);display:flex;align-items:center;justify-content:center;
     font-size:10px;color:var(--text-3);font-weight:600}
   .aiv-featuring-hint{font-size:10.5px;color:var(--text-3);font-style:italic;margin-top:6px}
+
+  /* v4.3.1 — Dreamer completion overlay */
+  .dreamer-complete-overlay{position:fixed;inset:0;z-index:1500;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(ellipse at center, rgba(212,165,116,.08) 0%, rgba(10,9,8,.96) 60%);
+    backdrop-filter:blur(20px);padding:30px;animation:dcFadeIn .6s ease}
+  @keyframes dcFadeIn{from{opacity:0}to{opacity:1}}
+  .dreamer-complete-card{max-width:680px;width:100%;background:var(--bg-1);border:1px solid var(--gold-dim);
+    border-radius:18px;padding:48px 44px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(212,165,116,.15);
+    text-align:center;animation:dcRise .7s cubic-bezier(.2,.8,.2,1)}
+  @keyframes dcRise{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+  .dreamer-complete-eyebrow{font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;
+    font-weight:600;margin-bottom:18px}
+  .dreamer-complete-title{font-family:'Fraunces',serif;font-size:42px;font-weight:300;color:var(--text-0);
+    line-height:1.1;margin:0 0 18px;letter-spacing:-.5px}
+  .dreamer-complete-title em{font-style:italic;color:var(--gold);font-weight:400}
+  .dreamer-complete-sub{font-size:13.5px;color:var(--text-2);line-height:1.7;margin:0 auto 26px;max-width:480px}
+  .dreamer-complete-stats{display:flex;justify-content:center;gap:34px;margin:22px auto 30px;flex-wrap:wrap}
+  .dreamer-complete-stat{display:flex;flex-direction:column;align-items:center;gap:4px}
+  .dreamer-complete-stat b{font-family:'Fraunces',serif;font-size:30px;color:var(--gold);font-weight:300;font-style:italic;line-height:1}
+  .dreamer-complete-stat span{font-size:9.5px;color:var(--text-3);letter-spacing:2px;text-transform:uppercase;font-weight:600}
+  .dreamer-complete-prompt{font-family:'Fraunces',serif;font-size:18px;color:var(--text-1);font-style:italic;
+    margin:0 0 16px;font-weight:400}
+  .dreamer-complete-actions{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+  .dreamer-complete-btn{background:var(--bg-0);border:1px solid var(--line);color:var(--text-0);
+    padding:16px 22px;border-radius:12px;cursor:pointer;font-family:inherit;text-align:left;
+    transition:all .15s;display:flex;flex-direction:column;gap:3px}
+  .dreamer-complete-btn:hover{border-color:var(--gold);background:rgba(212,165,116,.04);transform:translateX(2px)}
+  .dreamer-complete-btn.primary{background:var(--gold);border-color:var(--gold);color:var(--bg-0)}
+  .dreamer-complete-btn.primary:hover{background:var(--gold);color:var(--bg-0);box-shadow:0 4px 14px rgba(212,165,116,.3)}
+  .dreamer-complete-btn-title{font-size:14px;font-weight:600;letter-spacing:.2px}
+  .dreamer-complete-btn-sub{font-size:11.5px;color:var(--text-2);font-weight:400}
+  .dreamer-complete-btn.primary .dreamer-complete-btn-sub{color:rgba(10,9,8,.7)}
+  .dreamer-complete-close{background:none;border:none;color:var(--text-3);font-family:inherit;font-size:11px;
+    cursor:pointer;padding:8px;letter-spacing:.5px;font-style:italic;transition:color .15s}
+  .dreamer-complete-close:hover{color:var(--text-1)}
   #dropOverlay.show{display:flex}
   .drop-msg{font-family:'Fraunces',serif;font-size:32px;color:var(--gold);font-style:italic;text-align:center}
 
@@ -1750,7 +1785,7 @@
 
 <!-- DROP OVERLAY -->
 <div id="dropOverlay">
-  <div class="drop-msg">Drop photos here<br><span style="color:var(--text-2);font-size:14px;font-style:normal">— from your desktop, or dragged from another browser tab</span></div>
+  <div class="drop-msg" id="dropMsg">Drop photos here<br><span style="color:var(--text-2);font-size:14px;font-style:normal">— from your desktop, or dragged from another browser tab</span></div>
 </div>
 
 <!-- TOAST -->
@@ -2123,8 +2158,10 @@ function toast(msg, kind) {
   t.textContent = msg;
   t.className = 'toast show' + (kind ? ' ' + kind : '');
   clearTimeout(toastTimer);
-  // Success messages stay a beat longer so they're harder to miss
-  const dur = kind === 'success' ? 4200 : kind === 'error' ? 5000 : 2600;
+  // Success messages stay a beat longer so they're harder to miss.
+  // Info messages (in-progress) stay a little longer than the default too,
+  // so they remain visible while resizing/saving runs.
+  const dur = kind === 'success' ? 4200 : kind === 'error' ? 5000 : kind === 'info' ? 3500 : 2600;
   toastTimer = setTimeout(() => t.classList.remove('show'), dur);
 }
 
@@ -2498,6 +2535,14 @@ async function addPhotosFromFiles(files) {
     return;
   }
   if (!files || !files.length) return;
+  const imgFiles = files.filter(f => f.type.startsWith('image/'));
+  if (!imgFiles.length) {
+    toast('Drop image files (JPG, PNG, WebP, HEIC)', 'warn');
+    return;
+  }
+  // Immediate feedback — let the user know something is happening RIGHT NOW.
+  // Resizing large phone photos takes seconds; without this the UI looks dead.
+  toast(`Got ${imgFiles.length} photo${imgFiles.length===1?'':'s'} — processing…`, 'info');
   setSaving();
   let added = 0, skipped = 0;
   const newIds = [];
@@ -2505,13 +2550,11 @@ async function addPhotosFromFiles(files) {
   const existingFingerprints = new Set();
   for (const p of (T().obj.photos || [])) {
     if (p.dataUrl) {
-      // Fingerprint a data URL by length + first 80 + last 80 chars
-      // (full comparison is slow; this catches duplicates reliably)
       existingFingerprints.add(fingerprintDataUrl(p.dataUrl));
     }
   }
-  for (const file of files) {
-    if (!file.type.startsWith('image/')) continue;
+  for (let i = 0; i < imgFiles.length; i++) {
+    const file = imgFiles[i];
     try {
       const dataUrl = await resizeImage(file);
       const fp = fingerprintDataUrl(dataUrl);
@@ -2528,6 +2571,10 @@ async function addPhotosFromFiles(files) {
       T().obj.photos.push(photo);
       newIds.push(photoId);
       added++;
+      // Mid-progress feedback for batches > 3
+      if (imgFiles.length > 3 && (i + 1) % 3 === 0 && i < imgFiles.length - 1) {
+        toast(`${i + 1} of ${imgFiles.length} processed…`, 'info');
+      }
     } catch (e) { console.error('Photo upload failed', e); }
   }
   T().save();
@@ -2538,9 +2585,9 @@ async function addPhotosFromFiles(files) {
 
   // Build a clear, in-your-face message
   if (added > 0 && skipped > 0) {
-    toast(`Added ${added} photo${added===1?'':'s'} · ${skipped} duplicate${skipped===1?'':'s'} skipped`, 'success');
+    toast(`✓ Added ${added} photo${added===1?'':'s'} · ${skipped} duplicate${skipped===1?'':'s'} skipped`, 'success');
   } else if (added > 0) {
-    toast(`Added ${added} photo${added===1?'':'s'} to ${T().label}`, 'success');
+    toast(`✓ Added ${added} photo${added===1?'':'s'} to ${T().label}`, 'success');
   } else if (skipped > 0) {
     toast(`Already in your mood board · ${skipped} duplicate${skipped===1?'':'s'} skipped`, 'warn');
   }
@@ -2569,6 +2616,22 @@ window.addEventListener('dragenter', e => {
   )) {
     dragCounter++;
     dropOverlay.classList.add('show');
+    // Tailor the message to where the user is so the drop intent is clear
+    const dropMsg = document.getElementById('dropMsg');
+    if (dropMsg) {
+      const onPeoplePage = document.getElementById('page-people')?.classList.contains('active');
+      const onPersonModalOpen = document.getElementById('personModal')?.classList.contains('show');
+      const t = T();
+      if (onPersonModalOpen) {
+        dropMsg.innerHTML = 'Drop photos to add to this person<br><span style="color:var(--text-2);font-size:14px;font-style:normal">— resized to 768px and stored locally</span>';
+      } else if (onPeoplePage) {
+        dropMsg.innerHTML = 'Open a person card first<br><span style="color:var(--text-2);font-size:14px;font-style:normal">— then drop their reference photos in the editor</span>';
+      } else if (t) {
+        dropMsg.innerHTML = `Drop photos into <em style="color:var(--gold)">${escape(t.label)}</em><br><span style="color:var(--text-2);font-size:14px;font-style:normal">— from your desktop, or dragged from another browser tab</span>`;
+      } else {
+        dropMsg.innerHTML = 'Open a domain or project first<br><span style="color:var(--text-2);font-size:14px;font-style:normal">— then drop your photos there</span>';
+      }
+    }
   }
 });
 window.addEventListener('dragover', e => e.preventDefault());
@@ -2582,13 +2645,55 @@ window.addEventListener('drop', async e => {
   dropOverlay.classList.remove('show');
   const files = Array.from(e.dataTransfer.files || []);
   if (files.length) {
+    // PRIORITY: if the person editor is open, route drops to that person
+    const personModalOpen = document.getElementById('personModal')?.classList.contains('show');
+    if (personModalOpen) {
+      // Synthesize a fake event for handlePersonPhotoUpload's existing API
+      const draft = document.getElementById('personModal')._draft;
+      if (!draft) { toast('Editor not ready, try again', 'warn'); return; }
+      // Inline equivalent of handlePersonPhotoUpload(filesArray)
+      const imgs = files.filter(f => f.type.startsWith('image/'));
+      if (!imgs.length) { toast('Drop image files only', 'warn'); return; }
+      if ((draft.photos || []).length + imgs.length > 20) {
+        toast('Maximum 20 photos per person', 'warn');
+        return;
+      }
+      toast(`Got ${imgs.length} photo${imgs.length===1?'':'s'} — resizing to 768px…`, 'info');
+      let added = 0;
+      for (let i = 0; i < imgs.length; i++) {
+        try {
+          const dataUrl = await resizeImageFile(imgs[i], MAX_PERSON_PHOTO_PX, PERSON_PHOTO_QUALITY);
+          const photo = { id: 'pp_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6), dataUrl, addedAt: Date.now() };
+          draft.photos = draft.photos || [];
+          draft.photos.push(photo);
+          if (!draft.primaryPhotoId) draft.primaryPhotoId = photo.id;
+          added++;
+          renderPersonPhotosInEditor();
+          if (imgs.length > 3 && (i + 1) % 3 === 0 && i < imgs.length - 1) {
+            toast(`${i + 1} of ${imgs.length} done…`, 'info');
+          }
+        } catch (err) { console.error('Person photo resize failed', err); }
+      }
+      toast(`✓ Added ${added} photo${added===1?'':'s'} — remember to click Save`, 'success');
+      return;
+    }
+    // Standard mood-board path
+    if (!T()) {
+      const onPeoplePage = document.getElementById('page-people')?.classList.contains('active');
+      if (onPeoplePage) {
+        toast('To add photos to a person, click their card first', 'warn');
+      } else {
+        toast('Open a domain, project, or subsection first, then drag your photos there', 'warn');
+      }
+      return;
+    }
     await addPhotosFromFiles(files);
     return;
   }
   // Try dragged URL from another browser tab
   const uri = e.dataTransfer.getData('text/uri-list') || e.dataTransfer.getData('text/plain');
   if (uri && uri.match(/^https?:\/\//)) {
-    if (!T()) { toast('Open a domain, project, or subsection first to drop photos there'); return; }
+    if (!T()) { toast('Open a domain, project, or subsection first to drop photos there', 'warn'); return; }
     addUrlAsPhoto(uri.trim());
     return;
   }
@@ -2597,7 +2702,7 @@ window.addEventListener('drop', async e => {
   if (html) {
     const match = html.match(/<img[^>]+src=["']([^"']+)["']/i);
     if (match) {
-      if (!T()) { toast('Open a domain, project, or subsection first to drop photos there'); return; }
+      if (!T()) { toast('Open a domain, project, or subsection first to drop photos there', 'warn'); return; }
       addUrlAsPhoto(match[1]);
       return;
     }
@@ -2911,9 +3016,65 @@ function dreamerNext(skip) {
     state.dreamer.currentIdx++;
     saveDreamer();
     paintDreamer();
+    // Smooth-scroll back to top so the next question lands cleanly in view
+    document.getElementById('main')?.scrollTo({ top: 0, behavior: 'smooth' });
   } else {
-    toast("You've completed all 12 questions. The dream is on the page.");
+    // v4.3.1 — proper completion. Show a real "you did it" moment.
+    showDreamerComplete();
   }
+}
+
+function showDreamerComplete() {
+  const answered = Object.keys(state.dreamer.responses).filter(k => (state.dreamer.responses[k] || '').trim()).length;
+  const totalWords = Object.values(state.dreamer.responses).reduce((sum, r) => sum + ((r || '').trim().split(/\s+/).filter(Boolean).length), 0);
+  // Mark dreamer complete and persist
+  state.dreamer.completedAt = state.dreamer.completedAt || Date.now();
+  saveDreamer();
+  // Render the completion overlay
+  const existing = document.getElementById('dreamerCompleteOverlay');
+  if (existing) existing.remove();
+  const overlay = document.createElement('div');
+  overlay.id = 'dreamerCompleteOverlay';
+  overlay.className = 'dreamer-complete-overlay show';
+  overlay.innerHTML = `
+    <div class="dreamer-complete-card">
+      <div class="dreamer-complete-eyebrow">THE DREAMER · COMPLETE</div>
+      <h1 class="dreamer-complete-title">The dream is <em>on the page.</em></h1>
+      <p class="dreamer-complete-sub">${answered} of 12 questions answered · ${totalWords} words written.<br>You just put the architecture of your future into words. That's not nothing — that's the work most people never do.</p>
+      <div class="dreamer-complete-stats">
+        <div class="dreamer-complete-stat"><b>${answered}</b><span>questions</span></div>
+        <div class="dreamer-complete-stat"><b>${totalWords}</b><span>words</span></div>
+        <div class="dreamer-complete-stat"><b>12</b><span>domains ahead</span></div>
+      </div>
+      <p class="dreamer-complete-prompt">Where to next?</p>
+      <div class="dreamer-complete-actions">
+        <button class="dreamer-complete-btn primary" onclick="dreamerCompleteGo('home')">
+          <div class="dreamer-complete-btn-title">Open the Command Center</div>
+          <div class="dreamer-complete-btn-sub">Start filling in your 12 domains</div>
+        </button>
+        <button class="dreamer-complete-btn" onclick="dreamerCompleteGo('people')">
+          <div class="dreamer-complete-btn-title">Set up your People</div>
+          <div class="dreamer-complete-btn-sub">Photos &amp; descriptors of you and Sumary</div>
+        </button>
+        <button class="dreamer-complete-btn" onclick="dreamerCompleteGo('movies')">
+          <div class="dreamer-complete-btn-title">Make your first vision movie</div>
+          <div class="dreamer-complete-btn-sub">Cinematic trailer of the life you're building</div>
+        </button>
+      </div>
+      <button class="dreamer-complete-close" onclick="closeDreamerComplete()">Stay here · review my answers</button>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+}
+
+function dreamerCompleteGo(page) {
+  closeDreamerComplete();
+  goPage(page);
+}
+
+function closeDreamerComplete() {
+  const o = document.getElementById('dreamerCompleteOverlay');
+  if (o) o.remove();
 }
 function dreamerPrev() {
   if (state.dreamer.currentIdx > 0) {
@@ -3757,8 +3918,11 @@ async function handlePersonPhotoUpload(event) {
     toast('Maximum 20 photos per person', 'warn');
     return;
   }
-  toast(`Resizing ${files.length} photo${files.length > 1 ? 's' : ''}…`, 'info');
-  for (const f of files) {
+  // Immediate feedback so the user sees something is happening
+  toast(`Got ${files.length} photo${files.length===1?'':'s'} — resizing to 768px…`, 'info');
+  let added = 0;
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
     try {
       const dataUrl = await resizeImageFile(f, MAX_PERSON_PHOTO_PX, PERSON_PHOTO_QUALITY);
       const photo = {
@@ -3769,12 +3933,17 @@ async function handlePersonPhotoUpload(event) {
       draft.photos = draft.photos || [];
       draft.photos.push(photo);
       if (!draft.primaryPhotoId) draft.primaryPhotoId = photo.id;
+      added++;
+      // Re-render after each one so user sees progress
+      renderPersonPhotosInEditor();
+      if (files.length > 3 && (i + 1) % 3 === 0 && i < files.length - 1) {
+        toast(`${i + 1} of ${files.length} done…`, 'info');
+      }
     } catch (e) {
       console.error('Photo resize failed', e);
     }
   }
-  renderPersonPhotosInEditor();
-  toast(`${files.length} photo${files.length > 1 ? 's' : ''} added`, 'success');
+  toast(`✓ Added ${added} photo${added===1?'':'s'}`, 'success');
 }
 
 // Resize a File to fit within max pixel size (longest edge), JPEG-compressed
