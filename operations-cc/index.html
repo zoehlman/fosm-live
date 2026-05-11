@@ -1767,6 +1767,296 @@ html, body {
 }
 .flag-actions { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
 
+/* ═══════════════════════════════════════════════
+   C4 ADDITIONS · PM Calendar + Query Interface
+═══════════════════════════════════════════════ */
+
+/* ─── CALENDAR · client filter chips ─── */
+.cal-filter-bar {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.cal-filter-lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.5px;
+  color: var(--mute);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-right: 4px;
+}
+.cal-chip {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  background: #161616;
+  border: 1px solid var(--border2);
+  color: #aaa;
+  padding: 3px 9px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.12s;
+  letter-spacing: 0.3px;
+}
+.cal-chip:hover { background: #1e1e1e; color: #ddd; }
+.cal-chip.active {
+  background: var(--orange-dim);
+  color: var(--orange);
+  border-color: var(--orange-border);
+  font-weight: 700;
+}
+.cal-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.cal-toolbar-stats {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ─── CALENDAR · bucket sections ─── */
+.cal-bucket {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+.cal-bucket.overdue { border-color: var(--rose-border); }
+.cal-bucket.filed { opacity: 0.85; }
+.cal-bucket-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0;
+  flex-wrap: wrap;
+}
+.cal-bucket-h.has-items { margin-bottom: 10px; }
+.cal-bucket-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.cal-bucket.overdue .cal-bucket-title { color: var(--rose); }
+.cal-bucket-sub {
+  font-size: 11px;
+  color: var(--mute);
+  font-style: italic;
+  flex: 1;
+  min-width: 80px;
+}
+.cal-bucket-count {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  background: var(--orange-dim);
+  color: var(--orange);
+  border: 1px solid var(--orange-border);
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+.cal-bucket-count.zero {
+  background: #0a0a0a;
+  color: var(--mute2);
+  border-color: var(--border2);
+}
+.cal-bucket.overdue .cal-bucket-count {
+  background: var(--rose-dim);
+  color: var(--rose);
+  border-color: var(--rose-border);
+}
+.cal-bucket-toggle {
+  font-family: var(--mono);
+  font-size: 10px;
+  background: transparent;
+  border: 1px solid var(--border2);
+  color: var(--mute);
+  padding: 2px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+}
+.cal-bucket-toggle:hover { color: #fff; border-color: var(--border); }
+
+/* ─── CALENDAR · filing row ─── */
+.filing-row {
+  background: var(--panel3);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 10px 14px;
+  margin-bottom: 5px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+.filing-row:last-child { margin-bottom: 0; }
+.filing-row.filed { opacity: 0.6; }
+.filing-row-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.filing-row-h { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.filing-row-type {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fff;
+}
+.filing-row.filed .filing-row-type { text-decoration: line-through; color: #aaa; }
+.filing-row-client {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--mute);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 700;
+}
+.filing-row-entity {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: #aaa;
+}
+.filing-row-due {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--mute);
+}
+.filing-row-due.overdue { color: var(--rose); font-weight: 700; }
+.filing-row-notes {
+  font-size: 11px;
+  color: #ccc;
+  line-height: 1.5;
+  margin-top: 2px;
+}
+.filing-row-actions {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.filing-status-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.4px;
+}
+.filing-status-pill.pending { background: var(--gold-dim);  color: var(--gold);  border: 1px solid var(--gold-border); }
+.filing-status-pill.overdue { background: var(--rose-dim);  color: var(--rose);  border: 1px solid var(--rose-border); }
+.filing-status-pill.filed   { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+.filing-orphan-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  background: #161616;
+  border: 1px solid var(--border2);
+  color: var(--mute);
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.4px;
+  font-style: italic;
+}
+
+/* ─── QUERY · client groups + entity rows ─── */
+.query-info {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.query-info-stat {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  background: #0a0a0a;
+  border: 1px solid var(--border2);
+  padding: 3px 8px;
+  border-radius: 3px;
+  color: #aaa;
+  white-space: nowrap;
+}
+.query-info-stat b { color: var(--mute); font-weight: 700; letter-spacing: 0.3px; }
+.query-info-note {
+  font-size: 11px;
+  color: var(--mute);
+  font-style: italic;
+  flex: 1;
+  min-width: 200px;
+}
+.query-client-group {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+.query-client-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.query-client-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+.query-client-stat {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--mute);
+  letter-spacing: 0.4px;
+}
+.query-entity-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 0 8px 0;
+  border-bottom: 1px dashed var(--border2);
+}
+.query-entity-row:last-child { border-bottom: none; }
+.query-entity-row.is-child { padding-left: 20px; }
+.query-entity-row.is-grandchild { padding-left: 40px; }
+.query-entity-main { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.query-entity-h { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.query-entity-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+.query-entity-url {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--blue);
+  word-break: break-all;
+  line-height: 1.5;
+}
+.query-entity-actions {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
   .shell { grid-template-columns: 1fr; }
@@ -1786,7 +2076,7 @@ html, body {
       <div class="brand-mark">◆</div>
       <div class="brand-meta">
         <div class="brand-name">Operations CC</div>
-        <div class="brand-sub">FOSM·LIVE · v0.3.0</div>
+        <div class="brand-sub">FOSM·LIVE · v0.4.0</div>
       </div>
     </div>
 
@@ -1796,7 +2086,7 @@ html, body {
 
     <div class="sidebar-foot">
       <span class="dot"></span>
-      <span id="footStatus">v0.3.0 · C3 · Today + Departments + Bridge live</span>
+      <span id="footStatus">v0.4.0 · C4 · PM Calendar + Query Interface live</span>
     </div>
 
   </aside>
@@ -1912,31 +2202,14 @@ html, body {
     <!-- ─────────── 4 · PM CALENDAR ─────────── -->
     <div class="view" id="mod-calendar">
       <div class="topbar">
-        <div class="topbar-title">PM Calendar · Output <span class="topbar-sub">— filings · due dates · monthly closes · payroll runs · quarterlies · per-client filter</span></div>
+        <div class="topbar-title">PM Calendar <span class="topbar-sub">— every filing on one timeline · manual entry · status truth</span></div>
         <div class="topbar-right">
-          <span class="tag tag-mute">📅 the visual output</span>
+          <button class="btn btn-primary btn-sm" id="calNewFilingBtn">＋ Add Filing</button>
         </div>
       </div>
       <div class="canvas">
-        <div class="scaffold">
-          <div class="scaffold-h">
-            <span class="ph-tag">C1 · scaffolding</span>
-            <span>view shell complete · manual entry timeline lands in C4</span>
-          </div>
-          <h2>PM Calendar · every deadline on one timeline</h2>
-          <p>The visual output of the four sub-departments. Every client's filings, due dates, monthly closes, payroll runs, quarterlies, and annual returns laid out on one timeline. Filter by client to drill in.</p>
-          <div class="ph-row">
-            <span class="k">live in C4</span>
-            <span class="v">Manual entry of filings and due dates · per-client filter chips · sorted timeline view (this week → this month → this quarter).</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">stubbed</span>
-            <span class="v">Workload Heatmap (derived from filings + ClickUp) · auto-filing-due-date detection per entity type · phase-based cadence automation — Phase 2 and Phase 3 stubs.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">storage</span>
-            <span class="v"><code>fosm_filing_status_v1</code> · array of filing entries with <code>id · clientId · entityId · type · dueDate · status · notes</code></span>
-          </div>
+        <div id="calendarCanvas">
+          <!-- rendered by renderCalendar() · bucketed timeline · client filter chips -->
         </div>
       </div>
     </div>
@@ -1950,25 +2223,8 @@ html, body {
         </div>
       </div>
       <div class="canvas">
-        <div class="scaffold">
-          <div class="scaffold-h">
-            <span class="ph-tag">C1 · scaffolding</span>
-            <span>view shell complete · paste-URL-and-open lands in C4</span>
-          </div>
-          <h2>FOSM·LIVE Query Interface · open it directly, don't render it inline</h2>
-          <p>When the operator needs to look at a client's FOSM·LIVE, they open it in a new tab — Operations CC doesn't try to render or duplicate it. One URL field per entity. Click to open. The deliverable stays where it lives.</p>
-          <div class="ph-row">
-            <span class="k">live in C4</span>
-            <span class="v">URL field per entity in the Tabbed Client Profile (Companies tab). This top-level view shows the aggregate — every client × every entity × its FOSM·LIVE URL, with a button to open each.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">scope</span>
-            <span class="v">Per Decision #2 · entity level only for Phase 1. No optional client-level primary URL. One URL field per entity, period. Entities without a FOSM·LIVE URL show as <b>manual-only</b> with no open-button.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">storage</span>
-            <span class="v"><code>fosm_entity_tree_v1</code> · the URL lives on the entity record · paste pattern same as Sales CC's Drive integration</span>
-          </div>
+        <div id="queryCanvas">
+          <!-- rendered by renderQuery() · aggregate every client × every entity × URL -->
         </div>
       </div>
     </div>
@@ -2092,7 +2348,7 @@ html, body {
 
 </div>
 
-<!-- ═════════ MODAL HOST (ready for C2) ═════════ -->
+<!-- ═════════ MODAL HOST ═════════ -->
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal" id="modalShell">
     <div class="modal-h">
@@ -2104,20 +2360,25 @@ html, body {
   </div>
 </div>
 
-<!-- ═════════ TOAST HOST (ready for C2) ═════════ -->
+<!-- ═════════ TOAST HOST ═════════ -->
 <div class="toast-wrap" id="toastWrap"></div>
 
 <script>
 /* ═══════════════════════════════════════════════
-   OPERATIONS CC · v0.3.0 · C3
+   OPERATIONS CC · v0.4.0 · C4
    ───────────────────────────────────────────────
    Sidebar nav · view switching · modal/toast hosts ·
-   ON_SHOW hook map. Roster CRUD + Tabbed Client Profile
-   are live (Companies + Communications + Scope tabs;
-   Filings + Documents stub per Decision #3). All writes
-   go to localStorage under fosm_*_v1 keys. Sibling-CC
-   keys (Marketing, Sales) are declared read-only and
-   never touched here.
+   ON_SHOW hook map. Today + Roster + Client Profile
+   (Companies, Communications with Contradiction Flags,
+   Scope) + Comms/Data/ClickUp department views +
+   Sales CC Bridge + PM Calendar + FOSM·LIVE Query
+   Interface + All Stubs aggregate are live. Filings
+   tab + Documents tab inside Client Profile remain
+   stubbed per Decision #3 (deferred to Phase 2).
+   System Map sub-views (Architecture · Backup ·
+   Diagnostics) ship C5. All writes go to localStorage
+   under fosm_*_v1 keys. Sibling-CC keys (Marketing,
+   Sales) are declared read-only and never touched.
 ═══════════════════════════════════════════════ */
 
 /* ─── STORAGE KEYS · owned + read ──────────────
@@ -2383,11 +2644,12 @@ function updateClient(id, patch) {
 function deleteClient(id) {
   const c = _clients.find(x => x.id === id);
   if (!c) return;
-  // Cascade · entities · notes · scope · flags · exec summary.
+  // Cascade · entities · notes · scope · flags · filings · exec summary.
   _entities = _entities.filter(e => e.clientId !== id);
   _notes    = _notes.filter(n => n.clientId !== id);
   _scope    = _scope.filter(s => s.clientId !== id);
   _flags    = _flags.filter(f => f.clientId !== id);
+  _filings  = _filings.filter(f => f.clientId !== id);
   delete _execSummaries[id];
   _clients = _clients.filter(x => x.id !== id);
   saveStore('client_roster',        _clients);
@@ -2395,6 +2657,7 @@ function deleteClient(id) {
   saveStore('meeting_notes',        _notes);
   saveStore('scope_tracker',        _scope);
   saveStore('contradiction_flags',  _flags);
+  saveStore('filing_status',        _filings);
   saveStore('client_profiles',      _execSummaries);
   toast('Deleted · ' + c.name + ' and all associated records', 'warn', 4500);
 }
@@ -2433,7 +2696,14 @@ function deleteEntity(id) {
   });
   _entities = _entities.filter(x => x.id !== id);
   saveStore('entity_tree', _entities);
-  toast('Entity deleted · ' + e.name, 'warn');
+  // Per Decision B (C4) · orphan filings tied to this entity. entityId → null.
+  // Filings stay on the client; operator decides to re-assign or delete from PM Calendar.
+  let orphaned = 0;
+  _filings.forEach(f => {
+    if (f.entityId === id) { f.entityId = null; orphaned++; }
+  });
+  if (orphaned > 0) saveStore('filing_status', _filings);
+  toast('Entity deleted · ' + e.name + (orphaned ? ' · ' + orphaned + ' filing' + (orphaned === 1 ? '' : 's') + ' orphaned' : ''), 'warn');
 }
 
 /* ═══════════════════════════════════════════════
@@ -2830,7 +3100,13 @@ function renderCompaniesTab(c, container) {
     btn.addEventListener('click', () => {
       const e = _entities.find(x => x.id === btn.dataset.entityId);
       if (!e) return;
-      if (confirm('Delete entity "' + e.name + '"?\n\nAny child entities will be re-parented to this entity\'s parent (top-level if none).')) {
+      const filingCount = _filings.filter(x => x.entityId === e.id).length;
+      let msg = 'Delete entity "' + e.name + '"?\n\nAny child entities will be re-parented to this entity\'s parent (top-level if none).';
+      if (filingCount > 0) {
+        msg += '\n\n' + filingCount + ' filing' + (filingCount === 1 ? '' : 's') +
+               ' tied to this entity will be orphaned (entity reference cleared, filing stays on the client). Re-assign or delete from PM Calendar after.';
+      }
+      if (confirm(msg)) {
         deleteEntity(e.id);
         const refreshed = _clients.find(x => x.id === c.id);
         if (refreshed) renderProfile(refreshed);
@@ -3249,6 +3525,7 @@ function openDeleteClientConfirm(clientId) {
   const nCount = clientNotesCount(c.id);
   const sCount = _scope.filter(s => s.clientId === c.id).length;
   const fCount = _flags.filter(f => f.clientId === c.id).length;
+  const xCount = _filings.filter(x => x.clientId === c.id).length;
 
   openModal({
     title: 'Delete Client · ' + c.name,
@@ -3262,6 +3539,7 @@ function openDeleteClientConfirm(clientId) {
           <li>${nCount} meeting ${nCount === 1 ? 'note' : 'notes'}</li>
           <li>${sCount} scope ${sCount === 1 ? 'item' : 'items'}</li>
           <li>${fCount} contradiction ${fCount === 1 ? 'flag' : 'flags'}</li>
+          <li>${xCount} ${xCount === 1 ? 'filing' : 'filings'}</li>
           <li>The executive summary and any other records tied to this client</li>
         </ul>
         <br>This is unrecoverable unless you've exported a backup. <b>Type the client name below to confirm.</b>
@@ -3924,7 +4202,7 @@ function renderModuleCard(m) {
 function collectTodayItems() {
   const today = todayISO();
   return {
-    filings:  _filings.filter(f => f && f.dueDate && f.dueDate <= today && !f.filed),
+    filings:  _filings.filter(f => f && f.dueDate && f.dueDate <= today && f.status !== 'filed'),
     reviews:  _clients.filter(c => c.nextReview && c.nextReview <= today),
     scope:    _scope.filter(s => s.status === 'flagged'),
     flags:    _flags.filter(f => !f.resolved)
@@ -4411,19 +4689,519 @@ function openDuplicateImportConfirm(person, existingClient, onConfirm) {
 }
 
 /* ═══════════════════════════════════════════════
+   C4 · CRUD · Filing
+   ───────────────────────────────────────────────
+   Schema · { id, clientId, entityId, type, dueDate,
+   status: 'pending' | 'filed', notes, createdAt }
+   Decision A · overdue is DERIVED at render via
+   status === 'pending' && dueDate < today.
+═══════════════════════════════════════════════ */
+function createFiling(data) {
+  const f = {
+    id: genId('fil'),
+    clientId: data.clientId,
+    entityId: data.entityId || null,
+    type:     data.type,
+    dueDate:  data.dueDate,
+    status:   data.status || 'pending',
+    notes:    data.notes || '',
+    createdAt: new Date().toISOString()
+  };
+  _filings.push(f);
+  saveStore('filing_status', _filings);
+  toast('Filing added · ' + f.type);
+  return f;
+}
+function updateFiling(id, patch) {
+  const i = _filings.findIndex(f => f.id === id);
+  if (i < 0) return;
+  Object.assign(_filings[i], patch);
+  saveStore('filing_status', _filings);
+}
+function deleteFiling(id) {
+  _filings = _filings.filter(x => x.id !== id);
+  saveStore('filing_status', _filings);
+  toast('Filing deleted', 'warn');
+}
+function toggleFilingStatus(id) {
+  const f = _filings.find(x => x.id === id);
+  if (!f) return;
+  f.status = (f.status === 'filed') ? 'pending' : 'filed';
+  saveStore('filing_status', _filings);
+  toast(f.status === 'filed' ? 'Marked filed · ' + f.type : 'Reopened · ' + f.type);
+}
+
+/* ═══════════════════════════════════════════════
+   C4 · Bucket classification
+   ───────────────────────────────────────────────
+   Buckets (top to bottom per locked plan):
+   1. Overdue · pending && dueDate < today
+   2. This Week · pending && dueDate within 7d
+   3. This Month · pending && dueDate within 30d
+   4. This Quarter · pending && dueDate within 90d
+   5. Further Out · pending && dueDate beyond 90d
+   6. Filed · status === 'filed' (collapsed by default)
+═══════════════════════════════════════════════ */
+function classifyFiling(f, today) {
+  if (f.status === 'filed') return 'filed';
+  if (!f.dueDate) return 'furtherOut';
+  if (f.dueDate < today) return 'overdue';
+  const d  = new Date(f.dueDate + 'T00:00:00');
+  const t  = new Date(today    + 'T00:00:00');
+  const ms = d.getTime() - t.getTime();
+  const days = Math.round(ms / (1000 * 60 * 60 * 24));
+  if (days <= 7)  return 'thisWeek';
+  if (days <= 30) return 'thisMonth';
+  if (days <= 90) return 'thisQuarter';
+  return 'furtherOut';
+}
+
+/* ═══════════════════════════════════════════════
+   C4 · UI STATE · calendar filter + filed-bucket
+   ───────────────────────────────────────────────
+   Persisted via existing _uiState/persistUI plumbing.
+═══════════════════════════════════════════════ */
+function getCalendarFilter() {
+  return _uiState.calendarClientFilter || 'all';
+}
+function setCalendarFilter(clientId) {
+  _uiState.calendarClientFilter = clientId;
+  persistUI();
+}
+function getFiledExpanded() {
+  return !!_uiState.calendarFiledExpanded;
+}
+function toggleFiledExpanded() {
+  _uiState.calendarFiledExpanded = !_uiState.calendarFiledExpanded;
+  persistUI();
+}
+
+/* ═══════════════════════════════════════════════
+   C4 · PM CALENDAR · render
+═══════════════════════════════════════════════ */
+function renderCalendar() {
+  const canvas = document.getElementById('calendarCanvas');
+  if (!canvas) return;
+  const today = todayISO();
+  const filterId = getCalendarFilter();
+  const filedExpanded = getFiledExpanded();
+
+  // Apply filter.
+  const filings = filterId === 'all'
+    ? _filings
+    : _filings.filter(f => f.clientId === filterId);
+
+  // Classify into buckets.
+  const buckets = {
+    overdue:     [],
+    thisWeek:    [],
+    thisMonth:   [],
+    thisQuarter: [],
+    furtherOut:  [],
+    filed:       []
+  };
+  filings.forEach(f => {
+    buckets[classifyFiling(f, today)].push(f);
+  });
+  // Within each bucket sort by dueDate ascending (filed by dueDate descending — newest first).
+  Object.keys(buckets).forEach(k => {
+    if (k === 'filed') {
+      buckets[k].sort((a, b) => (b.dueDate || '').localeCompare(a.dueDate || ''));
+    } else {
+      buckets[k].sort((a, b) => (a.dueDate || '9999').localeCompare(b.dueDate || '9999'));
+    }
+  });
+
+  const totalActive = buckets.overdue.length + buckets.thisWeek.length + buckets.thisMonth.length + buckets.thisQuarter.length + buckets.furtherOut.length;
+
+  let html = '';
+
+  // Filter chips
+  html += `<div class="cal-filter-bar"><span class="cal-filter-lbl">filter</span>`;
+  html += `<span class="cal-chip ${filterId === 'all' ? 'active' : ''}" data-filter="all">All clients · ${_filings.length}</span>`;
+  // Build chips for clients that actually have filings, sorted by name.
+  const clientFilingCounts = {};
+  _filings.forEach(f => { clientFilingCounts[f.clientId] = (clientFilingCounts[f.clientId] || 0) + 1; });
+  const clientsWithFilings = _clients
+    .filter(c => clientFilingCounts[c.id])
+    .sort((a, b) => a.name.localeCompare(b.name));
+  clientsWithFilings.forEach(c => {
+    const count = clientFilingCounts[c.id];
+    html += `<span class="cal-chip ${filterId === c.id ? 'active' : ''}" data-filter="${c.id}">${escHTML(c.name)} · ${count}</span>`;
+  });
+  html += `</div>`;
+
+  // Toolbar with quick stats
+  html += `
+    <div class="cal-toolbar">
+      <div class="cal-toolbar-stats">
+        <span class="query-info-stat"><b>ACTIVE</b> ${totalActive}</span>
+        <span class="query-info-stat" style="background: var(--rose-dim); color: var(--rose); border-color: var(--rose-border);"><b>OVERDUE</b> ${buckets.overdue.length}</span>
+        <span class="query-info-stat"><b>FILED</b> ${buckets.filed.length}</span>
+      </div>
+    </div>
+  `;
+
+  // Empty state at the very top
+  if (_filings.length === 0) {
+    html += `
+      <div class="empty">
+        <div class="empty-icon">📅</div>
+        <b>No filings yet.</b><br>Click <b>＋ Add Filing</b> above to capture a deadline. Overdue filings here surface on Today's source 1.
+      </div>
+    `;
+  }
+
+  // Bucket renderer
+  const renderBucket = (key, title, sub, isOverdue, isFiled) => {
+    const items = buckets[key];
+    const collapsed = isFiled && !filedExpanded;
+    const showItems = !collapsed && items.length > 0;
+    const cls = (isOverdue ? 'overdue' : '') + (isFiled ? ' filed' : '');
+    let bucketHtml = `<div class="cal-bucket ${cls}">`;
+    bucketHtml += `<div class="cal-bucket-h ${showItems ? 'has-items' : ''}">`;
+    bucketHtml += `<span class="cal-bucket-title">${escHTML(title)}</span>`;
+    bucketHtml += `<span class="cal-bucket-sub">${escHTML(sub)}</span>`;
+    bucketHtml += `<span class="cal-bucket-count ${items.length === 0 ? 'zero' : ''}">${items.length} filing${items.length === 1 ? '' : 's'}</span>`;
+    if (isFiled && items.length > 0) {
+      bucketHtml += `<button class="cal-bucket-toggle" data-toggle-filed="1">${collapsed ? '▸ expand' : '▾ collapse'}</button>`;
+    }
+    bucketHtml += `</div>`;
+    if (showItems) {
+      items.forEach(f => { bucketHtml += renderFilingRow(f, today); });
+    }
+    bucketHtml += `</div>`;
+    return bucketHtml;
+  };
+
+  // Render buckets when there are filings
+  if (_filings.length > 0) {
+    html += renderBucket('overdue',     'Overdue',      '— past due date · still pending',   true,  false);
+    html += renderBucket('thisWeek',    'This Week',    '— due within 7 days',               false, false);
+    html += renderBucket('thisMonth',   'This Month',   '— due within 30 days',              false, false);
+    html += renderBucket('thisQuarter', 'This Quarter', '— due within 90 days',              false, false);
+    html += renderBucket('furtherOut',  'Further Out',  '— due beyond 90 days · or undated', false, false);
+    html += renderBucket('filed',       'Filed',        '— the historical record',           false, true);
+  }
+
+  canvas.innerHTML = html;
+
+  // Wire filter chips
+  canvas.querySelectorAll('[data-filter]').forEach(chip => {
+    chip.addEventListener('click', () => {
+      setCalendarFilter(chip.dataset.filter);
+      renderCalendar();
+    });
+  });
+  // Wire filed-bucket toggle
+  canvas.querySelectorAll('[data-toggle-filed]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      toggleFiledExpanded();
+      renderCalendar();
+    });
+  });
+  // Wire filing row actions
+  canvas.querySelectorAll('[data-action="edit-filing"]').forEach(btn => {
+    btn.addEventListener('click', () => openEditFilingModal(btn.dataset.filingId));
+  });
+  canvas.querySelectorAll('[data-action="toggle-filing"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      toggleFilingStatus(btn.dataset.filingId);
+      renderCalendar();
+    });
+  });
+  canvas.querySelectorAll('[data-action="delete-filing"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm('Delete this filing?')) {
+        deleteFiling(btn.dataset.filingId);
+        renderCalendar();
+      }
+    });
+  });
+}
+
+function renderFilingRow(f, today) {
+  const isOverdue = f.status === 'pending' && f.dueDate && f.dueDate < today;
+  const isFiled   = f.status === 'filed';
+  const client    = _clients.find(c => c.id === f.clientId);
+  const entity    = f.entityId ? _entities.find(e => e.id === f.entityId) : null;
+  const isOrphan  = f.entityId !== null && !entity;  // entityId references entity that no longer exists
+  // Note: deleteEntity sets entityId to null, so orphans appear as entityId === null + a stamp
+  // (we treat any f.entityId === null as legitimately client-level OR orphaned — both render the same way).
+  const pillCls   = isFiled ? 'filed' : (isOverdue ? 'overdue' : 'pending');
+  const pillTxt   = isFiled ? 'FILED' : (isOverdue ? 'OVERDUE' : 'PENDING');
+
+  return `
+    <div class="filing-row ${isFiled ? 'filed' : ''}">
+      <div class="filing-row-main">
+        <div class="filing-row-h">
+          <span class="filing-status-pill ${pillCls}">${pillTxt}</span>
+          <span class="filing-row-type">${escHTML(f.type)}</span>
+          <span class="filing-row-due ${isOverdue ? 'overdue' : ''}">due ${fmtDate(f.dueDate)}</span>
+        </div>
+        <div class="filing-row-h">
+          <span class="filing-row-client">${escHTML(client ? client.name : '(deleted client)')}</span>
+          ${entity ? `<span class="filing-row-entity">↳ ${escHTML(entity.name)}</span>` : ''}
+          ${(!entity && f.entityId === null) ? `<span class="filing-orphan-pill">no entity assigned</span>` : ''}
+          ${isOrphan ? `<span class="filing-orphan-pill">entity reference missing</span>` : ''}
+        </div>
+        ${f.notes ? `<div class="filing-row-notes">${escHTML(f.notes)}</div>` : ''}
+      </div>
+      <div class="filing-row-actions">
+        <button class="btn btn-sm" data-action="toggle-filing" data-filing-id="${f.id}">${isFiled ? '↺ Reopen' : '✓ Mark filed'}</button>
+        <button class="btn btn-ghost btn-sm" data-action="edit-filing"   data-filing-id="${f.id}">✎</button>
+        <button class="btn btn-ghost btn-sm" data-action="delete-filing" data-filing-id="${f.id}">🗑</button>
+      </div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════════
+   C4 · FOSM·LIVE QUERY INTERFACE · render
+   ───────────────────────────────────────────────
+   Aggregate: every client × every entity × URL.
+   Per Decision #2 · entity-level URLs only.
+   Per Decision #3 · entities without URL show as
+   "manual-only" with NO open button (no fake buttons).
+═══════════════════════════════════════════════ */
+function renderQuery() {
+  const canvas = document.getElementById('queryCanvas');
+  if (!canvas) return;
+
+  const totalEntities = _entities.length;
+  const liveEntities  = _entities.filter(e => e.fosmLiveUrl && e.fosmLiveUrl.trim() !== '').length;
+  const liveClients   = _clients.filter(c => clientHasFosmLive(c.id)).length;
+
+  let html = '';
+  html += `
+    <div class="query-info">
+      <span class="query-info-stat"><b>CLIENTS</b> ${_clients.length}</span>
+      <span class="query-info-stat"><b>ENTITIES</b> ${totalEntities}</span>
+      <span class="query-info-stat"><b>WITH URL</b> ${liveEntities}</span>
+      <span class="query-info-stat"><b>CLIENTS LIVE</b> ${liveClients}</span>
+      <span class="query-info-note">Per Decision #2 · entity-level URLs only · click <b>Open</b> to launch in new tab · entities without a URL render as <b>manual-only</b> (no fake buttons).</span>
+    </div>
+  `;
+
+  if (_clients.length === 0) {
+    html += `
+      <div class="empty">
+        <div class="empty-icon">🔗</div>
+        <b>No clients yet.</b><br>Add a client in the roster, add entities, paste FOSM·LIVE URLs on the entities — and they aggregate here.
+      </div>
+    `;
+    canvas.innerHTML = html;
+    return;
+  }
+
+  // Render one group per client, with the same entity-tree pattern as the Companies tab.
+  const sortedClients = [..._clients].sort((a, b) => a.name.localeCompare(b.name));
+  sortedClients.forEach(c => {
+    const entities = _entities.filter(e => e.clientId === c.id);
+    const liveCount = entities.filter(e => e.fosmLiveUrl && e.fosmLiveUrl.trim() !== '').length;
+    html += `<div class="query-client-group">`;
+    html += `
+      <div class="query-client-h">
+        <span class="query-client-name">${escHTML(c.name)}</span>
+        <span class="phase-pill ${c.phase.toLowerCase()}">${c.phase}</span>
+        <span class="query-client-stat">${entities.length} entit${entities.length === 1 ? 'y' : 'ies'} · ${liveCount} with URL</span>
+      </div>
+    `;
+    if (entities.length === 0) {
+      html += `<div class="today-empty">No entities yet for this client. Add them in the profile's Companies tab.</div>`;
+    } else {
+      // Tree rendering: top-level entities, then children, then grandchildren.
+      const topLevel = entities.filter(e => !e.parentId);
+      const renderQueryEntity = (e, depth) => {
+        const hasUrl = e.fosmLiveUrl && e.fosmLiveUrl.trim() !== '';
+        const cls = depth === 0 ? '' : (depth === 1 ? 'is-child' : 'is-grandchild');
+        let row = `
+          <div class="query-entity-row ${cls}">
+            <div class="query-entity-main">
+              <div class="query-entity-h">
+                <span class="query-entity-name">${escHTML(e.name)}</span>
+                <span class="entity-type-pill">${escHTML(e.entityType)}</span>
+                ${hasUrl ? '<span class="fl-pill fl-live">FOSM·LIVE</span>' : '<span class="fl-pill fl-manual">Manual-only</span>'}
+              </div>
+              ${hasUrl ? `<div class="query-entity-url">${escHTML(e.fosmLiveUrl)}</div>` : ''}
+            </div>
+            <div class="query-entity-actions">
+              ${hasUrl ? `<button class="btn btn-sm" data-action="open-fosm-query" data-url="${escHTML(e.fosmLiveUrl)}">↗ Open</button>` : ''}
+            </div>
+          </div>
+        `;
+        // Recurse into children
+        const children = entities.filter(child => child.parentId === e.id);
+        children.forEach(child => { row += renderQueryEntity(child, depth + 1); });
+        return row;
+      };
+      topLevel.forEach(e => { html += renderQueryEntity(e, 0); });
+    }
+    html += `</div>`;
+  });
+
+  canvas.innerHTML = html;
+
+  canvas.querySelectorAll('[data-action="open-fosm-query"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const url = btn.dataset.url;
+      if (url) window.open(url, '_blank', 'noopener,noreferrer');
+    });
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   C4 · MODAL BUILDERS · Filing new / edit
+═══════════════════════════════════════════════ */
+function buildFilingFormBody(f) {
+  // Client dropdown
+  const sortedClients = [..._clients].sort((a, b) => a.name.localeCompare(b.name));
+  let clientOptions = '<option value="">— Select client —</option>';
+  sortedClients.forEach(c => {
+    const sel = (f && f.clientId === c.id) ? 'selected' : '';
+    clientOptions += `<option value="${c.id}" ${sel}>${escHTML(c.name)}</option>`;
+  });
+
+  // Entity dropdown · scoped to selected client; will be reloaded onChange
+  let entityOptions = '<option value="">— No entity (or select after picking client) —</option>';
+  if (f && f.clientId) {
+    const cEntities = _entities.filter(e => e.clientId === f.clientId);
+    cEntities.forEach(e => {
+      const sel = (f.entityId === e.id) ? 'selected' : '';
+      entityOptions += `<option value="${e.id}" ${sel}>${escHTML(e.name)} · ${escHTML(e.entityType)}</option>`;
+    });
+  }
+
+  return `
+    <div class="field">
+      <label class="field-lbl">Client</label>
+      <select class="field-select" id="m_fil_client">${clientOptions}</select>
+    </div>
+    <div class="field">
+      <label class="field-lbl">Entity <span class="field-help">(optional · filing can stay at client level)</span></label>
+      <select class="field-select" id="m_fil_entity">${entityOptions}</select>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label class="field-lbl">Filing type</label>
+        <input type="text" class="field-input" id="m_fil_type" value="${f ? escHTML(f.type) : ''}" placeholder="e.g. 1040, 1120-S, NY-941 quarterly">
+      </div>
+      <div class="field">
+        <label class="field-lbl">Due date</label>
+        <input type="date" class="field-input" id="m_fil_due" value="${f ? escHTML(f.dueDate || '') : ''}">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-lbl">Status</label>
+      <select class="field-select" id="m_fil_status">
+        <option value="pending" ${(!f || f.status === 'pending') ? 'selected' : ''}>Pending</option>
+        <option value="filed"   ${(f && f.status === 'filed')   ? 'selected' : ''}>Filed</option>
+      </select>
+      <div class="field-help">Overdue is derived at render — pending filings with a past due date show as overdue automatically.</div>
+    </div>
+    <div class="field">
+      <label class="field-lbl">Notes <span class="field-help">(optional)</span></label>
+      <textarea class="field-textarea" id="m_fil_notes" placeholder="Anything to remember about this filing · who's preparing · waiting on what · etc.">${f ? escHTML(f.notes || '') : ''}</textarea>
+    </div>
+  `;
+}
+
+function wireFilingFormClientChange() {
+  // When client changes, rebuild the entity dropdown to scope to that client.
+  const clientSel = document.getElementById('m_fil_client');
+  const entitySel = document.getElementById('m_fil_entity');
+  if (!clientSel || !entitySel) return;
+  clientSel.addEventListener('change', () => {
+    const cid = clientSel.value;
+    let opts = '<option value="">— No entity —</option>';
+    if (cid) {
+      const cEntities = _entities.filter(e => e.clientId === cid);
+      cEntities.forEach(e => {
+        opts += `<option value="${e.id}">${escHTML(e.name)} · ${escHTML(e.entityType)}</option>`;
+      });
+    }
+    entitySel.innerHTML = opts;
+  });
+}
+
+function openNewFilingModal(prefillClientId) {
+  const seed = prefillClientId ? { clientId: prefillClientId } : null;
+  openModal({
+    title: 'Add Filing',
+    body: buildFilingFormBody(seed),
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_fil_save">Add Filing</button>
+    `,
+    onOpen: () => {
+      wireFilingFormClientChange();
+      document.getElementById('m_fil_type').focus();
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_fil_save').addEventListener('click', () => {
+        const clientId = document.getElementById('m_fil_client').value;
+        const entityId = document.getElementById('m_fil_entity').value || null;
+        const type     = document.getElementById('m_fil_type').value.trim();
+        const dueDate  = document.getElementById('m_fil_due').value;
+        const status   = document.getElementById('m_fil_status').value;
+        const notes    = document.getElementById('m_fil_notes').value;
+        if (!clientId) { toast('Client is required', 'warn'); return; }
+        if (!type)     { toast('Filing type is required', 'warn'); return; }
+        if (!dueDate)  { toast('Due date is required', 'warn'); return; }
+        createFiling({ clientId, entityId, type, dueDate, status, notes });
+        closeModal();
+        renderCalendar();
+      });
+    }
+  });
+}
+
+function openEditFilingModal(filingId) {
+  const f = _filings.find(x => x.id === filingId);
+  if (!f) return;
+  openModal({
+    title: 'Edit Filing',
+    body: buildFilingFormBody(f),
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_fil_save">Save Changes</button>
+    `,
+    onOpen: () => {
+      wireFilingFormClientChange();
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_fil_save').addEventListener('click', () => {
+        const clientId = document.getElementById('m_fil_client').value;
+        const entityId = document.getElementById('m_fil_entity').value || null;
+        const type     = document.getElementById('m_fil_type').value.trim();
+        const dueDate  = document.getElementById('m_fil_due').value;
+        const status   = document.getElementById('m_fil_status').value;
+        const notes    = document.getElementById('m_fil_notes').value;
+        if (!clientId) { toast('Client is required', 'warn'); return; }
+        if (!type)     { toast('Filing type is required', 'warn'); return; }
+        if (!dueDate)  { toast('Due date is required', 'warn'); return; }
+        updateFiling(f.id, { clientId, entityId, type, dueDate, status, notes });
+        toast('Filing updated');
+        closeModal();
+        renderCalendar();
+      });
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════
    ON_SHOW HOOKS · render-on-navigate map
    Each view that needs a render on activation
    registers here. Views still scaffolding stay out.
 ═══════════════════════════════════════════════ */
 const ON_SHOW = {
-  'mod-today':   renderToday,
-  'mod-roster':  renderRoster,
-  'mod-comms':   renderComms,
-  'mod-data':    renderData,
-  'mod-clickup': renderClickup,
-  'mod-bridge':  renderBridge,
-  'mod-stubs':   renderStubs
-  // C4 adds: mod-calendar, mod-query
+  'mod-today':    renderToday,
+  'mod-roster':   renderRoster,
+  'mod-comms':    renderComms,
+  'mod-data':     renderData,
+  'mod-clickup':  renderClickup,
+  'mod-calendar': renderCalendar,
+  'mod-query':    renderQuery,
+  'mod-bridge':   renderBridge,
+  'mod-stubs':    renderStubs
   // C5 adds: mod-architecture, mod-backup, mod-diagnostics
 };
 
@@ -4496,9 +5274,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closeModal();
   });
 
+  // C4 · static topbar buttons that live outside their canvas re-render.
+  document.getElementById('calNewFilingBtn')?.addEventListener('click', () => openNewFilingModal());
+
   // Friendly boot signal — visible only in DevTools console.
   console.log(
-    '%c◆ Operations CC · v0.3.0 · C3 · Today + Departments + Bridge live',
+    '%c◆ Operations CC · v0.4.0 · C4 · PM Calendar + Query Interface live',
     'color:#FF6B00;font-weight:700;font-family:monospace;'
   );
   console.log(
