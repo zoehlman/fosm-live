@@ -7,7 +7,7 @@ FOSM·LIVE ecosystem MUST honor when fetching, using, or proposing changes
 to prompts. It is the single source of truth for how the brain is
 structured, accessed, governed, and evolved.
 
-> **Five foundational principles** that govern every architectural
+> **Six foundational principles** that govern every architectural
 > decision in this spec:
 >
 > 1. **The brain is the product, the CCs are delivery mechanisms.** What
@@ -32,6 +32,17 @@ structured, accessed, governed, and evolved.
 >    proposal with structured justification, reviewed by the operator,
 >    merged with intent. The merge action IS the signature. The audit
 >    trail is permanent.
+>
+> 6. **Verify before architecting.** When proposing architectural changes,
+>    identifying problems with the current state, or making structural
+>    claims about the system, FIRST verify the actual state of the system
+>    by reading current files in current repos. Never act on summarized
+>    memory, paraphrased session history, or unverified assumptions. The
+>    cost of a 2-minute verification is always less than the cost of a
+>    wrong architectural decision logged in the permanent audit trail.
+>    See `docs/claude-working-rules.md` for the detailed verification
+>    pattern, examples, and the friction-signal pattern that triggers
+>    verification.
 
 ---
 
@@ -1143,6 +1154,31 @@ This pivot is in integrity with the spec's foundational principle "Spec
 leads code, never the other way around" — implementation revealed
 something the spec didn't account for, so we stopped, updated the spec,
 then resumed building.
+
+— *Cheers and have a blessed day.*
+
+**v1.2 revision (2026-05-10 evening) — Principle 6 added (Verify before architecting):**
+
+Tonight's session committed a factually wrong decision note
+(`docs/notes/brain-spec-dual-copy-2026-05-10.md`) based on an unverified
+assumption from a session compaction summary. The assumption — that
+brain-spec.md existed in both public and private repos — was never
+verified before architectural decisions were built on top of it. A
+later repo audit revealed the assumption was false: brain-spec.md
+exists only in the public repo, which is correct architecture.
+
+The error was caught and corrected (`brain-spec-dual-copy-CORRECTION-2026-05-10.md`
+in the audit trail), but the structural fix is to ensure this kind of
+error cannot recur. Principle 6 makes verification mandatory before
+any architectural claim. Companion document at
+`docs/claude-working-rules.md` elaborates the pattern with examples.
+
+This addition is in integrity with Principle 3 ("spec leads code, never
+the other way around") — implementation revealed something the spec
+didn't account for (the need to verify before specifying), so we
+stopped, updated the spec, then resumed.
+
+Full correction context: `docs/notes/brain-spec-dual-copy-CORRECTION-2026-05-10.md`.
 
 — *Cheers and have a blessed day.*
 
