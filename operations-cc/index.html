@@ -2057,6 +2057,363 @@ html, body {
   flex-shrink: 0;
 }
 
+/* ═══════════════════════════════════════════════
+   C5 ADDITIONS · System Map sub-views
+═══════════════════════════════════════════════ */
+
+/* ─── ARCHITECTURE · .sysmap-md markdown render ─── */
+.sysmap-md {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 22px 28px;
+  color: #ddd;
+  font-size: 12.5px;
+  line-height: 1.65;
+  max-width: 100%;
+}
+.sysmap-md h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.2px;
+}
+.sysmap-md h2 {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--orange);
+  margin: 22px 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.sysmap-md h2:first-child { margin-top: 0; }
+.sysmap-md h3 {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fff;
+  margin: 16px 0 6px;
+  letter-spacing: 0.3px;
+}
+.sysmap-md p {
+  margin: 0 0 10px;
+  color: #ccc;
+}
+.sysmap-md p:last-child { margin-bottom: 0; }
+.sysmap-md strong { color: #fff; font-weight: 700; }
+.sysmap-md em { color: #ddd; font-style: italic; }
+.sysmap-md hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 18px 0;
+}
+.sysmap-md ul, .sysmap-md ol {
+  margin: 0 0 10px;
+  padding-left: 22px;
+  color: #ccc;
+}
+.sysmap-md li {
+  margin: 3px 0;
+  line-height: 1.6;
+}
+.sysmap-md code {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: #000;
+  color: var(--orange);
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--border2);
+}
+.sysmap-md pre {
+  background: var(--panel3);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: 4px;
+  padding: 12px 14px;
+  overflow-x: auto;
+  margin: 0 0 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.55;
+  color: #ddd;
+}
+.sysmap-md pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+.sysmap-md table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 14px;
+  font-size: 11.5px;
+}
+.sysmap-md th {
+  background: #0a0a0a;
+  color: var(--mute);
+  font-weight: 700;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-size: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+}
+.sysmap-md td {
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+  color: #ddd;
+}
+.sysmap-md td:first-child { font-weight: 600; }
+.sysmap-md a {
+  color: var(--blue);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--blue);
+}
+.sysmap-md a:hover { border-bottom-style: solid; }
+
+/* ─── BACKUP view ─── */
+.backup-section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+}
+.backup-section-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.backup-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+.backup-section-sub {
+  font-size: 11px;
+  color: var(--mute);
+  font-style: italic;
+}
+.backup-status-pill {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+.backup-status-pill.fresh { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+.backup-status-pill.stale { background: var(--rose-dim);  color: var(--rose);  border: 1px solid var(--rose-border); }
+.backup-status-pill.never { background: var(--gold-dim);  color: var(--gold);  border: 1px solid var(--gold-border); }
+.backup-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.backup-meta {
+  font-size: 11.5px;
+  color: #ccc;
+  line-height: 1.6;
+}
+.backup-meta b { color: #fff; }
+.backup-key-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+  margin-top: 8px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #aaa;
+}
+.backup-key-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  padding: 3px 0;
+  border-bottom: 1px dashed var(--border2);
+}
+.backup-key-row:last-child { border-bottom: none; }
+.backup-key-row .v { color: #eee; text-align: right; }
+.backup-import-file {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #aaa;
+}
+.backup-import-file input[type="file"] {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 6px;
+}
+.backup-diff-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 11.5px;
+}
+.backup-diff-table th,
+.backup-diff-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border2);
+  text-align: left;
+}
+.backup-diff-table th {
+  background: #0a0a0a;
+  color: var(--mute);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 9.5px;
+  letter-spacing: 0.5px;
+}
+.backup-diff-table tr.unchanged td { color: var(--mute); }
+.backup-diff-table tr.changed   td { color: #fff; font-weight: 600; }
+.backup-diff-table tr.new       td { color: var(--green); font-weight: 600; }
+.backup-diff-table .arrow { color: var(--mute); padding: 0 4px; }
+.backup-warn {
+  background: var(--rose-dim);
+  border: 1px solid var(--rose-border);
+  color: #ffb6c1;
+  padding: 10px 14px;
+  border-radius: 4px;
+  margin: 10px 0;
+  font-size: 11.5px;
+  line-height: 1.55;
+}
+.backup-warn b { color: #fff; }
+
+/* ─── DIAGNOSTICS view ─── */
+.diag-health {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.diag-health-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+.diag-health-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+.diag-health-stat .n {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.diag-health-stat .l {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--mute);
+}
+.diag-health-stat.live    .n { color: var(--green); }
+.diag-health-stat.partial .n { color: var(--gold); }
+.diag-health-stat.stub    .n { color: var(--orange); }
+.diag-health-stat.broken  .n { color: var(--rose); }
+.diag-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+.diag-table th {
+  background: #0a0a0a;
+  color: var(--mute);
+  font-weight: 700;
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 9px 12px;
+  text-align: left;
+  border: 1px solid var(--border);
+}
+.diag-table td {
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+  color: #ddd;
+}
+.diag-table tr.bucket-h td {
+  background: #0f0f0f;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 10.5px;
+  letter-spacing: 0.6px;
+  padding: 8px 12px;
+}
+.diag-name {
+  font-weight: 700;
+  color: #fff;
+}
+.diag-dept {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--mute);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.diag-status-pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.diag-status-pill.live    { background: var(--green-dim);  color: var(--green);  border: 1px solid var(--green-border); }
+.diag-status-pill.partial { background: var(--gold-dim);   color: var(--gold);   border: 1px solid var(--gold-border); }
+.diag-status-pill.stub    { background: var(--orange-dim); color: var(--orange); border: 1px solid var(--orange-border); }
+.diag-status-pill.broken  { background: var(--rose-dim);   color: var(--rose);   border: 1px solid var(--rose-border); }
+.diag-ships {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #aaa;
+}
+.diag-note {
+  font-size: 11px;
+  color: #ccc;
+  line-height: 1.5;
+}
+
+/* ─── SIDEBAR · staleness dot (foot) ─── */
+.foot-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin-left: 7px;
+  vertical-align: middle;
+}
+.foot-dot.fresh { background: var(--green); }
+.foot-dot.stale { background: var(--rose); }
+.foot-dot.never { background: var(--gold); }
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
   .shell { grid-template-columns: 1fr; }
@@ -2076,7 +2433,7 @@ html, body {
       <div class="brand-mark">◆</div>
       <div class="brand-meta">
         <div class="brand-name">Operations CC</div>
-        <div class="brand-sub">FOSM·LIVE · v0.4.0</div>
+        <div class="brand-sub">FOSM·LIVE · v0.5.0</div>
       </div>
     </div>
 
@@ -2086,7 +2443,7 @@ html, body {
 
     <div class="sidebar-foot">
       <span class="dot"></span>
-      <span id="footStatus">v0.4.0 · C4 · PM Calendar + Query Interface live</span>
+      <span id="footStatus">v0.5.0 · C5 · System Map live · all checkpoints shipped</span>
     </div>
 
   </aside>
@@ -2254,21 +2611,8 @@ html, body {
         </div>
       </div>
       <div class="canvas">
-        <div class="scaffold">
-          <div class="scaffold-h">
-            <span class="ph-tag">C1 · scaffolding</span>
-            <span>view shell complete · diagram render lands in C5</span>
-          </div>
-          <h2>Architecture · the V9 sibling</h2>
-          <p>This view will render the system-map architecture text, scoped to Operations CC's place in it: V0 Canonical Reference → Brain → CCs and dashboards → expansion CCs. Same layout pattern as Marketing CC and Sales CC.</p>
-          <div class="ph-row">
-            <span class="k">live in C5</span>
-            <span class="v">Lift the markdown render pattern from Sales CC (<code>.sysmap-md</code>) and populate with Operations-specific architecture text from <code>docs/architecture-reference.md</code>.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">fractal</span>
-            <span class="v">Same FOSM·LIVE shape at every level — your business · their business · their client's business. LGR slots into clients' <b>F</b> as an accounting firm. Same code, different pillar.</span>
-          </div>
+        <div id="architectureCanvas">
+          <!-- rendered by renderArchitecture() · markdown source verbatim from docs/architecture-reference.md -->
         </div>
       </div>
     </div>
@@ -2282,21 +2626,8 @@ html, body {
         </div>
       </div>
       <div class="canvas">
-        <div class="scaffold">
-          <div class="scaffold-h">
-            <span class="ph-tag">C1 · scaffolding</span>
-            <span>view shell complete · export / import lands in C5</span>
-          </div>
-          <h2>Backup · the data safety net</h2>
-          <p>Same pattern as Marketing CC and Sales CC. Export all keys owned by Operations CC to a versioned JSON file (<code>fosm-ops-cc-backup-YYYY-MM-DD.json</code>). Import is preview-before-apply with overwrite warnings. Stale-after-7-days warning on the backup timestamp.</p>
-          <div class="ph-row">
-            <span class="k">live in C5</span>
-            <span class="v">Export button writes all <code>fosm_ops_*_v1</code> and <code>fosm_client_*_v1</code> + <code>fosm_entity_tree_v1</code> + <code>fosm_filing_status_v1</code> + scope/comms keys to JSON. Import reads JSON, shows diff preview, requires confirmation.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">never writes</span>
-            <span class="v">Backup only exports Ops-CC-owned keys. Marketing CC keys and Sales CC keys are <b>not</b> included — those CCs own their own backups. No cross-CC duplication.</span>
-          </div>
+        <div id="backupCanvas">
+          <!-- rendered by renderBackup() · export · import diff preview · staleness check -->
         </div>
       </div>
     </div>
@@ -2310,21 +2641,8 @@ html, body {
         </div>
       </div>
       <div class="canvas">
-        <div class="scaffold">
-          <div class="scaffold-h">
-            <span class="ph-tag">C1 · scaffolding</span>
-            <span>view shell complete · status grid lands in C5</span>
-          </div>
-          <h2>Diagnostics · the honest status board</h2>
-          <p>One table. Every module. Status pill per module — <span class="st st-live">LIVE</span> <span class="st st-partial">PARTIAL</span> <span class="st st-stub">STUBBED</span> <span class="st st-broken">BROKEN</span>. If we ever lie about state, this view is the first place it shows.</p>
-          <div class="ph-row">
-            <span class="k">live in C5</span>
-            <span class="v">A diagnostics table listing every named module in this CC and its current status. Lifts the diag-table pattern from Sales CC.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">tonight's truth</span>
-            <span class="v">At end of C1 every module on this build reads as <span class="st st-stub">STUBBED</span> except the navigation itself (<span class="st st-live">LIVE</span>) and view-switching (<span class="st st-live">LIVE</span>). C2 → C5 progressively flip modules to <span class="st st-live">LIVE</span> as they ship.</span>
-          </div>
+        <div id="diagnosticsCanvas">
+          <!-- rendered by renderDiagnostics() · ecosystem health header + sorted status table -->
         </div>
       </div>
     </div>
@@ -2365,26 +2683,24 @@ html, body {
 
 <script>
 /* ═══════════════════════════════════════════════
-   OPERATIONS CC · v0.4.0 · C4
+   OPERATIONS CC · v0.5.0 · C5
    ───────────────────────────────────────────────
-   Sidebar nav · view switching · modal/toast hosts ·
-   ON_SHOW hook map. Today + Roster + Client Profile
-   (Companies, Communications with Contradiction Flags,
-   Scope) + Comms/Data/ClickUp department views +
-   Sales CC Bridge + PM Calendar + FOSM·LIVE Query
-   Interface + All Stubs aggregate are live. Filings
-   tab + Documents tab inside Client Profile remain
-   stubbed per Decision #3 (deferred to Phase 2).
-   System Map sub-views (Architecture · Backup ·
-   Diagnostics) ship C5. All writes go to localStorage
-   under fosm_*_v1 keys. Sibling-CC keys (Marketing,
-   Sales) are declared read-only and never touched.
+   C1 through C5 build · all 12 views live · System
+   Map mandatory convention honored end-to-end
+   (Architecture · Backup · Diagnostics shipped this
+   build). Filings tab + Documents tab inside Client
+   Profile remain stubbed per Decision #3 (deferred
+   to Phase 2). All writes go to localStorage under
+   fosm_*_v1 keys. Sibling-CC keys (Marketing, Sales)
+   are declared read-only and never touched —
+   Pattern 4 holds across the surface.
 ═══════════════════════════════════════════════ */
 
 /* ─── STORAGE KEYS · owned + read ──────────────
    Declared here so the surface is honest about
-   what data lives where. Nothing reads or writes
-   these in C1 — wiring lands in C2 onwards.
+   what data lives where. Owned keys are written
+   to localStorage by this CC; sibling keys are
+   read-only references for the Bridge module.
 ─────────────────────────────────────────────── */
 const STORAGE_KEYS = {
   // ─── Owned by Operations CC ─────────────────
@@ -3447,12 +3763,20 @@ function openNewClientModal() {
       document.getElementById('m_client_save').addEventListener('click', () => {
         const name = document.getElementById('m_client_name').value.trim();
         if (!name) { toast('Client name is required', 'warn'); return; }
+        // C5 · backlog 2.3 defensive refactor — capture ALL DOM values into locals BEFORE
+        // calling createClient. Previous inline reads were fine in theory (object literal
+        // evaluates left-to-right) but explicit reads make the order auditable and isolate
+        // any future timing surprises to a single trace point.
+        const phaseVal      = document.querySelector('input[name="m_client_phase"]:checked').value;
+        const lastTouchVal  = document.getElementById('m_client_lasttouch').value;
+        const nextReviewVal = document.getElementById('m_client_nextreview').value;
+        const notesVal      = document.getElementById('m_client_notes').value;
         createClient({
           name,
-          phase:      document.querySelector('input[name="m_client_phase"]:checked').value,
-          lastTouch:  document.getElementById('m_client_lasttouch').value  || null,
-          nextReview: document.getElementById('m_client_nextreview').value || null,
-          notes:      document.getElementById('m_client_notes').value
+          phase:      phaseVal,
+          lastTouch:  lastTouchVal  || null,
+          nextReview: nextReviewVal || null,
+          notes:      notesVal
         });
         closeModal();
         renderRoster();
@@ -4055,36 +4379,41 @@ const STUBS_REGISTRY = [
     depends: 'Sales CC event hook (Phase 4 / Supabase)',
     phase: 4 },
 
-  // ─── PM Calendar (whole view ships C4)
+  // ─── PM Calendar (shipped C4)
   { dept: 'pm-calendar', name: 'PM Calendar (filings timeline)',
     what: 'Filings timeline view per entity with overdue detection · whole view ships C4 · Today\'s source (a) reads from this.',
     storage: 'fosm_filing_status_v1',
     depends: 'derived from entity type + IRS / state filing calendars',
-    phase: 'C4' },
+    phase: 'C4',
+    status: 'shipped' },
 
-  // ─── FOSM·LIVE Query Interface (whole view ships C4)
+  // ─── FOSM·LIVE Query Interface (shipped C4)
   { dept: 'query',     name: 'FOSM·LIVE Query Interface',
     what: 'Opens client FOSM·LIVE URLs directly (no inline render) · per Decision #2, entity-level URLs only.',
     storage: 'derived from fosm_entity_tree_v1',
     depends: 'each entity\'s FOSM·LIVE URL',
-    phase: 'C4' },
+    phase: 'C4',
+    status: 'shipped' },
 
-  // ─── System Map sub-views (ship C5)
+  // ─── System Map sub-views (shipped C5)
   { dept: 'sysmap',    name: 'Architecture',
     what: 'V0-V9 mental model rendered as markdown · lifts Sales CC\'s sysmap-md pattern.',
     storage: 'docs/architecture-reference.md (static)',
     depends: 'static markdown render',
-    phase: 'C5' },
+    phase: 'C5',
+    status: 'shipped' },
   { dept: 'sysmap',    name: 'Backup (export / import)',
     what: 'Export all Ops-CC-owned keys to versioned JSON · import is preview-before-apply with overwrite warnings · 7-day staleness warning.',
     storage: 'reads all fosm_ops_*_v1 + fosm_client_*_v1 + fosm_entity_tree_v1',
     depends: 'browser file APIs',
-    phase: 'C5' },
+    phase: 'C5',
+    status: 'shipped' },
   { dept: 'sysmap',    name: 'Diagnostics',
     what: 'Honest status table per module: LIVE / PARTIAL / STUBBED / BROKEN.',
     storage: 'derived from manual module registry',
     depends: 'manual status registry',
-    phase: 'C5' }
+    phase: 'C5',
+    status: 'shipped' }
 ];
 
 /* Department metadata + group display order. */
@@ -4249,7 +4578,7 @@ function renderToday() {
             <span class="today-row-client">${escHTML(clientName(f.clientId))}</span>
             <span class="today-row-when overdue">due ${fmtDate(f.dueDate)}</span>
           </div>
-          <div class="today-row-desc">${escHTML(f.description || f.name || 'Filing')}</div>
+          <div class="today-row-desc">${escHTML(f.type || 'Filing')}</div>
         </div>
       </div>
     `
@@ -4392,8 +4721,34 @@ function renderClickup() { renderDepartmentView('clickupCanvas', 'clickup'); }
    Read-only access via STORAGE_KEYS.sales (Pattern 4
    holds — never write to sibling-CC keys). Filter
    per amended Decision #4: stageKey === 'closed'.
-   Tighter filter (funnel handoff === 'operations-cc')
-   is captured in C5 QA per reviewer's call.
+
+   C5 · TIGHTER FILTER DEFERRED PAST PHASE 1
+   ───────────────────────────────────────────────
+   The architecturally-correct filter would be:
+     person.stageKey === 'closed' AND
+     FUNNEL_TEMPLATE_REGISTRY[person.funnelKey]
+       ?.handoff === 'operations-cc'
+
+   FUNNEL_TEMPLATE_REGISTRY is a JS const inside
+   Sales CC source, NOT serialized to localStorage,
+   so Ops CC cannot read it across the same-origin
+   bridge today. Three implementation options for
+   when this becomes a real concern (multiple funnels
+   routing to different handoffs):
+     A. Hardcode handoff routing table in Ops CC
+        — Pattern 4 violation (Sales CC owns this truth)
+     B. Defer to Phase 4 Supabase backend where it
+        becomes a queryable database table — clean
+     C. Serialize FUNNEL_TEMPLATE_REGISTRY to
+        localStorage in Sales CC at boot — cross-CC
+        read works, but requires Sales CC code change
+
+   Phase 1 reality: 'audit' is the only funnel with
+   handoff: 'operations-cc' today, so simpler filter
+   and tighter filter return identical results.
+   Decision: ship simpler, document the deferral
+   here. Diagnostics view tracks this as a known
+   deferred item under the Bridge module.
 ═══════════════════════════════════════════════ */
 function loadSalesPersonProfiles() {
   try {
@@ -4506,9 +4861,12 @@ function importPersonAsClient(person) {
 function renderStubs() {
   const canvas = document.getElementById('stubsCanvas');
   if (!canvas) return;
-  // Group registry by department in canonical order.
+  // C5 truth-up · skip entries marked status: 'shipped' (no longer stubs).
+  // Diagnostics view still reads ALL entries for honest reporting.
+  const stillStubbed = STUBS_REGISTRY.filter(s => s.status !== 'shipped');
+  // Group by department in canonical order.
   const groups = STUBS_GROUP_ORDER
-    .map(key => ({ key, meta: DEPT_META[key], items: STUBS_REGISTRY.filter(s => s.dept === key) }))
+    .map(key => ({ key, meta: DEPT_META[key], items: stillStubbed.filter(s => s.dept === key) }))
     .filter(g => g.items.length > 0);
 
   let html = '';
@@ -5188,21 +5546,712 @@ function openEditFilingModal(filingId) {
 }
 
 /* ═══════════════════════════════════════════════
+   C5 · MARKDOWN PARSER · minimal, scoped to
+   architecture-reference.md syntax. Pattern 6 —
+   own what we render. ~95 lines of focused JS.
+   ───────────────────────────────────────────────
+   Supports: H1/H2/H3, paragraphs, bullet + numbered
+   lists, tables (pipe syntax), inline code, fenced
+   code blocks, **bold**, _italic_, hr separators,
+   `code spans` inside lines. No nested lists (the
+   reference doc doesn't use them).
+═══════════════════════════════════════════════ */
+function renderMarkdown(md) {
+  const lines = md.split('\n');
+  const out = [];
+  let i = 0;
+  const inlineFmt = (text) => {
+    // Order matters: escape first, then bold (**), italic (_ or *), inline code (`)
+    let t = escHTML(text);
+    // Inline code spans · backtick-delimited
+    t = t.replace(/`([^`]+)`/g, (_m, code) => '<code>' + code + '</code>');
+    // Bold · **text**
+    t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    // Italic · _text_ (underscore form, avoids snake_case false-positives via word-boundary)
+    t = t.replace(/(^|[\s(])_([^_\n]+)_(?=[\s.,;:!?)]|$)/g, '$1<em>$2</em>');
+    return t;
+  };
+  while (i < lines.length) {
+    const line = lines[i];
+    // Fenced code block
+    if (line.startsWith('```')) {
+      const buf = [];
+      i++;
+      while (i < lines.length && !lines[i].startsWith('```')) {
+        buf.push(escHTML(lines[i]));
+        i++;
+      }
+      i++; // skip closing fence
+      out.push('<pre><code>' + buf.join('\n') + '</code></pre>');
+      continue;
+    }
+    // Horizontal rule
+    if (/^---+\s*$/.test(line)) { out.push('<hr>'); i++; continue; }
+    // Headings
+    if (/^#\s+/.test(line))   { out.push('<h1>' + inlineFmt(line.replace(/^#\s+/, ''))   + '</h1>'); i++; continue; }
+    if (/^##\s+/.test(line))  { out.push('<h2>' + inlineFmt(line.replace(/^##\s+/, ''))  + '</h2>'); i++; continue; }
+    if (/^###\s+/.test(line)) { out.push('<h3>' + inlineFmt(line.replace(/^###\s+/, '')) + '</h3>'); i++; continue; }
+    // Table · contiguous lines starting with | and a separator row of pipes/hyphens
+    if (line.startsWith('|') && i + 1 < lines.length && /^\s*\|[\s\-|:]+\|\s*$/.test(lines[i+1])) {
+      const headerCells = line.replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+      i += 2; // skip header + separator
+      const bodyRows = [];
+      while (i < lines.length && lines[i].startsWith('|')) {
+        const cells = lines[i].replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+        bodyRows.push(cells);
+        i++;
+      }
+      let tbl = '<table><thead><tr>';
+      headerCells.forEach(c => { tbl += '<th>' + inlineFmt(c) + '</th>'; });
+      tbl += '</tr></thead><tbody>';
+      bodyRows.forEach(r => {
+        tbl += '<tr>';
+        r.forEach(c => { tbl += '<td>' + inlineFmt(c) + '</td>'; });
+        tbl += '</tr>';
+      });
+      tbl += '</tbody></table>';
+      out.push(tbl);
+      continue;
+    }
+    // Bullet list
+    if (/^[-*]\s+/.test(line)) {
+      const items = [];
+      while (i < lines.length && /^[-*]\s+/.test(lines[i])) {
+        items.push('<li>' + inlineFmt(lines[i].replace(/^[-*]\s+/, '')) + '</li>');
+        i++;
+      }
+      out.push('<ul>' + items.join('') + '</ul>');
+      continue;
+    }
+    // Numbered list
+    if (/^\d+\.\s+/.test(line)) {
+      const items = [];
+      while (i < lines.length && /^\d+\.\s+/.test(lines[i])) {
+        items.push('<li>' + inlineFmt(lines[i].replace(/^\d+\.\s+/, '')) + '</li>');
+        i++;
+      }
+      out.push('<ol>' + items.join('') + '</ol>');
+      continue;
+    }
+    // Blank line · skip
+    if (line.trim() === '') { i++; continue; }
+    // Paragraph · accumulate until blank line or block boundary
+    const paraBuf = [line];
+    i++;
+    while (i < lines.length && lines[i].trim() !== '' &&
+           !/^[#`\-*|]/.test(lines[i]) && !/^\d+\.\s+/.test(lines[i])) {
+      paraBuf.push(lines[i]);
+      i++;
+    }
+    out.push('<p>' + inlineFmt(paraBuf.join(' ')) + '</p>');
+  }
+  return out.join('\n');
+}
+
+/* ═══════════════════════════════════════════════
+   C5 · ARCHITECTURE content · docs/architecture-reference.md
+   ───────────────────────────────────────────────
+   Verbatim from the canonical doc (last updated
+   2026-05-08 by Zach + prior Claude). Pattern 6 —
+   no invention. Update this constant whenever the
+   reference doc changes.
+═══════════════════════════════════════════════ */
+const ARCHITECTURE_MD = `# FOSM·LIVE Architecture Reference
+
+_The Plan To Heal The World — God's Economy as an operating system._
+
+This is the canonical text reference for the FOSM·LIVE ecosystem. The interactive wireframe lives at \`../system-map/\`; this doc holds the same information as searchable markdown so any session can read it without parsing the HTML.
+
+---
+
+## The North Star
+
+**Vision:** The Plan To Heal The World
+**Frame:** God's Economy · Light · Peace + Prosperity For All
+**Tagline:** "The path is walked, not handed out."
+
+---
+
+## Three-Layer Vision
+
+### Layer 1 — The Vision
+
+The Plan To Heal The World sits above everything else.
+
+### Layer 2 — The Brand Doorways (6 doors, 1 message)
+
+- **Learn And Grow Rich** — parent brand · the warm teacher
+- **Beyond The Money** — program under LGR · the peer who's been there
+- **The Foundation by LGR** — sub-brand · the steward
+- **The Retreat by LGR** — sub-brand · the guide
+- **Money·God·Politics** — parallel brand · the humble student
+- **Indiana Oehlman** — personal brand · the friend on the road
+
+### Layer 3 — The Software (the operating system)
+
+Two dashboards plus eight expansion command centers. The whole point of the software stack is to give the brands a tangible product to point at — peace and prosperity, in software form.
+
+---
+
+## The Software Architecture
+
+### Two LIVE Dashboards (the reporting layer)
+
+\`\`\`
+          FOSM·LIVE CC                FOSM·LIVE Personal
+          (for businesses)            (for individuals)
+              ▲                            ▲
+              │                            │
+              │      data flows up         │
+              │                            │
+              └──────── from ──────────────┘
+                          ↓
+          ┌─────────────────────────────────────┐
+          │   8 expansion CCs (the workhorses)  │
+          └─────────────────────────────────────┘
+                          +
+          ┌─────────────────────────────────────┐
+          │   External tools                    │
+          │   QuickBooks · Stripe · GHL · etc.  │
+          └─────────────────────────────────────┘
+\`\`\`
+
+**FOSM·LIVE CC** — the business dashboard. Receives data from QuickBooks, Stripe, GoHighLevel, and other external tools. As expansion CCs come online and get connected, they replace or augment the data those external tools provide.
+
+**FOSM·LIVE Personal** — the parallel dashboard for individuals. Receives data from personal-finance tools (Sheets via OAuth, Google Drive, etc.) and from expansion CCs when connected. F·O·S·M + L·I·V·E pillars adapted to personal-scale: F = personal cash flow, S = career income, etc.
+
+Both are dashboards. There is no "lite mode" — every client gets the full dashboard. What changes per relationship is which expansion CCs are connected to it.
+
+### Eight Expansion CCs (the workhorses)
+
+Each is a deep, sophisticated tool that does the work of one pillar. Too vast to live inside a dashboard — they're separate apps that feed dashboards.
+
+| Pillar | Side | Expansion CC | Status |
+| --- | --- | --- | --- |
+| F · Finance | Business | (handled by QuickBooks + Stripe — no expansion CC) | n/a |
+| O · Operations | Business | Operations CC | ⏳ planned |
+| S · Sales | Business | Sales CC | ✅ live |
+| M · Marketing | Business | Marketing CC | ✅ live |
+| L · Leadership | Human | Leadership CC | ⏳ planned |
+| I · Integrity | Human | Integrity CC | ⏳ planned |
+| V · Vision | Human | Vision CC | ✅ live (gifted to all) |
+| E · Emotional Intelligence | Human | Emotional Intelligence CC | ⏳ planned |
+
+### Meta-CCs · independent of the eight pillars
+
+In addition to the eight pillar-based expansion CCs, two **meta-CCs** sit outside the F·O·S·M·L·I·V·E framework. They don't deliver work in any one pillar; they protect and verify all of them. Their role is to keep the ecosystem honest, secure, and aligned with the operator's vision.
+
+| Meta-CC | Role | Status |
+| --- | --- | --- |
+| **Security CC** | Third-party security team — continuous threat monitoring, penetration testing, incident response, defense-in-depth review across the ecosystem. | ⏳ planned |
+| **Audit CC** | Third-party auditor team. Continuous integrity review across every CC: prompt accuracy, voice alignment, math accuracy in P&L flows, dashboard truth, output traceability. The operational expression of the no-drift principle. | ⏳ planned |
+
+Meta-CCs run as third-party-style services on top of the rest of the system. They don't share localStorage with the pillar CCs the way pillar CCs share data with each other; they read across all of them and produce audit output that gets reviewed and acted upon. Architecturally similar to having an external accounting firm review the books — they have access to look at everything, but they don't operate inside the books.
+
+### Distribution model (current state · v1)
+
+Every expansion CC is architecturally identical. What differs is **role**:
+
+- **Sold to clients** — FOSM·LIVE CC only. This is the dashboard product. It incorporates Finance (via QuickBooks/Stripe integration) and is the thing a paying client receives, operates, and sees.
+- **Gifted to everyone** — Vision CC, FOSM·LIVE Personal. Free, public-facing tools. Brand-alignment with "give everything away, only help those who qualify." Funnel-bottom upsell path: a small percentage of free users upgrade to paid FOSM·LIVE CC, at which point their existing free-tool data flows into their new paid dashboard.
+- **Internal tools (not sold today)** — Marketing CC, Sales CC, future Operations CC, Leadership CC, Integrity CC, Emotional Intelligence CC. Used by Zach and team to do the work that produces results in client FOSM·LIVE CC dashboards. Clients don't operate these directly; they see the work product flowing into their dashboard. These CCs may ship as standalone products in a future phase if/when there's demand, but that's not the v1 model.
+- **Meta-CCs (third-party-style)** — Security CC, Audit CC. Independent of the eight pillars, these review and protect the entire ecosystem. Run as third-party-style services that have read access across all CCs and produce audit output. Not sold; their value is internal protection of the product LGR sells (FOSM·LIVE CC) and the operators who run it.
+
+Distribution is a strategic choice, not an architectural one. The codebase doesn't enforce "free" vs "paid" vs "internal" categories. Any CC can be moved between roles without code changes — meaning if/when expansion CCs become sellable products in the future, the architecture is ready for it.
+
+### Vision CC — special note
+
+Vision CC is broader than the V pillar of L·I·V·E. It's a **12-Domain life vision system** (Body, Spirit, Mind, Heart, Character, Marriage, Family, Tribe, Money, Mission, Legacy, Lifestyle) that contains the V pillar inside it. It also surfaces four **Projects** (The Farm, The Retreat, The Foundation, The Business) and a **Couple Vision** (joint with partner). Treat it as the V pillar's expansion CC, but understand its scope is wider than V alone.
+
+---
+
+## The Connection Model
+
+**Today:** each CC is standalone. They share an origin (\`fosmlive.netlify.app\`) and use \`localStorage\` for cross-CC reads via the same-origin bridge.
+
+Cross-CC reads (same-origin localStorage):
+
+- Sales CC reads \`CB_PIPELINE\` from Marketing CC's \`fosm_cc_pipeline_v1\`
+- Future: V2R CC reads vision-board state from Vision CC's \`fosm_vision_*_v1\`
+- Future: Ops CC reads delivery state from Sales CC's people pipeline
+
+**Tomorrow (Phase 4):** Postgres/Supabase backend behind \`/api/db/*\`. Same entity contracts. localStorage stays as offline cache.
+
+**Why this matters operationally:** all CCs MUST live at the same origin. The moment one moves to a different subdomain or different host, the bridge breaks silently — Sales CC's pipeline returns empty because it's reading the wrong origin's localStorage.
+
+---
+
+## F·O·S·M (Business Engine — for FOSM·LIVE CC)
+
+| Pillar | Role | Feeds from |
+| --- | --- | --- |
+| F · Finance | money brick · cash · margin | QuickBooks, Marketing CC (CAC/ROAS/LTV), Sales CC (pipeline), Ops CC (COGS) |
+| O · Operations | SOPs · throughput · quality | ClickUp, Slack, Operations CC |
+| S · Sales | qualify · close · retain | GHL (CRM), Webinars, Sales CC |
+| M · Marketing | brand · content · attribution | Marketing CC, Attribution Engine, Forum Engine |
+
+## L·I·V·E (Human Engine — for FOSM·LIVE CC and Personal)
+
+| Pillar | Role | Tracks |
+| --- | --- | --- |
+| L · Leadership | inspire · align · empower | Team alignment (L10), Decision logs, Delegation map |
+| I · Integrity | alignment to chosen destination | Promise vs delivery (word kept ratio), Values audit, Brand-voice integrity |
+| V · Vision | where we're going · why | Vision-to-Reality CC, Annual planning, Plan To Heal World |
+| E · Emotional Intel | where does pissed off live? | Self-state journal, Trigger map, Retreat integration |
+
+**RYG schema:** each instance's roll-up = average of 8 pillars. A green company with a red leader is a yellow business — it'll regress to the mean. The system flags this before the numbers do.
+
+---
+
+## Mandatory Convention · Every CC ships with the System Map module
+
+**This is non-negotiable.** Every Command Center — current and future — MUST include the System Map module on day one. Three tabs:
+
+1. **Architecture** — auto-embedded site map (the same content as this doc, scoped to that CC)
+2. **Backup** — Export/Import all \`fosm_*_v1\` localStorage keys as one JSON bundle, with a 7-day overdue warning badge on the sidebar
+3. **Diagnostics** — self-tests for the canonical store wiring (verify each +Add button creates an entry, each Delete actually deletes, etc.)
+
+**Why this is a hard rule:** the localStorage-first phase is only survivable if operators can move their data between origins. The "where did my data go" panic at every redeploy or migration is solved by Backup. Any CC that ships without this is one redeploy away from losing operator work.
+
+The convention pays for itself the first time a CC moves origin (which has already happened: Marketing CC and Sales CC both migrated from \`marketingcc.netlify.app\` and \`salescc.netlify.app\` to \`fosmlive.netlify.app/marketing-cc/\` and \`fosmlive.netlify.app/sales-cc/\`, and the Backup feature is what made it lossless).
+
+---
+
+## Conventions & Contracts (locked)
+
+- **localStorage keys:** prefix \`fosm_\`, suffix \`_v1\`. Versioning is intentional for future migration to a real backend.
+- **Same-origin requirement:** all CCs at \`fosmlive.netlify.app/<cc-slug>/\`. Subdomain splits break the localStorage bridge.
+- **Single-file HTML deployable:** every CC is one \`index.html\` with embedded CSS and JS. No build step. No \`npm install\`. No dependencies.
+- **AI proxy contract:** front-ends call \`/api/ai-proxy\` (streaming SSE for Marketing/FOSM·LIVE/Sales) or \`/api/anthropic-proxy-personal\` (non-streaming for the Personal app, separate env var for billing isolation). All proxy functions live in \`netlify/functions/\`.
+- **Status taxonomy:** 🟢 LIVE · 🟡 PARTIAL · 🟠 STUBBED · 🔴 BROKEN.
+- **Cross-CC reads:** never duplicate state. The CC that owns it is the only one that writes. Sales CC reads \`fosm_cc_pipeline_v1\` from Marketing CC; it never writes to it.
+- **Demo personas:** same artifact + workshop pipeline as real prospects; \`isDemo: true\` flag is the only difference.
+- **No backend required for v1:** localStorage carries the system. Phase 4 brings Postgres/Supabase behind \`/api/db/*\` mapped from the same entity contracts.
+
+---
+
+## Build Order
+
+1. ✅ System map — wireframe live
+2. ✅ Marketing CC — campaign factory + attribution engine, AI features working
+3. ✅ Sales CC — pipeline, audit intake, person profiles, Drive-mode
+4. ✅ FOSM·LIVE CC — business dashboard with 8 AI specialists
+5. ✅ Vision CC — 12-Domain life vision system (gifted to all)
+6. ✅ FOSM·LIVE Personal — personal-finance dashboard with Ask Zach + Sheets OAuth (gifted to all)
+7. ⏳ Operations CC — anchored on ClickUp; SOPs, RACI, weekly L10
+8. ⏳ Leadership CC — team alignment, decision logs, A+ team coverage
+9. ⏳ Integrity CC — promise vs delivery tracking, values audit
+10. ⏳ Emotional Intelligence CC — self-state journal, trigger maps, retreat integration
+11. ⏳ Security CC — third-party security team for ecosystem-wide threat monitoring + defense-in-depth review
+12. ⏳ Audit CC — third-party auditor team for ecosystem-wide integrity review
+
+After all 12 are live: Phase 4 backend, multi-tenant Executive CC for licensees, Foundation CC and Retreat CC flagships.
+
+---
+
+## Last updated
+
+2026-05-08 by Zach Oehlman + Claude. Re-fetch after the next CC ships.
+`;
+
+function renderArchitecture() {
+  const canvas = document.getElementById('architectureCanvas');
+  if (!canvas) return;
+  canvas.innerHTML = '<div class="sysmap-md">' + renderMarkdown(ARCHITECTURE_MD) + '</div>';
+}
+
+/* ═══════════════════════════════════════════════
+   C5 · BACKUP · export / import / staleness
+   ───────────────────────────────────────────────
+   Per Pattern 4 · only exports Ops-CC-owned keys.
+   Marketing CC and Sales CC keys are sovereign to
+   those CCs and never included.
+═══════════════════════════════════════════════ */
+function exportBackup() {
+  const data = {};
+  Object.keys(STORAGE_KEYS.owned).forEach(name => {
+    const key = STORAGE_KEYS.owned[name];
+    const raw = localStorage.getItem(key);
+    // Store raw (string) — preserves null vs empty-array distinction across import.
+    data[key] = raw;
+  });
+  const payload = {
+    version:    '0.5.0',
+    exportedAt: new Date().toISOString(),
+    app:        'ops-cc',
+    data
+  };
+  const json     = JSON.stringify(payload, null, 2);
+  const blob     = new Blob([json], { type: 'application/json' });
+  const url      = URL.createObjectURL(blob);
+  const filename = 'fosm-ops-cc-backup-' + todayISO() + '.json';
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  // Stamp lastBackupAt so the staleness check resets.
+  _uiState.lastBackupAt = new Date().toISOString();
+  persistUI();
+  toast('Backup exported · ' + filename);
+  renderBackup();
+  // Also refresh sidebar foot indicator since lastBackupAt changed.
+  updateFootStalenessIndicator();
+}
+
+function computeImportDiff(parsed) {
+  // For each owned key, compare current array/object size to incoming.
+  const rows = [];
+  Object.keys(STORAGE_KEYS.owned).forEach(name => {
+    const key      = STORAGE_KEYS.owned[name];
+    const currRaw  = localStorage.getItem(key);
+    const incoming = parsed.data?.[key];
+    const currCount = (() => {
+      if (!currRaw) return 0;
+      try {
+        const v = JSON.parse(currRaw);
+        return Array.isArray(v) ? v.length : (v && typeof v === 'object' ? Object.keys(v).length : (v ? 1 : 0));
+      } catch { return 0; }
+    })();
+    const incCount = (() => {
+      if (incoming == null) return null; // key absent in import
+      try {
+        const v = JSON.parse(incoming);
+        return Array.isArray(v) ? v.length : (v && typeof v === 'object' ? Object.keys(v).length : (v ? 1 : 0));
+      } catch { return 0; }
+    })();
+    let kind = 'unchanged';
+    if (incCount === null)                kind = 'missing';   // not in import file
+    else if (currCount === 0 && incCount > 0) kind = 'new';
+    else if (currCount !== incCount)      kind = 'changed';
+    rows.push({ name, key, currCount, incCount, kind });
+  });
+  return rows;
+}
+
+function applyImport(parsed) {
+  Object.keys(STORAGE_KEYS.owned).forEach(name => {
+    const key = STORAGE_KEYS.owned[name];
+    const incoming = parsed.data?.[key];
+    if (incoming != null) {
+      localStorage.setItem(key, incoming);
+    }
+  });
+  // Re-hydrate in-memory state from the freshly-written localStorage.
+  loadAll();
+  toast('Backup imported · ' + Object.keys(parsed.data || {}).length + ' keys written', 'warn', 4500);
+}
+
+function getBackupStaleness() {
+  const ts = _uiState.lastBackupAt;
+  if (!ts) return { state: 'never', daysAgo: null, label: 'Never backed up' };
+  const last = new Date(ts);
+  const now  = new Date();
+  const daysAgo = Math.floor((now.getTime() - last.getTime()) / (1000 * 60 * 60 * 24));
+  if (daysAgo >= 7) return { state: 'stale', daysAgo, label: 'Stale · ' + daysAgo + ' day' + (daysAgo === 1 ? '' : 's') + ' ago' };
+  return { state: 'fresh', daysAgo, label: 'Fresh · ' + (daysAgo === 0 ? 'today' : daysAgo + ' day' + (daysAgo === 1 ? '' : 's') + ' ago') };
+}
+
+function updateFootStalenessIndicator() {
+  // Sidebar foot subtle dot indicator next to the version stamp.
+  const stamp = document.getElementById('footStatus');
+  if (!stamp) return;
+  // Remove any prior dot so we don't accumulate.
+  const prior = stamp.parentElement.querySelector('.foot-dot');
+  if (prior) prior.remove();
+  const dot = document.createElement('span');
+  const s = getBackupStaleness();
+  dot.className = 'foot-dot ' + s.state;
+  dot.title = 'Backup · ' + s.label;
+  stamp.parentElement.appendChild(dot);
+}
+
+function renderBackup() {
+  const canvas = document.getElementById('backupCanvas');
+  if (!canvas) return;
+  const stale = getBackupStaleness();
+  const ownedKeys = Object.keys(STORAGE_KEYS.owned);
+
+  // Per-key current count for the inventory listing.
+  const inventory = ownedKeys.map(name => {
+    const key = STORAGE_KEYS.owned[name];
+    const raw = localStorage.getItem(key);
+    let count = 0, label = 'empty';
+    if (raw) {
+      try {
+        const v = JSON.parse(raw);
+        if (Array.isArray(v)) { count = v.length; label = count + ' record' + (count === 1 ? '' : 's'); }
+        else if (v && typeof v === 'object') { count = Object.keys(v).length; label = count + ' key' + (count === 1 ? '' : 's'); }
+        else if (v != null) { label = 'value'; }
+      } catch { label = 'unparseable'; }
+    }
+    return { name, key, label };
+  });
+
+  let html = '';
+
+  // Status header
+  html += `
+    <div class="backup-section">
+      <div class="backup-section-h">
+        <span class="backup-section-title">Backup Status</span>
+        <span class="backup-status-pill ${stale.state}">${escHTML(stale.label.toUpperCase())}</span>
+        <span class="backup-section-sub">— last export of this CC's owned localStorage keys</span>
+      </div>
+      <div class="backup-meta">
+        ${stale.state === 'never'
+          ? `<b>No backup on record yet.</b> Per the System Map mandatory convention, export today so your data survives any future redeploy or migration.`
+          : `Last backup <b>${fmtDate(_uiState.lastBackupAt.slice(0,10))}</b> (${escHTML(stale.label.toLowerCase())}). ${stale.state === 'stale' ? 'Export again to refresh the safety net.' : 'You\'re current.'}`
+        }
+      </div>
+    </div>
+  `;
+
+  // Export section
+  html += `
+    <div class="backup-section">
+      <div class="backup-section-h">
+        <span class="backup-section-title">Export</span>
+        <span class="backup-section-sub">— downloads <code>fosm-ops-cc-backup-${todayISO()}.json</code></span>
+      </div>
+      <div class="backup-meta">
+        Includes all ${ownedKeys.length} keys owned by Operations CC. Marketing CC and Sales CC keys are <b>not</b> included — Pattern 4, those CCs own their own backups.
+      </div>
+      <div class="backup-key-list">
+        ${inventory.map(it => `
+          <div class="backup-key-row">
+            <span><code>${escHTML(it.key)}</code></span>
+            <span class="v">${escHTML(it.label)}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div class="backup-actions">
+        <button class="btn btn-primary btn-sm" id="backupExportBtn">↓ Export JSON</button>
+      </div>
+    </div>
+  `;
+
+  // Import section
+  html += `
+    <div class="backup-section">
+      <div class="backup-section-h">
+        <span class="backup-section-title">Import</span>
+        <span class="backup-section-sub">— preview-before-apply · explicit confirmation required</span>
+      </div>
+      <div class="backup-meta">
+        Pick a previously-exported JSON file. Operations CC parses it, shows a diff preview against your current state, and waits for your confirmation before writing anything.
+      </div>
+      <div class="backup-import-file">
+        <input type="file" id="backupImportFile" accept=".json,application/json">
+      </div>
+    </div>
+  `;
+
+  canvas.innerHTML = html;
+
+  document.getElementById('backupExportBtn').addEventListener('click', exportBackup);
+  document.getElementById('backupImportFile').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      let parsed;
+      try {
+        parsed = JSON.parse(ev.target.result);
+      } catch (err) {
+        toast('Could not parse JSON · ' + err.message, 'warn', 4500);
+        return;
+      }
+      if (parsed.app !== 'ops-cc') {
+        toast('This backup is not from Operations CC (app: ' + escHTML(parsed.app || 'unknown') + ')', 'warn', 4500);
+        return;
+      }
+      openImportPreview(parsed);
+    };
+    reader.readAsText(file);
+  });
+}
+
+function openImportPreview(parsed) {
+  const rows = computeImportDiff(parsed);
+  const anyChange = rows.some(r => r.kind !== 'unchanged' && r.kind !== 'missing');
+  openModal({
+    title: 'Import Preview',
+    body: `
+      <div class="backup-meta">
+        Exported <b>${fmtDate((parsed.exportedAt || '').slice(0,10))}</b> from <code>${escHTML(parsed.app)}</code> · version <code>${escHTML(parsed.version || 'unknown')}</code>.
+      </div>
+      ${anyChange ? `
+        <div class="backup-warn">
+          <b>Heads up:</b> applying this import overwrites existing values for any keys present in the file. Keys absent from the file are left alone (not deleted). Export your current state first if you're not sure.
+        </div>
+      ` : `
+        <div class="backup-meta" style="margin-top: 8px;">
+          No deltas detected. Applying this import would not change any record counts.
+        </div>
+      `}
+      <table class="backup-diff-table">
+        <thead>
+          <tr><th>Key</th><th>Current</th><th></th><th>Incoming</th><th>Change</th></tr>
+        </thead>
+        <tbody>
+          ${rows.map(r => `
+            <tr class="${r.kind}">
+              <td><code>${escHTML(r.key)}</code></td>
+              <td>${r.currCount}</td>
+              <td class="arrow">→</td>
+              <td>${r.incCount === null ? '<em style="color:var(--mute)">absent in file</em>' : r.incCount}</td>
+              <td>${r.kind === 'unchanged' ? 'unchanged' : (r.kind === 'missing' ? 'left alone' : r.kind)}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-danger"  id="m_apply_btn">Apply Import</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_apply_btn').addEventListener('click', () => {
+        applyImport(parsed);
+        closeModal();
+        renderBackup();
+        // Refresh whatever else might need it — roster counts change, etc.
+        // Lightweight approach: just re-fire the current view's ON_SHOW hook.
+        const active = document.querySelector('.view.active');
+        if (active && ON_SHOW[active.id]) ON_SHOW[active.id]();
+      });
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   C5 · DIAGNOSTICS · module-status registry
+   ───────────────────────────────────────────────
+   Honest status table across the surface.
+   LIVE modules tagged manually below. STUBBED
+   modules pulled from STUBS_REGISTRY (those with
+   status !== 'shipped'). Shipped registry entries
+   are treated as LIVE too (single source of truth).
+═══════════════════════════════════════════════ */
+const LIVE_MODULES = [
+  // C2 modules
+  { name: 'Client Roster',             dept: 'roster',   shipped: 'C2', note: 'Full CRUD · phase filter · FOSM·LIVE/Manual derivation pill' },
+  { name: 'Tabbed Client Profile',     dept: 'roster',   shipped: 'C2', note: 'Companies + Communications + Scope tabs (Filings + Documents remain stubbed per Decision #3)' },
+  { name: 'Companies tab',             dept: 'profile',  shipped: 'C2', note: 'Entity tree with re-parent on delete · FOSM·LIVE URL per entity' },
+  { name: 'Communications tab',        dept: 'profile',  shipped: 'C2/C3', note: 'Exec Summary + Meeting Notes + Contradiction Flags (C3 add)' },
+  { name: 'Scope tab',                 dept: 'profile',  shipped: 'C2', note: 'Flag/decide/track scope items with category classification' },
+  // C3 modules
+  { name: 'Today aggregator',          dept: 'today',    shipped: 'C3', note: '4-source aggregation · overdue filings (live C4) · reviews · scope · contradiction flags' },
+  { name: 'Communications dept view',  dept: 'comms',    shipped: 'C3', note: '9-module enumeration with four-piece spec callouts' },
+  { name: 'Data dept view',            dept: 'data',     shipped: 'C3', note: '3-module enumeration with four-piece spec callouts' },
+  { name: 'ClickUp dept view',         dept: 'clickup',  shipped: 'C3', note: '4-module enumeration with four-piece spec callouts' },
+  { name: 'Sales CC Bridge',           dept: 'bridge',   shipped: 'C3', note: 'Simpler filter (stageKey === "closed"). Tighter filter (funnel.handoff === "operations-cc") deferred to Phase 4 backend. See FUNNEL_TEMPLATE_REGISTRY comment in renderBridge() for reasoning.' },
+  { name: 'All Stubs aggregate',       dept: 'stubs',    shipped: 'C3', note: 'TOC + grouped by dept · skips entries marked status: shipped' },
+  { name: 'Contradiction Flag CRUD',   dept: 'profile',  shipped: 'C3', note: 'Capture in Comms tab · resolve on Today or in Comms tab' },
+];
+
+function collectDiagnosticsRows() {
+  const rows = [];
+  // 1. Manually-tagged LIVE modules
+  LIVE_MODULES.forEach(m => rows.push({
+    name: m.name, dept: m.dept, status: 'live', ships: m.shipped, note: m.note
+  }));
+  // 2. Shipped registry entries (C4/C5 modules) — also LIVE
+  STUBS_REGISTRY.filter(s => s.status === 'shipped').forEach(s => rows.push({
+    name: s.name, dept: s.dept, status: 'live', ships: typeof s.phase === 'string' ? s.phase : ('Phase ' + s.phase), note: s.what
+  }));
+  // 3. Still-stubbed registry entries
+  STUBS_REGISTRY.filter(s => s.status !== 'shipped').forEach(s => rows.push({
+    name: s.name, dept: s.dept, status: 'stub', ships: typeof s.phase === 'string' ? ('Ships ' + s.phase) : ('Phase ' + s.phase), note: s.what
+  }));
+  return rows;
+}
+
+function renderDiagnostics() {
+  const canvas = document.getElementById('diagnosticsCanvas');
+  if (!canvas) return;
+  const rows = collectDiagnosticsRows();
+  const counts = { live: 0, partial: 0, stub: 0, broken: 0 };
+  rows.forEach(r => { counts[r.status] = (counts[r.status] || 0) + 1; });
+
+  // Sort within each status bucket: by phase ascending (integer phases first, then strings), then name
+  const sortBucket = (arr) => arr.sort((a, b) => {
+    const aIsNum = /^Phase \d/.test(a.ships);
+    const bIsNum = /^Phase \d/.test(b.ships);
+    if (aIsNum && !bIsNum) return -1;
+    if (!aIsNum && bIsNum) return 1;
+    if (a.ships !== b.ships) return a.ships.localeCompare(b.ships);
+    return a.name.localeCompare(b.name);
+  });
+  const live    = sortBucket(rows.filter(r => r.status === 'live'));
+  const partial = sortBucket(rows.filter(r => r.status === 'partial'));
+  const stub    = sortBucket(rows.filter(r => r.status === 'stub'));
+  const broken  = sortBucket(rows.filter(r => r.status === 'broken'));
+
+  // Header: ecosystem health stats
+  let html = `
+    <div class="diag-health">
+      <span class="diag-health-title">Ecosystem Health</span>
+      <span class="diag-health-stat live">    <span class="n">${counts.live    || 0}</span><span class="l">🟢 LIVE</span></span>
+      <span class="diag-health-stat partial"> <span class="n">${counts.partial || 0}</span><span class="l">🟡 PARTIAL</span></span>
+      <span class="diag-health-stat stub">    <span class="n">${counts.stub    || 0}</span><span class="l">🟠 STUBBED</span></span>
+      <span class="diag-health-stat broken">  <span class="n">${counts.broken  || 0}</span><span class="l">🔴 BROKEN</span></span>
+    </div>
+  `;
+
+  // Diagnostics table
+  html += `
+    <table class="diag-table">
+      <thead>
+        <tr><th>Module</th><th>Dept</th><th>Status</th><th>Ships</th><th>Note</th></tr>
+      </thead>
+      <tbody>
+  `;
+
+  const renderRows = (arr) => arr.map(r => `
+    <tr>
+      <td><div class="diag-name">${escHTML(r.name)}</div></td>
+      <td><span class="diag-dept">${escHTML(r.dept)}</span></td>
+      <td><span class="diag-status-pill ${r.status}">${r.status === 'live' ? '🟢 LIVE' : (r.status === 'partial' ? '🟡 PARTIAL' : (r.status === 'stub' ? '🟠 STUBBED' : '🔴 BROKEN'))}</span></td>
+      <td><span class="diag-ships">${escHTML(r.ships)}</span></td>
+      <td><div class="diag-note">${escHTML(r.note)}</div></td>
+    </tr>
+  `).join('');
+
+  if (live.length)    html += `<tr class="bucket-h"><td colspan="5">🟢 Live · ${live.length} module${live.length === 1 ? '' : 's'}</td></tr>` + renderRows(live);
+  if (partial.length) html += `<tr class="bucket-h"><td colspan="5">🟡 Partial · ${partial.length} module${partial.length === 1 ? '' : 's'}</td></tr>` + renderRows(partial);
+  if (stub.length)    html += `<tr class="bucket-h"><td colspan="5">🟠 Stubbed · ${stub.length} module${stub.length === 1 ? '' : 's'}</td></tr>` + renderRows(stub);
+  if (broken.length)  html += `<tr class="bucket-h"><td colspan="5">🔴 Broken · ${broken.length} module${broken.length === 1 ? '' : 's'}</td></tr>` + renderRows(broken);
+
+  html += `
+      </tbody>
+    </table>
+  `;
+
+  canvas.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════════
    ON_SHOW HOOKS · render-on-navigate map
-   Each view that needs a render on activation
-   registers here. Views still scaffolding stay out.
+   All 12 views active at C5.
 ═══════════════════════════════════════════════ */
 const ON_SHOW = {
-  'mod-today':    renderToday,
-  'mod-roster':   renderRoster,
-  'mod-comms':    renderComms,
-  'mod-data':     renderData,
-  'mod-clickup':  renderClickup,
-  'mod-calendar': renderCalendar,
-  'mod-query':    renderQuery,
-  'mod-bridge':   renderBridge,
-  'mod-stubs':    renderStubs
-  // C5 adds: mod-architecture, mod-backup, mod-diagnostics
+  'mod-today':         renderToday,
+  'mod-roster':        renderRoster,
+  'mod-comms':         renderComms,
+  'mod-data':          renderData,
+  'mod-clickup':       renderClickup,
+  'mod-calendar':      renderCalendar,
+  'mod-query':         renderQuery,
+  'mod-bridge':        renderBridge,
+  'mod-architecture':  renderArchitecture,
+  'mod-backup':        renderBackup,
+  'mod-diagnostics':   renderDiagnostics,
+  'mod-stubs':         renderStubs
 };
 
 /* ─── VIEW SWITCHING ──────────────────────────
@@ -5277,9 +6326,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // C4 · static topbar buttons that live outside their canvas re-render.
   document.getElementById('calNewFilingBtn')?.addEventListener('click', () => openNewFilingModal());
 
+  // C5 · sidebar foot staleness indicator (Backup module sub-feature).
+  updateFootStalenessIndicator();
+
   // Friendly boot signal — visible only in DevTools console.
   console.log(
-    '%c◆ Operations CC · v0.4.0 · C4 · PM Calendar + Query Interface live',
+    '%c◆ Operations CC · v0.5.0 · C5 · System Map live · all 12 views shipped',
     'color:#FF6B00;font-weight:700;font-family:monospace;'
   );
   console.log(
