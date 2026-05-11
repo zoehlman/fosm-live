@@ -1327,6 +1327,446 @@ html, body {
 .profile-crumb:hover { color: var(--orange); }
 .profile-sep { color: #444; padding: 0 6px; }
 
+/* ═══════════════════════════════════════════════
+   C3 ADDITIONS · Today + Departments + Bridge + Stubs + Flags
+═══════════════════════════════════════════════ */
+
+/* ─── TODAY VIEW · 4 source sections ─── */
+.today-source {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+.today-source-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.today-source-num {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.5px;
+  color: var(--mute);
+  background: #0a0a0a;
+  border: 1px solid var(--border2);
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+.today-source-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+.today-source-sub {
+  font-size: 11px;
+  color: var(--mute);
+  font-style: italic;
+  flex: 1;
+  min-width: 100px;
+}
+.today-source-count {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  background: var(--orange-dim);
+  color: var(--orange);
+  border: 1px solid var(--orange-border);
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+.today-source-count.zero {
+  background: #0a0a0a;
+  color: var(--mute2);
+  border-color: var(--border2);
+}
+.today-row {
+  background: var(--panel3);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 9px 12px;
+  margin-bottom: 5px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+.today-row:last-child { margin-bottom: 0; }
+.today-row-main {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.today-row-h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.today-row-client {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--mute);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 700;
+}
+.today-row-when {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--mute);
+}
+.today-row-when.overdue { color: var(--rose); font-weight: 700; }
+.today-row-desc {
+  font-size: 11.5px;
+  color: #fff;
+  line-height: 1.45;
+}
+.today-row-actions {
+  display: flex;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.today-empty {
+  font-size: 11px;
+  color: var(--mute);
+  font-style: italic;
+  text-align: center;
+  padding: 12px 10px;
+  line-height: 1.5;
+}
+.today-empty b { color: #aaa; font-style: normal; }
+
+/* ─── DEPARTMENT VIEW · intro + module cards ─── */
+.dept-intro {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+.dept-intro h2 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #fff;
+  font-weight: 700;
+}
+.dept-intro p {
+  margin: 0;
+  font-size: 11.5px;
+  color: #ccc;
+  line-height: 1.55;
+}
+.dept-intro p + p { margin-top: 6px; }
+.dept-modules-h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 4px 0 8px;
+}
+.dept-modules-h .title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.dept-modules-h .count {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--mute);
+  letter-spacing: 0.4px;
+}
+.module-card {
+  background: linear-gradient(90deg, var(--gold-dim) 0%, transparent 65%);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+}
+.module-card.phase3 {
+  background: linear-gradient(90deg, var(--purple-dim) 0%, transparent 65%);
+  border-left-color: var(--purple);
+}
+.module-card.checkpoint {
+  background: linear-gradient(90deg, var(--blue-dim) 0%, transparent 65%);
+  border-left-color: var(--blue);
+}
+.module-card-h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+.module-card-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #fff;
+  flex: 1;
+  min-width: 150px;
+}
+.module-card-phase {
+  font-family: var(--mono);
+  font-size: 9px;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+.module-card.phase3 .module-card-phase {
+  background: var(--purple-dim);
+  border-color: var(--purple-border);
+  color: var(--purple);
+}
+.module-card.checkpoint .module-card-phase {
+  background: var(--blue-dim);
+  border-color: var(--blue-border);
+  color: var(--blue);
+}
+.module-card-rows {
+  display: flex;
+  flex-direction: column;
+}
+.module-card-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 11px;
+  border-bottom: 1px dashed var(--border2);
+}
+.module-card-row:last-child { border-bottom: none; }
+.module-card-row .k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.5px;
+  color: var(--mute);
+  text-transform: uppercase;
+  padding-top: 1px;
+}
+.module-card-row .v {
+  color: #ddd;
+  line-height: 1.5;
+}
+.module-card-row .v code {
+  background: #000;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--orange);
+}
+.module-card-row .v.tbd {
+  font-style: italic;
+  color: var(--mute);
+}
+
+/* ─── BRIDGE · info banner + person rows ─── */
+.bridge-info {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.bridge-info-stat {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  background: #0a0a0a;
+  border: 1px solid var(--border2);
+  padding: 3px 8px;
+  border-radius: 3px;
+  color: #aaa;
+  white-space: nowrap;
+}
+.bridge-info-stat b { color: var(--mute); font-weight: 700; letter-spacing: 0.3px; }
+.bridge-info-note {
+  font-size: 11px;
+  color: var(--mute);
+  font-style: italic;
+  flex: 1;
+  min-width: 200px;
+}
+.bridge-row {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 11px 14px;
+  margin-bottom: 6px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+.bridge-row.is-imported { opacity: 0.65; }
+.bridge-row-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.bridge-row-h { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bridge-row-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+.bridge-row-meta {
+  font-size: 10.5px;
+  color: var(--mute);
+  font-family: var(--mono);
+  letter-spacing: 0.3px;
+}
+.bridge-stage-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.4px;
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid var(--green-border);
+}
+.bridge-funnel-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  background: #0a0a0a;
+  border: 1px solid var(--border2);
+  color: #aaa;
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.bridge-imported-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  background: #161616;
+  border: 1px solid var(--border2);
+  color: var(--mute);
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.4px;
+}
+.bridge-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+/* ─── STUBS AGGREGATE · grouped by department ─── */
+.stubs-group { margin-bottom: 18px; }
+.stubs-group:last-child { margin-bottom: 0; }
+.stubs-group-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.stubs-group-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.stubs-group-count {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--mute);
+  letter-spacing: 0.4px;
+}
+.stubs-toc {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.stubs-toc-lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.5px;
+  color: var(--mute);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-right: 4px;
+  padding-top: 2px;
+}
+.stubs-toc-link {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  background: #161616;
+  border: 1px solid var(--border2);
+  color: #aaa;
+  padding: 2px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.stubs-toc-link:hover { background: var(--orange-dim); color: var(--orange); border-color: var(--orange-border); }
+
+/* ─── CONTRADICTION FLAG ROW (Comms tab + Today source d) ─── */
+.flag-row {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 11px 14px;
+  margin-bottom: 6px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: flex-start;
+}
+.flag-row-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.flag-row-h { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.flag-status-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.4px;
+}
+.flag-status-pill.unresolved { background: var(--rose-dim);  color: var(--rose);  border: 1px solid var(--rose-border); }
+.flag-status-pill.resolved   { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+.flag-row-when {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--mute);
+}
+.flag-row-desc {
+  font-size: 12px;
+  color: #fff;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.flag-row-resolution {
+  font-size: 11px;
+  color: #aaa;
+  font-style: italic;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+.flag-actions { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
   .shell { grid-template-columns: 1fr; }
@@ -1346,7 +1786,7 @@ html, body {
       <div class="brand-mark">◆</div>
       <div class="brand-meta">
         <div class="brand-name">Operations CC</div>
-        <div class="brand-sub">FOSM·LIVE · v0.2.0</div>
+        <div class="brand-sub">FOSM·LIVE · v0.3.0</div>
       </div>
     </div>
 
@@ -1356,7 +1796,7 @@ html, body {
 
     <div class="sidebar-foot">
       <span class="dot"></span>
-      <span id="footStatus">v0.2.0 · C2 · Roster + Profile shell live</span>
+      <span id="footStatus">v0.3.0 · C3 · Today + Departments + Bridge live</span>
     </div>
 
   </aside>
@@ -1367,31 +1807,14 @@ html, body {
     <!-- ─────────── 1 · TODAY ─────────── -->
     <div class="view active" id="mod-today">
       <div class="topbar">
-        <div class="topbar-title">Today <span class="topbar-sub">— what needs attention now · across every client</span></div>
+        <div class="topbar-title" id="todayTopbarTitle">Today <span class="topbar-sub">— what needs attention now · across every client</span></div>
         <div class="topbar-right">
           <span class="tag tag-orange">☀ default landing</span>
         </div>
       </div>
       <div class="canvas">
-        <div class="scaffold">
-          <div class="scaffold-h">
-            <span class="ph-tag">C1 · scaffolding</span>
-            <span>view shell complete · live content lands in C3</span>
-          </div>
-          <h2>Today · the daily working surface</h2>
-          <p>The first thing the team opens each morning. One screen that shows what needs attention right now, across every client on the roster.</p>
-          <div class="ph-row">
-            <span class="k">live in C3</span>
-            <span class="v">Four sources, aggregated and sorted: <b>overdue filings</b> from PM Calendar · <b>nextReview dates past or today</b> from Client Roster · <b>scope-creep items flagged but undecided</b> · <b>unresolved contradiction flags</b>.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">stubbed</span>
-            <span class="v">AI-derived items render as a separate list with a Phase 3 callout — Executive Summary Generator, ClickUp Gap Detector queue, Meeting Summarizer outputs. None of these are wired tonight.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">storage</span>
-            <span class="v"><code>fosm_ops_ui_state_v1</code> for filter persistence · derives everything else from owned + cross-CC reads</span>
-          </div>
+        <div id="todayCanvas">
+          <!-- rendered by renderToday() · 4-source aggregation + Phase 3 AI stub -->
         </div>
 
         <div class="card">
@@ -1450,25 +1873,8 @@ html, body {
         </div>
       </div>
       <div class="canvas">
-        <div class="scaffold">
-          <div class="scaffold-h">
-            <span class="ph-tag">C1 · scaffolding</span>
-            <span>view shell complete · module list + stubs land in C3</span>
-          </div>
-          <h2>Communications · LGR's comms surface, not the client's</h2>
-          <p>Important distinction: this aggregates LGR-with-client conversations only. Per-client Slack channels, LGR-to-client email threads, LGR's recorded calls with clients, ClickUp comments. Not the client's internal Slack or internal email — that stays in the client's systems.</p>
-          <div class="ph-row">
-            <span class="k">live in C3</span>
-            <span class="v">Manual notes per client (the operator types in what was discussed) · executive summary as a manual text field · contradiction flag as a manual entry.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">stubbed</span>
-            <span class="v">LGR Slack Aggregator · LGR Email Aggregator · LGR Recording Vault · Meeting Summarizer · Executive Summary Generator · Contradiction Flagger · Daily Sweep · ClickUp Gap Detector · LGR Calendar Sync — each rendered with the four-piece spec callout per Decision #3.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">where it lands</span>
-            <span class="v">Inside the Tabbed Client Profile · Communications tab. This top-level view shows the department config + module status.</span>
-          </div>
+        <div id="commsCanvas">
+          <!-- rendered by renderComms() from STUBS_REGISTRY -->
         </div>
       </div>
     </div>
@@ -1482,21 +1888,8 @@ html, body {
         </div>
       </div>
       <div class="canvas">
-        <div class="scaffold">
-          <div class="scaffold-h">
-            <span class="ph-tag">C1 · scaffolding</span>
-            <span>view shell complete · module list + stubs land in C3</span>
-          </div>
-          <h2>Data · about-clients, not the clients' own data</h2>
-          <p>LGR's QuickBooks (LGR's own books, revenue, margin, client billing) · Keeper.com (per-client private financial data, API/MCP if available) · per-client recordings vault · FOSM·LIVE feeds from each client instance. Read-only references that flow into Communications and PM Calendar.</p>
-          <div class="ph-row">
-            <span class="k">stubbed</span>
-            <span class="v">QuickBooks Integration · Keeper.com Integration · FOSM·LIVE Feeds (webhooks or polling per client instance) — all Phase 2 with the four-piece spec callout each.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">boundary</span>
-            <span class="v">Operations CC does <b>not</b> push data into Client FOSM·LIVE. What flows up from Client FOSM·LIVE is <b>status</b>, not raw pillar data. The raw numbers stay sovereign in the client's instance.</span>
-          </div>
+        <div id="dataCanvas">
+          <!-- rendered by renderData() from STUBS_REGISTRY -->
         </div>
       </div>
     </div>
@@ -1510,21 +1903,8 @@ html, body {
         </div>
       </div>
       <div class="canvas">
-        <div class="scaffold">
-          <div class="scaffold-h">
-            <span class="ph-tag">C1 · scaffolding</span>
-            <span>view shell complete · module list + stubs land in C3</span>
-          </div>
-          <h2>ClickUp · the task source of truth</h2>
-          <p>If it's not in ClickUp, it doesn't exist. Operations CC does <b>not</b> replicate ClickUp — it feeds from it and pushes synthesized work back into it. ClickUp is the task manager. Ops CC is the brain that decides what to do next.</p>
-          <div class="ph-row">
-            <span class="k">stubbed</span>
-            <span class="v">ClickUp API two-way sync · Owner Scorecards · SOP Library · L10 Tracker — all Phase 2 with the four-piece spec callout each.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">boundary</span>
-            <span class="v">No task duplication. Ops CC reads tasks for status, writes new tasks when it detects gaps (the Gap Detector queue from Communications), and surfaces summary views — but the canonical task list always lives in ClickUp.</span>
-          </div>
+        <div id="clickupCanvas">
+          <!-- rendered by renderClickup() from STUBS_REGISTRY -->
         </div>
       </div>
     </div>
@@ -1603,25 +1983,8 @@ html, body {
         </div>
       </div>
       <div class="canvas">
-        <div class="scaffold">
-          <div class="scaffold-h">
-            <span class="ph-tag">C1 · scaffolding</span>
-            <span>view shell complete · read + import lands in C3</span>
-          </div>
-          <h2>Sales CC Bridge · closed-won becomes a client</h2>
-          <p>Sales CC owns the prospect record through Stage 7. When a prospect closes, the operator opens the Bridge, finds them in the read-only list, clicks <b>Import to Roster</b> — and they become a client on the roster ready for delivery.</p>
-          <div class="ph-row">
-            <span class="k">live in C3</span>
-            <span class="v">Read-only list of <code>fosm_person_profiles_v1</code> filtered to closed-won. One-click import creates a <code>fosm_client_roster_v1</code> entry with the name pre-filled, <code>phase = P1 Starting</code>, <code>isManualOnly = true</code> (FOSM·LIVE URL blank), <code>createdAt = now</code>. Source person profile stays intact in Sales CC.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">duplicate guard</span>
-            <span class="v">Per Decision #4 · if a <code>person_profile_id</code> has already been imported, show a "this person is already in your roster" warning. <b>Warn, don't block</b>. The operator might have a reason to re-import.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">stubbed</span>
-            <span class="v">Auto-trigger on Sales CC Stage 7 close → auto-create roster slot. Phase 4 / Supabase wire. Phase 1 is manual import only.</span>
-          </div>
+        <div id="bridgeCanvas">
+          <!-- rendered by renderBridge() — reads fosm_person_profiles_v1, filters stageKey === 'closed' -->
         </div>
       </div>
     </div>
@@ -1719,21 +2082,8 @@ html, body {
         </div>
       </div>
       <div class="canvas">
-        <div class="scaffold">
-          <div class="scaffold-h">
-            <span class="ph-tag">C1 · scaffolding</span>
-            <span>view shell complete · stub directory lands in C3</span>
-          </div>
-          <h2>Not Yet Built · one place to see what's coming</h2>
-          <p>Every stubbed module across every department, listed in one place with its four-piece spec callout per <b>Decision #3</b>: what it does when wired · what storage key it owns · what API or data source it depends on · which Phase it ships in. No invention. No fake buttons.</p>
-          <div class="ph-row">
-            <span class="k">live in C3</span>
-            <span class="v">Grouped by department · Phase 2 in one block, Phase 3 in another. Each entry uses the same <code>callout-gold</code> primitive used inside the department views.</span>
-          </div>
-          <div class="ph-row">
-            <span class="k">why this view exists</span>
-            <span class="v">Per the working rules, "honest stubs · visible in sidebar with Phase 2/3 labels · no fake buttons." This is the aggregate view of all those labels in one place, so the team can see at a glance what's coming and prioritize together.</span>
-          </div>
+        <div id="stubsCanvas">
+          <!-- rendered by renderStubs() — STUBS_REGISTRY grouped by department + phase -->
         </div>
       </div>
     </div>
@@ -1759,7 +2109,7 @@ html, body {
 
 <script>
 /* ═══════════════════════════════════════════════
-   OPERATIONS CC · v0.2.0 · C2
+   OPERATIONS CC · v0.3.0 · C3
    ───────────────────────────────────────────────
    Sidebar nav · view switching · modal/toast hosts ·
    ON_SHOW hook map. Roster CRUD + Tabbed Client Profile
@@ -1894,7 +2244,8 @@ let _clients       = [];   // fosm_client_roster_v1
 let _entities      = [];   // fosm_entity_tree_v1
 let _notes         = [];   // fosm_meeting_notes_v1
 let _scope         = [];   // fosm_scope_tracker_v1
-let _flags         = [];   // fosm_contradiction_flags_v1 · CRUD only, UI lands C3 (Today)
+let _flags         = [];   // fosm_contradiction_flags_v1 · UI ships C3 (Comms tab + Today)
+let _filings       = [];   // fosm_filing_status_v1 · loaded read-only in C3 (PM Calendar ships C4)
 let _execSummaries = {};   // fosm_client_profiles_v1 · keyed by clientId · { text, updatedAt }
 let _uiState       = {};   // fosm_ops_ui_state_v1 · { selectedClientId, activeTab }
 
@@ -1966,6 +2317,7 @@ function loadAll() {
   _notes         = loadStore('meeting_notes',        []);
   _scope         = loadStore('scope_tracker',        []);
   _flags         = loadStore('contradiction_flags',  []);
+  _filings       = loadStore('filing_status',        []);
   _execSummaries = loadStore('client_profiles',      {});
   _uiState       = loadStore('ui_state',             {});
 
@@ -2014,7 +2366,8 @@ function createClient(data) {
     createdAt: new Date().toISOString(),
     lastTouch: data.lastTouch || null,
     nextReview: data.nextReview || null,
-    notes: data.notes || ''
+    notes: data.notes || '',
+    sourcePersonProfileId: data.sourcePersonProfileId || null
   };
   _clients.push(c);
   saveStore('client_roster', _clients);
@@ -2573,6 +2926,51 @@ function renderCommsTab(c, container) {
     });
   }
 
+  html += `
+      <div class="tab-section-h">
+        <div class="tab-section-h-left">
+          <span class="tab-section-title">Contradiction Flags</span>
+          <span class="tab-section-sub">— things said that don't square up · capture mid-context, resolve on Today (or here)</span>
+        </div>
+        <button class="btn btn-primary btn-sm" id="newFlagBtn">＋ Flag Contradiction</button>
+      </div>
+  `;
+  const clientFlags = _flags.filter(f => f.clientId === c.id).sort((a, b) => {
+    // Unresolved first; within each group, newest flaggedAt first
+    if (!!a.resolved !== !!b.resolved) return a.resolved ? 1 : -1;
+    return b.flaggedAt.localeCompare(a.flaggedAt);
+  });
+  if (clientFlags.length === 0) {
+    html += `
+      <div class="empty">
+        <div class="empty-icon">⚠</div>
+        <b>No contradiction flags yet.</b><br>When you notice something said today that contradicts something said last week (or what's in the contract), flag it here. Today view surfaces the unresolved ones across every client.
+      </div>
+    `;
+  } else {
+    clientFlags.forEach(f => {
+      const resolved = !!f.resolved;
+      html += `
+        <div class="flag-row">
+          <div class="flag-row-main">
+            <div class="flag-row-h">
+              <span class="flag-status-pill ${resolved ? 'resolved' : 'unresolved'}">${resolved ? 'RESOLVED' : 'UNRESOLVED'}</span>
+              <span class="flag-row-when">flagged ${fmtDate(f.flaggedAt.slice(0,10))}</span>
+              ${resolved && f.resolvedAt ? `<span class="flag-row-when">· resolved ${fmtDate(f.resolvedAt.slice(0,10))}</span>` : ''}
+            </div>
+            <div class="flag-row-desc">${escHTML(f.description)}</div>
+            ${resolved && f.resolutionText ? `<div class="flag-row-resolution">Resolution: ${escHTML(f.resolutionText)}</div>` : ''}
+          </div>
+          <div class="flag-actions">
+            ${!resolved ? `<button class="btn btn-sm" data-action="resolve-flag" data-flag-id="${f.id}">Resolve</button>` : ''}
+            <button class="btn btn-ghost btn-sm" data-action="edit-flag"   data-flag-id="${f.id}">✎</button>
+            <button class="btn btn-ghost btn-sm" data-action="delete-flag" data-flag-id="${f.id}">🗑</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
   html += '</div>';
   container.innerHTML = html;
 
@@ -2590,6 +2988,24 @@ function renderCommsTab(c, container) {
     btn.addEventListener('click', () => {
       if (confirm('Delete this meeting note?')) {
         deleteNote(btn.dataset.noteId);
+        const refreshed = _clients.find(x => x.id === c.id);
+        if (refreshed) renderProfile(refreshed);
+      }
+    });
+  });
+
+  // Contradiction flag wiring
+  document.getElementById('newFlagBtn').addEventListener('click', () => openNewFlagModal(c.id));
+  container.querySelectorAll('[data-action="resolve-flag"]').forEach(btn => {
+    btn.addEventListener('click', () => openResolveFlagModal(btn.dataset.flagId));
+  });
+  container.querySelectorAll('[data-action="edit-flag"]').forEach(btn => {
+    btn.addEventListener('click', () => openEditFlagModal(btn.dataset.flagId));
+  });
+  container.querySelectorAll('[data-action="delete-flag"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm('Delete this contradiction flag?')) {
+        deleteFlag(btn.dataset.flagId);
         const refreshed = _clients.find(x => x.id === c.id);
         if (refreshed) renderProfile(refreshed);
       }
@@ -3239,13 +3655,776 @@ function openDecideScopeModal(scopeId) {
 }
 
 /* ═══════════════════════════════════════════════
+   C3 · STUBS REGISTRY
+   ───────────────────────────────────────────────
+   Single source of truth for module stubs across
+   the surface. Department views (Comms/Data/ClickUp)
+   filter this; All Stubs view (mod-stubs) renders
+   the full set grouped by department. Phase values:
+   integer (2/3/4) = roadmap phase · string ('C4'/'C5')
+   = ships in this build sequence.
+═══════════════════════════════════════════════ */
+const STUBS_REGISTRY = [
+  // ─── Today · AI-derived attention items (Phase 3 callout per C1 scaffold)
+  { dept: 'today',     name: 'AI-derived attention items',
+    what: 'Adds AI-detected items to Today: Executive Summary Generator picks · ClickUp Gap Detector queue · Meeting Summarizer outputs that warrant attention.',
+    storage: 'derived — no own store',
+    depends: 'LLM API + Comms department modules',
+    phase: 3 },
+
+  // ─── Communications (9 modules per C1 scaffold)
+  { dept: 'comms',     name: 'LGR Slack Aggregator',
+    what: 'Aggregates LGR\'s Slack messages with each client into a searchable per-client timeline.',
+    storage: 'TBD — captured in C5 QA',
+    depends: 'Slack API',
+    phase: 2 },
+  { dept: 'comms',     name: 'LGR Email Aggregator',
+    what: 'Aggregates LGR\'s email threads with each client into a searchable per-client timeline.',
+    storage: 'TBD — captured in C5 QA',
+    depends: 'email provider API (Gmail / generic IMAP)',
+    phase: 2 },
+  { dept: 'comms',     name: 'LGR Recording Vault',
+    what: 'Indexes meeting recordings per client; links to playback + transcripts; feeds Meeting Summarizer.',
+    storage: 'fosm_recordings_index_v1',
+    depends: 'TBD — captured in C5 QA (Fathom likely)',
+    phase: 2 },
+  { dept: 'comms',     name: 'Meeting Summarizer',
+    what: 'AI summary of meeting recordings + transcripts, attached to existing meeting notes.',
+    storage: 'TBD — captured in C5 QA',
+    depends: 'LLM API + transcript source (LGR Recording Vault)',
+    phase: 3 },
+  { dept: 'comms',     name: 'Executive Summary Generator',
+    what: 'AI version of the manual exec summary in the Communications tab.',
+    storage: 'fosm_client_profiles_v1 (shares with manual exec summary)',
+    depends: 'LLM API',
+    phase: 3 },
+  { dept: 'comms',     name: 'Contradiction Flagger',
+    what: 'AI version of the manual contradiction flag — scans notes + scope for inconsistencies.',
+    storage: 'fosm_contradiction_flags_v1 (shares with manual flags shipped C3)',
+    depends: 'LLM API',
+    phase: 3 },
+  { dept: 'comms',     name: 'Daily Sweep',
+    what: 'TBD beyond name — captured in C5 QA. Module name is the working contract until then.',
+    storage: 'fosm_sweep_results_v1',
+    depends: 'TBD — captured in C5 QA',
+    phase: 2 },
+  { dept: 'comms',     name: 'ClickUp Gap Detector',
+    what: 'Compares ClickUp tasks against expected tasks (from scope, filings, cadence) and queues gaps for resolution.',
+    storage: 'fosm_gap_detector_queue_v1',
+    depends: 'ClickUp API + expected-task derivation rules',
+    phase: 3 },
+  { dept: 'comms',     name: 'LGR Calendar Sync',
+    what: 'TBD beyond name — captured in C5 QA. Module name is the working contract until then.',
+    storage: 'TBD — captured in C5 QA',
+    depends: 'Google Calendar API (implied)',
+    phase: 2 },
+
+  // ─── Data (3 modules per C1 scaffold)
+  { dept: 'data',      name: 'QuickBooks Integration',
+    what: 'TBD beyond name — captured in C5 QA. Module name is the working contract until then.',
+    storage: 'TBD — captured in C5 QA',
+    depends: 'QuickBooks Online API (implied)',
+    phase: 2 },
+  { dept: 'data',      name: 'Keeper.com Integration',
+    what: 'TBD beyond name — captured in C5 QA. Module name is the working contract until then.',
+    storage: 'TBD — captured in C5 QA',
+    depends: 'Keeper Security API (implied)',
+    phase: 2 },
+  { dept: 'data',      name: 'FOSM·LIVE Feeds',
+    what: 'Per-client FOSM·LIVE instance feeds back status (not raw pillar data) to Ops CC. Webhooks or polling per client.',
+    storage: 'TBD — captured in C5 QA',
+    depends: 'each client\'s FOSM·LIVE instance',
+    phase: 2 },
+
+  // ─── ClickUp (4 modules per C1 scaffold)
+  { dept: 'clickup',   name: 'ClickUp API two-way sync',
+    what: 'Reads tasks from ClickUp; writes back status updates and new task creation.',
+    storage: 'fosm_task_sync_v1',
+    depends: 'ClickUp API',
+    phase: 2 },
+  { dept: 'clickup',   name: 'Owner Scorecards',
+    what: 'TBD beyond name — captured in C5 QA. Module name is the working contract until then.',
+    storage: 'fosm_workload_v1 (likely)',
+    depends: 'TBD — captured in C5 QA',
+    phase: 2 },
+  { dept: 'clickup',   name: 'SOP Library',
+    what: 'TBD beyond name — captured in C5 QA. Module name is the working contract until then.',
+    storage: 'TBD — captured in C5 QA',
+    depends: 'TBD — captured in C5 QA',
+    phase: 2 },
+  { dept: 'clickup',   name: 'L10 Tracker',
+    what: 'EOS L10 weekly meeting tracker (issues · IDS · rocks). TBD beyond name — captured in C5 QA.',
+    storage: 'TBD — captured in C5 QA',
+    depends: 'TBD — captured in C5 QA',
+    phase: 2 },
+
+  // ─── Client Profile sub-tabs (already rendered stubbed in C2; here for All Stubs aggregate completeness)
+  { dept: 'profile',   name: 'Filings tab (per-client view)',
+    what: 'Per-client filings + due-date tracking per entity type · status badges (filed · pending · overdue) · attach docs.',
+    storage: 'fosm_filing_status_v1 (per-client filter)',
+    depends: 'PM Calendar (C4) entries',
+    phase: 2 },
+  { dept: 'profile',   name: 'Documents tab (per-client vault)',
+    what: 'Per-client document vault · contracts · engagement letters · signed agreements · attached to entities.',
+    storage: 'fosm_doc_state_v1 (per-client + per-entity)',
+    depends: 'TBD — likely Google Drive sync per client folder, or Keeper for sensitive docs',
+    phase: 2 },
+
+  // ─── Sales CC Bridge sub-modules
+  { dept: 'bridge',    name: 'Auto-trigger on Sales CC close',
+    what: 'Auto-creates a roster slot when a Sales CC person moves to stageKey === \'closed\' AND their funnel\'s handoff === \'operations-cc\'.',
+    storage: 'extends fosm_client_roster_v1',
+    depends: 'Sales CC event hook (Phase 4 / Supabase)',
+    phase: 4 },
+
+  // ─── PM Calendar (whole view ships C4)
+  { dept: 'pm-calendar', name: 'PM Calendar (filings timeline)',
+    what: 'Filings timeline view per entity with overdue detection · whole view ships C4 · Today\'s source (a) reads from this.',
+    storage: 'fosm_filing_status_v1',
+    depends: 'derived from entity type + IRS / state filing calendars',
+    phase: 'C4' },
+
+  // ─── FOSM·LIVE Query Interface (whole view ships C4)
+  { dept: 'query',     name: 'FOSM·LIVE Query Interface',
+    what: 'Opens client FOSM·LIVE URLs directly (no inline render) · per Decision #2, entity-level URLs only.',
+    storage: 'derived from fosm_entity_tree_v1',
+    depends: 'each entity\'s FOSM·LIVE URL',
+    phase: 'C4' },
+
+  // ─── System Map sub-views (ship C5)
+  { dept: 'sysmap',    name: 'Architecture',
+    what: 'V0-V9 mental model rendered as markdown · lifts Sales CC\'s sysmap-md pattern.',
+    storage: 'docs/architecture-reference.md (static)',
+    depends: 'static markdown render',
+    phase: 'C5' },
+  { dept: 'sysmap',    name: 'Backup (export / import)',
+    what: 'Export all Ops-CC-owned keys to versioned JSON · import is preview-before-apply with overwrite warnings · 7-day staleness warning.',
+    storage: 'reads all fosm_ops_*_v1 + fosm_client_*_v1 + fosm_entity_tree_v1',
+    depends: 'browser file APIs',
+    phase: 'C5' },
+  { dept: 'sysmap',    name: 'Diagnostics',
+    what: 'Honest status table per module: LIVE / PARTIAL / STUBBED / BROKEN.',
+    storage: 'derived from manual module registry',
+    depends: 'manual status registry',
+    phase: 'C5' }
+];
+
+/* Department metadata + group display order. */
+const DEPT_META = {
+  'today':       { name: 'Today',                         icon: '🎯' },
+  'comms':       { name: 'Communications',                icon: '💬' },
+  'data':        { name: 'Data',                          icon: '📊' },
+  'clickup':     { name: 'ClickUp',                       icon: '📋' },
+  'profile':     { name: 'Client Profile tabs',           icon: '🏢' },
+  'bridge':      { name: 'Sales CC Bridge',               icon: '🌉' },
+  'pm-calendar': { name: 'PM Calendar',                   icon: '📅' },
+  'query':       { name: 'FOSM·LIVE Query Interface',     icon: '🔗' },
+  'sysmap':      { name: 'Meta · System Map',             icon: '🗺' }
+};
+const STUBS_GROUP_ORDER = ['today', 'comms', 'data', 'clickup', 'profile', 'bridge', 'pm-calendar', 'query', 'sysmap'];
+
+/* Per-department intro text (C1 scaffold copy preserved verbatim where possible). */
+const DEPT_INTROS = {
+  comms: {
+    h2: 'Communications · LGR\'s comms surface, not the client\'s',
+    body: '<p>Important distinction: this aggregates LGR-with-client conversations only. Per-client Slack channels, LGR-to-client email threads, LGR\'s recorded calls with clients, ClickUp comments. Not the client\'s internal Slack or internal email — that stays in the client\'s systems.</p>' +
+          '<p>The manual surfaces (per-client Executive Summary, Meeting Notes, Contradiction Flags) live inside the Tabbed Client Profile · Communications tab. This top-level view shows the AI/integration modules that augment that surface as they wire up.</p>'
+  },
+  data: {
+    h2: 'Data · about-clients, not the clients\' own data',
+    body: '<p>LGR\'s QuickBooks (LGR\'s own books, revenue, margin, client billing) · Keeper.com (per-client private financial data, API/MCP if available) · FOSM·LIVE feeds from each client instance. Read-only references that flow into Communications and PM Calendar.</p>' +
+          '<p><b>Boundary:</b> Operations CC does <b>not</b> push data into Client FOSM·LIVE. What flows up from Client FOSM·LIVE is status, not raw pillar data. The raw numbers stay sovereign in the client\'s instance.</p>'
+  },
+  clickup: {
+    h2: 'ClickUp · the task source of truth',
+    body: '<p>If it\'s not in ClickUp, it doesn\'t exist. Operations CC does <b>not</b> replicate ClickUp — it feeds from it and pushes synthesized work back into it. ClickUp is the task manager. Ops CC is the brain that decides what to do next.</p>' +
+          '<p><b>Boundary:</b> no task duplication. Ops CC reads tasks for status, writes new tasks when it detects gaps (the Gap Detector queue from Communications), and surfaces summary views — but the canonical task list always lives in ClickUp.</p>'
+  }
+};
+
+/* ═══════════════════════════════════════════════
+   C3 · CRUD · Contradiction Flag
+   ───────────────────────────────────────────────
+   Schema · { id, clientId, description, flaggedAt,
+   resolved (default false), resolvedAt, resolutionText }
+═══════════════════════════════════════════════ */
+function createFlag(data) {
+  const f = {
+    id: genId('flag'),
+    clientId: data.clientId,
+    description: data.description,
+    flaggedAt: new Date().toISOString(),
+    resolved: false,
+    resolvedAt: null,
+    resolutionText: ''
+  };
+  _flags.push(f);
+  saveStore('contradiction_flags', _flags);
+  toast('Contradiction flagged');
+  return f;
+}
+function updateFlag(id, patch) {
+  const i = _flags.findIndex(f => f.id === id);
+  if (i < 0) return;
+  Object.assign(_flags[i], patch);
+  saveStore('contradiction_flags', _flags);
+}
+function deleteFlag(id) {
+  _flags = _flags.filter(x => x.id !== id);
+  saveStore('contradiction_flags', _flags);
+  toast('Flag deleted', 'warn');
+}
+function resolveFlag(id, resolutionText) {
+  const i = _flags.findIndex(f => f.id === id);
+  if (i < 0) return;
+  _flags[i].resolved = true;
+  _flags[i].resolvedAt = new Date().toISOString();
+  _flags[i].resolutionText = resolutionText || '';
+  saveStore('contradiction_flags', _flags);
+  toast('Contradiction resolved');
+}
+
+/* ═══════════════════════════════════════════════
+   C3 · Phase display helpers
+═══════════════════════════════════════════════ */
+function phaseLabel(phase) {
+  if (typeof phase === 'string' && phase.startsWith('C')) return 'SHIPS ' + phase;
+  return 'PHASE ' + phase;
+}
+function phaseClass(phase) {
+  if (typeof phase === 'string') return 'checkpoint';
+  if (phase === 3) return 'phase3';
+  return '';
+}
+
+/* Renders one four-piece module card. */
+function renderModuleCard(m) {
+  const cls = phaseClass(m.phase);
+  const lbl = phaseLabel(m.phase);
+  const isTBD = (v) => /^TBD/i.test(String(v));
+  return `
+    <div class="module-card ${cls}">
+      <div class="module-card-h">
+        <span class="module-card-name">${escHTML(m.name)}</span>
+        <span class="module-card-phase">${lbl}</span>
+      </div>
+      <div class="module-card-rows">
+        <div class="module-card-row"><span class="k">what it does</span><span class="v ${isTBD(m.what) ? 'tbd' : ''}">${escHTML(m.what)}</span></div>
+        <div class="module-card-row"><span class="k">storage</span>     <span class="v ${isTBD(m.storage) ? 'tbd' : ''}">${isTBD(m.storage) ? escHTML(m.storage) : '<code>' + escHTML(m.storage) + '</code>'}</span></div>
+        <div class="module-card-row"><span class="k">depends on</span>  <span class="v ${isTBD(m.depends) ? 'tbd' : ''}">${escHTML(m.depends)}</span></div>
+        <div class="module-card-row"><span class="k">ships</span>       <span class="v"><b>${lbl}</b></span></div>
+      </div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════════
+   C3 · TODAY · aggregator + renderer
+═══════════════════════════════════════════════ */
+function collectTodayItems() {
+  const today = todayISO();
+  return {
+    filings:  _filings.filter(f => f && f.dueDate && f.dueDate <= today && !f.filed),
+    reviews:  _clients.filter(c => c.nextReview && c.nextReview <= today),
+    scope:    _scope.filter(s => s.status === 'flagged'),
+    flags:    _flags.filter(f => !f.resolved)
+  };
+}
+
+function renderToday() {
+  const canvas = document.getElementById('todayCanvas');
+  if (!canvas) return;
+  const t = collectTodayItems();
+  const clientName = (id) => {
+    const c = _clients.find(x => x.id === id);
+    return c ? c.name : '(deleted client)';
+  };
+
+  const sourceBlock = (num, title, sub, items, emptyHtml, renderRow) => {
+    const count = items.length;
+    return `
+      <div class="today-source">
+        <div class="today-source-h">
+          <span class="today-source-num">${num}</span>
+          <span class="today-source-title">${title}</span>
+          <span class="today-source-sub">${sub}</span>
+          <span class="today-source-count ${count === 0 ? 'zero' : ''}">${count}</span>
+        </div>
+        ${count === 0 ? emptyHtml : items.map(renderRow).join('')}
+      </div>
+    `;
+  };
+
+  let html = '';
+
+  // Source (a) · Overdue filings (empty in C3 — PM Calendar ships C4)
+  html += sourceBlock(
+    '1',
+    'Overdue filings',
+    '— filings past their due date',
+    t.filings,
+    `<div class="today-empty"><b>No overdue filings yet.</b> PM Calendar ships in C4 — once you add filings there, this surface will flag the ones running past their due date.</div>`,
+    (f) => `
+      <div class="today-row">
+        <div class="today-row-main">
+          <div class="today-row-h">
+            <span class="today-row-client">${escHTML(clientName(f.clientId))}</span>
+            <span class="today-row-when overdue">due ${fmtDate(f.dueDate)}</span>
+          </div>
+          <div class="today-row-desc">${escHTML(f.description || f.name || 'Filing')}</div>
+        </div>
+      </div>
+    `
+  );
+
+  // Source (b) · Reviews due (nextReview past or today)
+  html += sourceBlock(
+    '2',
+    'Reviews due',
+    '— nextReview date past or today',
+    t.reviews,
+    `<div class="today-empty">No reviews due. When a client\'s <b>next review</b> date hits today or earlier, they appear here.</div>`,
+    (c) => `
+      <div class="today-row" data-client-id="${c.id}">
+        <div class="today-row-main">
+          <div class="today-row-h">
+            <span class="today-row-client">${escHTML(c.name)}</span>
+            <span class="today-row-when ${isOverdue(c.nextReview) ? 'overdue' : ''}">review ${fmtDate(c.nextReview)}</span>
+            <span class="phase-pill ${c.phase.toLowerCase()}">${c.phase}</span>
+          </div>
+          <div class="today-row-desc">Open the client profile to log this review.</div>
+        </div>
+        <div class="today-row-actions">
+          <button class="btn btn-sm" data-action="open-client" data-client-id="${c.id}">Open Profile →</button>
+        </div>
+      </div>
+    `
+  );
+
+  // Source (c) · Scope flagged but undecided
+  html += sourceBlock(
+    '3',
+    'Scope items flagged',
+    '— flagged but not yet decided',
+    t.scope,
+    `<div class="today-empty">No scope items flagged. Anything that comes up outside the contract that hasn\'t been decided yet shows here.</div>`,
+    (s) => `
+      <div class="today-row">
+        <div class="today-row-main">
+          <div class="today-row-h">
+            <span class="today-row-client">${escHTML(clientName(s.clientId))}</span>
+            <span class="today-row-when">flagged ${fmtDate(s.flaggedAt.slice(0,10))}</span>
+            <span class="scope-cat-pill">${{ in_contract: 'In contract', out_of_contract: 'Out of contract', free_give_recommendation: 'Free-give rec' }[s.category] || s.category}</span>
+          </div>
+          <div class="today-row-desc">${escHTML(s.description)}</div>
+        </div>
+        <div class="today-row-actions">
+          <button class="btn btn-sm" data-action="decide-scope" data-scope-id="${s.id}">Decide</button>
+        </div>
+      </div>
+    `
+  );
+
+  // Source (d) · Unresolved contradiction flags
+  html += sourceBlock(
+    '4',
+    'Contradictions to resolve',
+    '— flagged in client profile, not yet resolved',
+    t.flags,
+    `<div class="today-empty">No unresolved contradictions. When something said today doesn\'t square up with something said last week, flag it from a client\'s Communications tab — unresolved ones appear here.</div>`,
+    (f) => `
+      <div class="today-row">
+        <div class="today-row-main">
+          <div class="today-row-h">
+            <span class="today-row-client">${escHTML(clientName(f.clientId))}</span>
+            <span class="today-row-when">flagged ${fmtDate(f.flaggedAt.slice(0,10))}</span>
+          </div>
+          <div class="today-row-desc">${escHTML(f.description)}</div>
+        </div>
+        <div class="today-row-actions">
+          <button class="btn btn-sm" data-action="resolve-flag" data-flag-id="${f.id}">Resolve</button>
+        </div>
+      </div>
+    `
+  );
+
+  // Phase 3 AI block — pulled from STUBS_REGISTRY (dept === 'today')
+  const aiStub = STUBS_REGISTRY.find(s => s.dept === 'today');
+  if (aiStub) {
+    html += `
+      <div class="dept-modules-h" style="margin-top: 18px;">
+        <span class="title">Phase 3 · AI-derived items (stubbed)</span>
+        <span class="count">render here when Comms department modules wire up</span>
+      </div>
+      ${renderModuleCard(aiStub)}
+    `;
+  }
+
+  canvas.innerHTML = html;
+
+  // Wire row actions.
+  canvas.querySelectorAll('[data-action="open-client"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      openClientProfile(btn.dataset.clientId);
+      goto('mod-roster');
+    });
+  });
+  canvas.querySelectorAll('[data-action="decide-scope"]').forEach(btn => {
+    btn.addEventListener('click', () => openDecideScopeModal(btn.dataset.scopeId));
+  });
+  canvas.querySelectorAll('[data-action="resolve-flag"]').forEach(btn => {
+    btn.addEventListener('click', () => openResolveFlagModal(btn.dataset.flagId));
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   C3 · DEPARTMENT VIEWS · Comms / Data / ClickUp
+═══════════════════════════════════════════════ */
+function renderDepartmentView(canvasId, deptKey) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const intro   = DEPT_INTROS[deptKey];
+  const modules = STUBS_REGISTRY.filter(s => s.dept === deptKey);
+
+  let html = '';
+  if (intro) {
+    html += `
+      <div class="dept-intro">
+        <h2>${intro.h2}</h2>
+        ${intro.body}
+      </div>
+    `;
+  }
+  html += `
+    <div class="dept-modules-h">
+      <span class="title">Modules</span>
+      <span class="count">${modules.length} stubbed · four-piece spec per Decision #3</span>
+    </div>
+  `;
+  modules.forEach(m => { html += renderModuleCard(m); });
+  canvas.innerHTML = html;
+}
+function renderComms()   { renderDepartmentView('commsCanvas',   'comms');   }
+function renderData()    { renderDepartmentView('dataCanvas',    'data');    }
+function renderClickup() { renderDepartmentView('clickupCanvas', 'clickup'); }
+
+/* ═══════════════════════════════════════════════
+   C3 · SALES CC BRIDGE
+   ───────────────────────────────────────────────
+   Read-only access via STORAGE_KEYS.sales (Pattern 4
+   holds — never write to sibling-CC keys). Filter
+   per amended Decision #4: stageKey === 'closed'.
+   Tighter filter (funnel handoff === 'operations-cc')
+   is captured in C5 QA per reviewer's call.
+═══════════════════════════════════════════════ */
+function loadSalesPersonProfiles() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.sales.person_profiles);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    console.error('Failed to read Sales CC person profiles:', e);
+    return [];
+  }
+}
+
+function renderBridge() {
+  const canvas = document.getElementById('bridgeCanvas');
+  if (!canvas) return;
+  const allPeople = loadSalesPersonProfiles();
+  const closedPeople = Array.isArray(allPeople) ? allPeople.filter(p => p && p.stageKey === 'closed') : [];
+  const importedCount = _clients.filter(c => (c.sourcePersonProfileId ?? null) !== null).length;
+
+  let html = '';
+
+  // Info banner
+  html += `
+    <div class="bridge-info">
+      <span class="bridge-info-stat"><b>SALES CC</b> ${allPeople.length} people total</span>
+      <span class="bridge-info-stat"><b>CLOSED</b> ${closedPeople.length}</span>
+      <span class="bridge-info-stat"><b>ALREADY IMPORTED</b> ${importedCount}</span>
+      <span class="bridge-info-note">Read-only via <code>fosm_person_profiles_v1</code> · filter <code>stageKey === 'closed'</code> · click <b>Import</b> to create a roster entry · Pattern 4 holds (Ops CC never writes Sales CC keys).</span>
+    </div>
+  `;
+
+  // Empty states — differentiated
+  if (allPeople.length === 0) {
+    html += `
+      <div class="empty">
+        <div class="empty-icon">🌉</div>
+        <b>No people from Sales CC yet.</b><br>Open Sales CC, close some deals, then come back here to import them.
+      </div>
+    `;
+  } else if (closedPeople.length === 0) {
+    html += `
+      <div class="empty">
+        <div class="empty-icon">🌉</div>
+        <b>${allPeople.length} people in Sales CC · none closed yet.</b><br>Move someone to <code>stageKey: 'closed'</code> in Sales CC, then they\'ll appear here ready to import.
+      </div>
+    `;
+  } else {
+    closedPeople.forEach(p => {
+      const id   = p.id || '';
+      const name = p.name || p.fullName || ('Person ' + (id.slice(0, 8) || 'unknown'));
+      const funnel = p.funnelKey || '';
+      const existing = _clients.find(c => (c.sourcePersonProfileId ?? null) === id);
+      const isImported = !!existing;
+      html += `
+        <div class="bridge-row ${isImported ? 'is-imported' : ''}">
+          <div class="bridge-row-main">
+            <div class="bridge-row-h">
+              <span class="bridge-row-name">${escHTML(name)}</span>
+              <span class="bridge-stage-pill">CLOSED · Won</span>
+              ${funnel ? `<span class="bridge-funnel-pill">${escHTML(funnel)}</span>` : ''}
+              ${isImported ? `<span class="bridge-imported-pill">already imported · ${escHTML(existing.name)}</span>` : ''}
+            </div>
+            <div class="bridge-row-meta">person_profile.id · ${escHTML(id)}</div>
+          </div>
+          <div class="bridge-actions">
+            <button class="btn ${isImported ? 'btn-ghost' : 'btn-primary'} btn-sm" data-action="import-person" data-person-id="${escHTML(id)}">
+              ${isImported ? 'Import again' : '↑ Import to Roster'}
+            </button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  canvas.innerHTML = html;
+
+  canvas.querySelectorAll('[data-action="import-person"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const personId = btn.dataset.personId;
+      const person = closedPeople.find(p => (p.id || '') === personId);
+      if (!person) return;
+      importPersonAsClient(person);
+    });
+  });
+}
+
+function importPersonAsClient(person) {
+  const personId = person.id || '';
+  const name = person.name || person.fullName || ('Person ' + (personId.slice(0, 8) || 'unknown'));
+  const existing = _clients.find(c => (c.sourcePersonProfileId ?? null) === personId);
+
+  const doImport = () => {
+    createClient({
+      name,
+      phase: 'P1',
+      sourcePersonProfileId: personId
+    });
+    renderBridge();
+  };
+
+  if (existing) {
+    openDuplicateImportConfirm(person, existing, doImport);
+  } else {
+    doImport();
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   C3 · ALL STUBS aggregate
+═══════════════════════════════════════════════ */
+function renderStubs() {
+  const canvas = document.getElementById('stubsCanvas');
+  if (!canvas) return;
+  // Group registry by department in canonical order.
+  const groups = STUBS_GROUP_ORDER
+    .map(key => ({ key, meta: DEPT_META[key], items: STUBS_REGISTRY.filter(s => s.dept === key) }))
+    .filter(g => g.items.length > 0);
+
+  let html = '';
+
+  // TOC
+  html += `<div class="stubs-toc"><span class="stubs-toc-lbl">Jump to</span>`;
+  groups.forEach(g => {
+    html += `<span class="stubs-toc-link" data-jump="stubs-group-${g.key}">${g.meta.icon} ${escHTML(g.meta.name)} · ${g.items.length}</span>`;
+  });
+  html += `</div>`;
+
+  // Groups
+  groups.forEach(g => {
+    // Sort within group: integer phases ascending, then checkpoint strings
+    const sorted = [...g.items].sort((a, b) => {
+      const aN = typeof a.phase === 'number' ? a.phase : 100;
+      const bN = typeof b.phase === 'number' ? b.phase : 100;
+      if (aN !== bN) return aN - bN;
+      return String(a.phase).localeCompare(String(b.phase));
+    });
+    html += `
+      <div class="stubs-group" id="stubs-group-${g.key}">
+        <div class="stubs-group-h">
+          <span class="stubs-group-title">${g.meta.icon} ${escHTML(g.meta.name)}</span>
+          <span class="stubs-group-count">${sorted.length} ${sorted.length === 1 ? 'module' : 'modules'}</span>
+        </div>
+        ${sorted.map(renderModuleCard).join('')}
+      </div>
+    `;
+  });
+
+  canvas.innerHTML = html;
+
+  canvas.querySelectorAll('.stubs-toc-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const target = document.getElementById(link.dataset.jump);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   C3 · MODAL BUILDERS · Flags + Duplicate Import
+═══════════════════════════════════════════════ */
+function openNewFlagModal(clientId) {
+  openModal({
+    title: 'Flag Contradiction',
+    body: `
+      <div class="field">
+        <label class="field-lbl">What\'s the contradiction?</label>
+        <textarea class="field-textarea" id="m_flag_desc" placeholder="What was said or written, where, and what does it contradict? e.g. 'Last week\\'s meeting note said cutoff was the 15th; today\\'s call they\\'re acting like it was the 30th.'" style="min-height: 100px;"></textarea>
+        <div class="field-help">Capture in context. Resolution happens on Today (or here) once you\'ve sorted it out.</div>
+      </div>
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_flag_save">Flag It</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_flag_desc').focus();
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_flag_save').addEventListener('click', () => {
+        const description = document.getElementById('m_flag_desc').value.trim();
+        if (!description) { toast('Description is required', 'warn'); return; }
+        createFlag({ clientId, description });
+        closeModal();
+        const c = _clients.find(x => x.id === clientId);
+        if (c) renderProfile(c);
+      });
+    }
+  });
+}
+
+function openEditFlagModal(flagId) {
+  const f = _flags.find(x => x.id === flagId);
+  if (!f) return;
+  openModal({
+    title: 'Edit Contradiction Flag',
+    body: `
+      <div class="field">
+        <label class="field-lbl">Description</label>
+        <textarea class="field-textarea" id="m_flag_desc" style="min-height: 100px;">${escHTML(f.description)}</textarea>
+      </div>
+      ${f.resolved ? `
+        <div class="field">
+          <label class="field-lbl">Resolution</label>
+          <textarea class="field-textarea" id="m_flag_resolution">${escHTML(f.resolutionText || '')}</textarea>
+        </div>
+      ` : ''}
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_flag_save">Save Changes</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_flag_save').addEventListener('click', () => {
+        const description = document.getElementById('m_flag_desc').value.trim();
+        if (!description) { toast('Description is required', 'warn'); return; }
+        const patch = { description };
+        const resEl = document.getElementById('m_flag_resolution');
+        if (resEl) patch.resolutionText = resEl.value;
+        updateFlag(f.id, patch);
+        toast('Flag updated');
+        closeModal();
+        const c = _clients.find(x => x.id === f.clientId);
+        if (c) renderProfile(c);
+      });
+    }
+  });
+}
+
+function openResolveFlagModal(flagId) {
+  const f = _flags.find(x => x.id === flagId);
+  if (!f) return;
+  const c = _clients.find(x => x.id === f.clientId);
+  openModal({
+    title: 'Resolve Contradiction',
+    body: `
+      <div class="callout callout-gold">
+        <b>Flagged${c ? ' on ' + escHTML(c.name) : ''}:</b> ${escHTML(f.description)}
+      </div>
+      <div class="field">
+        <label class="field-lbl">How was it resolved?</label>
+        <textarea class="field-textarea" id="m_flag_resolution" style="min-height: 100px;" placeholder="What did we settle on? e.g. 'Confirmed cutoff is the 30th · added to scope tracker · client confirmed via email.'"></textarea>
+      </div>
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_flag_save">Mark Resolved</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_flag_resolution').focus();
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_flag_save').addEventListener('click', () => {
+        const resolutionText = document.getElementById('m_flag_resolution').value.trim();
+        resolveFlag(f.id, resolutionText);
+        closeModal();
+        // Refresh whichever view is currently active.
+        const activeView = document.querySelector('.view.active');
+        if (activeView && activeView.id === 'mod-today') {
+          renderToday();
+        } else if (c) {
+          renderProfile(c);
+        }
+      });
+    }
+  });
+}
+
+function openDuplicateImportConfirm(person, existingClient, onConfirm) {
+  const personId = person.id || '';
+  const name = person.name || person.fullName || ('Person ' + (personId.slice(0, 8) || 'unknown'));
+  openModal({
+    title: 'Already Imported',
+    body: `
+      <div class="confirm-warning" style="background: var(--gold-dim); border-color: var(--gold-border); color: #e6c97a;">
+        <b>This person is already in your roster.</b>
+        <ul>
+          <li>Sales CC person: <code>${escHTML(name)}</code> · id <code>${escHTML(personId)}</code></li>
+          <li>Existing client: <code>${escHTML(existingClient.name)}</code> · created ${fmtDate(existingClient.createdAt.slice(0,10))}</li>
+        </ul>
+        <br>Per Decision #4, this is a <b>warning, not a block</b>. If you have a reason to import again (separate engagement, re-engaged after closing, etc.), proceed below. Otherwise cancel.
+      </div>
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_import_again">Import Again</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_import_again').addEventListener('click', () => {
+        onConfirm();
+        closeModal();
+      });
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════
    ON_SHOW HOOKS · render-on-navigate map
    Each view that needs a render on activation
    registers here. Views still scaffolding stay out.
 ═══════════════════════════════════════════════ */
 const ON_SHOW = {
-  'mod-roster': renderRoster
-  // C3+ adds: today, comms, data, clickup, calendar, query, bridge, architecture, backup, diagnostics, stubs
+  'mod-today':   renderToday,
+  'mod-roster':  renderRoster,
+  'mod-comms':   renderComms,
+  'mod-data':    renderData,
+  'mod-clickup': renderClickup,
+  'mod-bridge':  renderBridge,
+  'mod-stubs':   renderStubs
+  // C4 adds: mod-calendar, mod-query
+  // C5 adds: mod-architecture, mod-backup, mod-diagnostics
 };
 
 /* ─── VIEW SWITCHING ──────────────────────────
@@ -3319,11 +4498,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Friendly boot signal — visible only in DevTools console.
   console.log(
-    '%c◆ Operations CC · v0.2.0 · C2 · Roster + Profile shell live',
+    '%c◆ Operations CC · v0.3.0 · C3 · Today + Departments + Bridge live',
     'color:#FF6B00;font-weight:700;font-family:monospace;'
   );
   console.log(
-    `%c${_clients.length} client(s) · ${_entities.length} entity record(s) · ${_notes.length} note(s) · ${_scope.length} scope item(s) hydrated from localStorage`,
+    `%c${_clients.length} client(s) · ${_entities.length} entity record(s) · ${_notes.length} note(s) · ${_scope.length} scope item(s) · ${_flags.length} flag(s) · ${_filings.length} filing(s) hydrated from localStorage`,
     'color:#666;font-family:monospace;'
   );
 });
