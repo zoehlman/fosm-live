@@ -1,0 +1,3328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operations CC · FOSM·LIVE · Delivery Brain</title>
+<meta name="description" content="The delivery brain of the FOSM·LIVE ecosystem. Client roster, four sub-departments, PM calendar, FOSM·LIVE query interface, Sales CC bridge — the surface that keeps every client deliverable fresh.">
+<meta name="author" content="Zach Oehlman · Learn And Grow Rich">
+<meta name="theme-color" content="#FF6B00">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Operations Command Center · FOSM·LIVE">
+<meta property="og:description" content="Delivery-side mirror of Marketing CC and Sales CC. Client roster, four sub-departments, honest stubs. Sibling to marketing-cc and sales-cc.">
+<meta property="og:site_name" content="Learn And Grow Rich">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230d0d0d'/%3E%3Cpath d='M16 7 L24 16 L16 25 L8 16 Z' fill='%23FF6B00'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23FF6B00' stroke-width='1' opacity='0.4'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════
+   DESIGN TOKENS — lifted 1:1 from Sales CC
+   so Operations CC reads as a true sibling.
+═══════════════════════════════════════════════ */
+:root {
+  --bg: #0d0d0d;
+  --panel: #161616;
+  --panel2: #1a1a1a;
+  --panel3: #0e0e0e;
+  --border: #242424;
+  --border2: #1e1e1e;
+  --ink: #e8e8e8;
+  --mute: #666;
+  --mute2: #444;
+  --orange: #FF6B00;
+  --orange-dim: #2a1a08;
+  --orange-border: #4a2e10;
+  --green: #5faa3a;
+  --green-dim: #0a1f0a;
+  --green-border: #2a4a1a;
+  --blue: #4a8fd4;
+  --blue-dim: #0d1626;
+  --blue-border: #1e3a5a;
+  --purple: #8060cc;
+  --purple-dim: #181028;
+  --purple-border: #2a1a5a;
+  --gold: #c49a52;
+  --gold-dim: #1e1408;
+  --gold-border: #3a2a10;
+  --rose: #cc4466;
+  --rose-dim: #200a12;
+  --rose-border: #4a1a28;
+  --teal: #3aa89a;
+  --teal-dim: #0a1f1c;
+  --teal-border: #1a3a36;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+  --sidebar-w: 248px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  background: #0a0a0a;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.brand-block {
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-mark {
+  width: 28px; height: 28px;
+  background: var(--orange);
+  border-radius: 6px;
+  display: grid; place-items: center;
+  font-family: var(--mono);
+  font-weight: 600;
+  color: #000;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.brand-meta { min-width: 0; }
+.brand-name {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.brand-sub {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--mute);
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0 24px;
+}
+.sidebar-nav::-webkit-scrollbar { width: 6px; }
+.sidebar-nav::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+.sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+
+.nav-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 14px 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  color: var(--mute);
+  text-transform: uppercase;
+  border-top: 1px solid var(--border2);
+  margin-top: 4px;
+}
+.nav-section:first-of-type { border-top: none; margin-top: 0; }
+.nav-sec-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px; height: 16px;
+  background: #1a1a1a;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  color: var(--mute);
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 14px 7px 22px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.12s ease;
+  color: #aaa;
+  font-size: 11.5px;
+  white-space: nowrap;
+  user-select: none;
+}
+.nav-item:hover { background: #1e1e1e; color: #ddd; }
+.nav-item.active {
+  border-left-color: var(--orange);
+  background: #1e1e1e;
+  color: var(--orange);
+}
+.nav-item.acc-blue.active   { border-left-color: var(--blue);   color: var(--blue); }
+.nav-item.acc-green.active  { border-left-color: var(--green);  color: var(--green); }
+.nav-item.acc-purple.active { border-left-color: var(--purple); color: var(--purple); }
+.nav-item.acc-gold.active   { border-left-color: var(--gold);   color: var(--gold); }
+.nav-item.acc-teal.active   { border-left-color: var(--teal);   color: var(--teal); }
+.nav-item.acc-rose.active   { border-left-color: var(--rose);   color: var(--rose); }
+
+.nav-item .nav-ic {
+  width: 16px;
+  font-size: 13px;
+  display: inline-flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.nav-item.nav-stub {
+  color: var(--mute2);
+  font-style: italic;
+}
+.nav-item.nav-stub:hover { color: var(--gold); }
+.nav-item.nav-stub.active {
+  border-left-color: var(--gold);
+  color: var(--gold);
+  background: #1e1e1e;
+}
+
+.sidebar-foot {
+  padding: 10px 14px 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--mute);
+  letter-spacing: 0.5px;
+  background: #060606;
+}
+.sidebar-foot .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 0 rgba(196,154,82,0.6);
+  animation: pulse 2.4s infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(196,154,82,0.6); }
+  70%  { box-shadow: 0 0 0 5px rgba(196,154,82,0); }
+  100% { box-shadow: 0 0 0 0 rgba(196,154,82,0); }
+}
+
+/* ─── MAIN AREA ─── */
+.main {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+  position: relative;
+}
+
+.topbar {
+  background: var(--panel2);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  flex-shrink: 0;
+}
+.topbar-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.topbar-sub {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--mute);
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  background: #1f1f1f;
+  border: 1px solid #2a2a2a;
+  color: #aaa;
+  user-select: none;
+}
+.tag-orange { background: var(--orange-dim); border-color: var(--orange-border); color: var(--orange); }
+.tag-green  { background: var(--green-dim);  border-color: var(--green-border);  color: var(--green); }
+.tag-blue   { background: var(--blue-dim);   border-color: var(--blue-border);   color: var(--blue); }
+.tag-purple { background: var(--purple-dim); border-color: var(--purple-border); color: var(--purple); }
+.tag-gold   { background: var(--gold-dim);   border-color: var(--gold-border);   color: var(--gold); }
+.tag-rose   { background: var(--rose-dim);   border-color: var(--rose-border);   color: var(--rose); }
+.tag-teal   { background: var(--teal-dim);   border-color: var(--teal-border);   color: var(--teal); }
+.tag-mute   { background: #161616; border-color: #1e1e1e; color: var(--mute); }
+
+.canvas {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 22px 60px;
+}
+.canvas::-webkit-scrollbar { width: 8px; height: 8px; }
+.canvas::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+.canvas::-webkit-scrollbar-track { background: transparent; }
+
+/* ─── VIEW SWITCHING ─── */
+.view { display: none; }
+.view.active {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ─── PRIMITIVES: card, callout, sec-h, btn ─── */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+}
+.card.compact { padding: 10px 14px; }
+
+.callout {
+  background: linear-gradient(90deg, var(--orange-dim) 0%, transparent 100%);
+  border-left: 3px solid var(--orange);
+  border-radius: 0 6px 6px 0;
+  padding: 11px 16px;
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: #ccc;
+  margin-bottom: 14px;
+}
+.callout b { color: #fff; }
+.callout-blue  { background: linear-gradient(90deg, var(--blue-dim)  0%, transparent 100%); border-left-color: var(--blue); }
+.callout-green { background: linear-gradient(90deg, var(--green-dim) 0%, transparent 100%); border-left-color: var(--green); }
+.callout-gold  { background: linear-gradient(90deg, var(--gold-dim)  0%, transparent 100%); border-left-color: var(--gold); }
+.callout-mute  { background: linear-gradient(90deg, #1a1a1a 0%, transparent 100%); border-left-color: var(--mute); }
+.callout-purple { background: linear-gradient(90deg, var(--purple-dim) 0%, transparent 100%); border-left-color: var(--purple); }
+.callout-teal  { background: linear-gradient(90deg, var(--teal-dim)  0%, transparent 100%); border-left-color: var(--teal); }
+.callout code {
+  background: #000;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: #ddd;
+}
+
+.sec-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 22px 0 12px;
+}
+.sec-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+}
+.sec-sub {
+  font-size: 11px;
+  color: var(--mute);
+  font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sec-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border2);
+}
+
+.btn {
+  background: #1f1f1f;
+  border: 1px solid #2a2a2a;
+  color: #ddd;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.12s;
+  letter-spacing: 0.2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn:hover { background: #292929; color: #fff; border-color: #383838; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary {
+  background: var(--orange-dim);
+  border-color: var(--orange-border);
+  color: var(--orange);
+}
+.btn-primary:hover { background: #3a2410; color: #ffa050; border-color: #5a3a18; }
+.btn-ghost {
+  background: transparent;
+  border-color: var(--border);
+  color: #aaa;
+}
+.btn-ghost:hover { color: #fff; border-color: #2e2e2e; }
+.btn-sm { padding: 4px 9px; font-size: 10.5px; }
+.btn-danger {
+  background: var(--rose-dim);
+  border-color: var(--rose-border);
+  color: var(--rose);
+}
+.btn-danger:hover { background: #2e1018; color: #ee6080; }
+
+/* ─── STATUS PILLS — same taxonomy as Marketing CC + Sales CC ─── */
+.st {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.st-live    { background: var(--green-dim);  color: var(--green);  border: 1px solid var(--green-border); }
+.st-partial { background: var(--gold-dim);   color: var(--gold);   border: 1px solid var(--gold-border); }
+.st-stub    { background: #2a1f10;           color: #d49060;       border: 1px solid #4a3018; }
+.st-broken  { background: var(--rose-dim);   color: var(--rose);   border: 1px solid var(--rose-border); }
+.st-shared  { background: var(--blue-dim);   color: var(--blue);   border: 1px solid var(--blue-border); }
+.st-plan    { background: #2a1f10;           color: #d49060;       border: 1px solid #4a3018; }
+
+/* ─── SCAFFOLD CALLOUT — C1 placeholder shown on every view ─── */
+.scaffold {
+  background: linear-gradient(135deg, #0d1626 0%, var(--panel) 60%);
+  border: 1px solid var(--blue-border);
+  border-left: 3px solid var(--blue);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+}
+.scaffold-h {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  color: var(--blue);
+  text-transform: uppercase;
+}
+.scaffold-h .ph-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  background: var(--blue-dim);
+  border: 1px solid var(--blue-border);
+  color: var(--blue);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+.scaffold h2 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+.scaffold p {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: #ccc;
+}
+.scaffold p:last-child { margin-bottom: 0; }
+.scaffold ul {
+  margin: 0 0 6px;
+  padding-left: 18px;
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: #ccc;
+}
+.scaffold ul li { margin-bottom: 2px; }
+.scaffold code {
+  background: #050505;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--orange);
+}
+.scaffold .ph-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--border2);
+  font-size: 11px;
+}
+.scaffold .ph-row:last-child { border-bottom: none; }
+.scaffold .ph-row .k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.6px;
+  color: var(--mute);
+  text-transform: uppercase;
+  padding-top: 1px;
+}
+.scaffold .ph-row .v { color: #ddd; line-height: 1.55; }
+
+/* ─── MODAL ─── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 100;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 6vh 16px;
+  overflow-y: auto;
+}
+.modal-backdrop.open { display: flex; }
+.modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 760px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  overflow: hidden;
+}
+.modal-h {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-h h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+.modal-h .modal-x {
+  background: none;
+  border: none;
+  color: var(--mute);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.modal-h .modal-x:hover { color: #fff; background: #1e1e1e; }
+.modal-body { padding: 16px 18px; max-height: 70vh; overflow-y: auto; }
+.modal-foot {
+  padding: 12px 18px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  background: #0d0d0d;
+}
+
+/* ─── TOAST ─── */
+.toast-wrap {
+  position: fixed;
+  bottom: 20px;
+  right: 22px;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.toast {
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-left: 3px solid var(--green);
+  color: #ddd;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+  animation: toastIn 0.25s ease;
+  max-width: 360px;
+  pointer-events: auto;
+}
+.toast.toast-warn  { border-left-color: var(--gold); }
+.toast.toast-error { border-left-color: var(--rose); }
+.toast.toast-info  { border-left-color: var(--blue); }
+@keyframes toastIn {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+/* ─── EMPTY ─── */
+.empty {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--mute);
+  font-size: 12px;
+  font-style: italic;
+}
+.empty .empty-icon { font-size: 28px; margin-bottom: 8px; opacity: 0.5; }
+.empty b { color: #aaa; font-style: normal; }
+
+/* ─── WEEKLY RHYTHM CARD (Today view scaffold) ─── */
+.rhythm {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+.rhythm-day {
+  background: #0a0a0a;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.rhythm-day .day {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.7px;
+  color: var(--mute);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.rhythm-day .pillar {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 4px;
+}
+.rhythm-day .pillar-letter {
+  font-family: var(--mono);
+  color: var(--orange);
+  font-size: 18px;
+  margin-right: 4px;
+}
+.rhythm-day.open .pillar-letter { color: var(--mute); }
+.rhythm-day.open .pillar { color: var(--mute); }
+@media (max-width: 700px) {
+  .rhythm { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ═══════════════════════════════════════════════
+   C2 ADDITIONS · Roster CRUD + Profile shell + Tabs
+   Lifts filter-bar / chip / profile-shell / profile-subtab
+   patterns 1:1 from Sales CC. Adds entity-row, note-row,
+   scope-row, exec-summary-card, stub-tab-body as new
+   primitives scoped to Operations CC's data model.
+═══════════════════════════════════════════════ */
+
+/* ─── FILTER BAR ─── */
+.filter-bar {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.filter-search {
+  flex: 1;
+  min-width: 220px;
+  background: var(--panel3);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: inherit;
+  transition: border-color 0.12s;
+}
+.filter-search:focus { outline: none; border-color: var(--orange); }
+.filter-lbl {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.7px;
+  color: var(--mute);
+  text-transform: uppercase;
+  font-weight: 700;
+  min-width: 50px;
+  flex-shrink: 0;
+}
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex: 1;
+}
+.chip {
+  background: #161616;
+  border: 1px solid var(--border2);
+  color: #aaa;
+  font-family: inherit;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  padding: 4px 9px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.chip:hover { background: #1f1f1f; color: #ddd; border-color: #2a2a2a; }
+.chip.is-active {
+  background: var(--orange-dim);
+  color: var(--orange);
+  border-color: var(--orange-border);
+  font-weight: 600;
+}
+.chip.is-active.acc-blue   { background: var(--blue-dim);   color: var(--blue);   border-color: var(--blue-border); }
+.chip.is-active.acc-green  { background: var(--green-dim);  color: var(--green);  border-color: var(--green-border); }
+.chip.is-active.acc-gold   { background: var(--gold-dim);   color: var(--gold);   border-color: var(--gold-border); }
+.chip.is-active.acc-purple { background: var(--purple-dim); color: var(--purple); border-color: var(--purple-border); }
+.chip.is-active.acc-rose   { background: var(--rose-dim);   color: var(--rose);   border-color: var(--rose-border); }
+.chip.is-active.acc-teal   { background: var(--teal-dim);   color: var(--teal);   border-color: var(--teal-border); }
+
+.roster-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border2);
+  margin-top: 4px;
+  font-size: 10.5px;
+  color: var(--mute);
+}
+.roster-foot-count {
+  font-family: var(--mono);
+  letter-spacing: 0.4px;
+}
+
+/* ─── ROSTER GRID + CLIENT CARD ─── */
+.roster-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.client-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.12s;
+  position: relative;
+}
+.client-card:hover {
+  border-color: #3a3a3a;
+  background: #1c1c1c;
+  transform: translateY(-1px);
+}
+.client-card-h {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.client-card-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #fff;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 60px; /* leave room for hover-actions */
+}
+.client-card-pills {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.client-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 7px;
+}
+.client-card-meta-item {
+  background: #0a0a0a;
+  border: 1px solid var(--border2);
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: #aaa;
+  white-space: nowrap;
+}
+.client-card-meta-item b { color: var(--mute); font-weight: 700; letter-spacing: 0.3px; }
+.client-card-meta-item.scope-warn { color: var(--gold); border-color: var(--gold-border); background: var(--gold-dim); }
+.client-card-meta-item.scope-warn b { color: var(--gold); }
+
+/* Phase pills */
+.phase-pill {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+.phase-pill.p1 { background: var(--blue-dim);   color: var(--blue);   border: 1px solid var(--blue-border); }
+.phase-pill.p2 { background: var(--green-dim);  color: var(--green);  border: 1px solid var(--green-border); }
+.phase-pill.p3 { background: var(--purple-dim); color: var(--purple); border: 1px solid var(--purple-border); }
+
+/* FOSM·LIVE / Manual pills */
+.fl-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.fl-pill.fl-live   { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+.fl-pill.fl-manual { background: var(--gold-dim);  color: var(--gold);  border: 1px solid var(--gold-border); }
+
+/* Card hover actions */
+.client-card-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+.client-card:hover .client-card-actions { opacity: 1; pointer-events: auto; }
+.client-card-action {
+  background: #1a1a1a;
+  border: 1px solid var(--border);
+  color: #aaa;
+  font-family: inherit;
+  font-size: 11px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.12s;
+}
+.client-card-action:hover { background: var(--orange-dim); color: var(--orange); border-color: var(--orange-border); }
+.client-card-action.danger:hover { background: var(--rose-dim); color: var(--rose); border-color: var(--rose-border); }
+@media (hover: none) { .client-card-actions { display: none; } }
+
+/* ─── PROFILE HEADER + SUBTABS ─── */
+.profile-header {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+}
+.profile-name-lg {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.profile-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.profile-meta-row .meta-item {
+  font-family: var(--mono);
+  font-size: 10px;
+  background: #0a0a0a;
+  border: 1px solid var(--border2);
+  padding: 2px 7px;
+  border-radius: 3px;
+  color: #aaa;
+  white-space: nowrap;
+}
+.profile-meta-row .meta-item b { color: var(--mute); font-weight: 700; }
+.profile-back-link {
+  cursor: pointer;
+  color: var(--mute);
+  transition: color 0.12s;
+}
+.profile-back-link:hover { color: var(--orange); }
+
+.profile-subtabs {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  align-items: flex-end;
+}
+.profile-subtabs::-webkit-scrollbar { height: 4px; }
+.profile-subtab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--mute);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: all 0.12s;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  margin-bottom: -1px;
+}
+.profile-subtab:hover { color: #ddd; }
+.profile-subtab.active {
+  color: var(--orange);
+  border-bottom-color: var(--orange);
+}
+.profile-subtab.is-stub { color: var(--gold); font-style: italic; opacity: 0.7; }
+.profile-subtab.is-stub:hover { opacity: 1; }
+.profile-subtab.is-stub.active { color: var(--gold); border-bottom-color: var(--gold); opacity: 1; }
+.profile-subtab-count {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  background: #161616;
+  border: 1px solid var(--border2);
+  color: var(--mute);
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+.profile-subtab.active .profile-subtab-count {
+  background: var(--orange-dim);
+  color: var(--orange);
+  border-color: var(--orange-border);
+}
+.profile-subtab .stub-pill {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+.tab-add-disabled {
+  background: transparent;
+  border: none;
+  color: var(--mute2);
+  font-family: inherit;
+  font-size: 16px;
+  padding: 8px 12px;
+  cursor: not-allowed;
+  opacity: 0.5;
+  margin-bottom: -1px;
+}
+
+/* ─── TAB CONTENT ─── */
+.tab-content { display: flex; flex-direction: column; gap: 12px; }
+.tab-section-h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 4px 0 8px;
+  flex-wrap: wrap;
+}
+.tab-section-h-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; min-width: 0; }
+.tab-section-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+}
+.tab-section-sub { font-size: 11px; color: var(--mute); font-style: italic; }
+
+/* ─── ENTITY ROW ─── */
+.entity-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 6px;
+}
+.entity-row.is-child {
+  margin-left: 24px;
+  border-left: 2px solid var(--border2);
+}
+.entity-row-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.entity-row-h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.entity-name {
+  font-weight: 700;
+  color: #fff;
+  font-size: 12.5px;
+}
+.entity-type-pill {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  background: #0a0a0a;
+  border: 1px solid var(--border2);
+  color: #aaa;
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.entity-url {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--purple);
+  word-break: break-all;
+}
+.entity-notes {
+  font-size: 11px;
+  color: #aaa;
+  font-style: italic;
+  margin-top: 2px;
+}
+.entity-actions { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+
+/* ─── NOTE ROW (meeting notes) ─── */
+.note-row {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.note-row-h {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.note-row-h-left { flex: 1; min-width: 0; }
+.note-row-date {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--mute);
+  letter-spacing: 0.4px;
+  margin-bottom: 2px;
+}
+.note-row-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+.note-row-participants {
+  font-size: 11px;
+  color: var(--mute);
+  font-style: italic;
+  margin-top: 4px;
+}
+.note-row-body {
+  font-size: 11.5px;
+  color: #ccc;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  margin-top: 6px;
+}
+.note-row-actions { display: flex; gap: 6px; flex-shrink: 0; }
+
+/* ─── EXEC SUMMARY CARD ─── */
+.exec-summary-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 7px 7px 0;
+  padding: 14px 16px;
+}
+.exec-summary-textarea {
+  width: 100%;
+  background: var(--panel3);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 9px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: inherit;
+  line-height: 1.6;
+  min-height: 80px;
+  resize: vertical;
+  box-sizing: border-box;
+}
+.exec-summary-textarea:focus { outline: none; border-color: var(--gold); }
+.exec-summary-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 10.5px;
+  color: var(--mute);
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.kbd-hint {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--mute);
+  background: #0a0a0a;
+  border: 1px solid var(--border2);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+/* ─── SCOPE ROW ─── */
+.scope-row {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 11px 14px;
+  margin-bottom: 6px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: flex-start;
+}
+.scope-row-main { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.scope-row-h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.scope-row-desc {
+  font-size: 12px;
+  color: #fff;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.scope-row-decision {
+  font-size: 11px;
+  color: #aaa;
+  font-style: italic;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+.scope-status-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.4px;
+}
+.scope-status-pill.flagged  { background: var(--gold-dim);  color: var(--gold);  border: 1px solid var(--gold-border); }
+.scope-status-pill.decided  { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+.scope-status-pill.declined { background: var(--rose-dim);  color: var(--rose);  border: 1px solid var(--rose-border); }
+.scope-cat-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  background: #0a0a0a;
+  border: 1px solid var(--border2);
+  color: #aaa;
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.scope-row-when {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--mute);
+}
+.scope-actions { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+
+/* ─── FIELD layouts (lifted from Sales CC) ─── */
+.field { margin-bottom: 11px; }
+.field-lbl {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.7px;
+  color: var(--mute);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.field-input,
+.field-textarea,
+.field-select {
+  width: 100%;
+  background: var(--panel3);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 7px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: border-color 0.12s;
+}
+.field-input:focus,
+.field-textarea:focus,
+.field-select:focus { outline: none; border-color: var(--orange); }
+.field-textarea { resize: vertical; min-height: 70px; line-height: 1.55; }
+.field-help { font-size: 10.5px; color: var(--mute); margin-top: 3px; line-height: 1.5; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 540px) { .field-row { grid-template-columns: 1fr; } }
+.field-radio-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.field-radio-row label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--panel3);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 11.5px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.field-radio-row label:hover { border-color: #3a3a3a; }
+
+/* ─── CONFIRM WARNING (delete modal) ─── */
+.confirm-warning {
+  background: var(--rose-dim);
+  border: 1px solid var(--rose-border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: #f0bcc8;
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+.confirm-warning b { color: var(--rose); }
+.confirm-warning code {
+  background: #000;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink);
+}
+.confirm-warning ul { margin: 8px 0 0; padding-left: 22px; }
+.confirm-warning li { margin: 2px 0; }
+
+/* ─── STUB TAB CALLOUT (for Filings + Documents tabs) ─── */
+.stub-tab-body {
+  background: linear-gradient(90deg, var(--gold-dim) 0%, transparent 100%);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  padding: 16px 20px;
+  margin-bottom: 14px;
+}
+.stub-tab-body h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.stub-tab-body p { margin: 0 0 8px; font-size: 11.5px; line-height: 1.6; color: #ccc; }
+.stub-tab-body p:last-child { margin-bottom: 0; }
+.stub-tab-body .stub-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+  padding: 5px 0;
+  font-size: 11px;
+  border-bottom: 1px dashed var(--border2);
+}
+.stub-tab-body .stub-row:last-child { border-bottom: none; }
+.stub-tab-body .stub-row .k {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.6px;
+  color: var(--mute);
+  text-transform: uppercase;
+  padding-top: 1px;
+}
+.stub-tab-body .stub-row .v { color: #ddd; line-height: 1.5; }
+.stub-tab-body code {
+  background: #000;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--orange);
+}
+
+/* Profile topbar accents (when navigated via roster -> profile) */
+.profile-crumb {
+  cursor: pointer;
+  color: var(--mute);
+  transition: color 0.12s;
+}
+.profile-crumb:hover { color: var(--orange); }
+.profile-sep { color: #444; padding: 0 6px; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ═════════ SIDEBAR ═════════ -->
+  <aside class="sidebar">
+
+    <div class="brand-block">
+      <div class="brand-mark">◆</div>
+      <div class="brand-meta">
+        <div class="brand-name">Operations CC</div>
+        <div class="brand-sub">FOSM·LIVE · v0.1.0</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+      <!-- populated by buildSidebar() at boot -->
+    </nav>
+
+    <div class="sidebar-foot">
+      <span class="dot"></span>
+      <span id="footStatus">v0.2.0 · C2 · Roster + Profile shell live</span>
+    </div>
+
+  </aside>
+
+  <!-- ═════════ MAIN ═════════ -->
+  <main class="main">
+
+    <!-- ─────────── 1 · TODAY ─────────── -->
+    <div class="view active" id="mod-today">
+      <div class="topbar">
+        <div class="topbar-title">Today <span class="topbar-sub">— what needs attention now · across every client</span></div>
+        <div class="topbar-right">
+          <span class="tag tag-orange">☀ default landing</span>
+        </div>
+      </div>
+      <div class="canvas">
+        <div class="scaffold">
+          <div class="scaffold-h">
+            <span class="ph-tag">C1 · scaffolding</span>
+            <span>view shell complete · live content lands in C3</span>
+          </div>
+          <h2>Today · the daily working surface</h2>
+          <p>The first thing the team opens each morning. One screen that shows what needs attention right now, across every client on the roster.</p>
+          <div class="ph-row">
+            <span class="k">live in C3</span>
+            <span class="v">Four sources, aggregated and sorted: <b>overdue filings</b> from PM Calendar · <b>nextReview dates past or today</b> from Client Roster · <b>scope-creep items flagged but undecided</b> · <b>unresolved contradiction flags</b>.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">stubbed</span>
+            <span class="v">AI-derived items render as a separate list with a Phase 3 callout — Executive Summary Generator, ClickUp Gap Detector queue, Meeting Summarizer outputs. None of these are wired tonight.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">storage</span>
+            <span class="v"><code>fosm_ops_ui_state_v1</code> for filter persistence · derives everything else from owned + cross-CC reads</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="sec-h">
+            <span class="sec-title">Weekly Call Rhythm</span>
+            <span class="sec-sub">— the four-pillars-alive cadence · same in every FOSM·LIVE</span>
+            <span class="sec-line"></span>
+          </div>
+          <div class="rhythm">
+            <div class="rhythm-day">
+              <div class="day">Monday</div>
+              <div class="pillar"><span class="pillar-letter">F</span>Finance</div>
+            </div>
+            <div class="rhythm-day">
+              <div class="day">Tuesday</div>
+              <div class="pillar"><span class="pillar-letter">O</span>Operations</div>
+            </div>
+            <div class="rhythm-day">
+              <div class="day">Wednesday</div>
+              <div class="pillar"><span class="pillar-letter">S</span>Sales</div>
+            </div>
+            <div class="rhythm-day">
+              <div class="day">Thursday</div>
+              <div class="pillar"><span class="pillar-letter">M</span>Marketing</div>
+            </div>
+            <div class="rhythm-day open">
+              <div class="day">Friday</div>
+              <div class="pillar"><span class="pillar-letter">·</span>Open</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── 2 · CLIENT ROSTER ─────────── -->
+    <div class="view" id="mod-roster">
+      <div class="topbar">
+        <div class="topbar-title" id="rosterTopbarTitle">Client Roster <span class="topbar-sub">— every client you're delivering on · phase · FOSM·LIVE · last touch · next review</span></div>
+        <div class="topbar-right" id="rosterTopbarRight">
+          <button class="btn btn-primary btn-sm" id="newClientBtn">＋ New Client</button>
+        </div>
+      </div>
+      <div class="canvas">
+        <div id="rosterCanvas">
+          <!-- rendered by renderRoster() · switches between list mode and profile mode based on _selectedClientId -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── 3a · COMMUNICATIONS ─────────── -->
+    <div class="view" id="mod-comms">
+      <div class="topbar">
+        <div class="topbar-title">Communications · Department <span class="topbar-sub">— LGR's own client-facing comms · Slack · email · calls · ClickUp comments</span></div>
+        <div class="topbar-right">
+          <span class="tag tag-gold">🚧 mostly stubbed · Phase 2/3</span>
+        </div>
+      </div>
+      <div class="canvas">
+        <div class="scaffold">
+          <div class="scaffold-h">
+            <span class="ph-tag">C1 · scaffolding</span>
+            <span>view shell complete · module list + stubs land in C3</span>
+          </div>
+          <h2>Communications · LGR's comms surface, not the client's</h2>
+          <p>Important distinction: this aggregates LGR-with-client conversations only. Per-client Slack channels, LGR-to-client email threads, LGR's recorded calls with clients, ClickUp comments. Not the client's internal Slack or internal email — that stays in the client's systems.</p>
+          <div class="ph-row">
+            <span class="k">live in C3</span>
+            <span class="v">Manual notes per client (the operator types in what was discussed) · executive summary as a manual text field · contradiction flag as a manual entry.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">stubbed</span>
+            <span class="v">LGR Slack Aggregator · LGR Email Aggregator · LGR Recording Vault · Meeting Summarizer · Executive Summary Generator · Contradiction Flagger · Daily Sweep · ClickUp Gap Detector · LGR Calendar Sync — each rendered with the four-piece spec callout per Decision #3.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">where it lands</span>
+            <span class="v">Inside the Tabbed Client Profile · Communications tab. This top-level view shows the department config + module status.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── 3b · DATA ─────────── -->
+    <div class="view" id="mod-data">
+      <div class="topbar">
+        <div class="topbar-title">Data · Department <span class="topbar-sub">— about-clients data · LGR QuickBooks · Keeper · recordings · FOSM·LIVE feeds</span></div>
+        <div class="topbar-right">
+          <span class="tag tag-gold">🚧 fully stubbed · Phase 2</span>
+        </div>
+      </div>
+      <div class="canvas">
+        <div class="scaffold">
+          <div class="scaffold-h">
+            <span class="ph-tag">C1 · scaffolding</span>
+            <span>view shell complete · module list + stubs land in C3</span>
+          </div>
+          <h2>Data · about-clients, not the clients' own data</h2>
+          <p>LGR's QuickBooks (LGR's own books, revenue, margin, client billing) · Keeper.com (per-client private financial data, API/MCP if available) · per-client recordings vault · FOSM·LIVE feeds from each client instance. Read-only references that flow into Communications and PM Calendar.</p>
+          <div class="ph-row">
+            <span class="k">stubbed</span>
+            <span class="v">QuickBooks Integration · Keeper.com Integration · FOSM·LIVE Feeds (webhooks or polling per client instance) — all Phase 2 with the four-piece spec callout each.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">boundary</span>
+            <span class="v">Operations CC does <b>not</b> push data into Client FOSM·LIVE. What flows up from Client FOSM·LIVE is <b>status</b>, not raw pillar data. The raw numbers stay sovereign in the client's instance.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── 3c · CLICKUP ─────────── -->
+    <div class="view" id="mod-clickup">
+      <div class="topbar">
+        <div class="topbar-title">ClickUp · Department <span class="topbar-sub">— PM tool · task source of truth · Ops CC feeds from it · pushes synthesized work back</span></div>
+        <div class="topbar-right">
+          <span class="tag tag-gold">🚧 fully stubbed · Phase 2</span>
+        </div>
+      </div>
+      <div class="canvas">
+        <div class="scaffold">
+          <div class="scaffold-h">
+            <span class="ph-tag">C1 · scaffolding</span>
+            <span>view shell complete · module list + stubs land in C3</span>
+          </div>
+          <h2>ClickUp · the task source of truth</h2>
+          <p>If it's not in ClickUp, it doesn't exist. Operations CC does <b>not</b> replicate ClickUp — it feeds from it and pushes synthesized work back into it. ClickUp is the task manager. Ops CC is the brain that decides what to do next.</p>
+          <div class="ph-row">
+            <span class="k">stubbed</span>
+            <span class="v">ClickUp API two-way sync · Owner Scorecards · SOP Library · L10 Tracker — all Phase 2 with the four-piece spec callout each.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">boundary</span>
+            <span class="v">No task duplication. Ops CC reads tasks for status, writes new tasks when it detects gaps (the Gap Detector queue from Communications), and surfaces summary views — but the canonical task list always lives in ClickUp.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── 4 · PM CALENDAR ─────────── -->
+    <div class="view" id="mod-calendar">
+      <div class="topbar">
+        <div class="topbar-title">PM Calendar · Output <span class="topbar-sub">— filings · due dates · monthly closes · payroll runs · quarterlies · per-client filter</span></div>
+        <div class="topbar-right">
+          <span class="tag tag-mute">📅 the visual output</span>
+        </div>
+      </div>
+      <div class="canvas">
+        <div class="scaffold">
+          <div class="scaffold-h">
+            <span class="ph-tag">C1 · scaffolding</span>
+            <span>view shell complete · manual entry timeline lands in C4</span>
+          </div>
+          <h2>PM Calendar · every deadline on one timeline</h2>
+          <p>The visual output of the four sub-departments. Every client's filings, due dates, monthly closes, payroll runs, quarterlies, and annual returns laid out on one timeline. Filter by client to drill in.</p>
+          <div class="ph-row">
+            <span class="k">live in C4</span>
+            <span class="v">Manual entry of filings and due dates · per-client filter chips · sorted timeline view (this week → this month → this quarter).</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">stubbed</span>
+            <span class="v">Workload Heatmap (derived from filings + ClickUp) · auto-filing-due-date detection per entity type · phase-based cadence automation — Phase 2 and Phase 3 stubs.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">storage</span>
+            <span class="v"><code>fosm_filing_status_v1</code> · array of filing entries with <code>id · clientId · entityId · type · dueDate · status · notes</code></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── 5 · FOSM·LIVE QUERY INTERFACE ─────────── -->
+    <div class="view" id="mod-query">
+      <div class="topbar">
+        <div class="topbar-title">FOSM·LIVE Query Interface <span class="topbar-sub">— open a client's FOSM·LIVE in a new tab · one URL per entity</span></div>
+        <div class="topbar-right">
+          <span class="tag tag-purple">🔗 external link</span>
+        </div>
+      </div>
+      <div class="canvas">
+        <div class="scaffold">
+          <div class="scaffold-h">
+            <span class="ph-tag">C1 · scaffolding</span>
+            <span>view shell complete · paste-URL-and-open lands in C4</span>
+          </div>
+          <h2>FOSM·LIVE Query Interface · open it directly, don't render it inline</h2>
+          <p>When the operator needs to look at a client's FOSM·LIVE, they open it in a new tab — Operations CC doesn't try to render or duplicate it. One URL field per entity. Click to open. The deliverable stays where it lives.</p>
+          <div class="ph-row">
+            <span class="k">live in C4</span>
+            <span class="v">URL field per entity in the Tabbed Client Profile (Companies tab). This top-level view shows the aggregate — every client × every entity × its FOSM·LIVE URL, with a button to open each.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">scope</span>
+            <span class="v">Per Decision #2 · entity level only for Phase 1. No optional client-level primary URL. One URL field per entity, period. Entities without a FOSM·LIVE URL show as <b>manual-only</b> with no open-button.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">storage</span>
+            <span class="v"><code>fosm_entity_tree_v1</code> · the URL lives on the entity record · paste pattern same as Sales CC's Drive integration</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── 6 · SALES CC BRIDGE ─────────── -->
+    <div class="view" id="mod-bridge">
+      <div class="topbar">
+        <div class="topbar-title">Sales CC Bridge <span class="topbar-sub">— closed-won prospects from Sales CC · read-only mirror · one-click import to roster</span></div>
+        <div class="topbar-right">
+          <span class="tag tag-blue">↑ from Sales CC</span>
+          <span class="tag tag-mute">read-only</span>
+        </div>
+      </div>
+      <div class="canvas">
+        <div class="scaffold">
+          <div class="scaffold-h">
+            <span class="ph-tag">C1 · scaffolding</span>
+            <span>view shell complete · read + import lands in C3</span>
+          </div>
+          <h2>Sales CC Bridge · closed-won becomes a client</h2>
+          <p>Sales CC owns the prospect record through Stage 7. When a prospect closes, the operator opens the Bridge, finds them in the read-only list, clicks <b>Import to Roster</b> — and they become a client on the roster ready for delivery.</p>
+          <div class="ph-row">
+            <span class="k">live in C3</span>
+            <span class="v">Read-only list of <code>fosm_person_profiles_v1</code> filtered to closed-won. One-click import creates a <code>fosm_client_roster_v1</code> entry with the name pre-filled, <code>phase = P1 Starting</code>, <code>isManualOnly = true</code> (FOSM·LIVE URL blank), <code>createdAt = now</code>. Source person profile stays intact in Sales CC.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">duplicate guard</span>
+            <span class="v">Per Decision #4 · if a <code>person_profile_id</code> has already been imported, show a "this person is already in your roster" warning. <b>Warn, don't block</b>. The operator might have a reason to re-import.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">stubbed</span>
+            <span class="v">Auto-trigger on Sales CC Stage 7 close → auto-create roster slot. Phase 4 / Supabase wire. Phase 1 is manual import only.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── 7a · SYSTEM MAP · ARCHITECTURE ─────────── -->
+    <div class="view" id="mod-architecture">
+      <div class="topbar">
+        <div class="topbar-title">Architecture <span class="topbar-sub">— the V0–V9 mental model · where Operations CC sits · how it reads and writes</span></div>
+        <div class="topbar-right">
+          <span class="tag tag-mute">canonical · v0.1</span>
+        </div>
+      </div>
+      <div class="canvas">
+        <div class="scaffold">
+          <div class="scaffold-h">
+            <span class="ph-tag">C1 · scaffolding</span>
+            <span>view shell complete · diagram render lands in C5</span>
+          </div>
+          <h2>Architecture · the V9 sibling</h2>
+          <p>This view will render the system-map architecture text, scoped to Operations CC's place in it: V0 Canonical Reference → Brain → CCs and dashboards → expansion CCs. Same layout pattern as Marketing CC and Sales CC.</p>
+          <div class="ph-row">
+            <span class="k">live in C5</span>
+            <span class="v">Lift the markdown render pattern from Sales CC (<code>.sysmap-md</code>) and populate with Operations-specific architecture text from <code>docs/architecture-reference.md</code>.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">fractal</span>
+            <span class="v">Same FOSM·LIVE shape at every level — your business · their business · their client's business. LGR slots into clients' <b>F</b> as an accounting firm. Same code, different pillar.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── 7b · SYSTEM MAP · BACKUP ─────────── -->
+    <div class="view" id="mod-backup">
+      <div class="topbar">
+        <div class="topbar-title">Backup <span class="topbar-sub">— export owned localStorage keys to versioned JSON · import preview-before-apply</span></div>
+        <div class="topbar-right">
+          <span class="tag tag-mute">safety net</span>
+        </div>
+      </div>
+      <div class="canvas">
+        <div class="scaffold">
+          <div class="scaffold-h">
+            <span class="ph-tag">C1 · scaffolding</span>
+            <span>view shell complete · export / import lands in C5</span>
+          </div>
+          <h2>Backup · the data safety net</h2>
+          <p>Same pattern as Marketing CC and Sales CC. Export all keys owned by Operations CC to a versioned JSON file (<code>fosm-ops-cc-backup-YYYY-MM-DD.json</code>). Import is preview-before-apply with overwrite warnings. Stale-after-7-days warning on the backup timestamp.</p>
+          <div class="ph-row">
+            <span class="k">live in C5</span>
+            <span class="v">Export button writes all <code>fosm_ops_*_v1</code> and <code>fosm_client_*_v1</code> + <code>fosm_entity_tree_v1</code> + <code>fosm_filing_status_v1</code> + scope/comms keys to JSON. Import reads JSON, shows diff preview, requires confirmation.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">never writes</span>
+            <span class="v">Backup only exports Ops-CC-owned keys. Marketing CC keys and Sales CC keys are <b>not</b> included — those CCs own their own backups. No cross-CC duplication.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── 7c · SYSTEM MAP · DIAGNOSTICS ─────────── -->
+    <div class="view" id="mod-diagnostics">
+      <div class="topbar">
+        <div class="topbar-title">Diagnostics <span class="topbar-sub">— what's live · what's stubbed · what's broken · honest status across the surface</span></div>
+        <div class="topbar-right">
+          <span class="tag tag-mute">status truth</span>
+        </div>
+      </div>
+      <div class="canvas">
+        <div class="scaffold">
+          <div class="scaffold-h">
+            <span class="ph-tag">C1 · scaffolding</span>
+            <span>view shell complete · status grid lands in C5</span>
+          </div>
+          <h2>Diagnostics · the honest status board</h2>
+          <p>One table. Every module. Status pill per module — <span class="st st-live">LIVE</span> <span class="st st-partial">PARTIAL</span> <span class="st st-stub">STUBBED</span> <span class="st st-broken">BROKEN</span>. If we ever lie about state, this view is the first place it shows.</p>
+          <div class="ph-row">
+            <span class="k">live in C5</span>
+            <span class="v">A diagnostics table listing every named module in this CC and its current status. Lifts the diag-table pattern from Sales CC.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">tonight's truth</span>
+            <span class="v">At end of C1 every module on this build reads as <span class="st st-stub">STUBBED</span> except the navigation itself (<span class="st st-live">LIVE</span>) and view-switching (<span class="st st-live">LIVE</span>). C2 → C5 progressively flip modules to <span class="st st-live">LIVE</span> as they ship.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─────────── 8 · NOT YET BUILT ─────────── -->
+    <div class="view" id="mod-stubs">
+      <div class="topbar">
+        <div class="topbar-title">Not Yet Built <span class="topbar-sub">— every Phase 2 and Phase 3 module in one place · honest stubs · what each does when wired</span></div>
+        <div class="topbar-right">
+          <span class="tag tag-gold">🚧 aggregate stub list</span>
+        </div>
+      </div>
+      <div class="canvas">
+        <div class="scaffold">
+          <div class="scaffold-h">
+            <span class="ph-tag">C1 · scaffolding</span>
+            <span>view shell complete · stub directory lands in C3</span>
+          </div>
+          <h2>Not Yet Built · one place to see what's coming</h2>
+          <p>Every stubbed module across every department, listed in one place with its four-piece spec callout per <b>Decision #3</b>: what it does when wired · what storage key it owns · what API or data source it depends on · which Phase it ships in. No invention. No fake buttons.</p>
+          <div class="ph-row">
+            <span class="k">live in C3</span>
+            <span class="v">Grouped by department · Phase 2 in one block, Phase 3 in another. Each entry uses the same <code>callout-gold</code> primitive used inside the department views.</span>
+          </div>
+          <div class="ph-row">
+            <span class="k">why this view exists</span>
+            <span class="v">Per the working rules, "honest stubs · visible in sidebar with Phase 2/3 labels · no fake buttons." This is the aggregate view of all those labels in one place, so the team can see at a glance what's coming and prioritize together.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</div>
+
+<!-- ═════════ MODAL HOST (ready for C2) ═════════ -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" id="modalShell">
+    <div class="modal-h">
+      <h3 id="modalTitle">Modal</h3>
+      <button class="modal-x" id="modalCloseBtn" aria-label="Close modal">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot" id="modalFoot"></div>
+  </div>
+</div>
+
+<!-- ═════════ TOAST HOST (ready for C2) ═════════ -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   OPERATIONS CC · v0.1.0 · C1 scaffolding
+   ───────────────────────────────────────────────
+   This file is intentionally minimal at C1.
+   Sidebar nav, view switching, modal + toast hosts
+   are wired. localStorage keys are declared but
+   not yet read or written. CRUD lands in C2.
+═══════════════════════════════════════════════ */
+
+/* ─── STORAGE KEYS · owned + read ──────────────
+   Declared here so the surface is honest about
+   what data lives where. Nothing reads or writes
+   these in C1 — wiring lands in C2 onwards.
+─────────────────────────────────────────────── */
+const STORAGE_KEYS = {
+  // ─── Owned by Operations CC ─────────────────
+  owned: {
+    client_roster:      'fosm_client_roster_v1',
+    client_profiles:    'fosm_client_profiles_v1',
+    entity_tree:        'fosm_entity_tree_v1',
+    filing_status:      'fosm_filing_status_v1',
+    recordings_index:   'fosm_recordings_index_v1',
+    sweep_results:      'fosm_sweep_results_v1',
+    task_sync:          'fosm_task_sync_v1',
+    gap_detector_queue: 'fosm_gap_detector_queue_v1',
+    workload:           'fosm_workload_v1',
+    doc_state:          'fosm_doc_state_v1',
+    scope_tracker:      'fosm_scope_tracker_v1',
+    phase_indicators:   'fosm_phase_indicators_v1',
+    meeting_notes:      'fosm_meeting_notes_v1',
+    contradiction_flags:'fosm_contradiction_flags_v1',
+    ui_state:           'fosm_ops_ui_state_v1'
+  },
+  // ─── Read from Marketing CC (never write) ───
+  marketing: {
+    brand_library: 'fosm_brand_library_v1',
+    icp_library:   'fosm_icp_library_v1',
+    offer_library: 'fosm_offer_library_v1'
+  },
+  // ─── Read from Sales CC (never write) ───────
+  sales: {
+    person_profiles:  'fosm_person_profiles_v1',
+    artifact_library: 'fosm_artifact_library_v1',
+    touch_log:        'fosm_touch_log_v1'
+  }
+};
+
+/* ─── NAV CONFIG · drives sidebar render ────── */
+const NAV_CONFIG = [
+  {
+    section: 'Today',
+    items: [
+      { id: 'mod-today', icon: '🎯', label: 'Today', sub: 'See' }
+    ]
+  },
+  {
+    section: 'Client Roster',
+    items: [
+      { id: 'mod-roster', icon: '🏢', label: 'Roster', sub: 'Work' }
+    ]
+  },
+  {
+    section: 'Departments',
+    items: [
+      { id: 'mod-comms',   icon: '💬', label: 'Communications', sub: 'LGR comms' },
+      { id: 'mod-data',    icon: '📊', label: 'Data',           sub: 'about-clients' },
+      { id: 'mod-clickup', icon: '📋', label: 'ClickUp',        sub: 'PM tool' }
+    ]
+  },
+  {
+    section: 'PM Calendar',
+    items: [
+      { id: 'mod-calendar', icon: '📅', label: 'Calendar', sub: 'Output' }
+    ]
+  },
+  {
+    section: 'FOSM·LIVE Query Interface',
+    items: [
+      { id: 'mod-query', icon: '🔗', label: 'Query Interface', sub: 'External' }
+    ]
+  },
+  {
+    section: 'Sales CC Bridge',
+    items: [
+      { id: 'mod-bridge', icon: '🌉', label: 'Bridge', sub: 'Receive' }
+    ]
+  },
+  {
+    section: 'Meta · Platform',
+    items: [
+      { id: 'mod-architecture', icon: '🗺',  label: 'Architecture', sub: 'system map' },
+      { id: 'mod-backup',       icon: '💾', label: 'Backup',       sub: 'export · import' },
+      { id: 'mod-diagnostics',  icon: '🔍', label: 'Diagnostics',  sub: 'status truth' }
+    ]
+  },
+  {
+    section: 'Not Yet Built',
+    items: [
+      { id: 'mod-stubs', icon: '🚧', label: 'All Stubs', sub: 'Phase 2 / 3 directory', stub: true }
+    ]
+  }
+];
+
+/* ─── BUILD SIDEBAR · render nav from config ── */
+function buildSidebar() {
+  const nav = document.getElementById('sidebarNav');
+  if (!nav) return;
+  let html = '';
+  NAV_CONFIG.forEach((sec, i) => {
+    html += `<div class="nav-section">
+      <span class="nav-sec-num">${i + 1}</span>${sec.section}
+    </div>`;
+    sec.items.forEach(it => {
+      const stubCls = it.stub ? ' nav-stub' : '';
+      html += `<div class="nav-item${stubCls}" data-goto="${it.id}">
+        <span class="nav-ic">${it.icon}</span>
+        <span>${it.label}</span>
+      </div>`;
+    });
+  });
+  nav.innerHTML = html;
+  nav.querySelectorAll('.nav-item').forEach(el => {
+    el.addEventListener('click', () => goto(el.dataset.goto));
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   C2 · STATE · loaded from localStorage at boot
+═══════════════════════════════════════════════ */
+let _clients       = [];   // fosm_client_roster_v1
+let _entities      = [];   // fosm_entity_tree_v1
+let _notes         = [];   // fosm_meeting_notes_v1
+let _scope         = [];   // fosm_scope_tracker_v1
+let _flags         = [];   // fosm_contradiction_flags_v1 · CRUD only, UI lands C3 (Today)
+let _execSummaries = {};   // fosm_client_profiles_v1 · keyed by clientId · { text, updatedAt }
+let _uiState       = {};   // fosm_ops_ui_state_v1 · { selectedClientId, activeTab }
+
+// View state (in-memory, mirrored to _uiState)
+let _rosterFilters   = { phase: 'all', fosmLive: 'all', search: '' };
+let _selectedClientId = null;
+let _activeTab        = 'companies';
+
+/* ─── STORAGE HELPERS ─────────────────────────
+   All writes go through saveStore(name, value)
+   where name is a key under STORAGE_KEYS.owned.
+   Read-only sibling-CC keys (Marketing, Sales)
+   are never touched here.
+─────────────────────────────────────────────── */
+function loadStore(name, defaultVal) {
+  try {
+    const key = STORAGE_KEYS.owned[name];
+    if (!key) throw new Error('Unknown owned key: ' + name);
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : defaultVal;
+  } catch (e) {
+    console.error('loadStore failed for', name, e);
+    return defaultVal;
+  }
+}
+function saveStore(name, value) {
+  try {
+    const key = STORAGE_KEYS.owned[name];
+    if (!key) throw new Error('Unknown owned key: ' + name);
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (e) {
+    console.error('saveStore failed for', name, e);
+    toast('Save failed — see console', 'error', 4000);
+  }
+}
+function genId(prefix) {
+  return prefix + '_' +
+    Math.random().toString(36).slice(2, 9) +
+    Date.now().toString(36).slice(-4);
+}
+
+/* ─── DATE HELPERS ─── */
+function todayISO() { return new Date().toISOString().slice(0, 10); }
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso + (iso.length === 10 ? 'T00:00:00' : ''));
+  if (isNaN(d.getTime())) return iso;
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+}
+function isOverdue(iso) {
+  if (!iso) return false;
+  return iso <= todayISO();
+}
+function escHTML(s) {
+  if (s == null) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/* ─── BOOT LOADER + UI STATE ───────────────── */
+function loadAll() {
+  _clients       = loadStore('client_roster',        []);
+  _entities      = loadStore('entity_tree',          []);
+  _notes         = loadStore('meeting_notes',        []);
+  _scope         = loadStore('scope_tracker',        []);
+  _flags         = loadStore('contradiction_flags',  []);
+  _execSummaries = loadStore('client_profiles',      {});
+  _uiState       = loadStore('ui_state',             {});
+
+  // Restore selected client + active tab if the client still exists.
+  if (_uiState.selectedClientId && _clients.find(c => c.id === _uiState.selectedClientId)) {
+    _selectedClientId = _uiState.selectedClientId;
+  }
+  if (_uiState.activeTab) _activeTab = _uiState.activeTab;
+}
+function persistUI() {
+  _uiState.selectedClientId = _selectedClientId;
+  _uiState.activeTab        = _activeTab;
+  saveStore('ui_state', _uiState);
+}
+
+/* ─── DERIVED INDICATORS (per Decision #2) ───
+   FOSM·LIVE / Manual is derived from the entity
+   tree — not stored on the client record.
+   Schema divergence from the literal spec
+   (which lists fosmLiveUrl + isManualOnly on
+   client) — see C2 summary.
+─────────────────────────────────────────────── */
+function clientHasFosmLive(clientId) {
+  return _entities.some(e =>
+    e.clientId === clientId &&
+    e.fosmLiveUrl &&
+    e.fosmLiveUrl.trim() !== ''
+  );
+}
+function clientEntityCount(clientId)  { return _entities.filter(e => e.clientId === clientId).length; }
+function clientNotesCount(clientId)   { return _notes.filter(n => n.clientId === clientId).length; }
+function clientScopeFlagged(clientId) {
+  return _scope.filter(s => s.clientId === clientId && s.status === 'flagged').length;
+}
+
+/* ═══════════════════════════════════════════════
+   CRUD · Client
+═══════════════════════════════════════════════ */
+function createClient(data) {
+  const c = {
+    id: genId('cli'),
+    name: data.name,
+    phase: data.phase || 'P1',
+    createdAt: new Date().toISOString(),
+    lastTouch: data.lastTouch || null,
+    nextReview: data.nextReview || null,
+    notes: data.notes || ''
+  };
+  _clients.push(c);
+  saveStore('client_roster', _clients);
+  toast('Client created · ' + c.name);
+  return c;
+}
+function updateClient(id, patch) {
+  const i = _clients.findIndex(c => c.id === id);
+  if (i < 0) return;
+  Object.assign(_clients[i], patch);
+  saveStore('client_roster', _clients);
+}
+function deleteClient(id) {
+  const c = _clients.find(x => x.id === id);
+  if (!c) return;
+  // Cascade · entities · notes · scope · flags · exec summary.
+  _entities = _entities.filter(e => e.clientId !== id);
+  _notes    = _notes.filter(n => n.clientId !== id);
+  _scope    = _scope.filter(s => s.clientId !== id);
+  _flags    = _flags.filter(f => f.clientId !== id);
+  delete _execSummaries[id];
+  _clients = _clients.filter(x => x.id !== id);
+  saveStore('client_roster',        _clients);
+  saveStore('entity_tree',          _entities);
+  saveStore('meeting_notes',        _notes);
+  saveStore('scope_tracker',        _scope);
+  saveStore('contradiction_flags',  _flags);
+  saveStore('client_profiles',      _execSummaries);
+  toast('Deleted · ' + c.name + ' and all associated records', 'warn', 4500);
+}
+
+/* ═══════════════════════════════════════════════
+   CRUD · Entity
+═══════════════════════════════════════════════ */
+function createEntity(data) {
+  const e = {
+    id: genId('ent'),
+    clientId: data.clientId,
+    name: data.name,
+    parentId: data.parentId || null,
+    entityType: data.entityType || 'Other',
+    fosmLiveUrl: data.fosmLiveUrl || '',
+    notes: data.notes || '',
+    createdAt: new Date().toISOString()
+  };
+  _entities.push(e);
+  saveStore('entity_tree', _entities);
+  toast('Entity added · ' + e.name);
+  return e;
+}
+function updateEntity(id, patch) {
+  const i = _entities.findIndex(e => e.id === id);
+  if (i < 0) return;
+  Object.assign(_entities[i], patch);
+  saveStore('entity_tree', _entities);
+}
+function deleteEntity(id) {
+  const e = _entities.find(x => x.id === id);
+  if (!e) return;
+  // Re-parent children to the deleted entity's parent (could be null = top-level).
+  _entities.forEach(child => {
+    if (child.parentId === id) child.parentId = e.parentId;
+  });
+  _entities = _entities.filter(x => x.id !== id);
+  saveStore('entity_tree', _entities);
+  toast('Entity deleted · ' + e.name, 'warn');
+}
+
+/* ═══════════════════════════════════════════════
+   CRUD · Meeting Note · auto-updates client.lastTouch
+═══════════════════════════════════════════════ */
+function createNote(data) {
+  const n = {
+    id: genId('note'),
+    clientId: data.clientId,
+    date: data.date || todayISO(),
+    title: data.title,
+    participants: data.participants || '',
+    body: data.body || '',
+    createdAt: new Date().toISOString()
+  };
+  _notes.push(n);
+  saveStore('meeting_notes', _notes);
+  // Update the client's lastTouch to this note's date.
+  updateClient(data.clientId, { lastTouch: n.date });
+  toast('Meeting note saved');
+  return n;
+}
+function updateNote(id, patch) {
+  const i = _notes.findIndex(n => n.id === id);
+  if (i < 0) return;
+  Object.assign(_notes[i], patch);
+  saveStore('meeting_notes', _notes);
+}
+function deleteNote(id) {
+  _notes = _notes.filter(x => x.id !== id);
+  saveStore('meeting_notes', _notes);
+  toast('Meeting note deleted', 'warn');
+}
+
+/* ═══════════════════════════════════════════════
+   CRUD · Scope Item · status transitions
+═══════════════════════════════════════════════ */
+function createScopeItem(data) {
+  const s = {
+    id: genId('scope'),
+    clientId: data.clientId,
+    description: data.description,
+    category: data.category || 'in_contract',
+    status: 'flagged',
+    decision: '',
+    flaggedAt: new Date().toISOString(),
+    decidedAt: null
+  };
+  _scope.push(s);
+  saveStore('scope_tracker', _scope);
+  toast('Scope item flagged');
+  return s;
+}
+function updateScopeItem(id, patch) {
+  const i = _scope.findIndex(s => s.id === id);
+  if (i < 0) return;
+  Object.assign(_scope[i], patch);
+  // Stamp decidedAt the moment we move out of "flagged".
+  if (patch.status && patch.status !== 'flagged' && !_scope[i].decidedAt) {
+    _scope[i].decidedAt = new Date().toISOString();
+  }
+  saveStore('scope_tracker', _scope);
+}
+function deleteScopeItem(id) {
+  _scope = _scope.filter(x => x.id !== id);
+  saveStore('scope_tracker', _scope);
+  toast('Scope item deleted', 'warn');
+}
+
+/* ═══════════════════════════════════════════════
+   Exec Summary (Communications tab)
+═══════════════════════════════════════════════ */
+function saveExecSummary(clientId, text) {
+  _execSummaries[clientId] = {
+    text: text,
+    updatedAt: new Date().toISOString()
+  };
+  saveStore('client_profiles', _execSummaries);
+}
+
+/* ═══════════════════════════════════════════════
+   RENDERERS · Roster (list + profile mode router)
+═══════════════════════════════════════════════ */
+function renderRoster() {
+  if (_selectedClientId) {
+    const c = _clients.find(x => x.id === _selectedClientId);
+    if (c) { renderProfile(c); return; }
+    // Selected client was deleted externally or by cascade — fall back to list.
+    _selectedClientId = null;
+    persistUI();
+  }
+  renderRosterList();
+}
+
+const PHASE_LABELS = { P1: 'Starting', P2: 'Scaling', P3: 'Holding/Selling' };
+
+function renderRosterList() {
+  const topbarTitle = document.getElementById('rosterTopbarTitle');
+  const topbarRight = document.getElementById('rosterTopbarRight');
+  const canvas      = document.getElementById('rosterCanvas');
+  if (!canvas) return;
+
+  topbarTitle.innerHTML = `Client Roster <span class="topbar-sub">— every client you're delivering on · phase · FOSM·LIVE · last touch · next review</span>`;
+  topbarRight.innerHTML = `<button class="btn btn-primary btn-sm" id="newClientBtn">＋ New Client</button>`;
+  document.getElementById('newClientBtn').addEventListener('click', openNewClientModal);
+
+  const hasAnyClients = _clients.length > 0;
+
+  // Filter
+  const filtered = _clients.filter(c => {
+    if (_rosterFilters.phase !== 'all' && c.phase !== _rosterFilters.phase) return false;
+    if (_rosterFilters.fosmLive === 'live'   && !clientHasFosmLive(c.id)) return false;
+    if (_rosterFilters.fosmLive === 'manual' &&  clientHasFosmLive(c.id)) return false;
+    if (_rosterFilters.search) {
+      if (!c.name.toLowerCase().includes(_rosterFilters.search.toLowerCase())) return false;
+    }
+    return true;
+  });
+
+  let html = '';
+
+  if (hasAnyClients) {
+    const anyFilterActive = _rosterFilters.phase !== 'all' || _rosterFilters.fosmLive !== 'all' || _rosterFilters.search;
+    html += `
+      <div class="filter-bar">
+        <div class="filter-row">
+          <input type="text" class="filter-search" id="rosterSearch" placeholder="Search by client name…" value="${escHTML(_rosterFilters.search)}">
+        </div>
+        <div class="filter-row">
+          <span class="filter-lbl">Phase</span>
+          <div class="chip-row" id="phaseChips">
+            <button class="chip ${_rosterFilters.phase === 'all' ? 'is-active' : ''}" data-phase="all">All</button>
+            <button class="chip acc-blue ${_rosterFilters.phase === 'P1' ? 'is-active' : ''}" data-phase="P1">P1 · Starting</button>
+            <button class="chip acc-green ${_rosterFilters.phase === 'P2' ? 'is-active' : ''}" data-phase="P2">P2 · Scaling</button>
+            <button class="chip acc-purple ${_rosterFilters.phase === 'P3' ? 'is-active' : ''}" data-phase="P3">P3 · Holding/Selling</button>
+          </div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-lbl">Source</span>
+          <div class="chip-row" id="flChips">
+            <button class="chip ${_rosterFilters.fosmLive === 'all' ? 'is-active' : ''}" data-fl="all">All</button>
+            <button class="chip acc-green ${_rosterFilters.fosmLive === 'live' ? 'is-active' : ''}" data-fl="live">FOSM·LIVE</button>
+            <button class="chip acc-gold  ${_rosterFilters.fosmLive === 'manual' ? 'is-active' : ''}" data-fl="manual">Manual</button>
+          </div>
+        </div>
+        <div class="roster-foot">
+          <span class="roster-foot-count">${filtered.length} of ${_clients.length} shown</span>
+          ${anyFilterActive ? `<button class="btn btn-ghost btn-sm" id="clearFiltersBtn">clear filters</button>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  if (filtered.length === 0) {
+    html += `
+      <div class="empty">
+        <div class="empty-icon">🏢</div>
+        ${hasAnyClients
+          ? '<b>No clients match these filters.</b><br>Adjust the filters above or clear them to see everyone.'
+          : '<b>No clients yet.</b><br>Add your first client to start tracking delivery — entity tree, meeting notes, scope items.'}
+      </div>
+    `;
+  } else {
+    html += '<div class="roster-grid">';
+    filtered.forEach(c => {
+      const hasFL        = clientHasFosmLive(c.id);
+      const entityCount  = clientEntityCount(c.id);
+      const noteCount    = clientNotesCount(c.id);
+      const scopeFlagged = clientScopeFlagged(c.id);
+      const phaseClass   = c.phase.toLowerCase();
+      const phaseLabel   = PHASE_LABELS[c.phase] || '';
+
+      html += `
+        <div class="client-card" data-client-id="${c.id}">
+          <div class="client-card-actions">
+            <button class="client-card-action" data-action="edit" data-client-id="${c.id}" title="Edit">✎</button>
+            <button class="client-card-action danger" data-action="delete" data-client-id="${c.id}" title="Delete">🗑</button>
+          </div>
+          <div class="client-card-h">
+            <div class="client-card-name">${escHTML(c.name)}</div>
+          </div>
+          <div class="client-card-pills">
+            <span class="phase-pill ${phaseClass}">${c.phase} · ${phaseLabel}</span>
+            <span class="fl-pill ${hasFL ? 'fl-live' : 'fl-manual'}">${hasFL ? 'FOSM·LIVE' : 'Manual'}</span>
+          </div>
+          <div class="client-card-meta">
+            <span class="client-card-meta-item"><b>ENTITIES</b> ${entityCount}</span>
+            <span class="client-card-meta-item"><b>NOTES</b> ${noteCount}</span>
+            ${scopeFlagged > 0 ? `<span class="client-card-meta-item scope-warn"><b>SCOPE</b> ${scopeFlagged} flagged</span>` : ''}
+          </div>
+          <div class="client-card-meta">
+            <span class="client-card-meta-item"><b>LAST TOUCH</b> ${fmtDate(c.lastTouch)}</span>
+            <span class="client-card-meta-item"><b>NEXT REVIEW</b> ${fmtDate(c.nextReview)}</span>
+          </div>
+        </div>
+      `;
+    });
+    html += '</div>';
+  }
+
+  canvas.innerHTML = html;
+
+  // Wire client cards (delegated click → profile, with action button stop-prop).
+  canvas.querySelectorAll('.client-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.client-card-action')) return;
+      openClientProfile(card.dataset.clientId);
+    });
+  });
+  canvas.querySelectorAll('.client-card-action[data-action="edit"]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openEditClientModal(btn.dataset.clientId);
+    });
+  });
+  canvas.querySelectorAll('.client-card-action[data-action="delete"]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openDeleteClientConfirm(btn.dataset.clientId);
+    });
+  });
+
+  // Wire filter chips.
+  canvas.querySelectorAll('#phaseChips .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      _rosterFilters.phase = chip.dataset.phase;
+      renderRosterList();
+    });
+  });
+  canvas.querySelectorAll('#flChips .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      _rosterFilters.fosmLive = chip.dataset.fl;
+      renderRosterList();
+    });
+  });
+
+  // Search (debounced).
+  const searchInput = document.getElementById('rosterSearch');
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      _rosterFilters.search = searchInput.value;
+      clearTimeout(searchInput._debounce);
+      searchInput._debounce = setTimeout(() => renderRosterList(), 120);
+    });
+  }
+  const clearBtn = document.getElementById('clearFiltersBtn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      _rosterFilters = { phase: 'all', fosmLive: 'all', search: '' };
+      renderRosterList();
+    });
+  }
+}
+
+function openClientProfile(clientId) {
+  _selectedClientId = clientId;
+  _activeTab = _activeTab || 'companies';
+  persistUI();
+  renderRoster();
+}
+function backToRosterList() {
+  _selectedClientId = null;
+  persistUI();
+  renderRoster();
+}
+
+/* ═══════════════════════════════════════════════
+   RENDERERS · Profile (header + subtabs)
+═══════════════════════════════════════════════ */
+function renderProfile(c) {
+  const topbarTitle = document.getElementById('rosterTopbarTitle');
+  const topbarRight = document.getElementById('rosterTopbarRight');
+  const canvas      = document.getElementById('rosterCanvas');
+  if (!canvas) return;
+
+  topbarTitle.innerHTML = `
+    <span class="profile-crumb" id="backToRoster">← Roster</span>
+    <span class="profile-sep">/</span>
+    ${escHTML(c.name)}
+    <span class="topbar-sub">— client profile</span>
+  `;
+  topbarRight.innerHTML = `
+    <span class="phase-pill ${c.phase.toLowerCase()}">${c.phase} · ${PHASE_LABELS[c.phase] || ''}</span>
+    <button class="btn btn-sm" id="editClientBtn">✎ Edit</button>
+    <button class="btn btn-sm" id="deleteClientBtn">🗑 Delete</button>
+  `;
+  document.getElementById('backToRoster').addEventListener('click', backToRosterList);
+  document.getElementById('editClientBtn').addEventListener('click', () => openEditClientModal(c.id));
+  document.getElementById('deleteClientBtn').addEventListener('click', () => openDeleteClientConfirm(c.id));
+
+  const hasFL        = clientHasFosmLive(c.id);
+  const entityCount  = clientEntityCount(c.id);
+  const noteCount    = clientNotesCount(c.id);
+  const scopeFlagged = clientScopeFlagged(c.id);
+
+  let html = `
+    <div class="profile-header">
+      <div class="profile-name-lg">${escHTML(c.name)}</div>
+      <div class="profile-meta-row">
+        <span class="fl-pill ${hasFL ? 'fl-live' : 'fl-manual'}">${hasFL ? 'FOSM·LIVE' : 'Manual'}</span>
+        <span class="meta-item"><b>ENTITIES</b> ${entityCount}</span>
+        <span class="meta-item"><b>NOTES</b> ${noteCount}</span>
+        <span class="meta-item"><b>SCOPE FLAGGED</b> ${scopeFlagged}</span>
+        <span class="meta-item"><b>LAST TOUCH</b> ${fmtDate(c.lastTouch)}</span>
+        <span class="meta-item"><b>NEXT REVIEW</b> ${fmtDate(c.nextReview)}</span>
+      </div>
+    </div>
+
+    <div class="profile-subtabs" id="profileSubtabs">
+      <button class="profile-subtab ${_activeTab === 'companies'      ? 'active' : ''}" data-tab="companies">🏛 Companies <span class="profile-subtab-count">${entityCount}</span></button>
+      <button class="profile-subtab ${_activeTab === 'communications' ? 'active' : ''}" data-tab="communications">💬 Communications <span class="profile-subtab-count">${noteCount}</span></button>
+      <button class="profile-subtab ${_activeTab === 'scope'          ? 'active' : ''}" data-tab="scope">⚖ Scope <span class="profile-subtab-count">${scopeFlagged}</span></button>
+      <button class="profile-subtab is-stub ${_activeTab === 'filings'   ? 'active' : ''}" data-tab="filings">📋 Filings <span class="stub-pill">P2</span></button>
+      <button class="profile-subtab is-stub ${_activeTab === 'documents' ? 'active' : ''}" data-tab="documents">📁 Documents <span class="stub-pill">P2</span></button>
+      <button class="tab-add-disabled" title="Custom tabs ship Phase 3" disabled>＋</button>
+    </div>
+    <div id="tabContent"></div>
+  `;
+
+  canvas.innerHTML = html;
+
+  // Wire tab clicks.
+  canvas.querySelectorAll('.profile-subtab[data-tab]').forEach(tab => {
+    tab.addEventListener('click', () => {
+      _activeTab = tab.dataset.tab;
+      persistUI();
+      canvas.querySelectorAll('.profile-subtab[data-tab]').forEach(t => {
+        t.classList.toggle('active', t.dataset.tab === _activeTab);
+      });
+      renderActiveTab(c);
+    });
+  });
+
+  renderActiveTab(c);
+}
+
+function renderActiveTab(c) {
+  const container = document.getElementById('tabContent');
+  if (!container) return;
+  switch (_activeTab) {
+    case 'companies':      renderCompaniesTab(c, container); break;
+    case 'communications': renderCommsTab(c, container);     break;
+    case 'scope':          renderScopeTab(c, container);     break;
+    case 'filings':        renderStubTab('filings',   container); break;
+    case 'documents':      renderStubTab('documents', container); break;
+    default:               renderCompaniesTab(c, container);
+  }
+}
+
+/* ─── TAB · Companies (entity tree) ─── */
+function renderCompaniesTab(c, container) {
+  const ents     = _entities.filter(e => e.clientId === c.id);
+  const topLevel = ents.filter(e => !e.parentId);
+  const childrenOf = (parentId) => ents.filter(e => e.parentId === parentId);
+
+  let html = `
+    <div class="tab-content">
+      <div class="tab-section-h">
+        <div class="tab-section-h-left">
+          <span class="tab-section-title">Entity Tree</span>
+          <span class="tab-section-sub">— companies and sub-entities · FOSM·LIVE URL per entity (Decision #2)</span>
+        </div>
+        <button class="btn btn-primary btn-sm" id="newEntityBtn">＋ Add Entity</button>
+      </div>
+  `;
+
+  if (ents.length === 0) {
+    html += `
+      <div class="empty">
+        <div class="empty-icon">🏛</div>
+        <b>No entities yet.</b><br>Add the parent company first, then any sub-entities. Each can have its own FOSM·LIVE URL, or stay manual-only.
+      </div>
+    `;
+  } else {
+    topLevel.forEach(e => {
+      html += renderEntityRow(e, false);
+      childrenOf(e.id).forEach(child => { html += renderEntityRow(child, true); });
+    });
+    // Render any orphans (children whose parent doesn't exist anymore).
+    ents.forEach(e => {
+      if (e.parentId && !ents.find(p => p.id === e.parentId)) {
+        html += renderEntityRow(e, false);
+      }
+    });
+  }
+  html += '</div>';
+  container.innerHTML = html;
+
+  document.getElementById('newEntityBtn').addEventListener('click', () => openNewEntityModal(c.id));
+  container.querySelectorAll('[data-action="edit-entity"]').forEach(btn => {
+    btn.addEventListener('click', () => openEditEntityModal(btn.dataset.entityId));
+  });
+  container.querySelectorAll('[data-action="delete-entity"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const e = _entities.find(x => x.id === btn.dataset.entityId);
+      if (!e) return;
+      if (confirm('Delete entity "' + e.name + '"?\n\nAny child entities will be re-parented to this entity\'s parent (top-level if none).')) {
+        deleteEntity(e.id);
+        const refreshed = _clients.find(x => x.id === c.id);
+        if (refreshed) renderProfile(refreshed);
+      }
+    });
+  });
+  container.querySelectorAll('[data-action="open-fosm"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const url = btn.dataset.url;
+      if (url) window.open(url, '_blank', 'noopener,noreferrer');
+    });
+  });
+}
+
+function renderEntityRow(e, isChild) {
+  const hasUrl = e.fosmLiveUrl && e.fosmLiveUrl.trim() !== '';
+  return `
+    <div class="entity-row ${isChild ? 'is-child' : ''}">
+      <div class="entity-row-main">
+        <div class="entity-row-h">
+          <span class="entity-name">${escHTML(e.name)}</span>
+          <span class="entity-type-pill">${escHTML(e.entityType)}</span>
+          ${hasUrl ? '<span class="fl-pill fl-live">FOSM·LIVE</span>' : '<span class="fl-pill fl-manual">Manual</span>'}
+        </div>
+        ${hasUrl   ? `<div class="entity-url">${escHTML(e.fosmLiveUrl)}</div>` : ''}
+        ${e.notes  ? `<div class="entity-notes">${escHTML(e.notes)}</div>`     : ''}
+      </div>
+      <div class="entity-actions">
+        ${hasUrl ? `<button class="btn btn-ghost btn-sm" data-action="open-fosm" data-url="${escHTML(e.fosmLiveUrl)}" title="Open FOSM·LIVE in new tab">↗ Open</button>` : ''}
+        <button class="btn btn-ghost btn-sm" data-action="edit-entity"   data-entity-id="${e.id}">✎</button>
+        <button class="btn btn-ghost btn-sm" data-action="delete-entity" data-entity-id="${e.id}">🗑</button>
+      </div>
+    </div>
+  `;
+}
+
+/* ─── TAB · Communications (exec summary + meeting notes) ─── */
+function renderCommsTab(c, container) {
+  const notes   = _notes.filter(n => n.clientId === c.id).sort((a, b) => b.date.localeCompare(a.date));
+  const summary = _execSummaries[c.id] || { text: '', updatedAt: null };
+
+  let html = `
+    <div class="tab-content">
+      <div class="exec-summary-card">
+        <div class="tab-section-h">
+          <div class="tab-section-h-left">
+            <span class="tab-section-title">Executive Summary</span>
+            <span class="tab-section-sub">— what's outstanding · what the team needs to know · manual Phase 1</span>
+          </div>
+          ${summary.updatedAt ? `<span class="kbd-hint">updated ${fmtDate(summary.updatedAt.slice(0,10))}</span>` : ''}
+        </div>
+        <textarea class="exec-summary-textarea" id="execSummaryTA" placeholder="Outstanding items · decisions pending · status of major workstreams · anything the team needs to know.">${escHTML(summary.text)}</textarea>
+        <div class="exec-summary-foot">
+          <span class="kbd-hint">Phase 3: AI-generated daily summary</span>
+          <button class="btn btn-primary btn-sm" id="saveExecSummaryBtn">Save Summary</button>
+        </div>
+      </div>
+
+      <div class="tab-section-h">
+        <div class="tab-section-h-left">
+          <span class="tab-section-title">Meeting Notes</span>
+          <span class="tab-section-sub">— every LGR-with-client call · decisions · action items · participants</span>
+        </div>
+        <button class="btn btn-primary btn-sm" id="newNoteBtn">＋ Add Note</button>
+      </div>
+  `;
+
+  if (notes.length === 0) {
+    html += `
+      <div class="empty">
+        <div class="empty-icon">💬</div>
+        <b>No meeting notes yet.</b><br>The first one you log here starts this client's history. Type freely — date, title, participants, what was discussed, what was decided.
+      </div>
+    `;
+  } else {
+    notes.forEach(n => {
+      html += `
+        <div class="note-row">
+          <div class="note-row-h">
+            <div class="note-row-h-left">
+              <div class="note-row-date">${fmtDate(n.date)}</div>
+              <div class="note-row-title">${escHTML(n.title)}</div>
+              ${n.participants ? `<div class="note-row-participants">${escHTML(n.participants)}</div>` : ''}
+            </div>
+            <div class="note-row-actions">
+              <button class="btn btn-ghost btn-sm" data-action="edit-note"   data-note-id="${n.id}">✎</button>
+              <button class="btn btn-ghost btn-sm" data-action="delete-note" data-note-id="${n.id}">🗑</button>
+            </div>
+          </div>
+          ${n.body ? `<div class="note-row-body">${escHTML(n.body)}</div>` : ''}
+        </div>
+      `;
+    });
+  }
+
+  html += '</div>';
+  container.innerHTML = html;
+
+  document.getElementById('saveExecSummaryBtn').addEventListener('click', () => {
+    const text = document.getElementById('execSummaryTA').value;
+    saveExecSummary(c.id, text);
+    toast('Executive summary saved');
+    renderActiveTab(c);
+  });
+  document.getElementById('newNoteBtn').addEventListener('click', () => openNewNoteModal(c.id));
+  container.querySelectorAll('[data-action="edit-note"]').forEach(btn => {
+    btn.addEventListener('click', () => openEditNoteModal(btn.dataset.noteId));
+  });
+  container.querySelectorAll('[data-action="delete-note"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm('Delete this meeting note?')) {
+        deleteNote(btn.dataset.noteId);
+        const refreshed = _clients.find(x => x.id === c.id);
+        if (refreshed) renderProfile(refreshed);
+      }
+    });
+  });
+}
+
+/* ─── TAB · Scope (tracker) ─── */
+function renderScopeTab(c, container) {
+  const items = _scope.filter(s => s.clientId === c.id).sort((a, b) => b.flaggedAt.localeCompare(a.flaggedAt));
+
+  let html = `
+    <div class="tab-content">
+      <div class="tab-section-h">
+        <div class="tab-section-h-left">
+          <span class="tab-section-title">Scope Tracker</span>
+          <span class="tab-section-sub">— things that come up · in/out of contract · free-give recommendations · LGR-Ops-only</span>
+        </div>
+        <button class="btn btn-primary btn-sm" id="newScopeBtn">＋ Flag Item</button>
+      </div>
+  `;
+
+  const catLabels = {
+    in_contract: 'In contract',
+    out_of_contract: 'Out of contract',
+    free_give_recommendation: 'Free-give rec'
+  };
+
+  if (items.length === 0) {
+    html += `
+      <div class="empty">
+        <div class="empty-icon">⚖</div>
+        <b>No scope items yet.</b><br>When something comes up that's outside the contract — flag it here so the decision doesn't get lost. Mark it in-contract, out-of-contract, or a free-give recommendation.
+      </div>
+    `;
+  } else {
+    items.forEach(s => {
+      html += `
+        <div class="scope-row">
+          <div class="scope-row-main">
+            <div class="scope-row-h">
+              <span class="scope-status-pill ${s.status}">${s.status.toUpperCase()}</span>
+              <span class="scope-cat-pill">${catLabels[s.category] || s.category}</span>
+              <span class="scope-row-when">flagged ${fmtDate(s.flaggedAt.slice(0,10))}</span>
+              ${s.decidedAt ? `<span class="scope-row-when">· decided ${fmtDate(s.decidedAt.slice(0,10))}</span>` : ''}
+            </div>
+            <div class="scope-row-desc">${escHTML(s.description)}</div>
+            ${s.decision ? `<div class="scope-row-decision">Decision: ${escHTML(s.decision)}</div>` : ''}
+          </div>
+          <div class="scope-actions">
+            ${s.status === 'flagged' ? `<button class="btn btn-sm" data-action="decide-scope" data-scope-id="${s.id}">Decide</button>` : ''}
+            <button class="btn btn-ghost btn-sm" data-action="edit-scope"   data-scope-id="${s.id}">✎</button>
+            <button class="btn btn-ghost btn-sm" data-action="delete-scope" data-scope-id="${s.id}">🗑</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+  html += '</div>';
+  container.innerHTML = html;
+
+  document.getElementById('newScopeBtn').addEventListener('click', () => openNewScopeModal(c.id));
+  container.querySelectorAll('[data-action="decide-scope"]').forEach(btn => {
+    btn.addEventListener('click', () => openDecideScopeModal(btn.dataset.scopeId));
+  });
+  container.querySelectorAll('[data-action="edit-scope"]').forEach(btn => {
+    btn.addEventListener('click', () => openEditScopeModal(btn.dataset.scopeId));
+  });
+  container.querySelectorAll('[data-action="delete-scope"]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (confirm('Delete this scope item?')) {
+        deleteScopeItem(btn.dataset.scopeId);
+        const refreshed = _clients.find(x => x.id === c.id);
+        if (refreshed) renderProfile(refreshed);
+      }
+    });
+  });
+}
+
+/* ─── TAB · Filings / Documents (Decision #3 stubs) ─── */
+function renderStubTab(tabName, container) {
+  const specs = {
+    filings: {
+      title: 'Filings tab · stubbed',
+      what:  'Per-client view of filings · due-date tracking per entity type · status badges (filed · pending · overdue) · attach filed docs to entries.',
+      storage: 'fosm_filing_status_v1 (per-client filter)',
+      depends: 'derived from entity type · IRS / state-level filing calendars',
+      phase:   'Phase 2'
+    },
+    documents: {
+      title: 'Documents tab · stubbed',
+      what:  'Per-client document vault · contracts · engagement letters · signed agreements · receipts · attached to entities · version-tracked.',
+      storage: 'fosm_doc_state_v1 (per-client + per-entity)',
+      depends: 'TBD — likely Google Drive sync per client folder · or Keeper for sensitive docs',
+      phase:   'Phase 2'
+    }
+  };
+  const s = specs[tabName] || specs.filings;
+  container.innerHTML = `
+    <div class="tab-content">
+      <div class="stub-tab-body">
+        <h3>${s.title}</h3>
+        <p>This tab is intentionally not yet built. Per Decision #3 every stub renders the four-piece spec instead of a fake button.</p>
+        <div class="stub-row"><span class="k">what it does</span><span class="v">${escHTML(s.what)}</span></div>
+        <div class="stub-row"><span class="k">storage</span>     <span class="v"><code>${escHTML(s.storage)}</code></span></div>
+        <div class="stub-row"><span class="k">depends on</span>  <span class="v">${escHTML(s.depends)}</span></div>
+        <div class="stub-row"><span class="k">ships</span>       <span class="v"><b>${s.phase}</b></span></div>
+      </div>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════════
+   MODAL BUILDERS
+═══════════════════════════════════════════════ */
+function openModal({ title, body, foot, onOpen }) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML    = body;
+  document.getElementById('modalFoot').innerHTML    = foot || '';
+  document.getElementById('modalBackdrop').classList.add('open');
+  if (typeof onOpen === 'function') requestAnimationFrame(onOpen);
+}
+
+function openNewClientModal() {
+  openModal({
+    title: 'Add Client to Roster',
+    body: `
+      <div class="field">
+        <label class="field-lbl">Client name</label>
+        <input type="text" class="field-input" id="m_client_name" placeholder="e.g. Summit Mechanical">
+      </div>
+      <div class="field">
+        <label class="field-lbl">Phase</label>
+        <div class="field-radio-row">
+          <label><input type="radio" name="m_client_phase" value="P1" checked> P1 · Starting</label>
+          <label><input type="radio" name="m_client_phase" value="P2"> P2 · Scaling</label>
+          <label><input type="radio" name="m_client_phase" value="P3"> P3 · Holding/Selling</label>
+        </div>
+        <div class="field-help">Display only for Phase 1 · cadence automation ships Phase 3.</div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-lbl">Last touch (optional)</label>
+          <input type="date" class="field-input" id="m_client_lasttouch">
+        </div>
+        <div class="field">
+          <label class="field-lbl">Next review (optional)</label>
+          <input type="date" class="field-input" id="m_client_nextreview">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Notes (optional)</label>
+        <textarea class="field-textarea" id="m_client_notes" placeholder="Anything worth remembering at the top — engagement type, key contacts, what brought them in."></textarea>
+      </div>
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_client_save">Create Client</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_client_name').focus();
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_client_save').addEventListener('click', () => {
+        const name = document.getElementById('m_client_name').value.trim();
+        if (!name) { toast('Client name is required', 'warn'); return; }
+        createClient({
+          name,
+          phase:      document.querySelector('input[name="m_client_phase"]:checked').value,
+          lastTouch:  document.getElementById('m_client_lasttouch').value  || null,
+          nextReview: document.getElementById('m_client_nextreview').value || null,
+          notes:      document.getElementById('m_client_notes').value
+        });
+        closeModal();
+        renderRoster();
+      });
+    }
+  });
+}
+
+function openEditClientModal(clientId) {
+  const c = _clients.find(x => x.id === clientId);
+  if (!c) return;
+  openModal({
+    title: 'Edit Client · ' + c.name,
+    body: `
+      <div class="field">
+        <label class="field-lbl">Client name</label>
+        <input type="text" class="field-input" id="m_client_name" value="${escHTML(c.name)}">
+      </div>
+      <div class="field">
+        <label class="field-lbl">Phase</label>
+        <div class="field-radio-row">
+          <label><input type="radio" name="m_client_phase" value="P1" ${c.phase === 'P1' ? 'checked' : ''}> P1 · Starting</label>
+          <label><input type="radio" name="m_client_phase" value="P2" ${c.phase === 'P2' ? 'checked' : ''}> P2 · Scaling</label>
+          <label><input type="radio" name="m_client_phase" value="P3" ${c.phase === 'P3' ? 'checked' : ''}> P3 · Holding/Selling</label>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-lbl">Last touch</label>
+          <input type="date" class="field-input" id="m_client_lasttouch" value="${c.lastTouch || ''}">
+        </div>
+        <div class="field">
+          <label class="field-lbl">Next review</label>
+          <input type="date" class="field-input" id="m_client_nextreview" value="${c.nextReview || ''}">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Notes</label>
+        <textarea class="field-textarea" id="m_client_notes">${escHTML(c.notes || '')}</textarea>
+      </div>
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_client_save">Save Changes</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_client_save').addEventListener('click', () => {
+        const name = document.getElementById('m_client_name').value.trim();
+        if (!name) { toast('Client name is required', 'warn'); return; }
+        updateClient(c.id, {
+          name,
+          phase:      document.querySelector('input[name="m_client_phase"]:checked').value,
+          lastTouch:  document.getElementById('m_client_lasttouch').value  || null,
+          nextReview: document.getElementById('m_client_nextreview').value || null,
+          notes:      document.getElementById('m_client_notes').value
+        });
+        toast('Client updated');
+        closeModal();
+        renderRoster();
+      });
+    }
+  });
+}
+
+function openDeleteClientConfirm(clientId) {
+  const c = _clients.find(x => x.id === clientId);
+  if (!c) return;
+  const eCount = clientEntityCount(c.id);
+  const nCount = clientNotesCount(c.id);
+  const sCount = _scope.filter(s => s.clientId === c.id).length;
+  const fCount = _flags.filter(f => f.clientId === c.id).length;
+
+  openModal({
+    title: 'Delete Client · ' + c.name,
+    body: `
+      <div class="confirm-warning">
+        <b>This removes the client and everything tied to them.</b>
+        You're about to delete:
+        <ul>
+          <li>The client record (<code>${escHTML(c.name)}</code>)</li>
+          <li>${eCount} ${eCount === 1 ? 'entity' : 'entities'} in the entity tree</li>
+          <li>${nCount} meeting ${nCount === 1 ? 'note' : 'notes'}</li>
+          <li>${sCount} scope ${sCount === 1 ? 'item' : 'items'}</li>
+          <li>${fCount} contradiction ${fCount === 1 ? 'flag' : 'flags'}</li>
+          <li>The executive summary and any other records tied to this client</li>
+        </ul>
+        <br>This is unrecoverable unless you've exported a backup. <b>Type the client name below to confirm.</b>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Type "${escHTML(c.name)}" to confirm</label>
+        <input type="text" class="field-input" id="m_del_confirm">
+      </div>
+    `,
+    foot: `
+      <button class="btn btn-ghost" id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-danger" id="m_del_btn" disabled>Delete Client</button>
+    `,
+    onOpen: () => {
+      const confirmInput = document.getElementById('m_del_confirm');
+      const delBtn       = document.getElementById('m_del_btn');
+      confirmInput.focus();
+      confirmInput.addEventListener('input', () => {
+        delBtn.disabled = confirmInput.value !== c.name;
+      });
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      delBtn.addEventListener('click', () => {
+        if (confirmInput.value !== c.name) return;
+        deleteClient(c.id);
+        if (_selectedClientId === c.id) {
+          _selectedClientId = null;
+          persistUI();
+        }
+        closeModal();
+        renderRoster();
+      });
+    }
+  });
+}
+
+function openNewEntityModal(clientId) {
+  const possibleParents = _entities.filter(e => e.clientId === clientId);
+  openModal({
+    title: 'Add Entity',
+    body: `
+      <div class="field">
+        <label class="field-lbl">Entity name</label>
+        <input type="text" class="field-input" id="m_ent_name" placeholder="e.g. Summit Mechanical Services, LLC">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-lbl">Entity type</label>
+          <select class="field-select" id="m_ent_type">
+            <option value="LLC">LLC</option>
+            <option value="C-Corp">C-Corp</option>
+            <option value="S-Corp">S-Corp</option>
+            <option value="Trust">Trust</option>
+            <option value="Holding">Holding company</option>
+            <option value="Partnership">Partnership</option>
+            <option value="Sole Prop">Sole Proprietorship</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-lbl">Parent entity (optional)</label>
+          <select class="field-select" id="m_ent_parent">
+            <option value="">— top-level —</option>
+            ${possibleParents.map(p => `<option value="${p.id}">${escHTML(p.name)}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-lbl">FOSM·LIVE URL (optional)</label>
+        <input type="url" class="field-input" id="m_ent_url" placeholder="https://fosmlive.netlify.app/client-name/">
+        <div class="field-help">Leave blank if this entity is manual-only. Per Decision #2 — entity-level only for Phase 1.</div>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Notes (optional)</label>
+        <textarea class="field-textarea" id="m_ent_notes" placeholder="Anything worth noting — registration state, fiscal year, key contacts."></textarea>
+      </div>
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_ent_save">Add Entity</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_ent_name').focus();
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_ent_save').addEventListener('click', () => {
+        const name = document.getElementById('m_ent_name').value.trim();
+        if (!name) { toast('Entity name is required', 'warn'); return; }
+        createEntity({
+          clientId,
+          name,
+          entityType:  document.getElementById('m_ent_type').value,
+          parentId:    document.getElementById('m_ent_parent').value || null,
+          fosmLiveUrl: document.getElementById('m_ent_url').value.trim(),
+          notes:       document.getElementById('m_ent_notes').value
+        });
+        closeModal();
+        const c = _clients.find(x => x.id === clientId);
+        if (c) renderProfile(c);
+      });
+    }
+  });
+}
+
+function openEditEntityModal(entityId) {
+  const e = _entities.find(x => x.id === entityId);
+  if (!e) return;
+  const possibleParents = _entities.filter(x => x.clientId === e.clientId && x.id !== e.id);
+  const types = ['LLC','C-Corp','S-Corp','Trust','Holding','Partnership','Sole Prop','Other'];
+  openModal({
+    title: 'Edit Entity · ' + e.name,
+    body: `
+      <div class="field">
+        <label class="field-lbl">Entity name</label>
+        <input type="text" class="field-input" id="m_ent_name" value="${escHTML(e.name)}">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="field-lbl">Entity type</label>
+          <select class="field-select" id="m_ent_type">
+            ${types.map(t => `<option value="${t}" ${e.entityType === t ? 'selected' : ''}>${t}</option>`).join('')}
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-lbl">Parent entity</label>
+          <select class="field-select" id="m_ent_parent">
+            <option value="">— top-level —</option>
+            ${possibleParents.map(p => `<option value="${p.id}" ${e.parentId === p.id ? 'selected' : ''}>${escHTML(p.name)}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-lbl">FOSM·LIVE URL</label>
+        <input type="url" class="field-input" id="m_ent_url" value="${escHTML(e.fosmLiveUrl || '')}">
+      </div>
+      <div class="field">
+        <label class="field-lbl">Notes</label>
+        <textarea class="field-textarea" id="m_ent_notes">${escHTML(e.notes || '')}</textarea>
+      </div>
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_ent_save">Save Changes</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_ent_save').addEventListener('click', () => {
+        const name = document.getElementById('m_ent_name').value.trim();
+        if (!name) { toast('Entity name is required', 'warn'); return; }
+        updateEntity(e.id, {
+          name,
+          entityType:  document.getElementById('m_ent_type').value,
+          parentId:    document.getElementById('m_ent_parent').value || null,
+          fosmLiveUrl: document.getElementById('m_ent_url').value.trim(),
+          notes:       document.getElementById('m_ent_notes').value
+        });
+        toast('Entity updated');
+        closeModal();
+        const c = _clients.find(x => x.id === e.clientId);
+        if (c) renderProfile(c);
+      });
+    }
+  });
+}
+
+function openNewNoteModal(clientId) {
+  openModal({
+    title: 'Add Meeting Note',
+    body: `
+      <div class="field-row">
+        <div class="field">
+          <label class="field-lbl">Date</label>
+          <input type="date" class="field-input" id="m_note_date" value="${todayISO()}">
+        </div>
+        <div class="field">
+          <label class="field-lbl">Title</label>
+          <input type="text" class="field-input" id="m_note_title" placeholder="e.g. Monthly Finance Review">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Participants (optional)</label>
+        <input type="text" class="field-input" id="m_note_participants" placeholder="e.g. Zach · client's CFO · LGR's bookkeeper">
+      </div>
+      <div class="field">
+        <label class="field-lbl">Body</label>
+        <textarea class="field-textarea" id="m_note_body" style="min-height: 160px;" placeholder="What was discussed · what was decided · what was assigned · what we need to follow up on. Type freely."></textarea>
+      </div>
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_note_save">Save Note</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_note_title').focus();
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_note_save').addEventListener('click', () => {
+        const title = document.getElementById('m_note_title').value.trim();
+        if (!title) { toast('Title is required', 'warn'); return; }
+        createNote({
+          clientId,
+          title,
+          date:         document.getElementById('m_note_date').value || todayISO(),
+          participants: document.getElementById('m_note_participants').value,
+          body:         document.getElementById('m_note_body').value
+        });
+        closeModal();
+        const c = _clients.find(x => x.id === clientId);
+        if (c) renderProfile(c);
+      });
+    }
+  });
+}
+
+function openEditNoteModal(noteId) {
+  const n = _notes.find(x => x.id === noteId);
+  if (!n) return;
+  openModal({
+    title: 'Edit Meeting Note',
+    body: `
+      <div class="field-row">
+        <div class="field">
+          <label class="field-lbl">Date</label>
+          <input type="date" class="field-input" id="m_note_date" value="${n.date}">
+        </div>
+        <div class="field">
+          <label class="field-lbl">Title</label>
+          <input type="text" class="field-input" id="m_note_title" value="${escHTML(n.title)}">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Participants</label>
+        <input type="text" class="field-input" id="m_note_participants" value="${escHTML(n.participants || '')}">
+      </div>
+      <div class="field">
+        <label class="field-lbl">Body</label>
+        <textarea class="field-textarea" id="m_note_body" style="min-height: 160px;">${escHTML(n.body || '')}</textarea>
+      </div>
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_note_save">Save Changes</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_note_save').addEventListener('click', () => {
+        const title = document.getElementById('m_note_title').value.trim();
+        if (!title) { toast('Title is required', 'warn'); return; }
+        updateNote(n.id, {
+          title,
+          date:         document.getElementById('m_note_date').value || n.date,
+          participants: document.getElementById('m_note_participants').value,
+          body:         document.getElementById('m_note_body').value
+        });
+        toast('Note updated');
+        closeModal();
+        const c = _clients.find(x => x.id === n.clientId);
+        if (c) renderProfile(c);
+      });
+    }
+  });
+}
+
+function openNewScopeModal(clientId) {
+  openModal({
+    title: 'Flag Scope Item',
+    body: `
+      <div class="field">
+        <label class="field-lbl">Description</label>
+        <textarea class="field-textarea" id="m_scope_desc" placeholder="What came up that's outside the agreed scope? e.g. 'Client asked us to also handle their personal taxes.'"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Category</label>
+        <div class="field-radio-row">
+          <label><input type="radio" name="m_scope_cat" value="in_contract" checked> In contract</label>
+          <label><input type="radio" name="m_scope_cat" value="out_of_contract"> Out of contract</label>
+          <label><input type="radio" name="m_scope_cat" value="free_give_recommendation"> Free-give recommendation</label>
+        </div>
+        <div class="field-help">Tag whether this is already covered, additional billable work, or a recommendation to give for free.</div>
+      </div>
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_scope_save">Flag Item</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_scope_desc').focus();
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_scope_save').addEventListener('click', () => {
+        const description = document.getElementById('m_scope_desc').value.trim();
+        if (!description) { toast('Description is required', 'warn'); return; }
+        createScopeItem({
+          clientId,
+          description,
+          category: document.querySelector('input[name="m_scope_cat"]:checked').value
+        });
+        closeModal();
+        const c = _clients.find(x => x.id === clientId);
+        if (c) renderProfile(c);
+      });
+    }
+  });
+}
+
+function openEditScopeModal(scopeId) {
+  const s = _scope.find(x => x.id === scopeId);
+  if (!s) return;
+  openModal({
+    title: 'Edit Scope Item',
+    body: `
+      <div class="field">
+        <label class="field-lbl">Description</label>
+        <textarea class="field-textarea" id="m_scope_desc">${escHTML(s.description)}</textarea>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Category</label>
+        <div class="field-radio-row">
+          <label><input type="radio" name="m_scope_cat" value="in_contract" ${s.category === 'in_contract' ? 'checked' : ''}> In contract</label>
+          <label><input type="radio" name="m_scope_cat" value="out_of_contract" ${s.category === 'out_of_contract' ? 'checked' : ''}> Out of contract</label>
+          <label><input type="radio" name="m_scope_cat" value="free_give_recommendation" ${s.category === 'free_give_recommendation' ? 'checked' : ''}> Free-give rec</label>
+        </div>
+      </div>
+      ${s.status !== 'flagged' ? `
+        <div class="field">
+          <label class="field-lbl">Decision</label>
+          <textarea class="field-textarea" id="m_scope_decision">${escHTML(s.decision || '')}</textarea>
+        </div>
+      ` : ''}
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_scope_save">Save Changes</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_scope_save').addEventListener('click', () => {
+        const description = document.getElementById('m_scope_desc').value.trim();
+        if (!description) { toast('Description is required', 'warn'); return; }
+        const patch = {
+          description,
+          category: document.querySelector('input[name="m_scope_cat"]:checked').value
+        };
+        const decEl = document.getElementById('m_scope_decision');
+        if (decEl) patch.decision = decEl.value;
+        updateScopeItem(s.id, patch);
+        toast('Scope item updated');
+        closeModal();
+        const c = _clients.find(x => x.id === s.clientId);
+        if (c) renderProfile(c);
+      });
+    }
+  });
+}
+
+function openDecideScopeModal(scopeId) {
+  const s = _scope.find(x => x.id === scopeId);
+  if (!s) return;
+  openModal({
+    title: 'Decide Scope Item',
+    body: `
+      <div class="callout callout-gold">
+        <b>Flagged:</b> ${escHTML(s.description)}
+      </div>
+      <div class="field">
+        <label class="field-lbl">Decision</label>
+        <textarea class="field-textarea" id="m_scope_decision" placeholder="What did we decide? e.g. 'Will be billed at $X/hr · separate engagement letter · scope addendum signed.'"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-lbl">Outcome</label>
+        <div class="field-radio-row">
+          <label><input type="radio" name="m_scope_status" value="decided"  checked> Decided · proceeding</label>
+          <label><input type="radio" name="m_scope_status" value="declined"> Declined · not doing it</label>
+        </div>
+      </div>
+    `,
+    foot: `
+      <button class="btn btn-ghost"   id="m_cancel_btn">Cancel</button>
+      <button class="btn btn-primary" id="m_scope_save">Mark Decided</button>
+    `,
+    onOpen: () => {
+      document.getElementById('m_scope_decision').focus();
+      document.getElementById('m_cancel_btn').addEventListener('click', closeModal);
+      document.getElementById('m_scope_save').addEventListener('click', () => {
+        const decision = document.getElementById('m_scope_decision').value.trim();
+        const status   = document.querySelector('input[name="m_scope_status"]:checked').value;
+        updateScopeItem(s.id, { decision, status });
+        toast('Scope item marked ' + status);
+        closeModal();
+        const c = _clients.find(x => x.id === s.clientId);
+        if (c) renderProfile(c);
+      });
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   ON_SHOW HOOKS · render-on-navigate map
+   Each view that needs a render on activation
+   registers here. Views still scaffolding stay out.
+═══════════════════════════════════════════════ */
+const ON_SHOW = {
+  'mod-roster': renderRoster
+  // C3+ adds: today, comms, data, clickup, calendar, query, bridge, architecture, backup, diagnostics, stubs
+};
+
+/* ─── VIEW SWITCHING ──────────────────────────
+   Single function. Hides every .view, shows the
+   target, syncs sidebar active state, fires
+   the view's on-show hook if registered.
+─────────────────────────────────────────────── */
+function goto(viewId) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById(viewId);
+  if (target) target.classList.add('active');
+
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.goto === viewId);
+  });
+
+  // Scroll the canvas back to top whenever we navigate.
+  if (target) {
+    const canvas = target.querySelector('.canvas');
+    if (canvas) canvas.scrollTop = 0;
+  }
+
+  // Fire on-show hook (e.g. renderRoster when mod-roster activates).
+  if (ON_SHOW[viewId]) ON_SHOW[viewId]();
+}
+
+/* ─── TOAST ───────────────────────────────────
+   tone: 'success' (default) · 'warn' · 'error' · 'info'
+─────────────────────────────────────────────── */
+function toast(msg, tone = 'success', ms = 3000) {
+  const wrap = document.getElementById('toastWrap');
+  if (!wrap) return;
+  const el = document.createElement('div');
+  el.className = 'toast' + (tone !== 'success' ? ' toast-' + tone : '');
+  el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(() => {
+    el.style.transition = 'opacity 0.3s, transform 0.3s';
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(8px)';
+    setTimeout(() => el.remove(), 320);
+  }, ms);
+}
+
+/* ─── MODAL · close ─────────────────────────── */
+function closeModal() {
+  document.getElementById('modalBackdrop').classList.remove('open');
+}
+
+/* ─── BOOT ──────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  loadAll();          // C2 · hydrate state from localStorage before any render
+  buildSidebar();
+
+  // Sync sidebar active state with the default active view AND fire its on-show hook.
+  const initialActive = document.querySelector('.view.active');
+  if (initialActive) {
+    const navItem = document.querySelector(`.nav-item[data-goto="${initialActive.id}"]`);
+    if (navItem) navItem.classList.add('active');
+    if (ON_SHOW[initialActive.id]) ON_SHOW[initialActive.id]();
+  }
+
+  // Modal close handlers.
+  document.getElementById('modalCloseBtn')?.addEventListener('click', closeModal);
+  document.getElementById('modalBackdrop')?.addEventListener('click', (e) => {
+    if (e.target.id === 'modalBackdrop') closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // Friendly boot signal — visible only in DevTools console.
+  console.log(
+    '%c◆ Operations CC · v0.2.0 · C2 · Roster + Profile shell live',
+    'color:#FF6B00;font-weight:700;font-family:monospace;'
+  );
+  console.log(
+    `%c${_clients.length} client(s) · ${_entities.length} entity record(s) · ${_notes.length} note(s) · ${_scope.length} scope item(s) hydrated from localStorage`,
+    'color:#666;font-family:monospace;'
+  );
+});
+
+</script>
+</body>
+</html>
