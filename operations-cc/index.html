@@ -1346,7 +1346,7 @@ html, body {
       <div class="brand-mark">◆</div>
       <div class="brand-meta">
         <div class="brand-name">Operations CC</div>
-        <div class="brand-sub">FOSM·LIVE · v0.1.0</div>
+        <div class="brand-sub">FOSM·LIVE · v0.2.0</div>
       </div>
     </div>
 
@@ -1759,12 +1759,15 @@ html, body {
 
 <script>
 /* ═══════════════════════════════════════════════
-   OPERATIONS CC · v0.1.0 · C1 scaffolding
+   OPERATIONS CC · v0.2.0 · C2
    ───────────────────────────────────────────────
-   This file is intentionally minimal at C1.
-   Sidebar nav, view switching, modal + toast hosts
-   are wired. localStorage keys are declared but
-   not yet read or written. CRUD lands in C2.
+   Sidebar nav · view switching · modal/toast hosts ·
+   ON_SHOW hook map. Roster CRUD + Tabbed Client Profile
+   are live (Companies + Communications + Scope tabs;
+   Filings + Documents stub per Decision #3). All writes
+   go to localStorage under fosm_*_v1 keys. Sibling-CC
+   keys (Marketing, Sales) are declared read-only and
+   never touched here.
 ═══════════════════════════════════════════════ */
 
 /* ─── STORAGE KEYS · owned + read ──────────────
@@ -1978,12 +1981,14 @@ function persistUI() {
   saveStore('ui_state', _uiState);
 }
 
-/* ─── DERIVED INDICATORS (per Decision #2) ───
-   FOSM·LIVE / Manual is derived from the entity
-   tree — not stored on the client record.
-   Schema divergence from the literal spec
-   (which lists fosmLiveUrl + isManualOnly on
-   client) — see C2 summary.
+/* ─── DERIVED INDICATORS (per Decision #2 · see also amended #4) ───
+   FOSM·LIVE / Manual is derived at render time from the entity tree,
+   not stored on the client record. The cause is Decision #2 —
+   entity-level URL only, no client-level URL field — so there's no
+   client-level flag to set. Decision #4's Bridge import is where the
+   downstream consequence appears (the spec's literal "isManualOnly =
+   true" can't be set because the field doesn't exist); #4 has been
+   amended in the PR description to remove that setter.
 ─────────────────────────────────────────────── */
 function clientHasFosmLive(clientId) {
   return _entities.some(e =>
